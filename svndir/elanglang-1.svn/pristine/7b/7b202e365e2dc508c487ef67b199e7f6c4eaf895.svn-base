@@ -1,0 +1,16 @@
+﻿1、Eclipse自动注释配置
+    1)打开Window -> Preferences -> PHP -> Code Style -> Code Templates。
+    2)选中右边框中的Comments，点击Import按钮，将文件codetemplates.xml导入。
+    3)打开Eclipse配置文件eclipse.ini，在 -vmargs 之后添加
+      -Duser.name= 你的名字<你的邮箱>  如：-Duser.name=Guokaiyi <harrygky@gmail.com>
+    4)重启Eclipse。
+    5)将光标移动到需要注释的方法上，或类文件头部的namespace上，点击
+      Source -> Generate Element Comment，就会自动添加注释。
+      
+2、Eclipse PHP代码自动格式化
+    1)打开Window -> Preferences -> PHP -> Code Style -> Formatter。
+    2)点击Import按钮，将文件PHP Conventions.xml导入。
+    3)格式化快捷键为Ctrl + Shift +F。
+    4)注意：该自动格式化只适用于PHP 类文件 及 函数文件，不适用于配置文件及其他非PHP文件。
+    
+    [注意] 假如在 "Code Style -> Formatter" 这个页面没有找到Inport按钮，则 到 Eclipse　商店下载 "PHP Development tools 3.3.x" 版本

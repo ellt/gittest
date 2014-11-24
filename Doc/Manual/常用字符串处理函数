@@ -1,0 +1,772 @@
+PHP函数大全详解
+addcslashes(string，characters) 
+addcslashes() 函数在指定的字符前添加反斜杠。
+string必需。规定要检查的字符串。
+characters可选。规定受 addcslashes() 影响的字符或字符范围。
+
+addslashes(string)
+addslashes() 函数在指定的预定义字符前添加反斜杠。
+（预定义字符-单引号（’）-双引号（”）-反斜杠（\）-NULL
+string必需。规定要检查的字符串。
+
+bin2hex(string)
+bin2hex()函数把 ASCII 字符的字符串转换为十六进制值。
+string必需。规定要转换的字符串。
+
+chop(string,charlist)
+chop()函数从字符串的末端开始删除空白字符或其他预定义字符。
+string必需。规定要转换的字符串。
+charlist可选。规定从字符串中删除哪些字符。如果未设置该参数，则全部删除以下字符：
+“\0”-ASCII 0,NULL  “\t”-ASCII 9,制表符 “\n”-ASCII 10,新行 “\x0B”-ASCII 11,垂直制表符
+“\r”-ASCII 13,回车 “ ”-ASCII 32,空格
+
+chr(ASCII)
+chr() 函数从指定的 ASCII 值返回字符。
+ASCII必需。ASCII值。
+
+chunk_split(string,length,end)
+chunk_split() 函数把字符串分割为一连串更小的部分。该函数的 rtrim() 函数的别名.
+string必需。规定要分割的字符串。
+length可选。一个数字，定义字符串块的长度。
+End可选。一个数字，定义字符串块的长度。（默然为“ ”，需存在length，否则会警告）。
+
+convert_cyr_string (string,from,to)
+convert_cyr_string() 函数把字符由一种 Cyrillic 字符转换成另一种。
+被支持的 Cyrillic 字符集是：
+k - koi8-r  w - windows-1251  i - iso8859-5  a - x-cp866  d - x-cp866  m - x-mac-cyrillic
+string必需。规定要转换的字符串。
+from必需。源 Cyrillic 字符集。
+to必需。目标 Cyrillic 字符集。
+
+convert_uudecode(string)
+convert_uudecode() 函数对 uuencode 编码的字符串进行解码
+string必需。必需。规定要解码的字符串。
+
+
+convert_uuencode(string)
+convert_uuencode() 函数使用 uuencode 算法对字符串进行编码。
+string必需。规定进行 uuencode 的字符串。
+提示和注释
+注释：本函数把所有字符串（包括二进制的）转换为可打印的字符串，确保其网络传输的安全。
+注释：uuencode 的字符串比原字符串增大大约 35%。
+
+count_chars(string,mode)
+count_chars() 函数返回字符串所用字符的信息。
+string必需。规定进行 uuencode 的字符串。
+string必需。规定进行 uuencode 的字符串。
+mode可选。规定返回模式。默认是 0。有以下不同的返回模式：
+0 - 数组，ASCII 值为键名，出现的次数为键值
+1 - 数组，ASCII 值为键名，出现的次数为键值，只列出出现次数大于 0 的值
+2 - 数组，ASCII 值为键名，出现的次数为键值，只列出出现次数等于 0 的值
+3 - 字符串，带有所有使用过的不同的字符
+4- 字符串，带有所有未使用过的不同的字符
+
+crc32(string)
+crc32() 函数计算一个字符串的 crc32 多项式。
+string必需。规定进行 uuencode 的字符串。
+说明 生成 string 参数的 32 位循环冗余校验码多项式。这通常用于检查传输的数据是否完整。
+
+crypt(str，salt)
+crypt() 函数返回使用 DES、Blowfish 或 MD5 加密的字符串。
+str必需。规定要编码的字符串。
+salt可选。用于增加被编码字符数目的字符串，以使编码更加安全。
+如果未提供 salt 参数，则每次调用该函数时会随机生成一个。
+说明 确切的算法依赖于 salt 参数的格式和长度。
+下面是与 crypt() 函数一起使用的一些常量。在安装时，由 PHP 设置这些常量：
+[CRYPT_SALT_LENGTH]
+包含系统默认加密方法的长度。对于标准 DES 加密，长度是 2。
+[CRYPT_STD_DES]
+如果支持 2 字符 salt 的 DES 加密，则设置为 1，否则为 0
+[CRYPT_EXT_DES]
+如果支持 9 字符 salt 的 DES 加密，则设置为 1，否则为 0。
+[CRYPT_MD5]
+如果支持以$1$开始的 12 字符 salt 的MD5加密，则设置为1，否则为0。
+[CRYPT_BLOWFISH]
+如果支持以 $2$ 或 $2a$ 开始的 16 字符 salt 的 Blowfish 加密，则设置为 1，否则为 0。
+
+echo(strings)
+echo() 函数输出一个或多个字符串。
+Strings  必需。一个或多个要发送到输出的字符串。
+
+explode(separator, string,limit)
+explode() 函数把字符串分割为数组。
+separator 必需。规定在哪里分割字符串。
+string 必需。要分割的字符串。
+limit 可选。规定所返回的数组元素的最大数目。
+说明   本函数返回由字符串组成的数组，其中的每个元素都是由 separator 作为边界点分割出来的子字符串。
+separator 参数不能是空字符串。如果 separator 为空字符串（""），explode() 将返回 FALSE。如果separator 所包含的值在 string 中找不到，那么 explode() 将返回包含 string 中单个元素的数组。
+如果设置了 limit 参数，则返回的数组包含最多 limit 个元素，而最后那个元素将包含 string 的剩余部分。
+如果 limit 参数是负数，则返回除了最后的 -limit 个元素外的所有元素。此特性是 PHP 5.1.0 中新增的
+
+fprintf(stream, format, arg1, arg2, arg++)
+fprintf() 函数把格式化的字符串写到指定的输出流（例如：文件或数据库）。
+stream可选。规定在哪里写/输出字符串
+format必需。转换格式。
+arg1必需。规定插到 format 字符串中第一个 % 符号处的参数。
+arg2可选。规定插到 format 字符串中第二个 % 符号处的参数。
+arg++可选。规定插到 format 字符串中第三、四等等 % 符号处的参数。
+
+get_html_translation_table(function, salt)
+get_html_translation_table() 函数返回被 htmlentities() 和 htmlspecialchars() 函数使用的翻译表。
+function规定返回哪个翻译表。默认是 HTML_SPECIALCHARS。
+可能的值：
+HTML_ENTITIES - 翻译所有需要 URL 编码的字符，以便正确地显示在网页上。
+HTML_SPECIALCHARS - 翻译某些需要 URL 编码的字符，以便正确地显示在网页上。
+Salt 可选。定义如何对单引号和双引号进行编码。默认是 ENT_COMPAT。
+可能的值：
+ENT_COMPAT - 编码双引号，不编码单引号。
+ENT_QUOTES - 编码双引号和单引号。
+ENT_NOQUOTES - 不编码单引号或双引号。
+
+hebrev(string, salt)
+hebrev() 函数把希伯来文本从右至左的流转换为左至右的流。
+只有 224 至 251 之间的 ASCII 字符，以及标点符号受到影响。
+String必需。希伯来文本。
+salt规定每行的最大字符数。如果可能，hebrev() 将避免把单词断开。
+提示和注释
+提示：hebrev() 和 hebrevc()(同时把(\n) 转为 <br />。) 可以把希
+伯来逻辑文本转换为希伯来可见文本。希伯来可见文本不需要特殊的右至左字符支持，
+这使它对于在 web 上显示希伯来文本很有用处。
+
+
+
+html_entity_decode(string, quotestyle, character-set)
+html_entity_decode() 函数把 HTML 实体转换为字符。
+html_entity_decode() 是 htmlentities() 的反函数。
+string必需。规定要解码的字符串。
+
+quotestyle可选。规定如何解码单引号和双引号。
+ENT_COMPAT - 默认。仅解码双引号。
+ENT_QUOTES - 解码双引号和单引号。
+ENT_NOQUOTES - 不解码任何引号。
+
+character-set可选。字符串值，规定要使用的字符集。
+ISO-8859-1 - 默认。西欧。
+ISO-8859-15 - 西欧（增加 Euro 符号以及法语、芬兰语字母）。
+UTF-8 - ASCII 兼容多字节 8 比特 Unicode
+cp866 - DOS 专用 Cyrillic 字符集
+cp1251 - Windows 专用 Cyrillic 字符集
+cp1252 - Windows 专用西欧字符集
+KOI8-R - 俄语
+GB2312 - 简体中文，国家标准字符集
+BIG5 - 繁体中文
+BIG5-HKSCS - Big5 香港扩展
+Shift_JIS - 日语
+. EUC-JP - 日语
+提示：无法被识别的字符集将被忽略，并由 ISO-8859-1 代替。
+
+htmlentities(string, quotestyle, character-set)
+htmlentities() 函数把字符转换为 HTML 实体。
+html_entity_decode(string, quotestyle, character-set)定义相同
+
+htmlspecialchars_decode(string,quotestyle) 
+htmlspecialchars_decode() 函数把一些预定义的 HTML 实体转换为字符。
+String必需。规定要解码的字符串。
+quotestyle可选。规定如何解码单引号和双引号。
+ENT_COMPAT - 默认。仅解码双引号。
+ENT_QUOTES - 解码双引号和单引号。
+ENT_NOQUOTES - 不解码任何引号。
+
+htmlspecialchars(string, quotestyle, character-set)
+htmlspecialchars() 函数把一些预定义的字符转换为 HTML 实体。
+& （和号） 成为 &amp;
+" （双引号） 成为 &quot;         ' （单引号） 成为 &#039; 
+< （小于） 成为 &lt;             > （大于） 成为 &gt; 
+html_entity_decode(string, quotestyle, character-set)定义相同
+
+implode(separator, array)
+implode() 函数把数组元素组合为一个字符串。
+Separator可选。规定数组元素之间放置的内容。默认是 ""（空字符串）。
+array必需。要结合为字符串的数组。
+说明  虽然 separator 参数是可选的。但是为了向后兼容，推荐您使用使用两个参数。
+注释：implode() 可以接收两种参数顺序。但是由于历史原因，explode() 是不行的。你必须保证 separator 参数在 string 参数之前才行。
+
+join(separator, array)
+join() 函数把数组元素组合为一个字符串。
+join() 函数是 implode() 函数的别名。（定义相同）
+
+levenshtein(string1,string2,insert,replace,delete)
+Levenshtein 距离，又称编辑距离，指的是两个字符串之间，由一个转换成另一个所需的最少编辑操作次数。许可的编辑操作包括将一个字符替换成另一个字符，插入一个字符，删除一个字符。levenshtein() 函数返回两个字符串之间的 Levenshtein 距离。
+levenshtein() 函数给每个操作（替换、插入和删除）相同的权重。不过，您可以通过设置可选的 insert、replace、delete 参数，来定义每个操作的代价。
+string1必需。要对比的第一个字符串。
+string2必需。要对比的第二个字符串。
+insert可选。插入一个字符的代价。默认是 1。
+replace可选。替换一个字符的代价。默认是 1。
+delete可选。删除一个字符的代价。默认是 1
+提示和注释
+注释：如果其中一个字符串超过 255 个字符，levenshtein() 函数返回 -1。
+注释：levenshtein() 函数对大小写不敏感。
+注释：levenshtein() 函数比 similar_text() 函数更快。不过，similar_text() 函数提供需要更少修改的更精确的结果。
+。
+
+localeconv()
+localeconv() 函数返回包含本地数字及货币信息格式的数组。
+[decimal_point] - 小数点字符
+[thousands_sep] - 千位分隔符
+[int_curr_symbol] - 货币符号 （例如：USD）
+[currency_symbol] - 货币符号 （例如：$）
+[mon_decimal_point] - 货币小数点符号
+[mon_thousands_sep] - 货币千位分隔符
+[positive_sign] - 正值符号
+[negative_sign] - 负值符号
+[int_frac_digits] - 国际小数数字
+[frac_digits] - 本地小数数字
+[p_cs_precedes] - if 如果货币符号在正值之前，则是 True (1)，否则是 False (0)。
+[p_sep_by_space] - True (1) 如果货币符号与正值之间有空间，则是 True (1)，否则是 False (0)。
+[n_cs_precedes] - True (1) if 货币符号在负值之前，则是 True (1)，否则是 False (0)。
+[p_sep_by_space] - True (1) 如果货币符号与负值之间有空间，则是 True (1)，否则是 False (0)。
+[p_sign_posn] - 格式化选项：
+0 - 在数量和货币符号周围的圆括号
+1 - 数量和货币符号之前的 + 号
+2 - 数量和货币符号之后的 + 号
+3 - 货币符号之前的 + 号
+4 - 货币符号之后的 + 号
+[n_sign_posn] - 格式化选项：
+0 - 在数量和货币符号周围的圆括号
+1 - 数量和货币符号之前的 - 号
+2 - 数量和货币符号之后的 - 号
+3 - 货币符号之前的 - 号
+4 - 货币符号之后的 - 号
+[grouping] - 显示如何分组数字的 Array（例如：3 指示 1 000 000）
+[mon_grouping] - 显示如何分组货币数字的 Array（例如：2 指示 1 00 00 00）
+
+ltrim(string, charlist)
+ltrim() 函数从字符串左侧删除空格或其他预定义字符。
+String必需。规定要转换的字符串。
+charlist可选。规定从字符串中删除哪些字符。
+如果未设置该参数，则全部删除以下字符：
+“\0”-ASCII 0,NULL  “\t”-ASCII 9,制表符 “\n”-ASCII 10,新行 “\x0B”-ASCII 11,垂直制表符
+“\r”-ASCII 13,回车 “ ”-ASCII 32,空格
+
+md5(string, charlist)
+md5() 函数计算字符串的 MD5 散列。
+md5() 函数使用 RSA 数据安全，包括 MD5 报文摘译算法。
+如果成功，则返回所计算的 MD5 散列，如果失败，则返回 false。
+String必需。规定要计算的字符串。
+charlist可选。规定十六进制或二进制输出格式：
+TRUE - 原始 16 字符二进制格式        FALSE - 默认。32 字符十六进制数
+注释：该参数是 PHP 5.0 中添加的。
+
+md5_file(string, charlist)
+md5_file() 函数计算文件的 MD5 散列。
+md5() 函数使用 RSA 数据安全，包括 MD5 报文摘译算法。
+如果成功，则返回所计算的 MD5 散列，如果失败，则返回 false。
+String必需。规定要计算的文件。
+charlist可选。规定十六进制或二进制输出格式：
+TRUE - 原始 16 字符二进制格式        FALSE - 默认。32 字符十六进制数
+注释：该参数是 PHP 5.0 中添加的。
+
+
+
+metaphone(string,length)
+metaphone() 函数计算字符串的 metaphone 键。
+metaphone 键字符串的英语发音。
+metaphone() 函数可用于拼写检查应用程序。
+如果成功，则返回字符串的 metaphone 键，如果失败，则返回 false。
+String必需。规定要检查的字符串。
+length可选。规定 metaphone 键的最大长度。
+注释：metaphone() 为发音相似的单词创建相同的键。
+注释：所生成的 metaphone 键长度可变。
+提示：metaphone() 比 soundex() 函数更精确，因为 metaphone() 了解基本的英语发音规则。
+
+money_format(string,number)
+money_format() 函数把字符串格式化为货币字符串。
+String必需。规定要格式化的字符串。
+number可选。被插入格式化字符串中 % 符号位置的数字。
+注释：money_format() 函数无法在 windows 平台上工作。
+
+nl_langinfo(element)
+nl_langinfo() 函数返回指定的本地信息。
+如果成功，则返回指定的本地信息。如果失败，则返回 false。
+element必需。规定要返回哪个元素。必须是说明中列出的元素之一。
+提示：与返回所有本地格式化信息的 localeconv() 函数不同，nl_langinfo() 返回指定的信息。
+
+nl2br(string)
+nl2br() 函数在字符串中的每个新行 (\n) 之前插入 HTML 换行符 (<br />)。
+string必需。规定要检查的字符串。
+
+number_format(number, decimals, decimalpoint, separator)
+number_format() 函数通过千位分组来格式化数字。
+number必需。要格式化的数字。
+如果未设置其他参数，则数字会被格式化为不带小数点且以逗号 (,) 作为分隔符。
+decimals可选。规定多少个小数。如果设置了该参数，则使用点号 (.) 作为小数点来格式化数字。
+decimalpoint可选。规定用作小数点的字符串。
+separator可选。规定用作千位分隔符的字符串。
+仅使用该参数的第一个字符。比如 "xyz" 仅输出 "x"。
+注释：如果设置了该参数，那么所有其他参数都是必需的。
+注释：该函数支持一个、两个或四个参数（不是三个）。
+
+ord(string)
+ord() 函数返回字符串第一个字符的 ASCII 值。
+string必需。要从中获得 ASCII 值的字符串。
+
+
+
+parse_str(string, array)
+parse_str() 函数把查询字符串解析到变量中。
+string必需。规定要解析的字符串。
+array可选。规定存储变量的数组名称。该参数指示变量存储到数组中。
+注释：如果未设置 array 参数，由该函数设置的变量将覆盖已由同名变量。
+注释：php.ini 中的 magic_quotes_gpc 设置影响该函数的输出。如果已启用，那么在 parse_str() 解析之前，变量会被 addslashes() 转换。
+
+print(strings)
+print() 函数输出一个或多个字符串。
+strings必需。发送到输出的一个或多个字符串。
+注释：print() 函数实际上不是函数，所以您不必对它使用括号。
+注释：print() 函数稍慢于 echo()。
+
+printf(format, arg1, arg2, arg++)
+printf() 函数输出格式化的字符串。
+format, 必需。规定字符串以及如何格式化其中的变量。
+arg1必需。规定插到格式化字符串中第一个 % 符号处的参数。
+ arg2可选。规定插到格式化字符串中第二个 % 符号处的参数。
+ arg++可选。规定插到格式化字符串中第三、四等等 % 符号处的参数。
+说明  arg1, arg2, ++ 等参数将插入到主字符串中的百分号 (%) 符号处。该函数是逐步执行的。在第一个 % 符号中，插入 arg1，在第二个 % 符号处，插入 arg2，依此类推。
+注释：如果 % 符号多于 arg 参数，则您必须使用占位符。占位符被插入 % 符号之后，由数字和 "\$" 组成。请参见例子 3。
+
+quoted_printable_decode(string)
+quoted_printable_decode() 函数对经过 quoted-printable 编码后的字符串进行解码，返回 8 位的字符串。
+该函数类似于 imap_qprint() 函数。不同的是，应用 imap_qprint() 函数需要让系统加载 IMAP 模块，而本函数不需要加载 IMAP 模块。
+string必需。规定要解码的 quoted-printable 字符串。
+
+quotemeta(string)
+quotemeta() 函数在字符串中某些预定义的字符前添加反斜杠。
+这些预定义字符是：
+句号 (.)  反斜杠 (\)   加号 (+)  星号 (*)  问号 (?)
+方括号 ([])  脱字符号 (^)  美元符号 ($)   圆括号 (())
+string必需。规定要检查的字符串。
+提示：该函数可用于转义拥有特殊意义的字符，比如 SQL 中的 ( )、[ ] 以及 *。
+
+rtrim(string, charlist)
+rtrim()函数从字符串的末端开始删除空白字符或其他预定义字符。
+String必需。规定要转换的字符串。
+charlist可选。规定从字符串中删除哪些字符。如果未设置该参数，则全部删除以下字符：
+"\0" - ASCII 0, NULL   "\t" - ASCII 9, 制表符  "\n" - ASCII 10, 新行
+"\x0B" - ASCII 11, 垂直制表符  "\r" - ASCII 13, 回车  " " - ASCII 32, 空格
+
+setlocale(constant, location)
+setlocale() 函数设置地区信息（地域信息）。
+地区信息是针对一个地理区域的语言、货币、时间以及其他信息。
+该函数返回当前的地区设置，若失败则返回 false。
+constant必需。规定应该设置什么地区信息。
+可用的常量：
+LC_ALL - 包括下面的所有选项        LC_COLLATE -排序次序
+LC_CTYPE - 字符类别及转换（例如所有字符大写或小写）   LC_MESSAGES - 系统消息格式
+LC_MONETARY - 货币格式    LC_NUMERIC - 数字格式     LC_TIME - 日期/时间格式
+location必需。规定把地区信息设置为什么国家/地区。如果 location 参数是数组，setlocale() 会尝试每个数组元素，直到找到合法的语言或地区代码为止。如果某个地区在不同的系统上拥有不同的名称，这一点很有用。
+注释：setlocale() 函数仅针对当前脚本改变地区信息。
+提示：可以通过 setlocale(LC_ALL,NULL) 把地区信息设置为系统默认。
+
+sha1(string, charlist)
+sha1() 函数计算字符串的 SHA-1 散列。
+sha1() 函数使用美国 Secure Hash 算法 1。
+如果成功，则返回所计算的 SHA-1 散列，如果失败，则返回 false。
+String必需。规定要计算的字符串。
+charlist可选。规定十六进制或二进制输出格式：  TRUE - 原始 20 字符二进制格式  FALSE - 默认。40 字符十六进制数
+
+sha1_file(string, charlist)
+sha1_file() 函数计算文件的 SHA-1 散列。
+sha1() 函数使用美国 Secure Hash 算法 1。
+如果成功，则返回所计算的 SHA-1 散列，如果失败，则返回 false。
+String必需。规定要计算的文件。
+charlist可选。规定十六进制或二进制输出格式：  TRUE - 原始 20 字符二进制格式  FALSE - 默认。40 字符十六进制数
+
+similar_text(string1, string2, percent)
+similar_text() 函数计算两个字符串的匹配字符的数目。
+该函数也可以计算两个字符串的相似度（以百分比计）。
+string1必需。规定要比较的第一个字符串。
+string2必需。规定要比较的第二个字符串。
+percent可选。规定供存储百分比相似度的变量名。
+注释：levenshtein() 函数比 similar_text() 函数更快。不过，similar_text() 函数通过更少的必需修改次数提供更精确的结果。
+
+soundex(string)
+soundex() 函数计算字符串的 soundex 键。
+soundex 键是 4 字符长的字母数字字符串，表示一个单词的英文发音。
+soundex() 函数可用于拼写检查程序。    如果成功，则返回字符串的 soundex 键，如果失败，则返回 false。
+string必需。规定要检查的字符串。
+注释：soundex() 为发音相似的单词创建相同的键。
+提示：metaphone() 比 soundex() 函数更精确，因为 metaphone() 了解基本的英语发音规则。
+sprintf(format, arg1, arg2, arg++)
+sprintf() 函数把格式化的字符串写入一个变量中。
+format必需。转换格式。
+arg1必需。规定插到 format 字符串中第一个 % 符号处的参数。
+arg2可选。规定插到 format 字符串中第二个 % 符号处的参数。
+arg++可选。规定插到 format 字符串中第三、四等等 % 符号处的参数。
+说明  参数 format 是转换的格式，以百分比符号 ("%") 开始到转换字符结束。下面的可能的 format 值：
+%% - 返回百分比符号  %b - 二进制数  %c - 依照 ASCII 值的字符  %d - 带符号十进制数
+%e - 可续计数法（比如 1.5e+3）  %u - 无符号十进制数  %f - 浮点数(local settings aware)
+%F - 浮点数(not local settings aware)  %o - 八进制数  %s - 字符串
+%x - 十六进制数（小写字母）  %X - 十六进制数（大写字母）
+arg1, arg2, ++ 等参数将插入到主字符串中的百分号 (%) 符号处。该函数是逐步执行的。在第一个 % 符号中，插入 arg1，在第二个 % 符号处，插入 arg2，依此类推。
+
+sscanf(string,format,arg1,arg2,arg++)
+sscanf() 函数根据指定的格式解析来自一个字符串的输入。
+如果只向该函数传递两个参数，数据将以数组的形式返回。否则，如果传递了额外的参数，那么被解析的数据会存储在这些参数中。如果区分符的数目大于包含它们的变量的数目，则会发生错误。不过，如果区分符少于变量，则额外的变量包含 NULL。
+string必需。规定要读取的字符串。
+format必需。转换格式。
+arg1必需。规定插到 format 字符串中第一个 % 符号处的参数。
+arg2可选。规定插到 format 字符串中第二个 % 符号处的参数。
+arg++可选。规定插到 format 字符串中第三、四等等 % 符号处的参数。
+说明  参数 format 是转换的格式，以百分比符号 ("%") 开始到转换字符结束。下面的可能的 format 值：
+%% - 返回百分比符号  %b - 二进制数  %c - 依照 ASCII 值的字符  %d - 带符号十进制数
+%e - 可续计数法（比如 1.5e+3）  %u - 无符号十进制数  %f - 浮点数(local settings aware)
+%F - 浮点数(not local settings aware)  %o - 八进制数  %s - 字符串
+%x - 十六进制数（小写字母）  %X - 十六进制数（大写字母）
+arg1, arg2, ++ 等参数将插入到主字符串中的百分号 (%) 符号处。该函数是逐步执行的。在第一个 % 符号中，插入 arg1，在第二个 % 符号处，插入 arg2，依此类推。
+
+str_ireplace(find,replace,string,count)
+str_ireplace() 函数使用一个字符串替换字符串中的另一些字符。
+find必需。规定要查找的值。
+replace必需。规定替换 find 中的值的值。
+string必需。规定被搜索的字符串。
+count可选。一个变量，对替换数进行计数。
+注释：该函数对大小写不敏感。请使用 str_replace() 执行对大小写敏感的搜索。
+注释：该函数是二进制安全的。
+
+str_pad(string,length,pad_string,pad_type)
+str_pad() 函数把字符串填充为指定的长度。
+String必需。规定要填充的字符串。
+Length必需。规定新字符串的长度。如果该值小于原始字符串的长度，则不进行任何操作。
+pad_string可选。规定供填充使用的字符串。默认是空白。
+pad_type可选。规定填充字符串的那边。
+可能的值：
+STR_PAD_BOTH - 填充到字符串的两头。如果不是偶数，则右侧获得额外的填充。
+STR_PAD_LEFT - 填充到字符串的左侧。
+STR_PAD_RIGHT - 填充到字符串的右侧。这是默认的。
+
+str_repeat(string,repeat)
+str_repeat() 函数把字符串重复指定的次数。
+string必需。规定要重复的字符串。
+repeat必需。规定字符串将被重复的次数。必须大于等于 0。
+
+str_replace(find, replace, string,count)
+str_replace() 函数使用一个字符串替换字符串中的另一些字符。
+find必需。规定要查找的值。
+replace必需。规定替换 find 中的值的值。
+string必需。规定被搜索的字符串。
+count可选。一个变量，对替换数进行计数。
+注释：该函数对大小写敏感。请使用 str_ireplace() 执行对大小写不敏感的搜索。
+注释：该函数是二进制安全的。
+
+str_rot13(string)
+str_rot13() 函数对字符串执行 ROT13 编码。
+ROT-13 编码是一种每一个字母被另一个字母代替的方法。这个代替字母是由原来的字母向前移动 13 个字母而得到的。数字和非字母字符保持不变。
+string必需。规定要编码的字符串。
+提示：编码和解码都是由相同的函数完成的。如果您把一个已编码的字符串作为参数，那么将返回原始字符串。
+
+str_shuffle(string) 
+str_shuffle() 函数随机地打乱字符串中的所有字符。
+string必需。规定要打乱的字符串。
+
+str_split(string, length)
+str_split() 函数把字符串分割到数组中。
+string必需。规定要分割的字符串。
+length可选。规定每个数组元素的长度。默认是 1。
+说明   如果 length 小于 1，str_split() 函数将返回 false。
+如果 length 大于字符串的长度，整个字符串将作为数组的唯一元素返回
+
+str_word_count(string,returm,char)
+str_word_count() 函数计算字符串中的单词数。
+string必需。规定要检查的字符串。
+returm可选。规定 str_word_count() 函数的返回值。
+可能的值：
+0 - 默认。返回找到的单词的数目。
+1 - 返回包含字符串中的单词的数组。
+2 - 返回一个数组，其中的键是单词在字符串中的位置，值是实际的单词。
+char  可选。规定被认定为单词的特殊字符。
+
+strcasecmp(string1,string)
+strcasecmp() 函数比较两个字符串。
+String1必需。规定要比较的第一个字符串。
+String2必需。规定要比较的第一个字符串。
+必需。规定要比较的第一个字符串。
+
+strchr(string,search)
+strchr() 函数搜索一个字符串在另一个字符串中的第一次出现。
+该函数返回字符串的其余部分（从匹配点）。如果未找到所搜索的字符串，则返回 false。
+该函数是strstr() 函数的别名。
+string必需。规定被搜索的字符串。
+search必需。规定所搜索的字符串。如果该参数是数字，则搜索匹配数字 ASCII 值的字符。
+注释：该函数是二进制安全的。
+注释：该函数对大小写敏感。如需进行大小写不敏感的搜索，请使用 strstr()。
+
+strcmp(string1, string2)
+strcmp() 函数比较两个字符串。
+该函数返回：
+0 - 如果两个字符串相等
+<0 - 如果 string1 小于 string2
+>0 - 如果 string1 大于 string2
+注释：该函数是二进制安全的，且对大小写敏感。
+
+strcoll(string1,string2)
+strcoll() 函数比较两个字符串。
+string1必需。规定要比较的第一个字符串。
+string2必需。规定要比较的第二个字符串。
+注释：该函数对大小写敏感，但不是二进制安全的。
+注释：如果本地设置是 C 或 POSIX，则该函数的工作方式与 strcmp() 相同
+
+
+strcspn(string,char,start,length)
+strcspn() 函数返回在找到任何指定的字符之前，在字符串查找的字符数。
+string必需。规定要搜索的字符串。
+char必需。规定要查找的字符。
+start可选。规定开始查找的位置。该参数是 PHP 4.3 中新加的。
+length可选。规定字符串的长度（搜索多少字符）。该参数是 PHP 4.3 中新加的。
+注释：该函数是二进制安全的。
+
+strip_tags(string, allow)
+strip_tags() 函数剥去 HTML、XML 以及 PHP 的标签。
+string必需。规定要检查的字符串。
+allow可选。规定允许的标签。这些标签不会被删除。
+注释：该函数始终会剥离 HTML 注释。这点无法通过 allow 参数改变。
+
+stripcslashes(string)
+stripcslashes() 函数删除由 addcslashes() 函数添加的反斜杠。
+string必需。规定要检查的字符串。
+注释：该函数用于清理从数据库中取回的数据。
+
+stripslashes(string)
+stripslashes() 函数删除由 addslashes() 函数添加的反斜杠。
+string必需。规定要检查的字符串。
+注释：该函数用于清理从数据库或 HTML 表单中取回的数据。
+
+stripos(string,find,start)
+stripos() 函数返回字符串在另一个字符串中第一次出现的位置。
+如果没有找到该字符串，则返回 false。
+string必需。规定被搜索的字符串。
+find必需。规定要查找的字符。
+start可选。规定开始搜索的位置。
+
+stristr(string,search)
+stristr() 函数查找字符串在另一个字符串中第一次出现的位置。
+如果成功，则返回字符串的其余部分（从匹配点）。如果没有找到该字符串，则返回 false。
+string必需。规定被搜索的字符串。
+search必需。规定要查找的字符。如果该参数是数字，则搜索匹配该数字对应的 ASCII 值的字符。
+注释：该函数是二进制安全的。
+注释：该函数对大小写不敏感。如需对大小写敏感的搜索，请使用 strstr()。
+
+strlen(string)
+strlen() 函数返回字符串的长度。
+string必需。规定要检查的字符串。
+
+strnatcasecmp(string1,string2)
+strnatcasecmp() 函数使用一种“自然”算法来比较两个字符串。
+在自然算法中，数字 "2" 小于数字 "10"。在计算机排序中，"2" 大于 "10"，这是因为 "2" 大于 "10" 的第一个数字。
+该函数返回：
+0 - 如果两个字符串相等   <0 - 如果 string1 小于 string2   >0 - 如果 string1 大于 string2
+string1必需。规定要比较的第一个字符串。
+string2必需。规定要比较的第二个字符串。
+注释：该函数对大小写不敏感。
+
+strnatcmp(string1,string2)
+strnatcmp() 函数使用一种“自然”算法来比较两个字符串。
+在自然算法中，数字 "2" 小于数字 "10"。在计算机排序中，"2" 大于 "10"，这是因为 "2" 大于 "10" 的第一个数字。
+该函数返回：0 - 如果两个字符串相等   <0 - 如果 string1 小于 string2  >0 - 如果 string1 大于 string2
+string1必需。规定要比较的第一个字符串。
+string2必需。规定要比较的第二个字符串。
+注释：该函数对大小写敏感。
+
+strncasecmp(string1,string2,length)
+strncasecmp() 函数比较两个字符串。
+该函数返回：
+0 - 如果两个字符串相等   <0 - 如果 string1 小于 string2   >0 - 如果 string1 大于 string2
+string1必需。规定要比较的第一个字符串。
+string2必需。规定要比较的第二个字符串。
+length必需。规定每个字符串用于比较的字符数。
+注释：该函数是二进制安全的，且对大小写不敏感。
+
+strnatcmp(string1,string2)
+strnatcmp() 函数使用一种“自然”算法来比较两个字符串。
+在自然算法中，数字 "2" 小于数字 "10"。在计算机排序中，"2" 大于 "10"，这是因为 "2" 大于 "10" 的第一个数字。
+该函数返回：
+0 - 如果两个字符串相等   <0 - 如果 string1 小于 string2   >0 - 如果 string1 大于 string2
+string1必需。规定要比较的第一个字符串。
+string2必需。规定要比较的第二个字符串。
+注释：该函数对大小写敏感。
+
+strncasecmp(string1,string2,length)
+strncasecmp() 函数比较两个字符串。
+string1必需。规定要比较的第一个字符串。
+string2必需。规定要比较的第二个字符串。
+length必需。规定每个字符串用于比较的字符数。
+注释：该函数是二进制安全的，且对大小写不敏感。
+
+strncmp(string1,string2,length)
+strncmp() 函数比较两个字符串。
+string1必需。规定要比较的第一个字符串。
+string2必需。规定要比较的第二个字符串。
+length必需。规定每个字符串用于比较的字符数。
+注释：该函数是二进制安全的，且对大小写敏感。
+
+strpbrk(string,charlist)
+strpbrk() 函数在字符串中搜索指定字符中的任意一个。
+该函数返回指定字符第一次出现的位置开始的剩余部分。如果没有找到，则返回 false。
+string必需。规定被搜索的字符串。
+charlist必需。规定要查找的字符。
+注释：该函数对大小写敏感。
+
+strpos(string,find,start)
+strpos() 函数返回字符串在另一个字符串中第一次出现的位置。
+如果没有找到该字符串，则返回 false。
+string必需。规定被搜索的字符串。
+find必需。规定要查找的字符。
+start可选。规定开始搜索的位置。
+注释：该函数对大小写敏感。如需进行对大小写不敏感的搜索，请使用 stripos() 函数。
+
+strrchr(string,char)
+strrchr() 函数查找字符串在另一个字符串中最后一次出现的位置，并返回从该位置到字符串结尾的所有字符。
+如果成失败，否则返回 false。
+string必需。规定被搜索的字符串。
+char必需。规定要查找的字符。如果该参数是数字，则搜索匹配数字 ASCII 值的字符。
+注释：该函数是二进制安全的。
+
+strrev(string)
+strrev() 函数反转字符串。
+string必需。规定要反转的字符串。
+
+strripos(string,find,start)
+strripos() 函数查找字符串在另一个字符串中最后一次出现的位置。如果成功，则返回位置，否则返回 false。
+string必需。规定被搜索的字符串。
+find必需。规定要查找的字符。
+start可选。规定开始搜索的位置。
+注释：该函数对大小写不敏感。如需进行大小写敏感的查找，请使用 strrpos()。
+
+strrpos(string,find,start)
+strrpos() 函数查找字符串在另一个字符串中最后一次出现的位置。
+如果成功，则返回位置，否则返回 false。
+string必需。规定被搜索的字符串。
+find必需。规定要查找的字符。
+start可选。规定开始搜索的位置。
+注释：该函数对大小写敏感。如需进行大小写不敏感的查找，请使用 strripos()。
+
+strspn(string,charlist,start,length)
+strspn() 函数返回在字符串中包含的特定字符的数目。
+string必需。规定被搜索的字符串。
+charlist必需。规定要查找的字符。
+start可选。规定在字符串的何处开始。
+length可选。规定字符串的长度。
+注释：该函数是二进制安全的。
+
+strstr(string,search)
+strstr() 函数搜索一个字符串在另一个字符串中的第一次出现。
+该函数返回字符串的其余部分（从匹配点）。如果未找到所搜索的字符串，则返回 false。
+string必需。规定被搜索的字符串。
+search必需。规定所搜索的字符串。如果该参数是数字，则搜索匹配数字 ASCII 值的字符。
+注释：该函数是二进制安全的。
+注释：该函数对大小写敏感。如需进行大小写不敏感的搜索，请使用 stristr()。
+
+strtok(string, split)
+strtok() 函数把字符串分割为更小的字符串。
+string必需。规定要分割的字符串。
+split必需。规定一个或多个分割字符。
+
+strtolower(string)
+strtolower() 函数把字符串转换为小写。
+string必需。规定要转换的字符串。
+
+strtoupper(string)
+strtoupper() 函数把字符串转换为大写。
+string必需。规定要转换的字符串。
+
+strtr(string,from,to)   或者 strtr(string,array)
+strtr() 函数转换字符串中特定的字符。
+string必需。规定要转换的字符串。
+from必需（除非使用数组）。规定要改变为的字符。
+to必需（除非使用数组）。规定要改变的字符。
+array必需（除非使用 from 和 to）。一个数组，其中的键是原始字符，值是目标字符。
+说明 如果 from 和 to 的长度不同，则格式化为最短的长度。
+
+substr(string,start,length)
+substr() 函数返回字符串的一部分。
+string必需。规定要返回其中一部分的字符串。
+start必需。规定在字符串的何处开始。
+正数 - 在字符串的指定位置开始   负数 - 在从字符串结尾的指定位置开始   0 - 在字符串中的第一个字符处开始
+length可选。规定要返回的字符串长度。默认是直到字符串的结尾。
+正数 - 从 start 参数所在的位置返回    负数 - 从字符串末端返回
+注释：如果 start 是负数且 length 小于等于 start，则 length 为 0。
+
+substr_compare(string1,string2, startpos, length, case)
+substr_compare() 函数从指定的开始长度比较两个字符串。
+string1必需。规定要比较的第一个字符串。
+string2必需。规定要比较的第二个字符串。
+startpos可选。规定在 string1 中的何处开始比较。
+length可选。规定在 string1 中参与比较的字符数。
+case可选。规定是否指定大小写比较。默认是 FALSE （对大小写敏感）。
+说明 如果 length 大于或等于 string1 的长度，则函数返回 false。
+
+substr_count(string,substring,start,length)
+substr_count() 函数计算子串在字符串中出现的次数。
+string必需。规定要检查的字符串。
+substring必需。规定要检索的字符串。
+start可选。规定在字符串中何处开始搜索。
+length可选。规定搜索的长度。
+
+substr_replace(string,replacement,start,charlist)
+substr_replace() 函数把字符串的一部分替换为另一个字符串。
+注释：如果 start 是负数且 length 小于等于 start，则 length 为 0。
+string必需。规定要检查的字符串。
+replacement必需。规定要插入的字符串。
+start必需。规定在字符串的何处开始替换。
+正数 - 在第 start 个偏移量开始替换   负数 - 在从字符串结尾的第 start 个偏移量开始替换  0 - 在字符串中的第一个字符处开始替换
+charlist可选。规定要替换多少个字符。
+正数 - 被替换的字符串长度    负数 - 从字符串末端开始的被替换字符数    0 - 插入而非替换
+
+trim(string,charlist)
+trim() 函数从字符串的两端删除空白字符和其他预定义字符。
+string必需。规定要检查的字符串。
+charlist可选。规定要转换的字符串。如果省略该参数，则删除以下所有字符：
+"\0" – NULL   "\t" – tab   "\n" - new line
+"\x0B" - 纵向列表符   "\r" - 回车   " " - 普通空白字符
+
+ucfirst(string)
+ucfirst() 函数把字符串中的首字符转换为大写。
+string必需。规定要转换的字符串。
+
+ucwords(string)
+ucwords() 函数把字符串中每个单词的首字符转换为大写。
+string必需。规定要转换的字符串。
+
+vfprintf(stream,format,argarray)
+vfprintf() 函数把格式化的字符串写到指定的输出流。
+与 fprintf() 不同，vfprintf() 中的 arg 参数位于数组中。数组的元素会被插入主字符串的百分比 (%) 符号处。该函数是逐步执行的。在第一个 % 符号中，插入 arg1，在第二个 % 符号处，插入 arg2，依此类推。
+该函数返回被写的字符串的长度。
+stream必需。规定在何处写/输出字符串。
+format必需。转换格式。
+argarray必需。带有参数的一个数组，这些参数会被插到 format 字符串中的 % 符号处。
+说明：参数 format 是转换的格式，以百分比符号 ("%") 开始到转换字符结束。下面的可能的 format 值：
+%% - 返回百分比符号  %b - 二进制数  %c - 依照 ASCII 值的字符  %d - 带符号十进制数
+%e - 可续计数法（比如 1.5e+3）  %u - 无符号十进制数  %f - 浮点数(local settings aware)
+%F - 浮点数(not local settings aware)  %o - 八进制数  %s - 字符串
+%x - 十六进制数（小写字母）  %X - 十六进制数（大写字母）
+注释：如果 % 符号多于 arg 参数，则您必须使用占位符。占位符插到 % 符号后面，由数字和 "\$" 组成。请参见例子 3。
+
+vprintf(format, argarray)
+vprintf() 函数输出格式化的字符串。
+与 printf() 不同，vprintf() 中的 arg 参数位于数组中。数组的元素会被插入主字符串的百分比 (%) 符号处。该函数是逐步执行的。在第一个 % 符号中，插入 arg1，在第二个 % 符号处，插入 arg2，依此类推。
+format必需。转换格式。
+argarray必需。带有参数的一个数组，这些参数会被插到 format 字符串中的 % 符号处。
+说明注释同上vfprintf()
+
+vsprintf(format, argarray)
+vsprintf() 函数把格式化字符串写入变量中。
+format必需。转换格式。
+argarray必需。带有参数的一个数组，这些参数会被插到 format 字符串中的 % 符号处。
+说明注释同上vfprintf()
+
+ordwrap(string,width,break,cut)
+ordwrap()函数按照指定长度对字符串进行折行处理。
+如果成功，则返回折行后的字符串。如果失败，则返回 false。
+string必需。规定要进行折行的字符串。
+width可选。规定最大行宽度。默认是 75。
+break可选。规定作为分隔符使用的字符（字串断开字符）。默认是 "\n"。
+cut可选。规定是否对大约指定宽度的单词进行折行。默认是 FALSE (no-wrap)。
+
+PHP String 常量
+PHP：指示支持该常量的最早的 PHP 版本。
+常量  描述  PHP
+CRYPT_SALT_LENGTH   包含系统默认加密方法的长度。对于标准 DES 加密，长度是 2。     
+CRYPT_STD_DES   如果支持 2 字符 salt 的 DES 加密，则设置为 1，否则为 0。    
+CRYPT_EXT_DES   如果支持 9 字符 salt 的 DES 加密，则设置为 1，否则为 0。    
+CRYPT_MD5   如果支持以$1$开始的 12 字符 salt 的MD5加密，则设置为1，否则为0。    
+CRYPT_BLOWFISH  如果支持以 $2$ 或 $2a$ 开始的 16 字符 salt 的 Blowfish 加密，则设置为 1，否则为 0。  
+

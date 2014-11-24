@@ -1,0 +1,22 @@
+<div class="col-md-4" role="main">
+    <section id="contents">
+        <div class="ell-panel ell-border{$order}">
+            <div class="ell-category">
+                <a href=""> <strong>文章类别 ></strong>
+                </a>
+            </div>
+            <div class="panel-heading">
+                <h3>
+                    <a href="{:U('Article/detail?id='.$article['id'])}">文章题目</a>
+                </h3>
+            </div>
+            <div class="panel-body">
+                <p>文章描述</p>
+            </div>
+            <div class="ell-panel-footer">
+                <span>2014-11-11</span>
+                <span class="pull-right">责任编辑：e朗朗</span>
+            </div>
+        </div>
+    </section>
+</div>

@@ -1,0 +1,87 @@
+
+>>>>>>>>>>>>>>>>>>>>>>
+代码：  print_r($_SERVER);die();
+打印 $_SERVER 的值区分运行环境。
+
+如何使用：
+    1. 利用判断当前 $_SERVER["HTTP_APPNAME"] 值是否设置来判断代码是否在SAE上运行
+
+1.SAE 上的打印信息>>>>>>>
+Array ( 
+    [MEF_PROXY_ADDR] => 10.67.15.89
+    [has_apphash] => 1 
+    [use_afw] => 1 
+    [ApplimitOutOfCon] => 0 
+    [ApplimitOutOfMem] => 0 
+    [SCRIPT_URL] => /index.php 
+    [SCRIPT_URI] => http://100.agz4sina.sinaapp.com/index.php 
+    [HTTP_X_FORWARDED_FOR] => 116.25.212.209, 116.25.212.209 
+    [HTTP_HOST] => 100.agz4sina.sinaapp.com 
+    [HTTP_APPNAME] => agz4sina
+    [HTTP_APPVERSION] => 100 
+    [HTTP_MCIP] => 1default;1:@default:;;1::; 
+    [HTTP_ACCESSKEY] => mlym21lz1l [HTTP_APPHASH] => 499 
+    [HTTP_MYSQLPORT] => 3307 
+    [HTTP_APPCOOKIE] => default_version=100;debug=1,100; 
+    [HTTP_APPREQLIMIT] => 500,10000,0,0,0:2 
+    [HTTP_APPSRVC] => 0000000000000000AG0
+    [HTTP_CONNECTION] => close 
+    [HTTP_USER_AGENT] => Mozilla/5.0 (Windows NT 6.1; rv:33.0) Gecko/20100101 Firefox/33.0 
+    [HTTP_ACCEPT] => text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8 
+    [HTTP_ACCEPT_LANGUAGE] => zh-cn,zh;q=0.8,en-us;q=0.5,en;q=0.3 
+    [HTTP_ACCEPT_ENCODING] => gzip, deflate 
+    [HTTP_REFERER] => http://100.agz4sina.sinaapp.com/install.php?s=/Index/complete.html 
+    [HTTP_COOKIE] => saeut=113.97.190.253.1414922279370914; PHPSESSID=46aad7f2ebe003c6f94bba9a0dad48c4; thinkphp_show_page_trace=0|0 
+    [PATH] => /usr/local/sae/httpd/bin:/usr/bin:/bin 
+    [SERVER_SIGNATURE] => 
+    [SERVER_SOFTWARE] => Apache 
+    [SERVER_NAME] => 100.agz4sina.sinaapp.com 
+    [SERVER_ADDR] => 10.67.15.48 
+    [SERVER_PORT] => 80 
+    [REMOTE_ADDR] => 116.25.212.209 
+    [DOCUMENT_ROOT] => /data1/www/htdocs/499/agz4sina/100 
+    [SERVER_ADMIN] => saesupport@sina.cn 
+    [SCRIPT_FILENAME] => /data1/www/htdocs/499/agz4sina/100/index.php 
+    [REMOTE_PORT] => 54183 
+    [GATEWAY_INTERFACE] => CGI/1.1 
+    [SERVER_PROTOCOL] => HTTP/1.0 
+    [REQUEST_METHOD] => GET 
+    [QUERY_STRING] => s=/Admin 
+    [REQUEST_URI] => /index.php?s=/Admin 
+    [SCRIPT_NAME] => /index.php 
+    [PHP_SELF] => /index.php 
+    [REQUEST_TIME] => 1414938917 
+    [HTTP_SECRETKEY] => Discarded 
+    ) 
+    
+2. 本地台式机打印信息>>>>>>>>>>>>>>
+Array ( 
+
+    [HTTP_HOST] => localhost:8100 
+    [HTTP_USER_AGENT] => Mozilla/5.0 (Windows NT 6.1; rv:33.0) Gecko/20100101 Firefox/33.0 
+    [HTTP_ACCEPT] => text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8 
+    [HTTP_ACCEPT_LANGUAGE] => zh-cn,zh;q=0.8,en-us;q=0.5,en;q=0.3 
+    [HTTP_ACCEPT_ENCODING] => gzip, deflate
+    [HTTP_COOKIE] => pgv_pvi=6383254528; PHPSESSID=1gc9md17kaf1td69b3gbpk4oe0; thinkphp_show_page_trace=0|0 
+    [HTTP_CONNECTION] => keep-alive 
+    [HTTP_CACHE_CONTROL] => max-age=0 
+    [PATH] => C:\Python33\Lib\site-packages\PyQt4;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;D:\Program Files\TortoiseSVN\bin;C:\Program Files\Git\cmd;C:\Program Files\Git\bin;C:\Program Files\Vim\vim74;C:\Program Files\Java\jdk1.7.0_45\bin;C:\Program Files\Java\jdk1.7.0_45\jre\bin;F:\php5;F:\MySQL Server 5.5\bin;F:\MySQL\MySQL Server 5.5\bin;
+    [SystemRoot] => C:\Windows 
+    [COMSPEC] => C:\Windows\system32\cmd.exe 
+    [PATHEXT] => .COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC 
+    [WINDIR] => C:\Windows 
+    [SERVER_SIGNATURE] => 
+    [SERVER_SOFTWARE] => Apache/2.2.25 (Win32) PHP/5.3.28 
+    [SERVER_NAME] => localhost 
+    [SERVER_ADDR] => 127.0.0.1 
+    [SERVER_PORT] => 8100 
+    [REMOTE_ADDR] => 127.0.0.1 
+    [DOCUMENT_ROOT] => D:/GitHub/sae_onethink_test/wwwroot 
+    [SERVER_ADMIN] => 522360568@qq.com 
+    [SCRIPT_FILENAME] => D:/GitHub/sae_onethink_test/wwwroot/index.php 
+    [REMOTE_PORT] => 52749 [GATEWAY_INTERFACE] => CGI/1.1 
+    [SERVER_PROTOCOL] => HTTP/1.1 
+    [REQUEST_METHOD] => GET [QUERY_STRING] =>
+    [REQUEST_URI] => /index.php [SCRIPT_NAME] => /index.php 
+    [PHP_SELF] => /index.php [REQUEST_TIME] => 1414939687 
+) 

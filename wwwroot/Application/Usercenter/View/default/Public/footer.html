@@ -1,0 +1,24 @@
+    <!--  页脚，版权信息   ================================================== -->    
+    <footer class="footer">
+        <div class="container">
+            <p>
+                本站由 <strong><a href="#">e朗朗</a></strong> 
+                强力驱动
+            </p>
+        </div>
+    </footer>
+    <!--  /页脚，版权信息   ================================================= -->    
+
+    <script src="__STATIC__/jquery-1.10.2.min.js"></script>
+    <script src="__STATIC__/bootstrap/js/bootstrap.min.js"></script>
+    <!-- Custom JS for this template -->    
+    <block name="script"></block>
+
+    <include file="Public/var"/>
+
+    <!-- 页面footer钩子，一般用于加载插件JS文件和JS代码 -->    
+    {:hook('pageFooter', 'widget')}
+    <div class="hidden">
+        <!-- 用于加载统计代码等隐藏元素 -->    
+        <block name="hidden"></block>
+    </div>

@@ -1,0 +1,17 @@
+    <block name="header"></block>
+
+    <div class="container bs-docs-container">
+        <div class="row">
+            <block name="side">
+                <!-- 左侧 nav ================================================== -->    
+                <div class="col-md-3">
+                    <div class="list-group">
+                        <a class="list-group-item" id="sidebar-keywords" href="{:U('Keywords/index')}" >关键词编辑</a>
+                        <a class="list-group-item" href="#" >推送文本</a>
+                        <a class="list-group-item" id="sidebar-wxmenu" href="{:U('WxMenu/index')}" >微信菜单栏</a>
+                    </div>
+                </div>
+            </block>
+            <block name="content"></block>
+        </div>
+    </div>

@@ -1,0 +1,19 @@
+<script>
+/*---header script---*/
+$(function(){
+    //关闭导航栏下拉菜单点击事件
+    $(document).off("click.bs.dropdown.data-api");
+
+    //鼠标划过就展开子菜单
+    dropdownOpen();
+});
+
+function dropdownOpen() {
+    $("li.dropdown").mouseover(function() {
+        $(this).addClass("open");
+    }).mouseout(function() {
+        $(this).removeClass("open");
+    });
+}
+/*---header script---*/
+</script>

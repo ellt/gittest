@@ -1,0 +1,109 @@
+<extend name="Base/common"/>
+
+<block name="header">
+    <div class="container-fluid">
+        <div class="row ell-heading">
+
+            <div class="col-md-3 col-md-offset-1">
+                <h1 class="ell-title">校园环境</h1>
+            </div>
+
+            <div class="col-md-4">
+                <ol class="breadcrumb">
+                    <li>
+                        <a href="{:U('Index/index')}">首页</a>
+                    </li>
+                    <li>
+                        <a href="#">校园环境</a>
+                    </li>
+                    <!-- <li>教学区</li> -->
+                </ol>
+            </div>
+        </div>
+    </div>
+</block>
+
+<block name="side">
+    <!-- 左侧 nav ================================================== -->
+    <div class="col-md-3">
+        <div class="ell-sidebar">
+            <div class="list-group">
+                <a class="list-group-item" href="{:U('Index/index')}" >教学区</a>
+                <a class="list-group-item" href="#" >操场</a>
+            </div>
+        </div>
+    </div>
+</block>
+
+<block name="content">
+    <div class="col-md-9">
+        <div class="ell-content">
+            <div class="panel">
+                <div class="panel-heading">
+                    <h3 class="panel-title text-center">教学区</h3>
+                </div>
+                <div class="panel-body">
+                    <ul class="list-unstyled">
+                        <li>
+                            <a href="{:U('Index/detail')}">
+                                教学区建设完成，正式投入使用
+                                <span class="pull-right">2014-11-11</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{:U('Index/detail')}">
+                                教学区建设完成，正式投入使用
+                                <span class="pull-right">2014-11-11</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{:U('Index/detail')}">
+                                教学区建设完成，正式投入使用
+                                <span class="pull-right">2014-11-11</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{:U('Index/detail')}">
+                                教学区建设完成，正式投入使用
+                                <span class="pull-right">2014-11-11</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="panel">
+                <div class="panel-heading">
+                    <h3 class="panel-title text-center">操场</h3>
+                </div>
+                <div class="panel-body">
+                    <ul class="list-unstyled">
+                        <li>
+                            <a href="{:U('Index/detail')}">
+                                操场建设完成，正式投入使用
+                                <span class="pull-right">2014-11-11</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{:U('Index/detail')}">
+                                操场建设完成，正式投入使用
+                                <span class="pull-right">2014-11-11</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{:U('Index/detail')}">
+                                操场建设完成，正式投入使用
+                                <span class="pull-right">2014-11-11</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{:U('Index/detail')}">
+                                操场建设完成，正式投入使用
+                                <span class="pull-right">2014-11-11</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</block>

@@ -1,0 +1,64 @@
+一、Bootstrap CSS组件架构设计思想
+
+AO模式。A表示Append，即“附加”的意思；O表示Overwrite，即“重写”的意思。所有的CSS组件都是沿用这种思想来设计的。这也是CSS的特性，不同名的样式可以叠加在一起使用；同名的样式，后面的会覆盖前面的，从而达到组合应用的效果。
+整个CSS组件，总结为8大类型的样式，然后根据每个组件的特性，来组装这些类型的特性，从而达到丰富多彩的配置效果。
+
+1 基础样式，例如：btn，alert
++ 2 颜色样式，例如：btn-info，alert-success
+  + 3 尺寸样式，例如：btn-xs，btn-sm，btn-lg
+    + 4 状态样式，例如：active，disabled
+      + 5 特殊元素样式，例如：dropdown-menu > li > a:hover
+        + 6 并列元素样式，例如：btn-group .btn + .btn
+          + 7 嵌套子元素样式，例如：btn-group .btn-group
+            + 8 动画样式，例如：progress .active
+
+1、基础样式定义
+    display 显示方式
+    padding 内边距
+    margin 外边距
+    border 边框
+    font 字体
+
+2、颜色样式定义
+    color 文本颜色
+    background-color 背景颜色
+    border-color 边框颜色
+
+3、尺寸样式定义
+    padding 内边距
+    font-size 字体大小
+    line-height 行间距
+    border-radius 圆角
+
+4、状态样式定义
+    pointer-events 点击响应
+    cursor 鼠标形状
+    filter 透明度
+    -webkit-box-shadow 阴影
+            box-shadow 阴影
+    opacity 透明处理
+不仅要注意当前元素的样式，还要注意嵌套元素的相关样式。
+
+5、特殊元素样式定义
+特殊元素所定义的样式不固定，这取决于是什么样的特殊元素
+
+6、并列元素样式定义
+    水平排列
+    padding-left、padding-right
+    margin-left、margin-right
+    垂直排列
+    padding-top、padding-bottom
+    margin-top、margin-bottom
+
+    
+二、Bootstrap JavaScript实现步骤
+
++function ($) {  
+    "use strict";// 1.使用严格模式ES5支持  
+    // 2.alert插件类及原型方法的定义  
+    // 3.在jQuery上定义alert插件,并重设插件构造器  
+    //  重设插件构造器,可以通过该属性获取插件的真实类函数  
+    // 4. 防冲突处理  
+    // 5. 绑定触发事件  
+}(window.jQuery); 
+    
