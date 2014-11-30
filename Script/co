@@ -50,7 +50,7 @@ EOF
 git checkout ${DEST_BRANCH_NAME}
 [ "$?" != 0 ] &&  echo "  *** Error: git checkout ${DEST_BRANCH_NAME} ...."&& exit 128
 
-
+# 判断旧分支是否有SVN控制信息，有则备份
 if [ -d "${SVN_INSTRUCT_DIR}" ]; then
 	[ -d "${CUR_SVN_DIR}" ] && echo "  *** Error: ${CUR_SVN_DIR} Exist ...." && exit 128
 	mv ${SVN_INSTRUCT_DIR} ${CUR_SVN_DIR}
@@ -60,7 +60,7 @@ else
 	echo "  *** Warning: can't find ${SVN_INSTRUCT_DIR} no need to mv ..."
 fi
 
-
+# 判断新分支是否有SVN控制信息，有则将控制信息文件 '.svn' 文件夹移动到 './wwwroot/' 目录下
 if [ -d "$DEST_SVN_DIR"  ];then
  [ -d "${SVN_INSTRUCT_DIR}" ] && echo "  *** Error: ${SVN_INSTRUCT_DIR} Exist ...." && exit 128
  mv ${DEST_SVN_DIR} ${SVN_INSTRUCT_DIR} 
@@ -71,7 +71,7 @@ else
 	echo "  *** Warning: can't find ${DEST_SVN_DIR}, no need to mv ..."
 fi
 
-
+# 打印 svn 信息
 if [ ! -z "${SHOW_SVN_INFO}" ]; then
 	#add by jigc 2014-11-30
 	SVN_BIN_DIR="/d/Program Files (x86)/TortoiseSVN/bin"
