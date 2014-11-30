@@ -1,6 +1,6 @@
 #!/bin/sh
 
-#############################CHECK OUT INFO#############################
+########################################################################
 # Author      : jigc 
 # Date        : 2014-12-01
 # Description : git svn 协同工作检出脚本
@@ -27,7 +27,7 @@ DEST_SVN_DIR="${SVN_BASE_DIR}/${DEST_BRANCH_NAME}.svn"
 CUR_SVN_DIR="${SVN_BASE_DIR}/${CUR_BRANCH_NAME}.svn"
 
 # 检查当前分支与要切换到分支是否一致
-[ "$DEST_BRANCH_NAME" == $CUR_BRANCH_NAME ] && echo "Alread on branch:[${DEST_BRANCH_NAME}] " && exit 0
+[ "$DEST_BRANCH_NAME" == "$CUR_BRANCH_NAME" ] && echo "Alread on branch:[${DEST_BRANCH_NAME}] " && exit 0
 
 # 检查是否存在当前分支
 [ -z `git branch | egrep "^  ${DEST_BRANCH_NAME}"` ] && echo "Invalid branch name:[${DEST_BRANCH_NAME}]" && exit 128
