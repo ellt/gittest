@@ -3,3 +3,4 @@
 /.project
 /.gitignore
 /Svndir
+wwwroot/Application/Install/Data/install.lock
