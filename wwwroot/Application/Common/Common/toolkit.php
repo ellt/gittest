@@ -6,7 +6,7 @@
  * @author Jiguocheng <mrji1990@gmail.com>
  */
 function get_eclipse_project_name() {
-    define('ECLIPSE_PROJECT_FILE_NAME', '.project');
+    define('ECLIPSE_PROJECT_FILE_NAME', '../.project');
     
     $name = null;
     

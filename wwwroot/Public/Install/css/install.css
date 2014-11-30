@@ -178,6 +178,10 @@ hr.soften {
     line-height: 1.6;
     margin-left: 0;
 }
+.create-database div > select,
+.create-database div > input {
+    color: black;
+}
 .install-database p{
     margin-bottom: 0;
 }

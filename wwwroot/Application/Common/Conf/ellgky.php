@@ -19,7 +19,7 @@ return array(
     //'MODULE_ALLOW_LIST'  => array('Home','Admin','Usercenter'),
 
     /* 系统数据加密设置 */
-    'DATA_AUTH_KEY' => '/~_.3mQ@K"H<ao!C4rn)REufhJywpcjTgsA^W#;*', //默认数据加密KEY
+    'DATA_AUTH_KEY' => ':@|l4p+rkL1EcCsT~5"P$yRuvA.}aw{%X/-])7e*', //默认数据加密KEY
 
     /* 调试配置 */
     'SHOW_PAGE_TRACE' => true,
@@ -38,8 +38,8 @@ return array(
     'DEFAULT_FILTER' => '', //全局过滤函数
 
     /* 数据库配置 */
-    'DB_TYPE'   => 'mysqli', // 数据库类型
-    'DB_HOST'   => '127.0.0.1', // 服务器地址
+    'DB_TYPE'   => 'mysql', // 数据库类型
+    'DB_HOST'   => 'localhost', // 服务器地址
     'DB_NAME'   => 'onethink', // 数据库名
     'DB_USER'   => 'root', // 用户名
     'DB_PWD'    => '',  // 密码

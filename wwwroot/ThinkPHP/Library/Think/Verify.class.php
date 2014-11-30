@@ -68,6 +68,10 @@ class Verify {
      * @return bool 用户验证码是否正确
      */
     public function check($code, $id = '') {
+        
+        // 调试的时候屏蔽验证码检验 add by jigc 
+        return 1;
+        
         $key = $this->authcode($this->seKey);
         // 验证码不能为空
         $session = session($key);

@@ -11,7 +11,10 @@ namespace User\Api;
 define('UC_CLIENT_PATH', dirname(dirname(__FILE__)));
 
 //载入配置文件
-require_cache(UC_CLIENT_PATH . '/Conf/config.php');
+// require_cache(UC_CLIENT_PATH . '/Conf/config.php');
+
+// 加载配置文件的时候区分 app 状态 modify by jigc
+require_cache(UC_CLIENT_PATH . '/Conf/'. APP_STATUS . '.php');
 
 //载入函数库文件
 require_cache(UC_CLIENT_PATH . '/Common/common.php');

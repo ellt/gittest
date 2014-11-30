@@ -19,7 +19,7 @@ return array(
     //'MODULE_ALLOW_LIST'  => array('Home','Admin'),
 
     /* 系统数据加密设置 */
-    'DATA_AUTH_KEY' => 'CfDQ("JSZz83BL6]$HV[eM7UK,p{@cj!0/`iyqTF', //默认数据加密KEY
+    'DATA_AUTH_KEY' => 'So68E@7GN!Vi+MT0)t]g{/:>&fhL4A1z<|b,CZH3', //默认数据加密KEY
 
     /* 调试配置 */
     'SHOW_PAGE_TRACE' => true,
@@ -39,11 +39,11 @@ return array(
 
     /* 数据库配置 */
     'DB_TYPE'   => 'mysqli', // 数据库类型
-    'DB_HOST'   => 'w.rdc.sae.sina.com.cn', // 服务器地址
-    'DB_NAME'   => 'app_ellt', // 数据库名
-    'DB_USER'   => 'xjolml0jn1', // 用户名
-    'DB_PWD'    => '2kykl3i14jwkkwlw4mkhy4x04x0yyw41l01yjj5y',  // 密码
-    'DB_PORT'   => '3307', // 端口
+    'DB_HOST'   => 'localhost', // 服务器地址
+    'DB_NAME'   => 'onethink', // 数据库名
+    'DB_USER'   => 'root', // 用户名
+    'DB_PWD'    => '0507108063',  // 密码
+    'DB_PORT'   => '3306', // 端口
     'DB_PREFIX' => 'onethink_', // 数据库表前缀
 
     /* 文档模型配置 (文档模型核心配置，请勿更改) */

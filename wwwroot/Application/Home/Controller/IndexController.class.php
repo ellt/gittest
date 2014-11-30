@@ -15,17 +15,21 @@ use OT\DataDictionary;
  * 主要获取首页聚合数据
  */
 class IndexController extends HomeController {
-    
-    //系统首页
-    public function index() {
+
+	//系统首页
+    public function index(){
+
         $category = D('Category')->getTree();
-        $lists = D('Document')->lists(null);
+        $lists    = D('Document')->lists(null);
+//         $url=get_nav_url('home/article/lists?category=aboutschool');
+//         dump($url);die();
+        $this->assign('lists',$lists);//列表
+        $this->assign('page',D('Document')->page);//分页
+
+        dump($lists);
         
-        $this->assign('category', $category); //栏目
-        $this->assign('lists', $lists); //列表
-        $this->assign('page', D('Document')->page); //分页
-        $custom_reply_text = M('CustomReplyText', 'ell_')->select();     
-        $this->assign('custom_reply_text', $custom_reply_text);
+        dump(D('UcenterMember')->select());
+//         die();
         $this->display();
     }
 

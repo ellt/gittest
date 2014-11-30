@@ -18,10 +18,10 @@ class InstallController extends Controller{
 		if(session('step') === null){
 			$this->redirect('Index/index');
 		}
-
-		if(Storage::has(MODULE_PATH . 'Data/install.lock')){
-			$this->error('已经成功安装了OneThink，请不要重复安装!');
-		}
+// 屏蔽安装检测 add by jigc
+// 		if(Storage::has(MODULE_PATH . 'Data/install.lock')){
+// 			$this->error('已经成功安装了OneThink，请不要重复安装!');
+// 		}
 	}
 
 	//安装第一步，检测运行所需的环境设置

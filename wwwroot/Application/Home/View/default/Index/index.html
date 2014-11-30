@@ -1,51 +1,48 @@
 <extend name="Base/common"/>
 
 <block name="header">
-    <div class="jumbotron">
+    <header class="jumbotron subhead" id="overview">
         <div class="container">
-            <div class="row">
-                <div class="col-md-4 col-md-offset-1 ell-slide-left">
-                    <h3 class="ell-title">快乐学习大家庭</h3>
-                    <p>快来加入我们吧！</p>
-                </div>
-                <div class="col-md-7 ell-slide-right">
-                    <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
-                        <!-- Indicators -->
-                        <ol class="carousel-indicators">
-                            <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-                            <li data-target="#carousel-example-generic" data-slide-to="1"></li>
-                            <li data-target="#carousel-example-generic" data-slide-to="2"></li>
-                        </ol>
-
-                        <!-- Wrapper for slides -->
-                        <div class="carousel-inner" role="listbox">
-                            <div class="item active">
-                                <img src="__IMG__/elanglang/school1.jpg" alt="...">
-                                <div class="carousel-caption">...</div>
-                            </div>
-                            <div class="item">
-                                <img src="__IMG__/elanglang/school2.jpg" alt="...">
-                                <div class="carousel-caption">...</div>
-                            </div>
-                            <div class="item">
-                                <img src="__IMG__/elanglang/school3.jpg" alt="...">
-                                <div class="carousel-caption">...</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <h2>源自相1同起点，演绎不同精彩！</h2>
+            <p class="lead"></p>
         </div>
+    </header>
+</block>
+
+<block name="side">
+<!-- 左侧 nav
+================================================== -->
+    <div class="span3 bs-docs-sidebar">
+        <ul class="nav nav-list bs-docs-sidenav">
+            {:W('Category/lists', array(1, true))}
+        </ul>
     </div>
 </block>
 
-<block name="side"></block>
+<block name="body">
+    <div class="span9">
+        <!-- Contents
+        ================================================== -->
+        <section id="contents">
+            <article:list name="article" category="1" child="true">
+                <div class="">
+                    <h3><a href="{:U('Article/detail?id='.$article['id'])}">{$article.title}</a></h3>
+                </div>
+                <div>
+                    <p class="lead">{$article.description}</p>
+                </div>
+                <div>
+                    <span><a href="{:U('Article/detail?id='.$article['id'])}">查看全文</a></span>
+                    <span class="pull-right">
+                        <span class="author">{$article.uid|get_username}</span>
+                        <span>于 {$article.create_time|date='Y-m-d H:i',###}</span> 发表在 <span>
+                        <a href="{:U('Article/lists?category='.get_category_name($article['category_id']))}">{$article.category_id|get_category_title}</a></span> ( 阅读：{$article.view} )
+                    </span>
+                </div>
+                <hr/>
+            </article:list>
 
-<block name="content">
-    {:W('Article/description', array(1))}
-    {:W('Article/description', array(2))}    
-    {:W('Article/description', array(3))}
-    {:W('Article/description', array(4))}
-    {:W('Article/description', array(5))}    
-    {:W('Article/description', array(6))}
+        </section>
+    </div>
+        </div>
 </block>
