@@ -1,0 +1,88 @@
+#!/bin/sh
+
+#############################CHECK OUT INFO#############################
+# Author      : jigc 
+# Date        : 2014-12-01
+# Description : git svn 协同工作检出脚本
+# Version     : V1.0
+# Usage       : co <branch>
+# Log:
+#  V1.0: 实现基本功能
+########################################################################
+
+# Git 工程根路径
+GIT_ROOT=$(pwd)
+SVN_BASE_DIR="Svndir"
+SVN_INSTRUCT_DIR="wwwroot/.svn"
+
+# 目标Git分支
+DEST_BRANCH_NAME="$1"
+
+
+# 当前Git分支
+CUR_BRANCH_NAME=$(git branch | awk '/^\*/{print $2}')
+
+# 分支对应的SVN管理信息文件夹名称
+DEST_SVN_DIR="${SVN_BASE_DIR}/${DEST_BRANCH_NAME}.svn"
+CUR_SVN_DIR="${SVN_BASE_DIR}/${CUR_BRANCH_NAME}.svn"
+
+# 检查当前分支与要切换到分支是否一致
+[ "$DEST_BRANCH_NAME" == $CUR_BRANCH_NAME ] && echo "Alread on branch:[${DEST_BRANCH_NAME}] " && exit 0
+
+# 检查是否存在当前分支
+[ -z `git branch | egrep "^  ${DEST_BRANCH_NAME}"` ] && echo "Invalid branch name:[${DEST_BRANCH_NAME}]" && exit 128
+
+cat << EOF
+
+
+#############################CHECK OUT INFO#############################
+# Git root:                  ${GIT_ROOT}
+# Svn instruct dir:          ${SVN_INSTRUCT_DIR}
+# Current branch name:       ${CUR_BRANCH_NAME}
+# Current svn dir name:      ${CUR_SVN_DIR}
+# Dest branch name:          ${DEST_SVN_DIR}
+# Dest svn dir name:         ${DEST_SVN_DIR}
+########################################################################
+
+EOF
+
+# 改变当前Git分支
+git checkout ${DEST_BRANCH_NAME}
+[ "$?" != 0 ] &&  echo "  *** Error: git checkout ${DEST_BRANCH_NAME} ...."&& exit 128
+
+
+if [ -d "${SVN_INSTRUCT_DIR}" ]; then
+	[ -d "${CUR_SVN_DIR}" ] && echo "  *** Error: ${CUR_SVN_DIR} Exist ...." && exit 128
+	mv ${SVN_INSTRUCT_DIR} ${CUR_SVN_DIR}
+	[ "$?" != 0 ] && echo "  *** Error: mv ${SVN_INSTRUCT_DIR} ${CUR_SVN_DIR}...." && exit 128
+	echo "  *** Success: mv ${SVN_INSTRUCT_DIR} ${CUR_SVN_DIR}...."
+else
+	echo "  *** Warning: can't find ${SVN_INSTRUCT_DIR} no need to mv ..."
+fi
+
+
+if [ -d "$DEST_SVN_DIR"  ];then
+ [ -d "${SVN_INSTRUCT_DIR}" ] && echo "  *** Error: ${SVN_INSTRUCT_DIR} Exist ...." && exit 128
+ mv ${DEST_SVN_DIR} ${SVN_INSTRUCT_DIR} 
+ [ "$?" != 0 ] && echo "  *** Error: mv ${DEST_SVN_DIR} ${SVN_INSTRUCT_DIR} ...." && exit 128
+ 
+ echo "  *** Success: mv ${DEST_SVN_DIR} ${SVN_INSTRUCT_DIR}  ..." && SHOW_SVN_INFO="TRUE"
+else
+	echo "  *** Warning: can't find ${DEST_SVN_DIR}, no need to mv ..."
+fi
+
+
+if [ ! -z "${SHOW_SVN_INFO}" ]; then
+	#add by jigc 2014-11-30
+	SVN_BIN_DIR="/d/Program Files (x86)/TortoiseSVN/bin"
+	PATH="$SVN_BIN_DIR:$PATH"
+	cat << EOF
+
+############################SVN INFO#####################################
+# 
+$(svn info wwwroot/ | sed -e 's|^|# |' )
+########################################################################
+
+EOF
+fi
+
