@@ -23,7 +23,7 @@ class Sqlite extends Db {
      */
     public function __construct($config='') {
         if ( !extension_loaded('sqlite') ) {
-            E(L('_NOT_SUPPERT_').':sqlite');
+            E(L('_NOT_SUPPORT_').':sqlite');
         }
         if(!empty($config)) {
             if(!isset($config['mode'])) {
@@ -137,7 +137,7 @@ class Sqlite extends Db {
     /**
      * 用于非自动提交状态下面的查询提交
      * @access public
-     * @return boolen
+     * @return boolean
      */
     public function commit() {
         if ($this->transTimes > 0) {
@@ -154,7 +154,7 @@ class Sqlite extends Db {
     /**
      * 事务回滚
      * @access public
-     * @return boolen
+     * @return boolean
      */
     public function rollback() {
         if ($this->transTimes > 0) {

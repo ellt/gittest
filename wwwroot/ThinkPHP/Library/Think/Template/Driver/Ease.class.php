@@ -34,7 +34,7 @@ class Ease {
         if(C('TMPL_ENGINE_CONFIG')) {
             $config     =  array_merge($config,C('TMPL_ENGINE_CONFIG'));
         }
-        $tpl = new EaseTemplate($config);
+        $tpl = new \EaseTemplate($config);
         $tpl->set_var($var);
         $tpl->set_file($templateFile);
         $tpl->p();

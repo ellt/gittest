@@ -357,7 +357,7 @@ function require_cache($filename) {
  */
 function file_exists_case($filename) {
     if (is_file($filename)) {
-        if (IS_WIN && C('APP_FILE_CASE')) {
+        if (IS_WIN && APP_DEBUG) {
             if (basename(realpath($filename)) != basename($filename))
                 return false;
         }
@@ -518,18 +518,19 @@ function parse_res_name($name,$layer,$level=1){
 }
 
 /**
- * A函数用于实例化控制器 格式：[资源://][模块/]控制器
+ * 实例化多层控制器 格式：[资源://][模块/]控制器
  * @param string $name 资源地址
  * @param string $layer 控制层名称
  * @param integer $level 控制器层次
- * @return Controller|false
+ * @return Think\Controller|false
  */
-function A($name,$layer='',$level='') {
+function A($name,$layer='',$level=0) {
     static $_action = array();
-    $layer  =   $layer? $layer : C('DEFAULT_C_LAYER');
-    $level  =   $level? $level : ($layer == C('DEFAULT_C_LAYER')?C('CONTROLLER_LEVEL'):1);
+    $layer  =   $layer? : C('DEFAULT_C_LAYER');
+    $level  =   $level? : ($layer == C('DEFAULT_C_LAYER')?C('CONTROLLER_LEVEL'):1);
     if(isset($_action[$name.$layer]))
         return $_action[$name.$layer];
+    
     $class  =   parse_res_name($name,$layer,$level);
     if(class_exists($class)) {
         $action             =   new $class();
