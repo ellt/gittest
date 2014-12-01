@@ -1,0 +1,14 @@
+1、当文件含有与其他文件相同名称的函数时，会导致该文件被include时出错。
+
+2、PHP输入流 php://input、全局变量 $_POST 和 $http_raw_post_data 的介绍
+1）Content-Type 为 application/x-www-form-urlencoded 或 multipart/form-data 的时候，PHP才会将http请求数据包中的body相应部分数据填入全局变量$_POST中,其它情况PHP都忽略。
+
+2）Content-Type 为 multipart/form-data 时，php://input 无法读取http请求数据包中的body数据，即便body有数据。
+Content-Type 不为 multipart/form-data 时，php://input 数据与 http entity body 部分数据是一致的。该部分相一致的数据的长度由 Content-Length 指定。
+
+3）php://input 读取不到$_GET数据。是因为$_GET数据作为query_path写在http请求头部(header)的PATH字段，而不是写在http请求的body部分。
+
+4）仅当 Content-Type 为 application/x-www-form-urlencoded 且提交方法为POST时，php://input 和$_POST数据才是“一致”的（格式不一致，内容一致），其它情况，它们都不一致。
+
+5）$http_raw_post_data 是PHP内置的一个全局变量。当 Content-Type 无法被PHP识别时，PHP将POST过来的数据原样地填入变量 $http_raw_post_data。
+它同样无法读取 Content-Type 为 multipart/form-data 的POST数据。需要设置 php.ini 中的 always_populate_raw_post_data 值为on，PHP才会总把POST数据填入变量 $http_raw_post_data。 
