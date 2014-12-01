@@ -1,13 +1,13 @@
 <?php
 // +----------------------------------------------------------------------
-// | OneThink [ WE CAN DO IT JUST THINK IT ]
+// | ELangLang  [ WE CAN DO IT JUST THINK IT ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2013 http://www.onethink.cn All rights reserved.
+// | Copyright (c) 2014 http://www.elanglang.com All rights reserved.
 // +----------------------------------------------------------------------
-// | Author: 麦当苗儿 <zuojiazi@vip.qq.com> <http://www.zjzit.cn>
+// | Author: Guokaiyi <harrygky@gmail.com>
 // +----------------------------------------------------------------------
 
-namespace Home\Widget;
+namespace Website\Widget;
 use Think\Controller;
 
 /**
