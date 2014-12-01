@@ -14,6 +14,11 @@
 
 echo -e "\n# Runing post-checkout script ..."
 
+# 是否是分支切换标志
+IS_BRANCH_CHECKOUT="$3"
+
+[ "${IS_BRANCH_CHECKOUT}" == 0 ] && echo "# Not branch checkout, no need to profile svn instruction ...." && exit 0
+
 GIT_ROOT=$(pwd | sed -e 's|[\r\n]*||')
 SVN_BASE_DIR="Svndir"
 SVN_INSTRUCT_DIR="wwwroot/.svn"
@@ -25,8 +30,8 @@ DEST_BRANCH_NAME=$(git symbolic-ref --short HEAD )
 ShowSvnInfo()
 {
 	# add by jigc 2014-11-30
-	SVN_BIN_DIR="/d/Program Files (x86)/TortoiseSVN/bin"
-	PATH="$SVN_BIN_DIR:$PATH"
+	# SVN_BIN_DIR="/d/Program Files (x86)/TortoiseSVN/bin"
+	# PATH="$SVN_BIN_DIR:$PATH"
 	cat << EOF
 
 ############################SVN INFO#####################################
