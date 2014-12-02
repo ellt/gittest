@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK IT ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006-2013 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2006-2014 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 
 /**
- * Think 函数库
+ * Think 系统函数库
  */
 
 /**
@@ -55,6 +55,7 @@ function C($name=null, $value=null,$default=null) {
  * 抛出异常处理
  * @param string $msg 异常消息
  * @param integer $code 异常代码 默认为0
+ * @throws Think\Exception
  * @return void
  */
 function E($msg, $code=0) {
@@ -96,6 +97,7 @@ function G($start,$end='',$dec=4) {
         $_info[$start]  =  microtime(TRUE);
         if(MEMORY_LIMIT_ON) $_mem[$start]           =  memory_get_usage();
     }
+    return null;
 }
 
 /**
@@ -130,7 +132,7 @@ function L($name=null, $value=null) {
  * @param string $label 标签
  * @param string $level 日志级别
  * @param boolean $record 是否记录日志
- * @return void
+ * @return void|array
  */
 function trace($value='[think]',$label='',$level='DEBUG',$record=false) {
     return Think\Think::trace($value,$label,$level,$record);
@@ -195,11 +197,7 @@ function T($template='',$layer=''){
     }elseif(false === strpos($file, '/')){
         $file = CONTROLLER_NAME . $depr . $file;
     }elseif('/' != $depr){
-        if(substr_count($file,'/')>1){
-            $file   =   substr_replace($file,$depr,strrpos($file,'/'),1);
-        }else{
-            $file   =   str_replace('/', $depr, $file);
-        }
+        $file   =   substr_count($file,'/')>1 ? substr_replace($file,$depr,strrpos($file,'/'),1) : str_replace('/', $depr, $file);
     }
     return $baseUrl.($theme?$theme.'/':'').$file.C('TMPL_TEMPLATE_SUFFIX');
 }
@@ -281,13 +279,13 @@ function I($name,$default='',$filter=null) {
 }
 
 function array_map_recursive($filter, $data) {
-     $result = array();
-     foreach ($data as $key => $val) {
-         $result[$key] = is_array($val)
-             ? array_map_recursive($filter, $val)
-             : call_user_func($filter, $val);
-     }
-     return $result;
+    $result = array();
+    foreach ($data as $key => $val) {
+        $result[$key] = is_array($val)
+         ? array_map_recursive($filter, $val)
+         : call_user_func($filter, $val);
+    }
+    return $result;
  }
 
 /**
@@ -301,6 +299,7 @@ function array_map_recursive($filter, $data) {
  * </code>
  * @param string $key 标识位置
  * @param integer $step 步进值
+ * @param boolean $save 是否保存结果
  * @return mixed
  */
 function N($key, $step=0,$save=false) {
@@ -308,13 +307,15 @@ function N($key, $step=0,$save=false) {
     if (!isset($_num[$key])) {
         $_num[$key] = (false !== $save)? S('N_'.$key) :  0;
     }
-    if (empty($step))
+    if (empty($step)){
         return $_num[$key];
-    else
-        $_num[$key] = $_num[$key] + (int) $step;
+    }else{
+        $_num[$key] = $_num[$key] + (int)$step;
+    }
     if(false !== $save){ // 保存结果
         S('N_'.$key,$_num[$key],$save);
     }
+    return null;
 }
 
 /**
@@ -400,6 +401,7 @@ function import($class, $baseUrl = '', $ext=EXT) {
         // 如果类不存在 则导入类库文件
         return require_cache($classfile);
     }
+    return null;
 }
 
 /**
@@ -441,15 +443,15 @@ function vendor($class, $baseUrl = '', $ext='.php') {
 }
 
 /**
- * D函数用于实例化模型类 格式 [资源://][模块/]模型
+ * 实例化模型类 格式 [资源://][模块/]模型
  * @param string $name 资源地址
  * @param string $layer 模型层名称
- * @return Model
+ * @return Think\Model
  */
 function D($name='',$layer='') {
     if(empty($name)) return new Think\Model;
     static $_model  =   array();
-    $layer          =   $layer? $layer : C('DEFAULT_M_LAYER');
+    $layer          =   $layer? : C('DEFAULT_M_LAYER');
     if(isset($_model[$name.$layer]))
         return $_model[$name.$layer];
     $class          =   parse_res_name($name,$layer);
@@ -468,11 +470,11 @@ function D($name='',$layer='') {
 }
 
 /**
- * M函数用于实例化一个没有模型文件的Model
+ * 实例化一个没有模型文件的Model
  * @param string $name Model名称 支持指定基础模型 例如 MongoModel:User
  * @param string $tablePrefix 表前缀
  * @param mixed $connection 数据库连接信息
- * @return Model
+ * @return Think\Model
  */
 function M($name='', $tablePrefix='',$connection='') {
     static $_model  = array();
@@ -492,6 +494,7 @@ function M($name='', $tablePrefix='',$connection='') {
  * 例如 module/controller addon://module/behavior
  * @param string $name 资源地址 格式：[扩展://][模块/]资源名
  * @param string $layer 分层名称
+ * @param integer $level 控制器层次
  * @return string
  */
 function parse_res_name($name,$layer,$level=1){
@@ -503,7 +506,7 @@ function parse_res_name($name,$layer,$level=1){
     if(strpos($name,'/') && substr_count($name, '/')>=$level){ // 指定模块
         list($module,$name) =  explode('/',$name,2);
     }else{
-        $module =   MODULE_NAME;
+        $module =   defined('MODULE_NAME') ? MODULE_NAME : '' ;
     }
     $array  =   explode('/',$name);
     $class  =   $module.'\\'.$layer;
@@ -567,10 +570,10 @@ function R($url,$vars=array(),$layer='') {
  * 处理标签扩展
  * @param string $tag 标签名称
  * @param mixed $params 传入参数
- * @return mixed
+ * @return void
  */
 function tag($tag, &$params=NULL) {
-    return \Think\Hook::listen($tag,$params);
+    \Think\Hook::listen($tag,$params);
 }
 
 /**
@@ -707,7 +710,7 @@ function layout($layout) {
  * URL组装 支持不同URL模式
  * @param string $url URL表达式，格式：'[模块/控制器/操作#锚点@域名]?参数1=值1&参数2=值2...'
  * @param string|array $vars 传入的参数，支持数组和字符串
- * @param string $suffix 伪静态后缀，默认为true表示获取配置值
+ * @param string|boolean $suffix 伪静态后缀，默认为true表示获取配置值
  * @param boolean $domain 是否显示域名
  * @return string
  */
@@ -971,7 +974,7 @@ function F($name, $value='', $path=DATA_PATH) {
             Think\Storage::put($filename,serialize($value),'F');
             // 缓存数据
             $_cache[$name]  =   $value;
-            return ;
+            return null;
         }
     }
     // 获取缓存数据
@@ -1221,20 +1224,20 @@ function cookie($name, $value='', $option=null) {
 
 /**
  * 加载动态扩展文件
+ * @var string $path 文件路径
  * @return void
  */
 function load_ext_file($path) {
     // 加载自定义外部文件
-    if(C('LOAD_EXT_FILE')) {
-        $files      =  explode(',',C('LOAD_EXT_FILE'));
+    if($files = C('LOAD_EXT_FILE')) {
+        $files      =  explode(',',$files);
         foreach ($files as $file){
             $file   = $path.'Common/'.$file.'.php';
             if(is_file($file)) include $file;
         }
     }
     // 加载自定义的动态配置文件
-    if(C('LOAD_EXT_CONFIG')) {
-        $configs    =  C('LOAD_EXT_CONFIG');
+    if($configs = C('LOAD_EXT_CONFIG')) {
         if(is_string($configs)) $configs =  explode(',',$configs);
         foreach ($configs as $key=>$config){
             $file   = $path.'Conf/'.$config.'.php';
