@@ -1,0 +1,273 @@
+1.查看并找到历史变更位置：
+
+$git log --oneline 
+4569c54 addition note of user and set argument in configure file tcp_clone.conf
+2cb2768 optimization format print in check.sh
+ba7087a addition check source mac and dest mac address  set in start shell script stat.sh
+b3cd064 addition check per set in start shell script stat.sh
+74a21f5 command line set source and dest mac
+38f40b6 fix bug ethernet header mac address send invalid
+035104b fix bug process for skb push mach header failed
+cf4be06 optimization check net devices search
+cfeea71 fix bug for search net device name
+25ee5fc fix bug search mac repeat
+b616fd7 add see input and output direction of flow
+3658263 add check.sh check netdev tcp flow for normol and clone
+12cb779 fix print info in stat.sh
+b0dbe8b fix bug process for send skb failed
+04384c6 fix bug ip header pointer is NULL return
+aab4f4e fix bug clone skb return value NULL accept
+3645c74 modify checke count to flag remainder
+8ed811b fix bug check last remainder
+b4b3cb9 fix insmod calculate number of parameter in shell script start.sh
+41f7bc4 all return NF_ACCEP modify goto is_accept
+9bb40e8 remove check count of while for send
+9114c26 version 1.2 to 1.3
+027ce83 remove parameter sendn at insert modules and in pipm.c and shell script
+033a084 optimization parameter per adition multiple in tcp_clone.c example:per=140(140%)
+3108f06 optimization percentage to 1%
+f892e3a optimization shell script prompt infomation
+0d31b20 fix bug of net device configure at insert modules in shell script
+c909be0 optimization shell script addition check user set netdevice and independented configure file
+e4e21b6 optimization script check parameter and addition show
+829dca2 tcp clone versoin 1.2.
+d3816a7 set peret and check agement.
+a947689 in tcp_clone.c add comment.
+5cabee1 fix start.sh and README.
+335e341 add README.
+
+--------------------------
+2.1检出到要改变的历史：
+
+$git checkout b3cd064
+Note: checking out 'b3cd064'.
+
+You are in 'detached HEAD' state. You can look around, make experimental
+changes and commit them, and you can discard any commits you make in this
+state without impacting any branches by performing another checkout.
+
+If you want to create a new branch to retain commits you create, you may
+do so (now or later) by using -b with the checkout command again. Example:
+
+  git checkout -b new_branch_name
+
+HEAD is now at b3cd064... addition check per set in start shell script stat.sh
+
+2.2 确认改变：
+$ git log --oneline 
+b3cd064 addition check per set in start shell script stat.sh
+74a21f5 command line set source and dest mac
+38f40b6 fix bug ethernet header mac address send invalid
+035104b fix bug process for skb push mach header failed
+cf4be06 optimization check net devices search
+cfeea71 fix bug for search net device name
+25ee5fc fix bug search mac repeat
+b616fd7 add see input and output direction of flow
+3658263 add check.sh check netdev tcp flow for normol and clone
+12cb779 fix print info in stat.sh
+b0dbe8b fix bug process for send skb failed
+04384c6 fix bug ip header pointer is NULL return
+aab4f4e fix bug clone skb return value NULL accept
+3645c74 modify checke count to flag remainder
+8ed811b fix bug check last remainder
+b4b3cb9 fix insmod calculate number of parameter in shell script start.sh
+41f7bc4 all return NF_ACCEP modify goto is_accept
+9bb40e8 remove check count of while for send
+9114c26 version 1.2 to 1.3
+027ce83 remove parameter sendn at insert modules and in pipm.c and shell script
+033a084 optimization parameter per adition multiple in tcp_clone.c example:per=140(140%)
+3108f06 optimization percentage to 1%
+f892e3a optimization shell script prompt infomation
+0d31b20 fix bug of net device configure at insert modules in shell script
+c909be0 optimization shell script addition check user set netdevice and independented configure file
+e4e21b6 optimization script check parameter and addition show
+829dca2 tcp clone versoin 1.2.
+d3816a7 set peret and check agement.
+a947689 in tcp_clone.c add comment.
+5cabee1 fix start.sh and README.
+335e341 add README.
+b2c3644 post_routing and specifies net device name.
+
+----------------------------
+3.修改相应的文件
+vi start.sh
+修改后保存
+
+查看修改
+$ git diff
+diff --git a/start.sh b/start.sh
+index 9018641..815d356 100755
+--- a/start.sh
++++ b/start.sh
+@@ -72,7 +72,8 @@ else
+                        fi
+                        sleep 1;
+                done
+-               if [[ $per > 1000 || $per == 0 ]];
++#              # check per correctness
++               if [[ $per -gt 1000 || $per -lt 0 ]];
+                then
+                        echo "invalid argument per set!";
+                        echo "please per between 1 to 1000";
+
+查看状态
+$ git status -s
+ M start.sh
+-------------------------------
+4.提交改变
+
+4.1添加改变
+$ git add -u
+
+4.2查看状态改变
+$ git status -s
+M  start.sh
+
+
+4.3注意：此时一定要重新提交当前的历史节点
+4.3.1 先查看历史版本日志信息并复制
+$ git log --oneline 
+b3cd064 addition check per set in start shell script stat.sh
+74a21f5 command line set source and dest mac
+38f40b6 fix bug ethernet header mac address send invalid
+035104b fix bug process for skb push mach header failed
+cf4be06 optimization check net devices search
+cfeea71 fix bug for search net device name
+25ee5fc fix bug search mac repeat
+b616fd7 add see input and output direction of flow
+..............
+
+4.3.2 重新提交节点
+$ git commit --amend -m "addition check per set in start shell script stat.sh"
+[detached HEAD 731b007] addition check per set in start shell script stat.sh
+ 1 file changed, 7 insertions(+)
+-------------------------
+5.0 执行变基操作 注意： 此时进入了谨慎阶段，一定要搞清是谁到谁的变基
+以下的命令的意思是将develop分支变基到当前指向的节点，变基之后，develop的最后也就变成了当前的指针处。
+$ git rebase HEAD develop
+First, rewinding head to replay your work on top of it...
+Applying: addition check per set in start shell script stat.sh
+Using index info to reconstruct a base tree...
+Falling back to patching base and 3-way merge...
+Auto-merging start.sh
+CONFLICT (content): Merge conflict in start.sh
+Failed to merge in the changes.
+Patch failed at 0001 addition check per set in start shell script stat.sh
+
+When you have resolved this problem run "git rebase --continue".
+If you would prefer to skip this patch, instead run "git rebase --skip".
+To check out the original branch and stop rebasing run "git rebase --abort".
+
+-----------------
+6.0 修改冲突，完成后续提交
+6.1 查看状态
+$ git status -s
+UU start.sh
+
+6.2 解决冲突
+vi start.sh
+
+
+6.3 继续变基
+git rebase --continue 
+Applying: addition check per set in start shell script stat.sh
+No changes - did you forget to use 'git add'?
+If there is nothing left to stage, chances are that something else
+already introduced the same changes; you might want to skip this patch.
+
+When you have resolved this problem run "git rebase --continue".
+If you would prefer to skip this patch, instead run "git rebase --skip".
+To check out the original branch and stop rebasing run "git rebase --abort".
+6.4 处理完冲突继续合并
+ $git rebase --skip
+Applying: addition check source mac and dest mac address  set in start shell script stat.sh
+Using index info to reconstruct a base tree...
+Falling back to patching base and 3-way merge...
+Auto-merging start.sh
+CONFLICT (content): Merge conflict in start.sh
+Failed to merge in the changes.
+Patch failed at 0002 addition check source mac and dest mac address  set in start shell script stat.sh
+
+When you have resolved this problem run "git rebase --continue".
+If you would prefer to skip this patch, instead run "git rebase --skip".
+To check out the original branch and stop rebasing run "git rebase --abort".
+----------------
+6.5继续提交
+$git rebase --continue 
+Applying: addition check per set in start shell script stat.sh
+No changes - did you forget to use 'git add'?
+If there is nothing left to stage, chances are that something else
+already introduced the same changes; you might want to skip this patch.
+
+When you have resolved this problem run "git rebase --continue".
+If you would prefer to skip this patch, instead run "git rebase --skip".
+To check out the original branch and stop rebasing run "git rebase --abort".
+
+zly@zly-ThinkPad-Edge-E430:~/share/tcp_clone$ git rebase --skip
+Applying: addition check source mac and dest mac address  set in start shell script stat.sh
+Using index info to reconstruct a base tree...
+Falling back to patching base and 3-way merge...
+Auto-merging start.sh
+CONFLICT (content): Merge conflict in start.sh
+Failed to merge in the changes.
+Patch failed at 0002 addition check source mac and dest mac address  set in start shell script stat.sh
+
+When you have resolved this problem run "git rebase --continue".
+If you would prefer to skip this patch, instead run "git rebase --skip".
+To check out the original branch and stop rebasing run "git rebase --abort".
+
+6.6继续提交并解决冲突
+
+git diff
+diff --cc start.sh
+index 815d356,5c787a3..0000000
+--- a/start.sh
++++ b/start.sh
+@@@ -73,7 -73,7 +73,11 @@@ els
+                        sleep 1;
+                done
+  #             # check per correctness
+++<<<<<<< HEAD
+ +              if [[ $per -gt 1000 || $per -lt 0 ]];
+++=======
++               if [[ $per > 1000 || $per == 0 ]];
+++>>>>>>> addition check source mac and dest mac address  set in start shell script stat.sh
+                then
+                        echo "invalid argument per set!";
+                        echo "please per between 1 to 1000";
+
+6.7 修改冲突
+$ vi start.sh
+
+6.8 继续提交
+$ git add -u
+
+6.9 继续变基
+git rebase --continue 
+Applying: addition check source mac and dest mac address  set in start shell script stat.sh
+Applying: optimization format print in check.sh
+Applying: addition note of user and set argument in configure file tcp_clone.conf
+
+这次很顺利，没有出现冲突
+
+
+
+
+When you have resolved this problem run "git rebase --continue".
+If you would prefer to skip this patch, instead run "git rebase --skip".
+To check out the original branch and stop rebasing run "git rebase --abort".
+中文释义：
+当你已经解决了这个问题，运行“git rebase --continue”。
+如果你宁愿跳过此补丁，而不是运行“git rebase --skip”。
+检查出原来的分支衍合运行“git rebase --abort”停止。
+
+改变历史节点后重新提交。
+然后做变基操作。
+变基操作如果出现冲突，先编辑文件，解决冲突；然后git add -u进行提交；提交后用git rebase --continue进行继续变基。
+如果继续变基提升需要选择更多操作，即提示该继续变基，跳过分支和终止变基时，先git status -s查看本地目录数是否有问题，如果有问题则编辑文件解决冲突和问题，如果没问题则使用git rebase --skip跳过当前节点继续后边的变基。
+
+
+
+
+
+
