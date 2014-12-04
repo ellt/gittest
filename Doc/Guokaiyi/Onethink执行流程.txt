@@ -1,0 +1,90 @@
+ONETHINK_VERSION = '1.0.140202'
+
+1、用户URL请求
+2、/index.php                                调用应用入口文件
+3、/ThinkPHP/ThinkPHP.php                    载入框架入口文件
+4、/ThinkPHP/Library/Think/Think.class.php   载入框架引导类，执行Think::start方法进行应用初始化
+5、/ThinkPHP/Library/Think/Storage.class.php 进行存储初始化（由STORAGE_TYPE常量定义存储类型）
+1）/ThinkPHP/Library/Think/Storage/Driver/File.class.php  连接分布式文件系统
+
+6、读取应用模式，如存在隐含应用模式的模式定义文件 Application/Common/Conf/core.php 则读取该文件，
+   否则读取系统应用模式目录下由APP_MODE常量定义的应用模式文件，
+   下面以普通模式为例进行说明，即读取应用模式文件 /ThinkPHP/Mode/common.php
+1）加载当前应用模式定义的核心文件，即 /ThinkPHP/Mode/common.php 中 core 对应的文件
+   /ThinkPHP/Common/functions.php                核心公共函数
+   /Application/Common/Common/function.php       应用公共函数
+   /ThinkPHP/Library/Think/Hook.class.php        系统钩子类
+   /ThinkPHP/Library/Think/App.class.php         核心应用类
+   /ThinkPHP/Library/Think/Dispatcher.class.php  URL解析调度类
+   /ThinkPHP/Library/Think/Route.class.php       系统路由类
+   /ThinkPHP/Library/Think/Controller.class.php  基础控制器类
+   /ThinkPHP/Library/Think/View.class.php        系统视图类
+   /ThinkPHP/Library/Behavior/ParseTemplateBehavior.class.php  模板文件解析行为类
+   /ThinkPHP/Library/Behavior/ContentReplaceBehavior.class.php 模板内容输出替换行为类
+2）加载系统默认的配置文件，即 /ThinkPHP/Mode/common.php 中 config 对应的文件
+   /ThinkPHP/Conf/convention.php                 惯例配置文件
+   /Application/Common/Conf/config.php           应用配置文件
+3）读取系统别名定义，即 /ThinkPHP/Mode/common.php 中 alias 对应的定义
+4）读取应用别名定义，即如果存在 /Application/Common/Conf/alias.php 文件，则读取
+5）读取系统行为定义，即 /ThinkPHP/Mode/common.php 中 tags  对应的定义
+6）读取应用行为定义，即如果存在 /Application/Common/Conf/tags.php  文件，则读取
+7）加载系统底层语言包 /ThinkPHP/Lang/zh-cn.php
+8) 如果为部署模式（APP_DEBUG = false）则生成应用编译缓存文件
+   如果为调试模式（APP_DEBUG = true） 则加载以下文件
+   /ThinkPHP/Conf/debug.php           系统调试模式配置文件
+   /Application/Common/Conf/debug.php 应用调试模式配置文件（如果存在则加载）
+9) 加载应用状态 APP_STATUS 对应的配置文件 /Application/Common/Conf/APP_STATUS.php（如存在）
+10)检查应用目录结构,如果不存在则加载 /ThinkPHP/Common/build.php 并自动创建
+
+7、启动 /ThinkPHP/Library/Think/App.class.php 的run方法
+1) Hook::listen('app_init')    应用初始化（app_init）标签位侦听并执行绑定行为
+   /Application/Common/Behavior/InitHookBehavior.class.php  执行InitHook run方法
+2）加载应用配置文件中 LOAD_EXT_CONFIG 定义的动态配置文件和 LOAD_EXT_FILE 定义的扩展函数文件
+3）调用 /ThinkPHP/Library/Think/Dispatcher.class.php 的dispatch方法进行URL请求调度
+3.1）自动识别兼容URL模式和命令行模式下面的$_SERVER['PATH_INFO']参数
+3.2）检测域名部署以及完成模块和控制器的绑定操作
+3.3）分析PATHINFO信息
+3.4）获取请求的模块信息，检测模块是否存在和允许访问
+3.5）加载模块配置文件、别名定义、行为定义及函数文件
+   即 /Application/模块名/Conf/config.php
+      /Application/模块名/Conf/alias.php
+      /Application/模块名/Conf/tags.php
+      /Application/模块名/Common/function.php
+     加载模块的扩展配置文件，即 LOAD_EXT_CONFIG 和 LOAD_EXT_FILE 定义的文件
+3.6）模块的路由检测（URL_ROUTER_ON开启）
+3.7）Hook::listen('path_info')   PATH_INFO处理（path_info）标签位侦听并执行绑定行为(暂无)
+3.8）URL禁止访问的后缀检测及伪静态后缀设置（URL_DENY_SUFFIX 以及 URL_HTML_SUFFIX）
+3.9）获取当前控制器和操作，以及URL其他参数
+
+4）Hook::listen('url_dispatch')  URL调度完成（url_dispatch）标签位侦听并执行绑定行为(暂无)
+5）Hook::listen('app_begin')     应用开始（app_begin）标签位侦听并执行绑定行为
+   /ThinkPHP/Library/Behavior/ReadHtmlCache.class.php 执行ReadHtmlCache run方法
+6）调用SESSION_OPTIONS配置参数进行Session初始化（如果不是命令行模式）
+
+7）/ThinkPHP/Library/Think/Controller.class.php 根据请求创建控制器实例
+7.1）Hook::listen('action_begin') 控制器开始（action_begin）标签位侦听并执行绑定行为(暂无)
+7.2）/ThinkPHP/Library/Think/View.class.php     实例化视图类
+7.3）判断并调用控制器的_initialize初始化方法
+
+8）判断操作方法是否存在，如果不存在则检测是否定义空操作方法
+9）判断前置操作方法是否定义，有的话执行
+10）URL参数绑定检测，自动匹配操作方法的参数
+11）如果有模版渲染（调用控制器display方法）
+11.1）Hook::listen('view_begin')  视图输出开始（view_parse）标签位侦听并执行绑定行为(暂无)
+11.2）调用Think/View的fetch方法解析并获取模版内容
+11.3）自动识别当前主题以及定位模版文件
+
+11.4）Hook::listen('view_parse')  视图解析（view_parse）标签位侦听并执行绑定行为
+      /ThinkPHP/Library/Behavior/ParseTemplate.class.php 解析模版
+11.4.1） Hook::listen('template_filter') 模版过滤替换（template_filter）标签位侦听并执行绑定行为
+         /ThinkPHP/Library/Behavior/ContentReplace       模版替换
+
+11.5）模版引擎解析模版内容后生成模版缓存
+11.6）Hook::listen('view_filter') 输出内容过滤（view_filter）标签位侦听并执行绑定行为
+      /ThinkPHP/Library/Behavior/WriteHtmlCache.class.php 写入静态缓存（HTML_CACHE_ON参数开启）
+11.7）调用Think/View类的render方法输出渲染内容
+11.8）Hook::listen('view_end')    视图结束（view_end）标签位侦听并执行绑定行为(暂无)
+12）判断后置操作方法是否定义，有的话执行
+13）Hook::listen('action_end')    控制器结束（action_end）标签位侦听并执行绑定行为(暂无)
+14）Hook::listen('app_end')       应用结束（app_end）标签位侦听并执行绑定行为
+    /ThinkPHP/Library/Behavior/ShowPageTrace 输出Trace页面（SHOW_PAGE_TRACE参数开启并且不是AJAX请求）
