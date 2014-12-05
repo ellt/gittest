@@ -376,6 +376,11 @@ function time_format($time = NULL,$format='Y-m-d H:i'){
     $time = $time === NULL ? NOW_TIME : intval($time);
     return date($format, $time);
 }
+//-----weiphp 增加的函数  add by Guoky -----start
+function day_format($time = NULL) {
+	return time_format ( $time, 'Y-m-d' );
+}
+//-----weiphp 增加的函数  add by Guoky -----end
 
 /**
  * 根据用户ID获取用户名
@@ -495,6 +500,23 @@ function get_category_name($id){
 function get_category_title($id){
     return get_category($id, 'title');
 }
+
+//-----ot1.1 增加的函数  add by Guoky -----start
+/**
+ * 获取顶级模型信息
+ */
+function get_top_model($model_id=null){
+    $map   = array('status' => 1, 'extend' => 0);
+    if(!is_null($model_id)){
+        $map['id']  =   array('neq',$model_id);
+    }
+    $model = M('Model')->where($map)->field(true)->select();
+    foreach ($model as $value) {
+        $list[$value['id']] = $value;
+    }
+    return $list;
+}
+//-----ot1.1 增加的函数  add by Guoky -----end
 
 /**
  * 获取文档模型信息
@@ -902,7 +924,27 @@ function get_cover($cover_id, $field = null){
     $picture = M('Picture')->where(array('status'=>1))->getById($cover_id);
     return empty($field) ? $picture : $picture[$field];
 }
-
+//----- weiphp 增加的函数  add by Guoky -----start
+function get_cover_url($cover_id) {
+	$url = get_cover ( $cover_id, 'path' );
+	if (empty ( $url ))
+		return '';
+	
+	return SITE_URL . $url;
+}
+// 兼容旧方法
+function get_picture_url($cover_id) {
+	return get_cover_url ( $cover_id );
+}
+function get_img_html($cover_id) {
+	$url = get_cover_url ( $cover_id );
+	
+	if (empty ( $url ))
+		return '';
+	
+	return '<img class="list_img" src="' . $url . '" >';
+}
+//----- weiphp 增加的函数  add by Guoky-----end
 /**
  * 检查$pos(推荐位的值)是否包含指定推荐位$contain
  * @param number $pos 推荐位的值
@@ -950,3 +992,33 @@ function get_stemma($pids,Model &$model, $field='id'){
     }
     return $collection;
 }
+
+//-----ot1.1 增加的函数  add by Guoky -----start
+/**
+ * 验证分类是否允许发布内容
+ * @param  integer $id 分类ID
+ * @return boolean     true-允许发布内容，false-不允许发布内容
+ */
+function check_category($id){
+    if (is_array($id)) {
+		$id['type']	=	!empty($id['type'])?$id['type']:2;
+        $type = get_category($id['category_id'], 'type');
+        $type = explode(",", $type);
+        return in_array($id['type'], $type);
+    } else {
+        $publish = get_category($id, 'allow_publish');
+        return $publish ? true : false;
+    }
+}
+
+/**
+ * 检测分类是否绑定了指定模型
+ * @param  array $info 模型ID和分类ID数组
+ * @return boolean     true-绑定了模型，false-未绑定模型
+ */
+function check_category_model($info){
+    $cate   =   get_category($info['category_id']);
+    $array  =   explode(',', $info['pid'] ? $cate['model_sub'] : $cate['model']);
+    return in_array($info['model_id'], $array);
+}
+//-----ot1.1 增加的函数  add by Guoky -----end
