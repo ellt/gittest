@@ -717,6 +717,11 @@ function layout($layout) {
 function U($url='',$vars='',$suffix=true,$domain=false) {
     // 解析URL
     $info   =  parse_url($url);
+    // weiphp 增加插件地址支持 add by Guoky
+    if (isset ( $_GET ['_addons'] ) && strpos ( $info ['path'], '/' ) === false) {
+        $info['query'] = '_addons='.$_GET['_addons'].'&_controller='.$_GET['_controller'].'&_action='.$info['path'].'&'.$info['query'];
+        $info['path'] = 'weixin/addons/execute';
+    }
     $url    =  !empty($info['path'])?$info['path']:ACTION_NAME;
     if(isset($info['fragment'])) { // 解析锚点
         $anchor =   $info['fragment'];
@@ -862,6 +867,13 @@ function U($url='',$vars='',$suffix=true,$domain=false) {
     if($domain) {
         $url   =  (is_ssl()?'https://':'http://').$domain.$url;
     }
+    
+    //缩短插件的URL weiphp修改 add by Guoky
+	$re = C('URL_ROUTE_RULES');
+	if ( C('URL_ROUTER_ON') && isset($re['Addons/execute/:_addons/:_controller/:_action'])) {
+		$url = str_ireplace(array('_addons/','_controller/','_action/'), '', $url);
+	}
+
     return $url;
 }
 

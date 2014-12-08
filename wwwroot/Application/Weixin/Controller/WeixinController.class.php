@@ -17,6 +17,29 @@ class WeixinController extends BaseController {
 	var $token;
 	private $data = array ();
 	public function index() {
+		
+		/**
+		 * 微信接入验证
+		 */
+		if (! empty ( $_GET ['echostr'] ) && ! empty ( $_GET ["signature"] ) && ! empty ( $_GET ["nonce"] )) {
+			$signature = $_GET ["signature"];
+			$timestamp = $_GET ["timestamp"];
+			$nonce = $_GET ["nonce"];
+			
+			$tmpArr = array (
+					'weiphp',
+					$timestamp,
+					$nonce 
+			);
+			sort ( $tmpArr, SORT_STRING );
+			$tmpStr = sha1 ( implode ( $tmpArr ) );
+			
+			if ($tmpStr == $signature) {
+				echo $_GET ["echostr"];
+			}
+			exit ();
+		}
+
 		// 删除微信传递的token干扰
 		unset ( $_REQUEST ['token'] );
 		
@@ -190,8 +213,9 @@ class WeixinController extends BaseController {
 		$model = D ( 'Addons://' . $addons [$key] . '/WeixinAddon' );
 		$model->reply ( $data, $keywordArr );
 		
+		// 暂时不使用统计功能 modify by Guoky
 		// 运营统计
-		tongji ( $addons [$key] );
+		//tongji ( $addons [$key] );
 	}
 	
 	// 处理关键词包含的算法
