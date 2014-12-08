@@ -259,13 +259,18 @@ function get_name_by_status($val, $name, $model_id) {
 		return empty ( $_name [$model_id] [$name] ['value'] [$val] ) ? $val : $_name [$model_id] [$name] ['value'] [$val];
 	}
 }
-// function addWeixinLog($data, $data_post = '') {
-// 	$log ['cTime'] = time ();
-// 	$log ['cTime_format'] = date ( 'Y-m-d H:i:s', $log ['cTime'] );
-// 	$log ['data'] = is_array ( $data ) ? serialize ( $data ) : $data;
-// 	$log ['data_post'] = $data_post;
-// 	M ( 'weixin_log' )->add ( $log );
-// }
+
+/**
+ * 添加微信调试日志
+ */
+function addWeixinLog($data, $data_post = '') {
+	$log ['cTime'] = time ();
+	$log ['cTime_format'] = date ( 'Y-m-d H:i:s', $log ['cTime'] );
+	$log ['data'] = is_array ( $data ) ? serialize ( $data ) : $data;
+	$log ['data_post'] = $data_post;
+	M ( 'weixin_log' )->add ( $log );
+}
+
 /**
  * 取一个二维数组中的每个数组的固定的键知道的值来形成一个新的一维数组
  *
@@ -687,10 +692,12 @@ function add_credit($name, $lock_time = 5, $credit = array(), $admin_uid = 0) {
 	$data ['credit_name'] = $name;
 	$data ['admin_uid'] = $admin_uid;
 	$data = array_merge ( $data, $credit );
-	$credit = D ( 'Common/Credit' )->addCredit ( $data );
+	//暂时不使用积分功能 modify by Guoky
+	//$credit = D ( 'Common/Credit' )->addCredit ( $data );
 }
 // 判断用户最大可创建的公众号数
-function getPublicMax($uid) {echo $uid;die();
+function getPublicMax($uid) {
+	return 10; //临时设置为10个 add by Guoky
 	$map ['uid'] = $uid;
 	$public_count = M ( 'member' )->where ( $map )->getField ( 'public_count' );
 	if ($public_count === NULL) {
