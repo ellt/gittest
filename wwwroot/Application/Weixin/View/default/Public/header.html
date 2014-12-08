@@ -17,7 +17,7 @@
                              <!-- 显示代码bug修改 -->
 							 <if condition="$mp_ids_list gt  0">
 								   <notempty  name="$member_public.public_name">
-									  <a href="{:U('home/MemberPublic/lists')}" class="dropdown-toggle login-nav" data-toggle="dropdown" title="公众号管理">公众号管理								
+									  <a href="{:U('Weixin/MemberPublic/lists')}" class="dropdown-toggle login-nav" data-toggle="dropdown" title="公众号管理">公众号管理								
 									  <b class="pl_5 fa fa-sort-down"></b></a>   
 								  </notempty>							
 								  <empty  name="$member_public.public_name">
@@ -29,10 +29,10 @@
 							 </if>
                             <ul class="dropdown-menu" style="display:none">
 							    <!-- 显示代码bug修改 	
-								  <li><a href="{:U('home/MemberPublic/lists')}">公众号管理</a></li>	
+								  <li><a href="{:U('Weixin/MemberPublic/lists')}">公众号管理</a></li>	
 								-->									
                                 <volist name='member_public_list' id='vo'>
-                                <li><a href="{:U('home/MemberPublic/changPublic','id='.$vo['id'])}" title="{$vo.public_name}">{$vo.public_name|msubstr_local=0,5,'utf-8'}</a></li>
+                                <li><a href="{:U('Weixin/MemberPublic/changPublic','id='.$vo['id'])}" title="{$vo.public_name}">{$vo.public_name|msubstr_local=0,5,'utf-8'}</a></li>
                                 </volist>
                             </ul>
                         </li>
