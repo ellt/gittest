@@ -1,0 +1,31 @@
+1、/ThinkPHP/Common/functions.php 中以下函数未予weiphp同步存在风险（+代表weiphp增加了内容）
+    C、L、T、I、U+、session、cookie、get_client_ip、send_http_status、getAddonConfig
+
+2、/Application/Common/Common/function.php 中以下函数未予weiphp同步存在风险（+代表weiphp增加了内容）
+    addons_url+、time_format+、get_nickname+、get_model_attribute+、get_cover+、
+
+3、/ThinkPHP/Library/Think/App.class.php  中以下函数未予weiphp同步存在风险（+代表weiphp增加了内容）
+    init、exec+。
+
+4、/ThinkPHP/Library/Think/Dispatcher.class.php 中以下函数未予weiphp同步存在风险（+代表weiphp增加了内容）
+    getAction、dispatch+(支持 index.php/addon/Vote/Vote/lists 这样的插件短地址) 
+
+5、/ThinkPHP/Conf/convention.php 中以下配置未予weiphp同步存在风险（+代表weiphp增加了内容）
+     'TMPL_ACTION_ERROR'  => THINK_PATH.'../Application/Home/View/default/dispatch_jump.html', // 默认错误跳转对应的模板文件
+    'TMPL_ACTION_SUCCESS' => THINK_PATH.'../Application/Home/View/default/dispatch_jump.html', // 默认成功跳转对应的模板文件
+    'URL_ROUTER_ON'   => true, //开启路由 +
+    'URL_ROUTE_RULES' => array( //定义路由规则 +
+            'Addons/execute/:_addons/:_controller/:_action' => array('Home/Addons/execute'),
+     ),
+     影响了 /ThinkPHP/Common/functions.php 中 weiphp 在U方法中增加的内容
+            /ThinkPHP/Library/Think/Dispatcher.class.php
+6、/ThinkPHP/Library/Think/Template.class.php 中修改了正则
+7、/ThinkPHP/Library/Behavior/ShowPageTrace 有修改
+8、/ThinkPHP/Library/Think/Model.class.php 中 weiphp 修了一下函数
+    select+、selectPage+、find+、getField-、getFields+、regex+、join-、union-
+
+
+
+已根据weiphp 临时对ot 底层进行临时修改
+\ThinkPHP\Common\functions.php
+U、
