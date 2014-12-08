@@ -944,6 +944,45 @@ function get_img_html($cover_id) {
 	
 	return '<img class="list_img" src="' . $url . '" >';
 }
+
+/**
+ * 获取插件的配置数组
+ * weiphp 增加的函数 add by Guoky
+ */
+function getAddonConfig($name) {
+    static $_config = array ();
+    if (isset ( $_config [$name] )) {
+        return $_config [$name];
+    }
+    
+    $config = array ();
+    
+    $token = get_token ();
+    if (! empty ( $token )) {
+        $map ['token'] = $token;
+        $addon_config = M ( 'member_public' )->where ( $map )->getField ( 'addon_config' );
+        $addon_config = json_decode ( $addon_config, true );
+        if (isset ( $addon_config [$name] ))
+            $config = $addon_config [$name];
+        unset ( $map ['token'] );
+    }
+    
+    if (empty ( $config )) {
+        $map ['name'] = $name;
+        $map ['status'] = 1;
+        $config = M ( 'Addons' )->where ( $map )->getField ( 'config' );
+        $config = json_decode ( $config, true );
+    }
+    
+    if (!$config) {
+        $temp_arr = include_once ONETHINK_ADDON_PATH . $name . '/config.php';
+        foreach ( $temp_arr as $key => $value ) {
+            $config [$key] = $temp_arr [$key] ['value'];
+        }
+    }
+    $_config [$name] = $config;
+    return $config;
+}
 //----- weiphp 增加的函数  add by Guoky-----end
 /**
  * 检查$pos(推荐位的值)是否包含指定推荐位$contain
