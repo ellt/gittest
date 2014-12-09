@@ -29,24 +29,24 @@ function C($name=null, $value=null,$default=null) {
     // 优先执行设置获取或赋值
     if (is_string($name)) {
         if (!strpos($name, '.')) {
-            $name = strtolower($name);
+            $name = strtoupper($name);
             if (is_null($value))
                 return isset($_config[$name]) ? $_config[$name] : $default;
             $_config[$name] = $value;
-            return;
+            return null;
         }
         // 二维数组设置和获取支持
         $name = explode('.', $name);
-        $name[0]   =  strtolower($name[0]);
+        $name[0]   =  strtoupper($name[0]);
         if (is_null($value))
             return isset($_config[$name[0]][$name[1]]) ? $_config[$name[0]][$name[1]] : $default;
         $_config[$name[0]][$name[1]] = $value;
-        return;
+        return null;
     }
     // 批量设置
     if (is_array($name)){
-        $_config = array_merge($_config, array_change_key_case($name));
-        return;
+        $_config = array_merge($_config, array_change_key_case($name,CASE_UPPER));
+        return null;
     }
     return null; // 避免非法参数
 }
@@ -1071,7 +1071,7 @@ function data_to_xml($data, $item='item', $id='id') {
  * @param mixed $value session值
  * @return mixed
  */
-function session($name,$value='') {
+function session($name='',$value='') {
     $prefix   =  C('SESSION_PREFIX');
     if(is_array($name)) { // session初始化 在session_start 之前调用
         if(isset($name['prefix'])) C('SESSION_PREFIX',$name['prefix']);
@@ -1107,7 +1107,10 @@ function session($name,$value='') {
         // 启动session
         if(C('SESSION_AUTO_START'))  session_start();
     }elseif('' === $value){ 
-        if(0===strpos($name,'[')) { // session 操作
+        if(''===$name){
+            // 获取全部的session
+            return $prefix ? $_SESSION[$prefix] : $_SESSION;
+        }elseif(0===strpos($name,'[')) { // session 操作
             if('[pause]'==$name){ // 暂停session
                 session_write_close();
             }elseif('[start]'==$name){ // 启动session
@@ -1164,6 +1167,7 @@ function session($name,$value='') {
             $_SESSION[$name]  =  $value;
         }
     }
+    return null;
 }
 
 /**
