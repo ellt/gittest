@@ -714,7 +714,7 @@ function layout($layout) {
  * @param boolean $domain 是否显示域名
  * @return string
  */
-function U($url='',$vars='',$suffix=true,$domain=false) {
+function U($url='',$vars='',$suffix=true,$domain=true) {//$domain=true 微信填入回复图文信息的url带域名信息 add by Guoky
     // 解析URL
     $info   =  parse_url($url);
     // weiphp 增加插件地址支持 add by Guoky
