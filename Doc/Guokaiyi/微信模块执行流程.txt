@@ -1,0 +1,26 @@
+WEIPHP_VERSION = '2.0.140825'
+
+一、接收微信消息
+1、/Application/Weixin/Controller/WeixinController.class.php 中index方法为微信请求入口
+2、进行微信接入Token验证（只在微信发来Token验证信息时）
+3、/Application/Weixin/Model/WeixinModel.class.php 实例化微信基础模型
+1）WeixinModel 将获取到的微信消息组装成数组的形式
+4、获取数组形式的微信消息
+5、session缓存 公众号原始id 及 发送方帐号（一个OpenID）
+6、公众号粉丝信息初始化（内容待细化）
+7、记录微信消息日志（包括数组化信息和raw post信息）
+8、/Application/Common/Model/AddonStatusModel.class.php 获取插件权限控制信息（内容待细化）
+9、/Application/Weixin/Model/AddonsModel.class.php      获取所有安装过的微信插件
+10、对微信消息进行分析
+1）判断消息 MsgType 是否为 event
+2）判断消息 MsgType 是否为 location
+3）通过获取上次缓存的用户状态来定位处理的插件
+4）通过插件标识名、插件名或者自定义关键词来定位处理的插件
+5）通过精准关键词（keyword_type=0）来定位处理的插件
+6）通过模糊关键词（keyword_type>0）来定位处理的插件
+7）通过通配符（keyword_type=*）查找默认处理方式
+8）以上都无法定位插件时，如果开启了智能聊天，则默认使用智能聊天插件（如配置了 YouaskService 则优先使用 YouaskService，否则使用 Chat）
+9）最终无法定位插件或者定位到的插件不存在 Addons/定位到的插件名/Model/WeixinAddonModel.class.php 文件，则返回false并退出
+10）如能够定位到插件，则导入Addons/定位到的插件名/Model/WeixinAddonModel.class.php 并实例化该模型，执行 reply 方法
+
+二、访问微信模块前台

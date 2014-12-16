@@ -88,3 +88,53 @@ ONETHINK_VERSION = '1.0.140202'
 13）Hook::listen('action_end')    控制器结束（action_end）标签位侦听并执行绑定行为(暂无)
 14）Hook::listen('app_end')       应用结束（app_end）标签位侦听并执行绑定行为
     /ThinkPHP/Library/Behavior/ShowPageTrace 输出Trace页面（SHOW_PAGE_TRACE参数开启并且不是AJAX请求）
+
+
+------------------------------------------------------------------------------------------
+
+Sae模式具体说明
+
+1 ~ 4点同普通模式
+5、/ThinkPHP/Library/Think/Storage.class.php 进行存储初始化（由STORAGE_TYPE常量定义存储类型）
+1）/ThinkPHP/Library/Think/Storage/Driver/Sae.class.php  连接分布式文件系统
+
+6、读取应用模式，如存在隐含应用模式的模式定义文件 Application/Common/Conf/core.php 则读取该文件，
+   否则读取系统应用模式目录下由APP_MODE常量定义的应用模式文件，
+   下面以Sae模式为例进行说明，即读取应用模式文件 /ThinkPHP/Mode/Sae.php
+1）加载当前应用模式定义的核心文件，即 /ThinkPHP/Mode/Sae.php 中 core 对应的文件
+   /ThinkPHP/Common/functions.php                核心公共函数
+   /Application/Common/Common/function.php       应用公共函数
+   /ThinkPHP/Library/Think/Hook.class.php        系统钩子类
+   /ThinkPHP/Library/Think/App.class.php         核心应用类
+   /ThinkPHP/Library/Think/Dispatcher.class.php  URL解析调度类
+   /ThinkPHP/Library/Think/Route.class.php       系统路由类
+   /ThinkPHP/Library/Think/Controller.class.php  基础控制器类
+   /ThinkPHP/Library/Think/View.class.php        系统视图类
+   /ThinkPHP/Library/Think/Behavior.class.php    系统行为类
+   /ThinkPHP/Library/Behavior/ReadHtmlCacheBehavior.class.php  静态缓存读取行为类
+   /ThinkPHP/Library/Behavior/ShowPageTraceBehavior.class.php  页面Trace显示输出行为类
+   /ThinkPHP/Library/Behavior/ParseTemplateBehavior.class.php  模板文件解析行为类
+   /ThinkPHP/Library/Behavior/ContentReplaceBehavior.class.php 模板内容输出替换行为类
+   /ThinkPHP/Library/Behavior/WriteHtmlCacheBehavior.class.php 静态缓存写入行为类
+2）加载系统默认的配置文件，即 /ThinkPHP/Mode/Sae.php 中 config 对应的文件
+   /ThinkPHP/Conf/convention.php                 惯例配置文件
+   /Application/Common/Conf/config.php           应用配置文件
+   /ThinkPHP/Mode/Sae/convention.php             Sae惯例配置文件
+3）加载当前应用模式对应的配置文件
+   /Application/Common/Conf/config_sea.php
+4）读取系统别名定义，即 /ThinkPHP/Mode/Sae.php 中 alias 对应的定义
+5）读取应用别名定义，即如果存在 /Application/Common/Conf/alias.php 文件，则读取（同普通模式）
+6）读取系统行为定义，即 /ThinkPHP/Mode/Sae.php 中 tags  对应的定义
+7）读取应用行为定义，即如果存在 /Application/Common/Conf/tags.php  文件，则读取（同普通模式）
+
+（其余的流程跟普通模式大致相同，不同点在下面指出，以下标号跟普通模式一致）
+
+7、启动 /ThinkPHP/Library/Think/App.class.php 的run方法
+3）调用 /ThinkPHP/Library/Think/Dispatcher.class.php 的dispatch方法进行URL请求调度
+3.5）加载模块配置文件、应用模式对应的配置文件、别名定义、行为定义及函数文件
+   即 /Application/模块名/Conf/config.php
+      /Application/模块名/Conf/config_sae.php （不同普通模式）
+      /Application/模块名/Conf/alias.php
+      /Application/模块名/Conf/tags.php
+      /Application/模块名/Common/function.php
+
