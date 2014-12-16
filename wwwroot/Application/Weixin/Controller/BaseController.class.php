@@ -89,7 +89,7 @@ abstract class BaseController {
                 'm' => 1,
                 'id' => 1 
         );
-        $this->get_param = array_diff_key ( $_GET, $diff );
+        $GLOBALS ['get_param'] = $this->get_param = array_diff_key ( $_GET, $diff );
         $this->assign ( 'get_param', $this->get_param );
         
         // js,css的版本
@@ -148,6 +148,10 @@ abstract class BaseController {
         // 管理中心里的公众号列表
         if ($this->mid) {
             $link = M ( 'member_public_link' )->where ( 'uid=' . $this->mid )->order ( 'is_use desc' )->select ();
+            foreach ( $link as $l ) {
+                $mp_ids [] = $l ['mp_id'];
+                $is_use [$l ['mp_id']] = $l ['is_use'];
+            }
             $mp_ids = getSubByKey ( $link, 'mp_id' );
             if (! empty ( $mp_ids )) {
                 /**
@@ -161,11 +165,12 @@ abstract class BaseController {
                 );
                 
                 $member_public_list = M ( 'member_public' )->where ( $map )->order ( 'FIND_IN_SET(id,"' . $mp_ids . '")' )->select ();
-                $this->assign ( 'member_public', $member_public_list [0] );
-                
+                $member_public = $member_public_list [0];
+                $this->assign ( 'member_public', $member_public );
+
                 $token = get_token ();
-                if ($member_public_list [0] ['public_id'] && ($token == '' || $token == - 1)) {
-                    session ( 'token', $member_public_list [0] ['public_id'] );
+                if ($member_public ['public_id'] && ($is_use [$member_public ['id']] == 0 || $token == '' || $token == - 1)) {
+                    get_token ( $member_public ['public_id'] );
                 }
                 
                 unset ( $member_public_list [0] );
@@ -176,7 +181,7 @@ abstract class BaseController {
         }
     }
     // 公众号粉丝信息初始化
-    function initFollow($dao = false) {
+    function initFollow($dao = false, $data = array()) {
         $map ['token'] = get_token ();
         if ($dao === false) {
             $public_name = M ( 'member_public' )->where ( $map )->getField ( 'public_name' );
@@ -195,24 +200,30 @@ abstract class BaseController {
         // 当前粉丝信息
         $map ['openid'] = get_openid ();
         $user = M ( 'follow' )->where ( $map )->find ();
-        
+        if (! $user && ! empty ( $map ['token'] ) && $map ['token'] != '-1' && ! empty ( $map ['openid'] ) && $map ['openid'] != '-1') {
+                D ( 'Common/Follow' )->init_follow ( $map ['openid'] );
+                $user = M ( 'follow' )->where ( $map )->find ();
+        }
+
         // 绑定配置
         $config = getAddonConfig ( 'UserCenter' );
-        if ($config ['need_bind'] == 1 && ($user ['id'] > 0 && $user ['status'] < 2) && ! empty ( $map ['token'] ) && ! empty ( $map ['openid'] ) && $map ['token'] != - 1 && $map ['token'] != - 1) {
-            
-            $bind_url = addons_url ( 'UserCenter://UserCenter/edit', $map );
-            if ($dao === false) {
-                if ($config ['bind_start'] != 1 && strtolower ( $_REQUEST ['_addons'] ) != 'usercenter') {
-                    Cookie ( '__forward__', $_SERVER ['REQUEST_URI'] );
-                    redirect ( $bind_url );
-                }
-            } else {
-                if ($config ['bind_start'] != 0) {
-                    $dao->replyText ( '请先<a href="' . $bind_url . '">绑定帐号</a>再使用' );
-                    exit ();
-                }
-            }
-        }
+	$guestAccess = strtolower ( CONTROLLER_NAME ) != 'weixin';
+	$isWeixnLogin = ! empty ( $map ['token'] ) && ! empty ( $map ['openid'] ) && $map ['token'] != - 1 && $map ['token'] != - 1;
+	$userNeed = ($user ['id'] > 0 && $user ['status'] < 2) || (empty ( $user ) && $guestAccess);
+	if ($isWeixnLogin && $config ['need_bind'] == 1 && $userNeed) {
+		$bind_url = addons_url ( 'UserCenter://UserCenter/userCenter', $map );
+		if ($dao === false) {
+			if ($config ['bind_start'] != 1 && strtolower ( $_REQUEST ['_addons'] ) != 'usercenter') {
+				Cookie ( '__forward__', $_SERVER ['REQUEST_URI'] );
+				redirect ( $bind_url );
+			}
+		} else {
+			if ($config ['bind_start'] != 0 && strtolower ( $data ['Event'] ) != 'subscribe') {
+				$dao->replyText ( '请先<a href="' . $bind_url . '">绑定账号</a>再使用' );
+				exit ();
+			}
+		}
+	}
         
         if (! $user) {
             $user ['status'] = 0; // 未关注、游客

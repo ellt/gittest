@@ -44,19 +44,23 @@ class WeixinController extends BaseController {
 		unset ( $_REQUEST ['token'] );
 		
 		$weixin = D ( 'Weixin' );
-		// 获取数据
+		// 获取微信消息数据
 		$data = $weixin->getData ();
 		$this->data = $data;
+
+		// 缓存公众号原始id及发送方帐号
 		if (! empty ( $data ['ToUserName'] )) {
 			get_token ( $data ['ToUserName'] );
 		}
 		if (! empty ( $data ['FromUserName'] )) {
-			session ( 'openid', $data ['FromUserName'] );
+		    get_openid($data ['FromUserName']);
 		}
 		
+		// 获取公众号原始id
 		$this->token = $data ['ToUserName'];
 		
-		$this->initFollow ( $weixin );
+		// 公众号粉丝信息初始化
+		//$this->initFollow ( $weixin, $data );
 		
 		// 记录日志
 		addWeixinLog ( $data, $GLOBALS ['HTTP_RAW_POST_DATA'] );
@@ -89,17 +93,24 @@ class WeixinController extends BaseController {
 		 */
 		if ($data ['MsgType'] == 'event') {
 			$event = strtolower ( $data ['Event'] );
+		
 			foreach ( $addon_list as $vo ) {
 				require_once ONETHINK_ADDON_PATH . $vo ['name'] . '/Model/WeixinAddonModel.class.php';
 				$model = D ( 'Addons://' . $vo ['name'] . '/WeixinAddon' );
 				! method_exists ( $model, $event ) || $model->$event ( $data );
 			}
-			if ($event == 'click' && ! empty ( $data ['EventKey'] )) {
+			if ($event == 'subscribe') {
+				$config = getAddonConfig ( 'Wecome' );
+				if ($config ['type'] == 2) {
+					$key = $data ['Content'] = $config ['keyword'];
+				}
+			}else if ($event == 'click' && ! empty ( $data ['EventKey'] )) {
 				$key = $data ['Content'] = $data ['EventKey'];
 			} else {
 				return true;
 			}
 		}
+
 		// location : 上报地理位置事件 感谢网友【blue7wings】和【strivi】提供的方案
 		if ($data ['MsgType'] == 'location') {
 			$event = strtolower ( $data ['MsgType'] );
@@ -154,11 +165,12 @@ class WeixinController extends BaseController {
 				'exp',
 				"='0' or token='{$this->token}'" 
 		);
+		
 		if (! isset ( $addons [$key] )) {
 			$like ['keyword'] = $key;
 			$like ['keyword_type'] = 0;
 			$keywordArr = M ( 'keyword' )->where ( $like )->order ( 'id desc' )->find ();
-			
+			addWeixinLog ( M ()->getLastSql (), 'addon1' );
 			if (! empty ( $keywordArr ['addon'] )) {
 				$addons [$key] = $keywordArr ['addon'];
 				$this->request_count ( $keywordArr );
@@ -177,7 +189,7 @@ class WeixinController extends BaseController {
 				$this->_contain_keyword ( $keywordInfo, $key, $addons, $keywordArr );
 			}
 		}
-		
+		addWeixinLog ( M ()->getLastSql (), 'addon2' );
 		// 通过通配符，查找默认处理方式
 		// by 肥仔聪要淡定 2014.6.8
 		if (! isset ( $addons [$key] )) {
@@ -190,7 +202,7 @@ class WeixinController extends BaseController {
 				$this->request_count ( $keywordArr );
 			}
 		}
-		
+		addWeixinLog ( M ()->getLastSql (), 'addon3' );
 		// 以上都无法定位插件时，如果开启了智能聊天，则默认使用智能聊天插件
 		if (! isset ( $addons [$key] ) && isset ( $addon_list ['Chat'] )) {
 			
@@ -207,7 +219,7 @@ class WeixinController extends BaseController {
 		if (! isset ( $addons [$key] ) || ! file_exists ( ONETHINK_ADDON_PATH . $addons [$key] . '/Model/WeixinAddonModel.class.php' )) {
 			return false;
 		}
-		
+		addWeixinLog ( $addons [$key], 'addon2' );
 		// 加载相应的插件来处理并反馈信息
 		require_once ONETHINK_ADDON_PATH . $addons [$key] . '/Model/WeixinAddonModel.class.php';
 		$model = D ( 'Addons://' . $addons [$key] . '/WeixinAddon' );

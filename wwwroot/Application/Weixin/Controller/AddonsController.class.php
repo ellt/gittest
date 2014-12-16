@@ -17,7 +17,7 @@ class AddonsController extends BaseController {
 	protected $addons = null;
 	protected $addon, $model;
 	function _initialize() {
-		$this->initFollow ();
+		//$this->initFollow ();
 		
 		C ( 'EDITOR_UPLOAD.rootPath', './Uploads/Editor/' . get_token () . '/' );
 	}
@@ -156,7 +156,7 @@ class AddonsController extends BaseController {
 	public function config() {
 		$this->getModel ();
 		if (IS_POST) {
-			$flag = D ( 'Common/AddonConfig' )->set ( _ADDONS, I ( 'config' ) );
+			$flag = D ( 'Weixin/AddonConfig' )->set ( _ADDONS, I ( 'config' ) );
 			
 			if ($flag !== false) {
 				$this->success ( '保存成功', Cookie ( '__forward__' ) );
@@ -176,7 +176,7 @@ class AddonsController extends BaseController {
 		$addon ['addon_path'] = $data->addon_path;
 		$addon ['custom_config'] = $data->custom_config;
 		$this->meta_title = '设置插件-' . $data->info ['title'];
-		$db_config = D ( 'Common/AddonConfig' )->get ( _ADDONS );
+		$db_config = D ( 'Weixin/AddonConfig' )->get ( _ADDONS );
 		$addon ['config'] = include $data->config_file;
 		if ($db_config) {
 			foreach ( $addon ['config'] as $key => $value ) {
