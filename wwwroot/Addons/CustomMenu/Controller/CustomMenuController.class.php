@@ -55,14 +55,14 @@ class CustomMenuController extends AddonsController {
 	function _deal_data($d) {
 		$res ['name'] = str_replace ( '├──', '', $d ['title'] );
 		
-		if (! empty ( $d ['keyword'] )) {
-			$res ['type'] = 'click';
-			
-			$res ['key'] = $d ['keyword'];
-		} else {
+		if($d['type']=='view'){
 			$res ['type'] = 'view';
-			$res ['url'] = $d ['url'];
+			$res ['url'] = trim ( $d ['url'] );			
+		}elseif($d['type']!='none'){
+			$res ['type'] = trim( $d['type'] );
+			$res ['key'] = trim ( $d ['keyword'] );			
 		}
+
 		return $res;
 	}
 	function json_encode_cn($data) {
@@ -88,7 +88,7 @@ class CustomMenuController extends AddonsController {
 		foreach ( $tree ['button'] as $k => $d ) {
 			$tree2 ['button'] [] = $d;
 		}
-		
+
 		$tree = $this->json_encode_cn ( $tree2 );
 		$map ['token'] = get_token ();
 		$info = M ( 'member_public' )->where ( $map )->find ();
