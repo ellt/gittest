@@ -380,6 +380,9 @@ function time_format($time = NULL,$format='Y-m-d H:i'){
 function day_format($time = NULL) {
 	return time_format ( $time, 'Y-m-d' );
 }
+function hour_format($time = NULL) {
+	return time_format ( $time, 'H:i' );
+}
 //-----weiphp 增加的函数  add by Guoky -----end
 
 /**
@@ -922,15 +925,25 @@ function get_cover($cover_id, $field = null){
         return false;
     }
     $picture = M('Picture')->where(array('status'=>1))->getById($cover_id);
+    if($field == 'path'){
+        if(!empty($picture['url'])){
+            $picture['path'] = $picture['url'];
+        }else{
+            $picture['path'] = __ROOT__.$picture['path'];
+        }
+    }
     return empty($field) ? $picture : $picture[$field];
 }
 //----- weiphp 增加的函数  add by Guoky -----start
 function get_cover_url($cover_id) {
-	$url = get_cover ( $cover_id, 'path' );
-	if (empty ( $url ))
-		return '';
-	
-	return SITE_URL . $url;
+    $url = get_cover ( $cover_id, 'path' );
+    if (empty ( $url ))
+        return '';
+    // 不重复添加域名，兼容Sae add by Guoky
+    if(strpos ( $url, 'http://' ) !== false) {
+        return $url;
+    }
+    return SITE_URL . $url;
 }
 // 兼容旧方法
 function get_picture_url($cover_id) {
