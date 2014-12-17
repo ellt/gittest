@@ -1,6 +1,6 @@
 <block name="nav">
     <!-- 导航条================================================== -->  
-    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <nav class="navbar navbar-inverse ell-navbar-inverse" role="navigation">
         <div class="container">
             <div class="navbar-header">
                 <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#ell-navbar-collapse">
@@ -22,33 +22,25 @@
                     </think:nav>
                 </ul>
 
-                <if condition="is_login()">
-                    <ul class="nav navbar-nav navbar-right">
-                        <li class="dropdown">
-                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                {:get_username()}
-                                <span class="caret"></span>
-                            </a>
-                            <ul class="dropdown-menu" role="menu">
-                                <li>
-                                    <a href="{:U('User/profile')}">修改密码</a>
-                                </li>
-                                <li>
-                                    <a href="{:U('User/logout')}">退出</a>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                    <else/>
-                    <ul class="nav navbar-nav navbar-right">
-                        <li>
-                            <a href="{:U('User/login')}">登录</a>
-                        </li>
-                        <li>
-                            <a href="{:U('User/register')}">注册</a>
-                        </li>
-                    </ul>
-                </if>
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            李芳敏
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li>
+                                <a href="#">个人中心</a>
+                            </li>
+                            <li>
+                                <a href="{:U('User/profile')}">修改密码</a>
+                            </li>
+                            <li>
+                                <a href="{:U('User/logout')}">退出</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
             </div>
         </div>
     </nav>
