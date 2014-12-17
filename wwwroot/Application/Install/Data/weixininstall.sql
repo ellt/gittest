@@ -23,7 +23,7 @@ CREATE TABLE `onethink_weixin_log` (
 -- INSERT INTO `onethink_model` VALUES ('5', 'keyword', '关键词表', '0', '', '1', '{\"1\":[\"keyword\",\"keyword_type\",\"addon\",\"aim_id\",\"keyword_length\",\"cTime\",\"extra_text\",\"extra_int\"]}', '1:基础', '', '', '', '', 'id:编号\r\nkeyword:关键词\r\naddon:所属插件\r\naim_id:插件数据ID\r\ncTime|time_format:增加时间\r\nrequest_count|intval:请求数\r\nid:操作:[EDIT]|编辑,[DELETE]|删除', '10', 'keyword', '', '1388815871', '1407251192', '1', 'MyISAM');
 -- INSERT INTO `onethink_model` VALUES ('7', 'vote_option', '投票选项', '0', '', '1', '', '1:基础', '', '', '', '', '', '10', '', '', '1388933346', '1388933346', '1', 'MyISAM');
 -- INSERT INTO `onethink_model` VALUES ('8', 'vote_log', '投票记录', '0', '', '1', '', '1:基础', '', '', '', '', '', '10', '', '', '1388934136', '1388934136', '1', 'MyISAM');
-INSERT INTO `onethink_model` VALUES ('11', 'member_public', '公众号管理', '0', '', '1', '{\"1\":[\"public_name\",\"public_id\",\"wechat\",\"headface_url\",\"type\",\"appid\",\"secret\"]}', '1:基础', '', '', '', '', 'id:公众号ID\r\npublic_name:公众号名称\r\ngroup_id|get_public_group_name:等级\r\nheadface_url:公众号头像\r\ntoken:Token\r\nuid:管理员\r\nis_use|get_name_by_status:当前公众号\r\nids:操作:[EDIT]|编辑,[DELETE]|删除,changPublic&id=[id]|切换为当前公众号,help&public_id=[id]#weixin_set|接口配置', '20', 'public_name', '', '1391575109', '1398931552', '1', 'MyISAM');
+INSERT INTO `onethink_model` VALUES ('11', 'member_public', '公众号管理', '0', '', '1', '{\"1\":[\"public_name\",\"public_id\",\"wechat\",\"type\",\"appid\",\"secret\",\"encodingaeskey\"]}', '1:基础', '', '', '', '', 'id:公众号ID\r\npublic_name:公众号名称\r\ntype|get_name_by_status:类型\r\ngroup_id|get_public_group_name:等级\r\ntoken:Token\r\nuid:管理员\r\nids:操作:[EDIT]|编辑,[DELETE]|删除,changPublic&id=[id]|切换为当前公众号,help&public_id=[id]#weixin_set|接口配置', '20', 'public_name', '', '1391575109', '1416973450', '1', 'MyISAM');
 -- INSERT INTO `onethink_model` VALUES ('30', 'card_member', '会员卡成员', '0', '', '1', '{\"1\":[\"username\",\"phone\"]}', '1:基础', '', '', '', '', 'number:卡号\r\nusername:姓名\r\nphone:手机号\r\ncTime|time_format:加入时间\r\nid:操作:[EDIT]|编辑,[DELETE]|删除', '10', 'username', '', '1395482804', '1395484751', '1', 'MyISAM');
 INSERT INTO `onethink_model` VALUES ('13', 'member_public_group', '公众号等级', '0', '', '1', '{\"1\":[\"title\",\"addon_status\"]}', '1:基础', '', '', '', '', 'id:等级ID\r\ntitle:等级名\r\naddon_status:授权的插件\r\npublic_count:公众号数\r\nid:操作:editPublicGroup&id=[id]|编辑,delPublicGroup&id=[id]|删除', '10', 'title', '', '1393724788', '1393730663', '1', 'MyISAM');
 -- INSERT INTO `onethink_model` VALUES ('14', 'update_version', '系统版本升级', '0', '', '1', '{\"1\":[\"version\",\"title\",\"description\",\"create_date\",\"package\"]}', '1:基础', '', '', '', '', 'version:版本号\r\ntitle:升级包名\r\ndescription:描述\r\ncreate_date|time_format:创建时间\r\ndownload_count:下载统计数\r\nid:操作:[EDIT]&id=[id]|编辑,[DELETE]&id=[id]|删除', '10', '', '', '1393770420', '1393771807', '1', 'MyISAM');
@@ -81,22 +81,21 @@ INSERT INTO `onethink_model` VALUES ('90', 'member_public_link', '公众号与�
 -- ----------------------------
 -- Records of onethink_attribute
 -- ----------------------------
-INSERT INTO `onethink_attribute` VALUES ('78', 'is_use', '是否为当前公众号', 'tinyint(2) NOT NULL', 'bool', '0', '', '0', '0:否\r\n1:是', '11', '0', '1', '1391682184', '1391682184', '', '3', '', 'regex', '', '3', 'function');
-INSERT INTO `onethink_attribute` VALUES ('77', 'token', 'Token', 'varchar(100) NOT NULL', 'string', '', '', '0', '', '11', '0', '1', '1402453598', '1391597344', '', '3', '', 'regex', '', '3', 'function');
+INSERT INTO `onethink_attribute` VALUES ('36', 'token', 'Token', 'varchar(100) NOT NULL', 'string', '', '', '0', '', '11', '0', '1', '1402453598', '1391597344', '', '3', '', 'regex', '', '3', 'function');
 INSERT INTO `onethink_attribute` VALUES ('68', 'uid', '用户ID', 'int(10) NULL ', 'num', '', '', '0', '', '11', '1', '1', '1391575873', '1391575210', '', '3', '', 'regex', 'get_mid', '1', 'function');
 INSERT INTO `onethink_attribute` VALUES ('69', 'public_name', '公众号名称', 'varchar(50) NOT NULL', 'string', '', '', '1', '', '11', '1', '1', '1391576452', '1391575955', '', '3', '', 'regex', '', '3', 'function');
 INSERT INTO `onethink_attribute` VALUES ('70', 'public_id', '公众号原始id', 'varchar(100) NOT NULL', 'string', '', '请正确填写，保存后不能再修改，且无法接收到微信的信息', '1', '', '11', '1', '1', '1402453976', '1391576015', '', '1', '公众号原始ID已经存在，请不要重复增加', 'unique', '', '3', 'function');
 INSERT INTO `onethink_attribute` VALUES ('71', 'wechat', '微信号', 'varchar(100) NOT NULL', 'string', '', '', '1', '', '11', '1', '1', '1391576484', '1391576144', '', '3', '', 'regex', '', '3', 'function');
 INSERT INTO `onethink_attribute` VALUES ('72', 'interface_url', '接口地址', 'varchar(255) NOT NULL', 'string', '', '', '0', '', '11', '0', '1', '1392946881', '1391576234', '', '3', '', 'regex', '', '3', 'function');
-INSERT INTO `onethink_attribute` VALUES ('73', 'headface_url', '公众号头像', 'varchar(255) NOT NULL', 'picture', '', '', '1', '', '11', '0', '1', '1391599849', '1391576300', '', '3', '', 'regex', '', '3', 'function');
+INSERT INTO `onethink_attribute` VALUES ('73', 'headface_url', '公众号头像', 'varchar(255) NOT NULL', 'picture', '', '', '0', '', '11', '0', '1', '1416920109', '1391576300', '', '3', '', 'regex', '', '3', 'function');
 INSERT INTO `onethink_attribute` VALUES ('74', 'area', '地区', 'varchar(50) NOT NULL', 'string', '', '', '0', '', '11', '0', '1', '1392946934', '1391576435', '', '3', '', 'regex', '', '3', 'function');
 INSERT INTO `onethink_attribute` VALUES ('75', 'addon_config', '插件配置', 'text NOT NULL', 'textarea', '', '', '0', '', '11', '0', '1', '1391576537', '1391576537', '', '3', '', 'regex', '', '3', 'function');
 INSERT INTO `onethink_attribute` VALUES ('76', 'addon_status', '插件状态', 'text NOT NULL', 'textarea', '', '', '0', '', '11', '0', '1', '1391576571', '1391576571', '', '3', '', 'regex', '', '3', 'function');
-INSERT INTO `onethink_attribute` VALUES ('90', 'type', '公众号类型', 'char(10) NOT NULL', 'radio', '0', '', '1', '0:订阅号\r\n1:服务号', '11', '0', '1', '1393718575', '1393718575', '', '3', '', 'regex', '', '3', 'function');
-INSERT INTO `onethink_attribute` VALUES ('91', 'appid', 'AppId', 'varchar(255) NOT NULL', 'string', '', '认证服务号的AppId', '1', '', '11', '0', '1', '1393718830', '1393718735', '', '3', '', 'regex', '', '3', 'function');
-INSERT INTO `onethink_attribute` VALUES ('92', 'secret', 'Secret', 'varchar(255) NOT NULL', 'string', '', '认证服务号的Secret', '1', '', '11', '0', '1', '1393718806', '1393718806', '', '3', '', 'regex', '', '3', 'function');
+INSERT INTO `onethink_attribute` VALUES ('90', 'type', '公众号类型', 'char(10) NOT NULL', 'radio', '0', '', '1', '0:普通订阅号\r\n1:认证订阅号/普通服务号\r\n2:认证服务号', '11', '0', '1', '1416904702', '1393718575', '', '3', '', 'regex', '', '3', 'function');
+INSERT INTO `onethink_attribute` VALUES ('91', 'appid', 'AppID', 'varchar(255) NOT NULL', 'string', '', '应用ID', '1', '', '11', '0', '1', '1416904750', '1393718735', '', '3', '', 'regex', '', '3', 'function');
+INSERT INTO `onethink_attribute` VALUES ('92', 'secret', 'AppSecret', 'varchar(255) NOT NULL', 'string', '', '应用密钥', '1', '', '11', '0', '1', '1416904771', '1393718806', '', '3', '', 'regex', '', '3', 'function');
 INSERT INTO `onethink_attribute` VALUES ('93', 'group_id', '等级', 'int(10) unsigned NOT NULL ', 'select', '0', '', '0', '', '11', '0', '1', '1393753499', '1393724468', '', '3', '', 'regex', '', '3', 'function');
-
+INSERT INTO `onethink_attribute` VALUES ('1341', 'encodingaeskey', 'EncodingAESKey', 'varchar(255) NOT NULL', 'string', '', '安全模式下必填', '1', '', '11', '0', '1', '1416817970', '1416817924', '', '3', '', 'regex', '', '3', 'function');
 -- ----------------------------
 -- Table structure for onethink_keyword
 -- ----------------------------
@@ -169,7 +168,7 @@ INSERT INTO `onethink_addons` VALUES ('6', 'Attachment', '附件', '用于文档
 INSERT INTO `onethink_addons` VALUES ('9', 'SocialComment', '通用社交化评论', '集成了各种社交化评论插件，轻松集成到系统中。', '1', '{\"comment_type\":\"1\",\"comment_uid_youyan\":\"1669260\",\"comment_short_name_duoshuo\":\"\",\"comment_form_pos_duoshuo\":\"buttom\",\"comment_data_list_duoshuo\":\"10\",\"comment_data_order_duoshuo\":\"asc\"}', 'thinkphp', '0.1', '1380273962', '0', '0', null);
 INSERT INTO `onethink_addons` VALUES ('56', 'CustomMenu', '自定义菜单', '自定义菜单能够帮助公众号丰富界面，让用户更好更快地理解公众号的功能', '1', 'null', '凡星', '0.1', '1398264735', '1', '1', '2');
 INSERT INTO `onethink_addons` VALUES ('48', 'CustomReply', '自定义回复', '这是一个临时描述', '1', 'null', '凡星', '0.1', '1396578089', '1', '1', '2');
-
+INSERT INTO `onethink_addons` VALUES ('39', 'WeiSite', '微官网', '微官网', '1', 'null', '凡星', '0.1', '1395326578', '0', '1', '4');
 -- ----------------------------
 -- Table structure for onethink_member_public
 -- ----------------------------
@@ -188,9 +187,10 @@ CREATE TABLE `onethink_member_public` (
   `token` varchar(100) NOT NULL COMMENT 'Token',
   `is_use` tinyint(2) NOT NULL DEFAULT '0' COMMENT '是否为当前公众号',
   `type` char(10) NOT NULL DEFAULT '0' COMMENT '公众号类型',
-  `appid` varchar(255) NOT NULL COMMENT 'AppId',
-  `secret` varchar(255) NOT NULL COMMENT 'Secret',
+  `appid` varchar(255) NOT NULL COMMENT 'AppID',
+  `secret` varchar(255) NOT NULL COMMENT 'AppSecret',
   `group_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '等级',
+  `encodingaeskey` varchar(255) NOT NULL COMMENT 'EncodingAESKey',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=106 DEFAULT CHARSET=utf8;
 
