@@ -1,0 +1,63 @@
+/**
+ * 描    述：		定义常用组件样式
+ * 作用范围: 		公共，组件模块
+ * 默认包含组件：	表单，表格，按钮，标签页导航，面包屑，分页，分类管理树形菜单
+ * 模块搜索关键字： =
+ */
+
+/* 高级搜索 */
+.search-form .adv-sch-pannel {
+	margin-right: 0;
+}
+.search-form .adv-sch-pannel .dropdown-pannel {
+	right: 0;
+	left: auto;
+	padding: 15px 0 15px 15px;
+	white-space: nowrap;
+}
+.adv-sch-pannel .row {
+    display: inline-block;
+    *display: inline;
+    margin-right: 15px;
+    margin-bottom:6px;
+}
+.adv-sch-pannel label{
+    width:70px;
+    display:inline-block;
+}
+
+/* = 表格
+------------------------------------------ */
+.data-table {
+    margin: 10px 0;
+}
+.data-table thead th {
+    text-align: left;
+    color:#fff;
+    background-color: #444;
+}
+
+/* 带下拉框的按钮组 */
+.btn-group-click {
+	display: inline-block;
+    *display: inline;
+	position: relative;
+    margin-right: 5px;
+    vertical-align: middle;
+}
+
+.btn-group-click .btn {
+    margin-right: 0;
+}
+
+
+.btn-group-click .dropdown-pannel {
+    display: none;
+	position: absolute;
+	top: 30px;
+	left: 0;
+    margin-top: 3px;
+	min-width: 85px;
+	border: 1px solid #ccc;
+	background-color: #fff;
+}
