@@ -4,21 +4,30 @@
 // +----------------------------------------------------------------------
 // | Copyright (c) 2014 http://www.elanglang.com All rights reserved.
 // +----------------------------------------------------------------------
-// | Author: Guokaiyi <harrygky@gmail.com>
+// | Author: jigc <mrji1990@gmail.com>
+// | Comment:  该文件由Admin模块中迁移过来
 // +----------------------------------------------------------------------
 
 namespace Usercenter\Controller;
-use Think\Controller;
+use User\Api\UserApi as UserApi;
 
 /**
- * 用户中心首页控制器
- * 主要获取首页聚合数据
+ * 后台首页控制器
+ * @author 麦当苗儿 <zuojiazi@vip.qq.com>
  */
-class IndexController extends Controller {
-    
-    //用户中心首页
-    public function index() {
-        $this->redirect('Keywords/index');
-        //$this->display();
+class IndexController extends AdminController {
+
+    /**
+     * 后台首页
+     * @author 麦当苗儿 <zuojiazi@vip.qq.com>
+     */
+    public function index(){
+        if(UID){
+            $this->meta_title = '用户中心';
+            $this->display();
+        } else {
+            $this->redirect('Public/login');
+        }
     }
+
 }
