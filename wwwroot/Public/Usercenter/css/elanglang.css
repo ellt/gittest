@@ -24,3 +24,21 @@ a.ell-sidebar-title:focus {
   background-color: #444;
   cursor:default;
 }
+
+.ell-main-title {
+  padding-bottom: 10px;
+  *zoom: 1;
+}
+.ell-main-title:before,
+.ell-main-title:after {
+  display: table;
+  content: "";
+}
+.ell-main-title:after {
+  clear: both;
+}
+.ell-main-title h2 {
+  float: left;
+  margin-top: 0;
+  font-weight: 400;
+}
