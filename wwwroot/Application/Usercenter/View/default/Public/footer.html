@@ -9,13 +9,12 @@
     </footer>
     <!--  /页脚，版权信息   ================================================= -->    
 
-    <script src="__STATIC__/jquery-1.10.2.min.js"></script>
-    <script src="__BS__/js/bootstrap.min.js"></script>
+    <include file="Public/var"/>
+    <script src="__STATIC__/common.js"></script>
+    <include file="Public/publicscript"/>
+
     <!-- Custom JS for this template -->    
     <block name="script"></block>
-
-    <include file="Public/publicscript"/>
-    <include file="Public/var"/>
 
     <!-- 页面footer钩子，一般用于加载插件JS文件和JS代码 -->    
     {:hook('pageFooter', 'widget')}
