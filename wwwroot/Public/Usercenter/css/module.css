@@ -4,6 +4,43 @@
  * 默认包含组件：	表单，表格，按钮，标签页导航，面包屑，分页，分类管理树形菜单
  * 模块搜索关键字： =
  */
+ 
+/* 普通表单 */
+.form-horizontal .form-item {
+    margin-bottom: 5px;
+}
+.form-horizontal .item-label {
+    display: block;
+    margin-right: 5px;
+    height: 30px;
+    line-height: 30px;
+    font-weight: bold;
+}
+.form-horizontal .item-label .check-tips {
+    margin-left: 8px;
+    color: #aaa;
+    font-weight: normal;
+}
+.form-horizontal .controls {
+    overflow: hidden;
+    padding: 5px 5px 5px 0;
+}
+.form-horizontal .controls label + label {
+    margin-left: 15px;
+}
+.form-horizontal .controls .check-tips {
+    margin-left: 20px;
+    color: #999;
+}
+label.textarea ~ .check-tips {
+    margin-left: 0;
+}
+.form-horizontal .controls .block.check-tips,
+.form-horizontal .controls .block.textarea {
+    display: block;
+    margin-left: 0;
+    margin-bottom: 10px;
+}
 
 /* 高级搜索 */
 .search-form .adv-sch-pannel {
