@@ -1,16 +1,20 @@
     <block name="header"></block>
 
-    <div class="container bs-docs-container">
+    <div class="container ell-main-container">
         <div class="row">
-            <block name="side">
-                <!-- 左侧 nav ================================================== -->    
-                <div class="col-md-3">
-                <div class="list-group">
-                    <a class="list-group-item" id="sidebar-rmbom" href="{:U('Rmbom/index')}" >去除BOM头</a>
-                    <a class="list-group-item" id="sidebar-elog" href="{:U('Log/index')}" >日志管理</a>
-                </div>
+            <div class="col-md-2" id="sideBar">
+                <block name="sidebar">
+                    <!-- 左侧 nav ================================================== -->    
+                    <div class="list-group">
+                        <a class="list-group-item <eq name='Think.CONTROLLER_NAME' value='Index'>active</eq>" href="{:U('Index/index')}" >工具箱配置</a>
+                        <a class="list-group-item <eq name='Think.CONTROLLER_NAME' value='Rmbom'>active</eq>" href="{:U('Rmbom/index')}" >去除BOM头</a>
+                        <a class="list-group-item <eq name='Think.CONTROLLER_NAME' value='Log'>active</eq>" href="{:U('Log/index')}" >日志管理</a>
+                    </div>
+                </block>
             </div>
-        </block>
-        <block name="content"></block>
-    </div>
+            <div class="col-md-10" id="mainContent" role="main">
+                <!-- 内容 ================================================== -->    
+                <block name="content"></block>
+            </div>
+        </div>
     </div>

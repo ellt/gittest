@@ -1,0 +1,31 @@
+.ell-main-container {
+  min-height: 550px;
+}
+
+.ell-sidebar-title {
+  border: 1px solid #858786;
+}
+a.ell-sidebar-title,
+a.ell-sidebar-title:hover,
+a.ell-sidebar-title:focus {
+  color: #fff;
+  font-weight: bold;
+  background-color: #444;
+  cursor:default;
+}
+
+.ell-setting .title {
+  margin-bottom: 30px;
+  font-weight: 400;
+}
+
+.ell-setting label {
+  display: block;
+  margin-bottom: 16px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.ell-setting .btn-group .btn {
+  min-width: 100px;
+}
