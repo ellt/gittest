@@ -4,17 +4,18 @@
 <link rel="shortcut icon" href="__PUBLIC__/favicon.ico">
 <title>{:C('WEB_SITE_TITLE')}</title>
 
-<link href="__STATIC__/bootstrap/css/bootstrap.css" rel="stylesheet">
-<link href="__STATIC__/bootstrap/css/docs.css" rel="stylesheet">
+<link href="__BS__/css/bootstrap.css" rel="stylesheet">
 <!-- Custom styles for this template -->
+<link href="__CSS__/module.css" rel="stylesheet">
 <link href="__CSS__/elanglang.css" rel="stylesheet">
 <block name="style"></block>
 
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!--[if lt IE 9]>
-<script src="__STATIC__/bootstrap/js/html5shiv.min.js"></script>
-<script src="__STATIC__/bootstrap/js/respond.min.js"></script>
+<script src="__BS__/js/html5shiv.min.js"></script>
+<script src="__BS__/js/respond.min.js"></script>
 <![endif]-->
-
+<script src="__STATIC__/jquery-1.10.2.min.js"></script>
+<script src="__BS__/js/bootstrap.min.js"></script>
 <!-- 页面header钩子，一般用于加载插件CSS文件和代码 -->
 {:hook('pageHeader')}

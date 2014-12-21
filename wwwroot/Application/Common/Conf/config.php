@@ -12,14 +12,14 @@
  * 所有系统级别的配置
  */
 return array(
-    /* 模块相关s配置 */
+    /* 模块相关配置 */
     'AUTOLOAD_NAMESPACE' => array('Addons' => ONETHINK_ADDON_PATH), //扩展模块列表
     'DEFAULT_MODULE'     => 'Home',
     'MODULE_DENY_LIST'   => array('Common', 'User'),
     //'MODULE_ALLOW_LIST'  => array('Home','Admin'),
 
     /* 系统数据加密设置 */
-    'DATA_AUTH_KEY' => 'CfDQ("JSZz83BL6]$HV[eM7UK,p{@cj!0/`iyqTF', //默认数据加密KEY
+    'DATA_AUTH_KEY' => 'eu&OxU>Am^rZ!5PY[f])bBod4Ka83R*t~ICl:LE;', //默认数据加密KEY
 
     /* 调试配置 */
     'SHOW_PAGE_TRACE' => true,
@@ -38,12 +38,12 @@ return array(
     'DEFAULT_FILTER' => '', //全局过滤函数
 
     /* 数据库配置 */
-    'DB_TYPE'   => 'mysqli', // 数据库类型
-    'DB_HOST'   => 'w.rdc.sae.sina.com.cn', // 服务器地址
-    'DB_NAME'   => 'app_ellt', // 数据库名
-    'DB_USER'   => 'xjolml0jn1', // 用户名
-    'DB_PWD'    => '2kykl3i14jwkkwlw4mkhy4x04x0yyw41l01yjj5y',  // 密码
-    'DB_PORT'   => '3307', // 端口
+    'DB_TYPE'   => 'mysql', // 数据库类型
+    'DB_HOST'   => '127.0.0.1', // 服务器地址
+    'DB_NAME'   => 'ell-develop', // 数据库名
+    'DB_USER'   => 'root', // 用户名
+    'DB_PWD'    => '',  // 密码
+    'DB_PORT'   => '3306', // 端口
     'DB_PREFIX' => 'onethink_', // 数据库表前缀
 
     /* 文档模型配置 (文档模型核心配置，请勿更改) */

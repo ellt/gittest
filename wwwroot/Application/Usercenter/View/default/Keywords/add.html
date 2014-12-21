@@ -1,34 +1,33 @@
-<extend name="Base/common"/>
+<extend name="Public/base"/>
 
 <block name="content">
-    <div class="col-md-9" role="main">
-        <!-- 内容 ================================================== -->
-        <section id="contents">
-            <h2>添加关键词</h2>
+    <section id="contents">
+        <h2>添加关键词</h2>
 
-            <form action="{:U('addHandle')}" method="post" role="form">
-                <div class="form-group">
-                    <label>关键词：</label>
-                    <input type="text"  name='keyword' class="form-control" placeholder="请输入关键词"></div>
-                <div class="form-group">
-                    <label>回复</label>
-                    <textarea class="form-control" name='content' placeholder="请输入关键词对应的回复" rows="4"></textarea>
-                </div>
-                <button type="submit" class="btn btn-success">
-                    <span class="glyphicon glyphicon-plus"></span>
-                    添加
-                </button>
-                <a href="{:U('index')}" class="btn btn-danger" role="button">
-                    <span class="glyphicon glyphicon-backward"></span>
-                    返回
-                </a>
-            </form>
-        </section>
-    </div>
+        <form action="{:U('addHandle')}" method="post" role="form">
+            <div class="form-group">
+                <label>关键词：</label>
+                <input type="text"  name='keyword' class="form-control" placeholder="请输入关键词"></div>
+            <div class="form-group">
+                <label>回复</label>
+                <textarea class="form-control" name='content' placeholder="请输入关键词对应的回复" rows="4"></textarea>
+            </div>
+            <button type="submit" class="btn btn-success">
+                <span class="glyphicon glyphicon-plus"></span>
+                添加
+            </button>
+            <a href="{:U('index')}" class="btn btn-danger" role="button">
+                <span class="glyphicon glyphicon-backward"></span>
+                返回
+            </a>
+        </form>
+    </section>
 </block>
 
 <block name="script">
 <script>
-  $('#sidebar-keywords').addClass('active');
+$(function(){
+    $('#sidebar-customreply').addClass('active');
+});
 </script>
 </block>

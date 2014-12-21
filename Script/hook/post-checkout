@@ -1,0 +1,117 @@
+#!/bin/sh 
+
+########################################################################
+# Author      : jigc 
+# File Name   : post-checkout
+# Date        : 2014-12-01
+# Description : git svn 协同工作检出脚本
+# Version     : V2.0
+# Usage       : 
+# Log:
+#  V1.0: 实现基本功能 -- 2014-12-1
+#  V2.0：提高容错性 -- 2014-12-1
+########################################################################
+
+echo -e "\n# Runing post-checkout script ..."
+
+# 是否是分支切换标志
+IS_BRANCH_CHECKOUT="$3"
+
+[ "${IS_BRANCH_CHECKOUT}" == 0 ] && echo "# Not branch checkout, no need to profile svn instruction ...." && exit 0
+
+GIT_ROOT=$(pwd | sed -e 's|[\r\n]*||')
+SVN_BASE_DIR="Svndir"
+SVN_INSTRUCT_DIR="wwwroot/.svn"
+
+# 目标Git分支
+DEST_BRANCH_NAME=$(git symbolic-ref --short HEAD )
+
+#FUNCTION DEFINE##########################################################
+ShowSvnInfo()
+{
+	# add by jigc 2014-11-30
+	# SVN_BIN_DIR="/d/Program Files (x86)/TortoiseSVN/bin"
+	# PATH="$SVN_BIN_DIR:$PATH"
+	cat << EOF
+
+############################SVN INFO#####################################
+# 
+$(svn info wwwroot/ | sed -e 's|^|# |' |  sed -e 's|\+0800.*|\+0800|')
+########################################################################
+
+EOF
+
+}
+##################################################################
+
+
+if [ -d "${SVN_INSTRUCT_DIR}" ]; then
+	# 是否需要备份SVN控制信息标志位
+	MUST_BACKUP_SVN_INSTRUCT='YES'
+	# 获取当前 wwwroot/.svn 的svn控制信息
+	NOW_SVN_INSTRUCT_BRANCH_NAME=\
+"$(svn info wwwroot/ | awk '/^URL/{print $2}' | sed -e 's|^https://svn.sinaapp.com/||' | sed -e 's|/|-|')"
+else
+	MUST_BACKUP_SVN_INSTRUCT='NO'
+fi
+
+# 分支对应的SVN管理信息文件夹名称
+DEST_SVN_DIR="${SVN_BASE_DIR}/${DEST_BRANCH_NAME}.svn"
+CUR_SVN_DIR="${SVN_BASE_DIR}/${NOW_SVN_INSTRUCT_BRANCH_NAME}.svn"
+
+# 检查是否存在当前分支
+# [ -z "`git branch | egrep "^[* ] ${DEST_BRANCH_NAME}"`" ] && echo "Invalid branch name:[${DEST_BRANCH_NAME}]" && exit 128
+
+
+
+cat << EOF
+
+
+#############################CHECK OUT INFO#############################
+# Git root:                  ${GIT_ROOT}
+# Svn instruct dir:          ${SVN_INSTRUCT_DIR}
+# Current svn dir name:      ${CUR_SVN_DIR}
+# Dest branch name:          ${DEST_SVN_DIR}
+# Dest svn dir name:         ${DEST_SVN_DIR}
+########################################################################
+
+EOF
+
+# 检查当前wwwroot/.svn信息是否与新分支匹配，若匹配无需拷贝
+[ "${CUR_SVN_DIR}" == "${DEST_SVN_DIR}" ] \
+&& echo "  *** Success: svn instruction match dest branch no need to mv ..." && ShowSvnInfo && exit 0
+
+
+# 判断旧分支是否有SVN控制信息，有则备份
+if [ "$MUST_BACKUP_SVN_INSTRUCT" == "YES" -a -d "${SVN_INSTRUCT_DIR}" ]; then
+	# 判断备份的目标目录是否已经存在有则报错
+	[ -d "${CUR_SVN_DIR}" ] && echo "  *** Error: ${CUR_SVN_DIR} Exist ...." && exit 128
+	mv ${SVN_INSTRUCT_DIR} ${CUR_SVN_DIR}
+	[ "$?" != 0 ] && echo "  *** Error: mv ${SVN_INSTRUCT_DIR} ${CUR_SVN_DIR}...." && exit 128
+	echo "  *** Success: mv ${SVN_INSTRUCT_DIR} ${CUR_SVN_DIR}...."
+else
+	echo "  *** Warning: can't find ${SVN_INSTRUCT_DIR} no need to backup ..."
+fi
+
+# 判断新分支是否有SVN控制信息，有则将控制信息文件 'Svndir/${brach}.svn' 文件夹移动到 './wwwroot/' 目录下
+if [ -d "$DEST_SVN_DIR"  ];then
+	[ -d "${SVN_INSTRUCT_DIR}" ] && echo "  *** Error: ${SVN_INSTRUCT_DIR} Exist ...." && exit 128
+	mv ${DEST_SVN_DIR} ${SVN_INSTRUCT_DIR} 
+	[ "$?" != 0 ] && echo "  *** Error: mv ${DEST_SVN_DIR} ${SVN_INSTRUCT_DIR} ...." && exit 128
+
+	# 校验新分支与SVN控制信息是否匹配
+	NOW_SVN_INSTRUCT_BRANCH_NAME=\
+"$(svn info wwwroot/ | awk '/^URL/{print $2}' | sed -e 's|^https://svn.sinaapp.com/||' | sed -e 's|/|-|')"
+
+	if [ "${NOW_SVN_INSTRUCT_BRANCH_NAME}" == "${DEST_BRANCH_NAME}" ]; then
+		echo "  *** Success: mv ${DEST_SVN_DIR} ${SVN_INSTRUCT_DIR}  And Check SVN instruction match current branch..." 
+		ShowSvnInfo
+	else
+		echo "  *** Error: Check SVN instruction don't match current branch..."
+		ShowSvnInfo
+		exit 128
+	fi
+
+else
+	echo "  *** Warning: can't find ${DEST_SVN_DIR}, no need to profile ..."
+fi

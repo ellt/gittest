@@ -1,51 +1,48 @@
-<extend name="Base/common"/>
+<extend name="Public/base"/>
 
 <block name="content">
-    <div class="col-md-9" role="main">
-        <!-- 内容 ================================================== -->
-        <div class="">
-            <table class="table table-striped">
-                <caption></caption>
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th>关键词</th>
-                        <th>回复</th>
-                        <th>操作</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <foreach name='custom_reply_text' item='v'>
-                        <tr>
-                            <td>{$v.id}</td>
-                            <td>{$v.keyword}</td>
-                            <td>{$v.content}</td>
-                            <td>
-                                <a class="btn btn-primary" role="button" href="{:U('edit',array('id' =>
-                                    $v['id'])),''}">
-                                    <span class="glyphicon glyphicon-edit"></span>
-                                    编辑
-                                </a>
-                                <a class="btn btn-danger" role="button" href="{:U('delete',array('id' =>
-                                    $v['id'])),''}">
-                                    <span class="glyphicon glyphicon-trash"></span>
-                                    删除
-                                </a>
-                            </td>
-                        </tr>
-                    </foreach>
-                </tbody>
-            </table>
-            <a class="btn btn-success" role="button" href="{:U('add')}">
-                <span class="glyphicon glyphicon-plus"></span>
-                添加关键词
-            </a>
-        </div>
-    </div>
+    <table class="table table-striped">
+        <caption></caption>
+        <thead>
+            <tr>
+                <th></th>
+                <th>关键词</th>
+                <th>回复</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <foreach name='custom_reply_text' item='v'>
+                <tr>
+                    <td>{$v.id}</td>
+                    <td>{$v.keyword}</td>
+                    <td>{$v.content}</td>
+                    <td>
+                        <a class="btn btn-primary" role="button" href="{:U('edit',array('id' =>
+                            $v['id'])),''}">
+                            <span class="glyphicon glyphicon-edit"></span>
+                            编辑
+                        </a>
+                        <a class="btn btn-danger" role="button" href="{:U('delete',array('id' =>
+                            $v['id'])),''}">
+                            <span class="glyphicon glyphicon-trash"></span>
+                            删除
+                        </a>
+                    </td>
+                </tr>
+            </foreach>
+        </tbody>
+    </table>
+    <a class="btn btn-success" role="button" href="{:U('add')}">
+        <span class="glyphicon glyphicon-plus"></span>
+        添加关键词
+    </a>
 </block>
 
 <block name="script">
 <script>
-  $('#sidebar-keywords').addClass('active');
+$(function(){
+    $('#sidebar-customreply').addClass('active');
+});
 </script>
 </block>

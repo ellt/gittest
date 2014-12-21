@@ -124,7 +124,7 @@ CREATE TABLE `onethink_attribute` (
   `value` varchar(100) NOT NULL DEFAULT '' COMMENT '字段默认值',
   `remark` varchar(100) NOT NULL DEFAULT '' COMMENT '备注',
   `is_show` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '是否显示',
-  `extra` varchar(255) NOT NULL DEFAULT '' COMMENT '参数',
+  `extra` text NOT NULL COMMENT '参数',
   `model_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '模型id',
   `is_must` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否必填',
   `status` tinyint(2) NOT NULL DEFAULT '0' COMMENT '状态',

@@ -69,9 +69,9 @@ class Sae{
      * @param  boolean $replace 同名文件是否覆盖
      * @return boolean          保存状态，true-成功，false-失败
      */
-    public function save($file, $replace=true) {
+    public function save(&$file, $replace=true) {
         $filename = ltrim($this->rootPath .'/'. $file['savepath'] . $file['savename'],'/');
-        $st=new \SaeStorage();
+        $st =   new \SaeStorage();
         /* 不覆盖同名文件 */ 
         if (!$replace && $st->fileExists($this->domain,$filename)) {
             $this->error = '存在同名文件' . $file['savename'];
@@ -82,8 +82,9 @@ class Sae{
         if (!$st->upload($this->domain,$filename,$file['tmp_name'])) {
             $this->error = '文件上传保存错误！['.$st->errno().']:'.$st->errmsg();
             return false;
+        }else{
+            $file['url'] = $st->getUrl($this->domain, $filename);
         }
-        
         return true;
     }
 

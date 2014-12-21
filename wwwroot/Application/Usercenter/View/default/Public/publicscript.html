@@ -1,0 +1,31 @@
+<script>
+/*---sidebar script---*/
+$(function(){
+    //绑定导航栏点击事件，通过ajax方式获取页面
+    // $("#sideBar a[href!='#']").click(function () {
+    //     //添加访问历史
+    //     alert("click"+window.location);
+    //     window.history.pushState({
+    //         time: new Date().getTime(),
+    //         url: "" + window.location,
+    //         id: $("#sideBar a.active").attr("id"),
+    //     },"", $(this).attr("href"));
+    //     //通过ajax加载页面
+    //     $("#mainContent").load($(this).attr("href"));
+    //     $("#sideBar a.active").removeClass("active");
+    //     $(this).addClass('active');
+    //     return false;
+    // });
+
+    // window.addEventListener("popstate", function(e) {
+    //     if (history.state){
+    //         var st = history.state;
+    //         alert("popstate"+st.url);
+    //         $("#mainContent").load(st.url);
+    //         $("#sideBar a.active").removeClass('active');
+    //         $("#"+st.id).addClass('active');
+    //     }
+    // },false);
+});
+/*---sidebar script---*/
+</script>

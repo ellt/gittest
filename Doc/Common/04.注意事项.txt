@@ -1,1 +1,3 @@
 1、由于ThinkPHP默认全部使用UTF-8编码，请确保所有程序文件采用UTF-8编码格式保存，并且去掉BOM信息头（使用项目下Toolkit应用的rmbom.php工具），否则可能导致很多意想不到的问题。
+
+2、给Url传入的参数key值不能是"m"、"c"、"a"，因为会跟系统框架变量VAR_MODULE、VAR_CONTROLLER、VAR_ACTION定义的key值冲突。

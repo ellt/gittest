@@ -21,23 +21,13 @@ class IndexController extends HomeController {
 
         $category = D('Category')->getTree();
         $lists    = D('Document')->lists(null);
-//         $url=get_nav_url('home/article/lists?category=aboutschool');
-//         dump($url);die();
+
+        $this->assign('category',$category);//栏目
         $this->assign('lists',$lists);//列表
         $this->assign('page',D('Document')->page);//分页
 
-//         dump($lists);
-        
-//         dump(D('UcenterMember')->select());
-//         die();
+                 
         $this->display();
     }
 
-    public function lists() {
-        $this->display();
-    }
-
-    public function detail() {
-        $this->display();
-    }
 }

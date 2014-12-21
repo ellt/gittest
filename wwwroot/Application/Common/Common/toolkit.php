@@ -39,21 +39,6 @@ function get_current_appstatus() {
 }
 
 /**
- * 添加微信调试日志
- * @param obj $data
- * @param string $data_post
- * @author Jiguocheng <mrji1990@gmail.com>
- */
-function addWeixinLog($data, $data_post = '') {
-	$log ['cTime'] = time ();
-	$log ['cTime_format'] = date ( 'Y-m-d H:i:s', $log ['cTime'] );
-	$log ['data'] = is_array ( $data ) ? serialize ( $data ) : $data;
-	$log ['data_post'] = $data_post;
-	M ( 'weixin_log', 'wp_')->add ( $log );
-}
-
-
-/**
  * @param obj $msg
  * @author Jiguocheng <mrji1990@gmail.com>
  */

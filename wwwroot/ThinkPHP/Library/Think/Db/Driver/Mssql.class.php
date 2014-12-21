@@ -23,7 +23,7 @@ class Mssql extends Db{
      */
     public function __construct($config=''){
         if ( !function_exists('mssql_connect') ) {
-            E(L('_NOT_SUPPERT_').':mssql');
+            E(L('_NOT_SUPPORT_').':mssql');
         }
         if(!empty($config)) {
             $this->config	=	$config;
@@ -152,7 +152,7 @@ class Mssql extends Db{
     /**
      * 用于非自动提交状态下面的查询提交
      * @access public
-     * @return boolen
+     * @return boolean
      */
     public function commit() {
         if ($this->transTimes > 0) {
@@ -169,7 +169,7 @@ class Mssql extends Db{
     /**
      * 事务回滚
      * @access public
-     * @return boolen
+     * @return boolean
      */
     public function rollback() {
         if ($this->transTimes > 0) {

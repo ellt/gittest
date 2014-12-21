@@ -59,6 +59,7 @@ defined('LOG_PATH')     or define('LOG_PATH',       RUNTIME_PATH.'Logs/'); // �
 defined('TEMP_PATH')    or define('TEMP_PATH',      RUNTIME_PATH.'Temp/'); // 应用缓存目录
 defined('DATA_PATH')    or define('DATA_PATH',      RUNTIME_PATH.'Data/'); // 应用数据目录
 defined('CACHE_PATH')   or define('CACHE_PATH',     RUNTIME_PATH.'Cache/'); // 应用模板缓存目录
+defined('CONF_EXT')     or define('CONF_EXT',       '.php'); // 配置文件后缀
 
 // 系统信息
 if(version_compare(PHP_VERSION,'5.4.0','<')) {
@@ -87,6 +88,10 @@ if(!IS_CLI) {
         define('__ROOT__',  (($_root=='/' || $_root=='\\')?'':$_root));
     }
 }
+//------- weiphp 定义, add by Guoky start ---------
+define('SITE_DOMAIN'	,	strip_tags($_SERVER['HTTP_HOST']));
+define('SITE_URL'		,	'http://'.SITE_DOMAIN.__ROOT__);
+//------- weiphp 定义, add by Guoky end ---------
 
 // 加载核心Think类
 require CORE_PATH.'Think'.EXT;
