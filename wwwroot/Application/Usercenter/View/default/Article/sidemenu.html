@@ -9,5 +9,14 @@
     <a class="list-group-item <eq name='Think.ACTION_NAME' value='recycle'>active</eq>"
         href="{:U('article/recycle')}" >回收站</a>
     <a class="list-group-item ell-sidebar-title" href="#" >文档列表</a>
-    <a class="list-group-item" href="" >学校概况</a>
+
+    <volist name="nodes" id="sub_menu">
+    <!-- 子导航 -->
+    <notempty name="sub_menu">
+    <volist name="sub_menu['_child']" id="menu">
+    <a class="list-group-item <if condition='$menu.id eq $cate_id or $menu.current eq 1'>active</if>" href="{$menu.url|U}">{$menu.title}</a>
+    </volist>
+    </notempty>
+    <!-- /子导航 -->
+    </volist>
 </div>
