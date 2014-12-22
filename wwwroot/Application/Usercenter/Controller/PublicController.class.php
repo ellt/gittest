@@ -61,6 +61,13 @@ class PublicController extends \Think\Controller {
                 }
                 C($config); //添加配置
                 
+                // 加载完数据库配置文件，后再更新用户中心主题   add by jigc 2014-12-21
+                if(C('USER_CENTET_THEME') && is_file(MODULE_PATH . 'Conf/theme.php'))
+                {
+                    C(include MODULE_PATH . 'Conf/theme.php');
+                }
+                //end of add
+                
                 $this->display();
             }
         }
