@@ -20,8 +20,9 @@
                         <h2 class="title">用户中心</h2>
                         <label>模板主题:</label>
                         <div class="btn-group btn-group-lg">
-                            <button type="button" class="btn <eq name='theme' value='default'>btn-primary active</eq>">default</button>
-                            <button type="button" class="btn <eq name='theme' value='otori'>btn-primary active</eq>">otori</button>
+                        <foreach  name="data.theme_list" item="vo">
+                            <button type="button" class="btn <eq name='data.theme' value='$key'>btn-primary active</eq> ajax-get" target-form="ids" url="{:U('Index/process',array('method'=>'setTheme', 'value'=>$key))}">{$vo}</button>
+                        </foreach>
                         </div>
                     </div>
                 </div>

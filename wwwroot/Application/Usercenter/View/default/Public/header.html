@@ -13,13 +13,9 @@
             </div>
             <div class="collapse navbar-collapse" id="ell-navbar-collapse">
                 <ul class="nav navbar-nav">
-                    <think:nav name="nav">
-                        <eq name="nav.pid" value="0">
-                            <li>
-                                <a href="" target="<eq name='nav.target' value='1'>_blank<else/>_self</eq>">{$nav.title}</a>
-                            </li>
-                        </eq>
-                    </think:nav>
+                    <volist name="__MENU__.main" id="menu">
+                        <li class="<eq name='menu.class' value='current'>active</eq>"><a href="{$menu.url|U}">{$menu.title}</a></li>
+                    </volist>
                 </ul>
 
                 <ul class="nav navbar-nav navbar-right">

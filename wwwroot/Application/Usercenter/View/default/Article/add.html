@@ -19,74 +19,65 @@
         </h2>
     </div>
     <!-- 标签页导航 -->
-    <div class="tab-wrap">
+    <div class="ell-tab-wrap">
         <ul class="nav nav-tabs" role="tablist">
-            <li class="active" role="presentation">
-                <a data-toggle="tab" href="#home" role="tab">基础</a>
+            <volist name=":parse_config_attr($model['field_group'])" id="group">
+            <li class="<eq name='key' value='1'>active</eq>" role="presentation"> 
+                <a data-toggle="tab" href="#tab{$key}" role="tab">{$group}</a>
             </li>
-            <li role="presentation">
-                <a data-toggle="tab" href="#profile" role="tab">扩展</a>
-            </li>
-            <volist name="$model['field_group']" id="group">
-                <li <eq name="i" value="1">class="active"</eq> role="presentation"><a data-toggle="tab" href="#tab{$key}" role="tab">{$group}</a></li>
             </volist>
         </ul>
         <!-- 表单 -->
-        <form class="form-horizontal" id="form" action="{:U('update')}" method="post">
+        <form class="add" id="form" action="{:U('update')}" method="post" role="form">
 
         <div class="tab-content">
-            <div class="tab-pane" id="home" role="tabpanel">home</div>
-            <div class="tab-pane" id="profile" role="tabpanel">profile</div>
-
             <!-- 基础文档模型 -->
-            <volist name="$model['field_group']" id="group">
-            <div class="tab-pane <eq name="i" value="1">active</eq>" id="tab{$key}" role="tabpanel">
+            <volist name=":parse_config_attr($model['field_group'])" id="group">
+            <div class="tab-pane <eq name='key' value='1'>active</eq>" id="tab{$key}" role="tabpanel">
                 <volist name="fields[$key]" id="field">
                     <if condition="$field['is_show'] == 1 || $field['is_show'] == 2">
-                    <div class="form-item cf">
+                    <div class="form-group">
                         <label class="item-label">{$field['title']}<span class="check-tips"><notempty name="field['remark']">（{$field['remark']}）</notempty></span></label>
                         <div class="controls">
                             <switch name="field.type">
                                 <case value="num">
-                                    <input type="text" class="text input-medium" name="{$field.name}" value="{$field.value}">
+                                    <input type="text" class="input-sm" name="{$field.name}" value="{$field.value}">
                                 </case>
                                 <case value="string">
-                                    <input type="text" class="text input-large" name="{$field.name}" value="{$field.value}">
+                                    <input type="text" class="input-sm" name="{$field.name}" value="{$field.value}">
                                 </case>
                                 <case value="textarea">
-                                    <label class="textarea input-large">
-                                    <textarea name="{$field.name}">{$field.value}</textarea>
-                                    </label>
+                                    <textarea class="form-control" rows="3" name="{$field.name}">{$field.value}</textarea>
                                 </case>
                                 <case value="datetime">
-                                    <input type="text" name="{$field.name}" class="text input-large time" value="" placeholder="请选择时间" />
+                                    <input type="text" class="input-sm" name="{$field.name}" placeholder="请选择时间" />
                                 </case>
                                 <case value="bool">
-                                    <select name="{$field.name}">
+                                    <select class="input-sm" name="{$field.name}">
                                         <volist name=":parse_field_attr($field['extra'])" id="vo">
                                             <option value="{$key}" <eq name="field.value" value="$key">selected</eq>>{$vo}</option>
                                         </volist>
                                     </select>
                                 </case>
                                 <case value="select">
-                                    <select name="{$field.name}">
+                                    <select class="input-sm" name="{$field.name}">
                                         <volist name=":parse_field_attr($field['extra'])" id="vo">
-                                            <option value="{$key}" <eq name="field.value" value="$key">selected</eq>>{$vo}</option>
+                                        <option value="{$key}" <eq name="field.value" value="$key">selected</eq>>{$vo}</option>
                                         </volist>
                                     </select>
                                 </case>
                                 <case value="radio">
                                     <volist name=":parse_field_attr($field['extra'])" id="vo">
-                                        <label class="radio">
-                                        <input type="radio" value="{$key}" <eq name="field.value" value="$key">checked</eq> name="{$field.name}">{$vo}
-                                        </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="{$field.name}" value="{$key}" <eq name="field.value" value="$key">checked</eq>>{$vo}
+                                    </label>
                                     </volist>
                                 </case>
                                 <case value="checkbox">
                                     <volist name=":parse_field_attr($field['extra'])" id="vo">
-                                        <label class="checkbox">
-                                        <input type="checkbox" value="{$key}" name="{$field.name}" <eq name="field.value" value="$key">checked</eq>>{$vo}
-                                        </label>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" name="{$field.name}" value="{$key}" <eq name="field.value" value="$key">checked</eq>>{$vo}
+                                    </label>
                                     </volist>
                                 </case>
                                 <case value="editor">
@@ -96,14 +87,12 @@
                                     </label>
                                 </case>
                                 <case value="picture">
-                                    <div class="controls">
-                                        <input type="file" id="upload_picture_{$field.name}">
-                                        <input type="hidden" name="{$field.name}" id="cover_id_{$field.name}"/>
-                                        <div class="upload-img-box">
-                                        <notempty name="data[$field['name']]">
-                                            <div class="upload-pre-item"><img src="{$data[$field['name']]|get_cover='path'}"/></div>
-                                        </notempty>
-                                        </div>
+                                    <input type="file" id="upload_picture_{$field.name}">
+                                    <input type="hidden" name="{$field.name}" id="cover_id_{$field.name}"/>
+                                    <div class="upload-img-box">
+                                    <notempty name="data[$field['name']]">
+                                        <div class="upload-pre-item"><img src="{$data[$field['name']]|get_cover='path'}"/></div>
+                                    </notempty>
                                     </div>
                                     <script type="text/javascript">
                                     //上传图片
@@ -142,14 +131,12 @@
                                     </script>
                                 </case>
                                 <case value="file">
-                                    <div class="controls">
-                                        <input type="file" id="upload_file_{$field.name}">
-                                        <input type="hidden" name="{$field.name}" value="{$data[$field['name']]}"/>
-                                        <div class="upload-img-box">
-                                            <present name="data[$field['name']]">
-                                                <div class="upload-pre-file"><span class="upload_icon_all"></span>{$data[$field['name']]}</div>
-                                            </present>
-                                        </div>
+                                    <input type="file" id="upload_file_{$field.name}">
+                                    <input type="hidden" name="{$field.name}" value="{$data[$field['name']]}"/>
+                                    <div class="upload-img-box">
+                                        <present name="data[$field['name']]">
+                                            <div class="upload-pre-file"><span class="upload_icon_all"></span>{$data[$field['name']]}</div>
+                                        </present>
                                     </div>
                                     <script type="text/javascript">
                                     //上传图片
@@ -186,7 +173,7 @@
                                     </script>
                                 </case>
                                 <default/>
-                                <input type="text" class="text input-large" name="{$field.name}" value="{$field.value}">
+                                <input type="text" class="input-sm" name="{$field.name}" value="{$field.value}">
                             </switch>
                         </div>
                     </div>
@@ -196,10 +183,10 @@
             </volist>
 
             <div class="form-item">
-                <button class="btn btn-success ajax-post" id="submit" type="submit" target-form="form-horizontal">确 定</button>
+                <button class="btn btn-success ajax-post" id="submit" type="submit" target-form="add">确 定</button>
                 <a class="btn btn-success" href="{:U('article/index?cate_id='.$cate_id)}">返 回</a>
                 <if condition="C('OPEN_DRAFTBOX') and (ACTION_NAME eq 'add' or $info['status'] eq 3)">
-                <button class="btn btn-success" id="autoSave" url="{:U('article/autoSave')}" target-form="form-horizontal">
+                <button class="btn btn-success" id="autoSave" url="{:U('article/autoSave')}" target-form="add">
                     存草稿
                 </button>
                 </if>
@@ -230,7 +217,6 @@ $(function(){
         minView:2,
         autoclose:true
     });
-    showTab();
 
     <if condition="C('OPEN_DRAFTBOX') and (ACTION_NAME eq 'add' or $info['status'] eq 3)">
     //保存草稿

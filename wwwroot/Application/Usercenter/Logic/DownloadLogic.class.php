@@ -7,7 +7,7 @@
 // | Author: huajie <banhuajie@163.com>
 // +----------------------------------------------------------------------
 
-namespace Admin\Logic;
+namespace Usercenter\Logic;
 
 /**
  * 文档模型子模型 - 下载模型

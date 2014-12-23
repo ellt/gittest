@@ -7,7 +7,7 @@
 // | Author: 麦当苗儿 <zuojiazi@vip.qq.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
 
-namespace Admin\Logic;
+namespace Usercenter\Logic;
 
 /**
  * 文档模型子模型 - 文章模型

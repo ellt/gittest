@@ -14,15 +14,15 @@
  */
 return array(
 
-    'DEFAULT_THEME' =>  C('USER_CENTET_THEME'),  // 默认模板主题名称
+    'DEFAULT_THEME' =>  C('USER_CENTET_THEME', 'default'),  // 默认模板主题名称
 
     /* 模板相关配置 */
     'TMPL_PARSE_STRING' => array(
         '__STATIC__' => __ROOT__ . '/Public/static',
-        '__ADDONS__' => __ROOT__ . '/Public/' . MODULE_NAME . '/' .C('DEFAULT_THEME') . '/Addons',
-        '__IMG__'    => __ROOT__ . '/Public/' . MODULE_NAME . '/' .C('DEFAULT_THEME') . '/images',
-        '__CSS__'    => __ROOT__ . '/Public/' . MODULE_NAME . '/' .C('DEFAULT_THEME') . '/css',
-        '__JS__'     => __ROOT__ . '/Public/' . MODULE_NAME . '/' .C('DEFAULT_THEME') . '/js',
+        '__ADDONS__' => __ROOT__ . '/Public/' . MODULE_NAME . '/' .C('USER_CENTET_THEME') . '/Addons',
+        '__IMG__'    => __ROOT__ . '/Public/' . MODULE_NAME . '/' .C('USER_CENTET_THEME') . '/images',
+        '__CSS__'    => __ROOT__ . '/Public/' . MODULE_NAME . '/' .C('USER_CENTET_THEME') . '/css',
+        '__JS__'     => __ROOT__ . '/Public/' . MODULE_NAME . '/' .C('USER_CENTET_THEME') . '/js',
         '__BS__'     => __ROOT__ . '/Public/static/bootstrap3',
     ),
 );
