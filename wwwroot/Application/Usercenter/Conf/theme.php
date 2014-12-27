@@ -14,7 +14,7 @@
  */
 return array(
 
-    'DEFAULT_THEME' =>  C('USER_CENTET_THEME', 'default'),  // 默认模板主题名称
+    'DEFAULT_THEME' =>  C('USER_CENTET_THEME'),  // 默认模板主题名称
 
     /* 模板相关配置 */
     'TMPL_PARSE_STRING' => array(
