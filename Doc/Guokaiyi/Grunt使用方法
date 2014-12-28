@@ -1,0 +1,7 @@
+官网：http://www.gruntjs.net/docs/getting-started/
+
+1、安装Grunt CLI。
+2、在项目根目录配置package.json 和 Gruntfile 文件。
+3、将命令行的当前目录转到项目的根目录下。
+4、执行npm install命令安装项目依赖的库。
+5、执行 grunt 命令。
