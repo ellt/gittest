@@ -5,3 +5,4 @@
 /Svndir/*svn
 wwwroot/Application/Install/Data/install.lock
 参考资料/
+node_modules/
