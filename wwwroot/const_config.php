@@ -32,7 +32,7 @@ define("LOG_PATH", WEB_ROOT . "Data/Log/");
  * 定义Cache目录
  * 此目录必须可写，建议移动到非WEB目录
  */
-define('WEB_CACHE_PATH', WEB_ROOT . "Data/Cache/");
+define('WEB_CACHE_PATH', WEB_ROOT . "Data/WebCache/");
 
 /**
  * 系统备份数据库文件存放目录
