@@ -9,18 +9,33 @@
 // +----------------------------------------------------------------------
 
 namespace Common\Controller;
+
 use Think\Controller;
 use Think\Hook;
 
 abstract class CommonBaseController extends Controller {
+    
 	/**
 	 *
 	 */
 	function __construct() {
 		parent::__construct();
-
 	}
-
+	
+	/**
+	 * 
+	 */
+	protected function _initialize(){
+	
+	    /* 读取数据库中的配置 */
+	    $config =   S('DB_CONFIG_DATA');
+	    if(!$config){
+	        $config =   api('Config/lists');
+	        S('DB_CONFIG_DATA',$config);
+	    }
+	    C($config); //添加配置
+	    
+	}
 	/**
 	 * 获取kv
 	 * @return array|mixed
