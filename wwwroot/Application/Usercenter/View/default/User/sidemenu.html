@@ -1,0 +1,112 @@
+<ul class="nav nav-blocks nav-stacked" role="tablist">
+    <li class="active">
+        <a href="javascript:;" data-toggle="collapse" data-target="#demo1" aria-expanded="true">{$sidemenu.title}</a>
+        <ul class="sub-menu collapse" id="demo1">
+            <li>
+                <a href="javascript:;" data-toggle="collapse" data-target="#demo11" aria-expanded="true">
+                    年级班级设置
+                    <span class="pull-right"> <i class="fa fa-hand-o-left fa-lg text-primary"></i>
+                    </span>
+                </a>
+                <ul class="sub-menu collapse" id="demo11">
+                    <li>
+                        <a href="javascript:;" data-toggle="collapse" data-target="#demo111" aria-expanded="true"> <i class="fa fa-caret-down fa-lg"></i>
+                            2013 级
+                        </a>
+                        <ul class="sub-menu collapse" id="demo111">
+                            <li>
+                                <a>1 班</a>
+
+                            </li>
+                            <li>
+                                <a>2 班</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="javascript:;" data-toggle="collapse" data-target="#demo112" aria-expanded="true">
+                            <i class="fa fa-caret-down fa-lg"></i>
+                            2014 级
+                        </a>
+                        <ul class="sub-menu collapse" id="demo112">
+                            <li>
+                                <a>1 班</a>
+                            </li>
+                            <li>
+                                <a>2 班</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="javascript:;" data-toggle="collapse" data-target="#demo12" aria-expanded="true">
+                    科目设置
+                    <span class="pull-right"> <i class="fa fa-hand-o-left fa-lg text-primary"></i>
+                    </span>
+                </a>
+                <ul class="sub-menu collapse" id="demo12">
+                    <li>
+                        <a href="javascript:;" data-toggle="collapse" data-target="#demo121" aria-expanded="true"> <i class="fa fa-caret-down fa-lg"></i>
+                            2013 级
+                        </a>
+                        <ul class="sub-menu collapse" id="demo121">
+                            <li>
+                                <a>1 班</a>
+
+                            </li>
+                            <li>
+                                <a>2 班</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="javascript:;" data-toggle="collapse" data-target="#demo122" aria-expanded="true">
+                            <i class="fa fa-caret-down fa-lg"></i>
+                            2014 级
+                        </a>
+                        <ul class="sub-menu collapse" id="demo122">
+                            <li>
+                                <a>1 班</a>
+                            </li>
+                            <li>
+                                <a>2 班</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <a>班级信息管理</a>
+    </li>
+    <li>
+        <a>教师信息管理</a>
+    </li>
+    <li>
+        <a>学生信息管理</a>
+    </li>
+</ul>
+
+<div class="list-group" style="margin-top:50px">
+    <a class="list-group-item ell-sidebar-title" href="#" >临时超链接</a>
+    <a class="list-group-item <eq name='Think.ACTION_NAME' value='mydocument'>active</eq>"
+        href="{:U('User/baseSetting')}" >基础信息设置</a>
+    <a class="list-group-item <eq name='Think.ACTION_NAME' value='draftbox'>active</eq>"
+        href="{:U('User/classManage')}" >班级信息管理</a>
+    <a class="list-group-item <eq name='Think.ACTION_NAME' value='examine'>active</eq>"
+        href="{:U('User/teacherManage')}" >教师信息管理</a>
+    <a class="list-group-item <eq name='Think.ACTION_NAME' value='recycle'>active</eq>"
+        href="{:U('User/studentManage')}" >学生信息管理</a>
+
+    <volist name="nodes" id="sub_menu">
+    <!-- 子导航 -->
+    <notempty name="sub_menu">
+    <volist name="sub_menu['_child']" id="menu">
+    <a class="list-group-item <if condition='$menu.id eq $cate_id or $menu.current eq 1'>active</if>" href="{$menu.url|U}">{$menu.title}</a>
+    </volist>
+    </notempty>
+    <!-- /子导航 -->
+    </volist>
+</div>
