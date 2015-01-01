@@ -1,0 +1,187 @@
+@import "../../bootstrap3/less/variables.less";
+@import "../../bootstrap3/less/mixins.less";
+@import "common-variables.less";
+
+.ell-navbar-inverse {
+  background-color: #303a40;
+  border-color: #080808;
+}
+.ell-navbar-inverse .navbar-brand {
+  color: #fff;
+}
+.ell-navbar-inverse .navbar-nav > li > a {
+  color: #ccc;
+}
+.ell-navbar-inverse .navbar-nav > .active > a,
+.ell-navbar-inverse .navbar-nav > .active > a:hover,
+.ell-navbar-inverse .navbar-nav > .active > a:focus {
+  color: #fff;
+  background-color: #428bca;
+}
+
+.ell-main-container {
+  min-height: 550px;
+}
+
+.ell-sidebar .nav{
+  background-color: #3d3d3d;
+
+  // 第一级列表
+  > li {
+    margin: 0;
+    padding: 0;
+    border: 0;
+
+    > a {
+      border-top: 1px solid #5c5c5c;
+      color: #ffffff;
+      &:hover,
+      &:focus {
+        background: #282424;
+      }
+    }
+
+    // 第一级子菜单
+    > ul.sub-menu {
+      margin: 8px 0px;
+    }
+  }
+
+  // 所有子菜单
+  ul.sub-menu {
+    padding: 0;
+    list-style: none;
+    clear: both;
+
+    > li {
+      background: none;
+      margin: 0px;
+      padding: 0px;
+      margin-top: 1px;
+
+      > a {
+        display: block; 
+        margin: 0;
+        padding: 5px 0px;
+        color: #bdbdbd;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 300;
+        background: none;
+        &:hover,
+        &:focus {
+          color: #fff;
+          background: #575757;
+        }
+      }
+    }
+  }
+
+  // 第一级子菜单
+  > li > ul.sub-menu a {
+    padding-left: 44px;
+  }
+
+  // 第二级子菜单
+  > li > ul.sub-menu > li > ul.sub-menu a {
+    padding-left: 60px;
+  }
+
+  // 第三级子菜单
+  > li > ul.sub-menu > li > ul.sub-menu > li > ul.sub-menu a {
+    padding-left: 80px;
+  }
+
+  // 下面为临时
+  > .ell-sidebar-title {
+    color: #fff;
+    font-weight: bold;
+    background-color: #444;
+    border: 1px solid #444;
+    cursor:default;
+  }
+
+  > .list-group-item {
+    > a,
+    > a:hover {
+      color: #000;
+      text-decoration:none;
+      cursor: pointer;
+    }
+  }
+}
+
+// Blocks
+// -------------------------
+.nav-blocks {
+  > li {
+
+    // Links rendered as blocks
+    > a {
+      border-radius: 0;
+    }
+
+    // Active state
+    &.active > a {
+      &,
+      &:hover,
+      &:focus {
+        color: @nav-blocks-active-link-hover-color;
+        background-color: @nav-blocks-active-link-hover-bg;
+        border: 1px solid @nav-blocks-active-link-hover-border-color;
+      }
+    }
+  }
+}
+
+a.ell-sidebar-title,
+a.ell-sidebar-title:hover,
+a.ell-sidebar-title:focus {
+  color: #fff;
+  font-weight: bold;
+  border: 1px solid #444;
+  background-color: #444;
+  cursor:default;
+}
+.ell-sidebar-tree {
+
+  .list-group-item {
+    margin-left: -1px;
+    margin-right: -1px;
+    border-top: none;
+    border-bottom: none;
+    border-radius: 0;
+  }
+}
+
+.ell-alert {
+  position:absolute;
+  left: 15px;
+  right: 15px;
+}
+.ell-alert .alert {
+  display: none;
+}
+
+.ell-main-title {
+  padding-bottom: 10px;
+  *zoom: 1;
+}
+.ell-main-title:before,
+.ell-main-title:after {
+  display: table;
+  content: "";
+}
+.ell-main-title:after {
+  clear: both;
+}
+.ell-main-title h2 {
+  float: left;
+  margin-top: 0;
+  font-weight: 400;
+}
+
+.ell-tab-wrap > ul {
+  margin-bottom: 10px;
+}
+
