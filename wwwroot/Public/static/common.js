@@ -17,34 +17,26 @@
         });
     });
 
-    /**
-     * ajax-post
-     * 将链接转换为ajax请求，并交给handleAjax处理
-     * 参数：
-     * data-confirm：如果存在，则点击后发出提示。
-     * 示例：<a href="xxx" class="ajax-post">Test</a>
-     */
-    // $(document).on('click', '.ajax-post', function (e) {
-    //     //取消默认动作，防止跳转页面
-    //     e.preventDefault();
+    /**顶部警告栏*/
+    var top_alert = $('#top-alert');
+    top_alert.find('.close').on('click', function () {
+        top_alert.hide();
+    });
 
-    //     //获取参数（属性）
-    //     var url = $(this).attr('href');
-    //     var confirmText = $(this).attr('data-confirm');
-
-    //     //如果需要的话，发出确认提示信息
-    //     if (confirmText) {
-    //         var result = confirm(confirmText);
-    //         if (!result) {
-    //             return false;
-    //         }
-    //     }
-
-    //     //发送AJAX请求
-    //     $.post(url, {}, function (a, b, c) {
-    //         handleAjax(a);
-    //     });
-    // });
+    // 警告栏的弹出与隐藏
+    window.updateAlert = function (info, status) {
+        if (status) { //如果不是隐藏提示框
+            var c = (status == "success") ? "alert-success" : "alert-warning";
+            top_alert.removeClass('alert-warning alert-success').addClass(c);
+            top_alert.find('.alert-content').text(info);
+            top_alert.show();
+            setTimeout(function () {
+                top_alert.hide();
+            }, 1500);
+        } else {
+            top_alert.hide();
+        }
+    };
 
     /**
      * ajax-form
@@ -85,10 +77,9 @@
         }
         callable(action, formContent, function (a) {
             handleAjax(a);
-            //$('[type=submit]', form).removeClass('disabled');
+            $('[type=submit]', form).removeClass('disabled');
         });
 
-        //返回
         return false;
     });
 
@@ -103,31 +94,7 @@
         }
         if ( (target = $(this).attr('href')) || (target = $(this).attr('url')) ) {
             $.get(target).success(function(data){
-                if (data.status==1) {
-                    if (data.url) {
-                        updateAlert(data.info + ' 页面即将自动跳转~','alert-success');
-                    }else{
-                        updateAlert(data.info,'alert-success');
-                    }
-                    setTimeout(function(){
-                        if (data.url) {
-                            location.href=data.url;
-                        }else if( $(that).hasClass('no-refresh')){
-                            $('#top-alert').find('button').click();
-                        }else{
-                            location.reload();
-                        }
-                    },1500);
-                }else{
-                    updateAlert(data.info);
-                    setTimeout(function(){
-                        if (data.url) {
-                            location.href=data.url;
-                        }else{
-                            $('#top-alert').find('button').click();
-                        }
-                    },1500);
-                }
+                handleAjax(data);
             });
 
         }
@@ -182,57 +149,12 @@
             }
             $(that).addClass('disabled').attr('autocomplete','off').prop('disabled',true);
             $.post(target,query).success(function(data){
-                if (data.status==1) {
-                    if (data.url) {
-                        updateAlert(data.info + ' 页面即将自动跳转~','alert-success');
-                    }else{
-                        updateAlert(data.info ,'alert-success');
-                    }
-                    setTimeout(function(){
-                        if (data.url) {
-                            location.href=data.url;
-                        }else if( $(that).hasClass('no-refresh')){
-                            $('#top-alert').find('button').click();
-                            $(that).removeClass('disabled').prop('disabled',false);
-                        }else{
-                            location.reload();
-                        }
-                    },1500);
-                }else{
-                    updateAlert(data.info);
-                    setTimeout(function(){
-                        if (data.url) {
-                            location.href=data.url;
-                        }else{
-                            $('#top-alert').find('button').click();
-                            $(that).removeClass('disabled').prop('disabled',false);
-                        }
-                    },1500);
-                }
+                handleAjax(data);
+                $(that).removeClass('disabled').prop('disabled',false);
             });
         }
         return false;
     });
-
-    /**顶部警告栏*/
-    var top_alert = $('#top-alert');
-    top_alert.find('.close').on('click', function () {
-        top_alert.hide();
-    });
-
-    window.updateAlert = function (text,c) {
-        text = text||'default';
-        c = c||false;
-        if ( c!=false ) {
-            top_alert.removeClass('alert-error alert-warning alert-info alert-success').addClass(c);
-        }
-        if ( text!='default' ) {
-            top_alert.find('.alert-content').text(text);
-            top_alert.show();
-        } else {
-            top_alert.hide();
-        }
-    };
 
     //按钮组
     (function(){
@@ -282,67 +204,89 @@
 //     });
 });
 
-
 /**
- * Ajax系列
+ * 模拟U函数
+ * @param url
+ * @param params
+ * @returns {string}
+ * @constructor
  */
+function U(url, params, rewrite) {
+    var website = Think.ROOT + '/index.php';
+    url = url.split('/');
+    if (url[0] == '' || url[0] == '@')
+        url[0] = APPNAME;
+    if (!url[1])
+        url[1] = 'Index';
+    if (!url[2])
+        url[2] = 'index';
+    website = website + '?s=/' + url[0] + '/' + url[1] + '/' + url[2];
+    if (params) {
+        params = params.join('/');
+        website = website + '/' + params;
+    }
+    if (!rewrite) {
+        website = website + '.html';
+    }
+    return website;
+}
 
 /**
  * 处理ajax返回结果
+ * 弹出提示框，显示结果中的success或error信息
+ * 参数：
+ * data.status：1 成功 0 失败
+ * data.info：提示信息
+ * data.url: "refresh" 刷新，url 跳转地址, "" 不刷新
  */
-function handleAjax(a) {
+function handleAjax(data) {
 
     //如果需要跳转的话，消息的末尾附上即将跳转字样
-    if (a.url) {
-        a.info += '，页面即将跳转～';
+    if (data.url && data.url != "no-refresh") {
+        data.info += '，页面即将跳转～';
     }
 
     //弹出提示消息
-    if (a.status) {
-        updateAlert(a.info, 'alert-success');
+    if (data.status) {
+        updateAlert(data.info, 'success');
+        if (!data.url) data.url = "refresh"; // 对ot admin 方法兼容，后期需要优化 add by Guoky
     } else {
-        updateAlert(a.info);
+        updateAlert(data.info, 'error');
     }
 
     //需要跳转的话就跳转
-    var interval = 1500;
-    if (a.url == "refresh") {
+    var interval = 1000;
+    if (data.url == "refresh") {
         setTimeout(function () {
             location.href = location.href;
         }, interval);
-    } else if (a.url) {
+    } else if (data.url == "no-refresh") {
+        // 暂时留空
+    } else if (data.url) {
         setTimeout(function () {
-            location.href = a.url;
-        }, interval);
-    } else {
-        setTimeout(function () {
-            $('#top-alert').find('button').click();
+            location.href = data.url;
         }, interval);
     }
+}
 
-    //如果需要跳转的话，消息的末尾附上即将跳转字样
-    // if (a.url) {
-    //     a.info += '，页面即将跳转～';
-    // }
+/**
+ * 改变按钮状态
+ * 参数：
+ * btn：按钮对象
+ * status：true active，false disabled
+ * text：按钮显示的内容
+ */
+function changeBtnStatus(btn, status, text) {
+    
+    if(status == true) { // 激活状态
+        btn.removeClass('disabled').prop('disabled',false);
+    } else { // 禁用状态
+        btn.addClass('disabled').prop('disabled',true);
+    }
 
-    // //弹出提示消息
-    // if (a.status) {
-    //     op_success(a.info, '温馨提示');
-    // } else {
-    //     op_error(a.info, '温馨提示');
-    // }
-
-    // //需要跳转的话就跳转
-    // var interval = 1500;
-    // if (a.url == "refresh") {
-    //     setTimeout(function () {
-    //         location.href = location.href;
-    //     }, interval);
-    // } else if (a.url) {
-    //     setTimeout(function () {
-    //         location.href = a.url;
-    //     }, interval);
-    // }
+    if(text != undefined) {
+        btn.val(text);
+    }
 }
 
  function isInt(obj){

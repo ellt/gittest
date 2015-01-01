@@ -13,7 +13,7 @@
                     <h4 class="modal-title" id="myModalLabel">新增年级</h4>
                 </div>
                 <div class="modal-body">
-                    <form id="addGradeForm" role="form" action="{:U('User/addGrade')}" method="post">
+                    <form id="addGradeForm" role="form">
                         <div class="row">
                             <div class="col-sm-3">
                                 <h4 class="pull-right">年级：</h4>
@@ -21,16 +21,22 @@
                             <div class="col-sm-4">
                                 <div class="input-group">
                                     <span class="input-group-btn">
-                                        <button class="btn btn-default" id="decGrade" type="button">
+                                        <button class="btn btn-default" data-form-btn="dec" data-input="grade" type="button">
                                             <span class="glyphicon glyphicon-minus"></span>
                                         </button>
                                     </span>
                                     <input type="text" class="form-control" id="setGrade" name="grade" value="2015" readonly>                    
                                     <span class="input-group-btn">
-                                        <button class="btn btn-default" id="incGrade" type="button">
+                                        <button class="btn btn-default" data-form-btn="inc" data-input="grade" type="button">
                                             <span class="glyphicon glyphicon-plus"></span>
                                         </button>
                                     </span>
+                                </div>
+                            </div>
+                            <div class="col-sm-5">
+                                <div class="help-block hidden">
+                                    <span class="glyphicon glyphicon-remove"></span>
+                                    <span>格式错误</span>
                                 </div>
                             </div>
                         </div>
@@ -55,13 +61,13 @@
                             <div class="col-sm-4">
                                 <div class="input-group">
                                     <span class="input-group-btn">
-                                        <button class="btn btn-default" id="decClass" type="button">
+                                        <button class="btn btn-default" data-form-btn="dec" data-input="classes" type="button">
                                             <span class="glyphicon glyphicon-minus"></span>
                                         </button>
                                     </span>
                                     <input type="text" id="setClass" class="form-control" name="classes" value="4">
                                     <span class="input-group-btn">
-                                        <button class="btn btn-default" id="incClass" type="button">
+                                        <button class="btn btn-default" data-form-btn="inc" data-input="classes" type="button">
                                             <span class="glyphicon glyphicon-plus"></span>
                                         </button>
                                     </span>
@@ -77,7 +83,7 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <input type="submit" class="btn btn-primary" value="确定" form="addGradeForm"/>
+                    <input type="submit" class="btn btn-primary" id="addGradeBtn" value="确定" data-url="{:U('User/addGrade')}" form="addGradeForm"/>
                     <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                 </div>
             </div>
@@ -128,10 +134,10 @@
                         
                     </td>
                     <td>
-                        <button class="btn btn-primary btn-xs get" data-url="{:U('User/baseSetting?grade=2014&status=1')}">
+                        <button class="btn btn-primary btn-xs" data-table-btn="inc" data-grade-id="2014">
                             <span class="glyphicon glyphicon-plus"></span>
                         </button>
-                        <button class="btn btn-danger btn-xs get" data-url="{:U('User/baseSetting?grade=2014&status=-1')}">
+                        <button class="btn btn-danger btn-xs" data-table-btn="dec" data-grade-id="2014">
                             <span class="glyphicon glyphicon-minus"></span>
                         </button>
                     </td>
@@ -146,10 +152,10 @@
                         <span class="label label-primary">3 班</span>
                     </td>
                     <td>
-                        <button class="btn btn-primary btn-xs">
+                        <button class="btn btn-primary btn-xs" data-table-btn="inc" data-grade-id="2015">
                             <span class="glyphicon glyphicon-plus"></span>
                         </button>
-                        <button class="btn btn-danger btn-xs">
+                        <button class="btn btn-danger btn-xs" data-table-btn="dec" data-grade-id="2015">
                             <span class="glyphicon glyphicon-minus"></span>
                         </button>
                     </td>
@@ -162,16 +168,18 @@
 <block name="script">
     <script>
     $(function(){
-        $(".get").click(function () {
-            //获取参数
-            var url = $(this).attr('data-url');
 
-            //发送到服务器
-            $.get(url).success(function(data){
+        $("[data-table-btn]").click(function() {
+            var op = $(this).attr("data-table-btn");
+            var gradeId = $(this).attr("data-grade-id");
+            var url = U("Usercenter/User/baseSetting");
+            var method = op == "dec" ? -1 : 1;
+            $.post(url, {grade: gradeId, status: method}, function (data) {
+                handleAjax(data);
                 if (data.status) {
                     updateClasses(data.grade, data.classes);
                 }
-            });
+            })
         });
 
         // 新增年级Modal
@@ -184,82 +192,77 @@
                 var grade = parseInt(gradeInfo.attr("data-grade"));
                 var classes = parseInt(classesInfo.attr("data-classes"));
 
-                $("#setGrade").attr("value", grade + 1);
-                $("#setClass").attr("value", classes);
+                $("input[name=grade]").attr("value", grade + 1);
+                $("input[name=classes]").attr("value", classes);
             }
         });
 
         // 表单合法性校验 
+        // 班级数量合法性校验
         $("#setClass").change(function() {
             var classes = $(this).val();
             if (isInt(classes) && (0 < parseInt(classes))) {
-                var row = $(this).parentsUntil("form").filter(".row");
-                row.removeClass("has-error");
-                row.find(".help-block").removeClass("show").addClass("hidden");
+                showFormTip();
             } else { // 格式错误
-                var row = $(this).parentsUntil("form").filter(".row");
-                row.addClass("has-error");
-                row.find(".help-block").removeClass("hidden").addClass("show");
+                showFormTip(['','','请输入正确的数字，如1,2']);
             }
         });
 
-        // 处理+/-按钮
-        $("#incGrade").click(function() {
-            setGrade(1);
-        });
-        $("#decGrade").click(function() {
-            setGrade(-1);
-        });
-        $("#incClass").click(function() {
-            setClasses(1);
-        });
-        $("#decClass").click(function() {
-            setClasses(-1);
+        $("[data-form-btn]").click(function() {
+            var op = $(this).attr("data-form-btn");
+            var inputName = $(this).attr("data-input");
+            var input = $("input[name=" + inputName + "]");
+            var method = op == "dec" ? -1 : 1;
+
+            var value = parseInt(input.val());
+            value = isNaN(value) ? parseInt(input.attr("value")) : value;
+            input.val(value + method);
         });
 
-        // 确定
-        $("#addGradeForm").submit(function (e) {
+        // 新增年级表单提交
+        $("#addGradeBtn").click(function(e) {
             //取消默认动作，防止表单两次提交
             e.preventDefault();
 
-            //禁用提交按钮，防止重复提交
-            var form = $(this);
-            $('[form=addGradeForm]').addClass('disabled');
-
-            //获取提交地址，方式
-            var action = form.attr('action');
-
-            //检测提交地址
-            if (!action) {
-                return false;
-            }
-
-            //获取表单内容
-            var formContent = form.serialize();
-
+            var url = $(this).attr('data-url');
+            var formId = $(this).attr('form');
+            var formContent = $("#"+formId).serialize();
+            var btn = $(this);
+            var originButtonText = btn.val();
+            changeBtnStatus(btn, false, "提交中……");
             //发送到服务器
-            $.post(action, formContent).success(function(data){
-                $('[form=addGradeForm]').removeClass('disabled');
+            $.post(url, formContent).success(function(data){
+                changeBtnStatus(btn, true, originButtonText);
                 if (data.status) {
                     //todo 刷新年级列表
+                    showFormTip();
                     $('#myModal').modal('hide');
+                } else {
+                    showFormTip(data.error_info);
                 }
             });
         });
     });
 
-    function setGrade(method) {
-        var input = $("#setGrade");
-        var grade = parseInt(input.val());
-        grade = isNaN(grade) ? parseInt(input.attr("value")) : grade;
-        input.val(grade + method);
-    }
+    function showFormTip(data) {
+        var form = $("#addGradeForm");
+        var row, tip, tipContent;
+        data = data || []; // 给定默认值为空数组
+        $("input", form).each(function(index){
+            row = $(this).parentsUntil("form").filter(".row");
+            tip = row.find(".help-block");
+            tipContent = tip.find("span").next();
 
-    function setClasses(method) {
-        var input = $("#setClass");
-        var classes = parseInt(input.val());
-        classes = isNaN(classes) ? parseInt(input.attr("value")) : classes;
-        input.val(classes + method);
+            if (data[index]) {
+                row.addClass("has-error");
+                tipContent.html(data[index]);
+                tip.removeClass("hidden").addClass("show");
+            } else {
+                row.removeClass("has-error");
+                tipContent.html();
+                tip.removeClass("show").addClass("hidden");
+            }
+        });
     }
 
     function updateClasses(grade, classes) {

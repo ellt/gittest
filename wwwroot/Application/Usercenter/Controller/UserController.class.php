@@ -28,10 +28,13 @@ class UserController extends AdminController {
             if ($result = $classes + $status) {
                 $classes = $result;
                 $data['status']  = 1;
+                $data['info'] = "班级数量设置成功";
+                $data['url'] = "no-refresh";
                 $data['grade'] = $grade;
                 $data['classes'] = $classes;
             } else {
                 $data['status']  = 0;
+                $data['info'] = "增加失败";
             }
 
             $this->ajaxReturn($data);
@@ -56,9 +59,13 @@ class UserController extends AdminController {
                 $data['classes'] = $classes;
             } else {
                 $data['status']  = 0;
+                $err[0] = "错误1"; 
+                $err[1] = "错误2"; 
+                $err[2] = "错误3333";
+                $data['error_info'] = $err;
             }
-            $this->success("成功". " grade=".grade." gradename=".gradename." classes=".classes, 'refresh');
-            //$this->ajaxReturn($data);
+            //$this->success("成功". " grade=".grade." gradename=".gradename." classes=".classes, 'refresh');
+            $this->ajaxReturn($data);
         }
     }
 }
