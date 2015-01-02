@@ -156,6 +156,17 @@
         return false;
     });
 
+    //ajax 发送 submit 请求
+    $("[data-target-form]").click(function() {
+        var target_form = $(this).attr("data-target-form");
+        form = $('.'+target_form);
+        var url = $(this).attr("data-url");
+        
+        $.post(url, form.serialize(), function (data) {
+            handleAjax(data);
+        })
+    });
+
     //按钮组
     (function(){
         //按钮组(鼠标悬浮显示)

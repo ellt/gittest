@@ -15,10 +15,11 @@ namespace Usercenter\Controller;
 class UserController extends AdminController {
 
     public function index(){
-        $this->redirect('baseSetting');
+        $this->redirect('subjectSetting');
+        //$this->display();
     }
 
-    public function baseSetting(){
+    public function gradeSetting(){
 
         if (IS_AJAX) {
             static $classes = 2;
@@ -57,7 +58,7 @@ class UserController extends AdminController {
                 $data['status']  = 1;
                 $data['grade'] = $grade;
                 $data['classes'] = $classes;
-            } else {
+            } else {//例子 当班级数量设置为0以下的时候
                 $data['status']  = 0;
                 $err[0] = "错误1"; 
                 $err[1] = "错误2"; 
@@ -65,6 +66,44 @@ class UserController extends AdminController {
                 $data['error_info'] = $err;
             }
             //$this->success("成功". " grade=".grade." gradename=".gradename." classes=".classes, 'refresh');
+            $this->ajaxReturn($data);
+        }
+    }
+
+    public function subjectSetting(){
+
+        $sidemenu['title'] = "基础信息设置";
+        $this->assign('sidemenu', $sidemenu);
+        $this->display();
+    }
+
+    public function addSubject() {
+
+        if (IS_AJAX) {            
+            $number = I('number');
+            $subject = I('subject');
+
+            if ($number) {
+                $classes = $result;
+                $data['status']  = 1;
+                $data['number'] = $number;
+                $data['subject'] = $subject;
+            } else {//例子 当编号设置为0的时候
+                $data['status']  = 0;
+                $err[0] = "错误1"; 
+                $err[1] = "错误2"; 
+                $data['error_info'] = $err;
+            }
+            //$this->success("成功". " grade=".grade." gradename=".gradename." classes=".classes, 'refresh');
+            $this->ajaxReturn($data);
+        }
+    }
+
+    public function saveSubject() {
+        if (IS_AJAX) {
+            $data['status']  = 1;
+            $data['info'] = "保存成功！";
+            $data['url'] = "no-refresh";
             $this->ajaxReturn($data);
         }
     }

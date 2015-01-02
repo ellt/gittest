@@ -83,7 +83,7 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <input type="submit" class="btn btn-primary" id="addGradeBtn" value="确定" data-url="{:U('User/addGrade')}" form="addGradeForm"/>
+                    <button type="submit" class="btn btn-primary" id="addGradeBtn" data-loading-text="提交中..." data-url="{:U('User/addGrade')}" form="addGradeForm" autocomplete="off">确定</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                 </div>
             </div>
@@ -98,7 +98,14 @@
 <block name="content">
     <!-- 标题 -->
     <div class="ell-main-title">
-        <h2>基础信息设置({$_total})</h2>
+        <h2>基础信息设置({$_total}) [年级班级设置
+        <volist name="rightNav" id="nav">
+        <a href="{:U('article/index','cate_id='.$nav['id'])}">{$nav.title}</a>
+            <if condition="count($rightNav) gt $i"><i class="ca"></i></if>
+        </volist>
+        <present name="article">：<a href="{:U('article/index','cate_id='.$cate_id.'&pid='.$article['id'])}">{$article.title}</a></present>
+        ]
+        </h2>
     </div>
 
     <!-- 按钮工具栏 -->
@@ -229,10 +236,10 @@
             var formContent = $("#"+formId).serialize();
             var btn = $(this);
             var originButtonText = btn.val();
-            changeBtnStatus(btn, false, "提交中……");
+            btn.button('loading');
             //发送到服务器
             $.post(url, formContent).success(function(data){
-                changeBtnStatus(btn, true, originButtonText);
+                btn.button('reset');
                 if (data.status) {
                     //todo 刷新年级列表
                     showFormTip();
