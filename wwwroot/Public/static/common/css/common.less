@@ -2,25 +2,41 @@
 @import "../../bootstrap3/less/mixins.less";
 @import "common-variables.less";
 
-.ell-navbar-inverse {
-  background-color: #303a40;
-  border-color: #080808;
-}
-.ell-navbar-inverse .navbar-brand {
-  color: #fff;
-}
-.ell-navbar-inverse .navbar-nav > li > a {
-  color: #ccc;
-}
-.ell-navbar-inverse .navbar-nav > .active > a,
-.ell-navbar-inverse .navbar-nav > .active > a:hover,
-.ell-navbar-inverse .navbar-nav > .active > a:focus {
-  color: #fff;
-  background-color: #428bca;
+.ell-navbar {
+  border: 0;
+  border-radius: 0;
+
+  .navbar-brand {
+    color: #fff;
+  }
+
+  .navbar-nav {
+    > li > a {
+      color: #ccc;
+    }
+
+    > .active > a {
+      &,
+      &:hover,
+      &:focus {
+        color: #fff;
+        background-color: #428bca;
+      }
+    }
+  }
 }
 
 .ell-main-container {
   min-height: 550px;
+}
+
+.ell-sidebar {
+  margin-top: -20px;
+  padding: 0;
+  padding-top: 20px;
+  min-height: 600px;
+  max-width: 200px;
+  background-color: #3d3d3d;
 }
 
 .ell-sidebar .nav{
@@ -42,9 +58,13 @@
     }
 
     // 第一级子菜单
-    > ul.sub-menu {
+    div > ul.sub-menu {
       margin: 8px 0px;
     }
+  }
+
+  a > i {
+    margin-right: 8px;
   }
 
   // 所有子菜单
@@ -62,7 +82,7 @@
       > a {
         display: block; 
         margin: 0;
-        padding: 5px 0px;
+        padding: 5px 15px;
         color: #bdbdbd;
         text-decoration: none;
         font-size: 14px;
@@ -74,21 +94,30 @@
           background: #575757;
         }
       }
+
+      &.active > a {
+        &,
+        &:hover,
+        &:focus {
+          color: #fff;
+          background: #575757;
+        }
+      }
     }
   }
 
   // 第一级子菜单
-  > li > ul.sub-menu a {
-    padding-left: 44px;
+  div > ul.sub-menu a {
+    padding-left: 40px;
   }
 
   // 第二级子菜单
-  > li > ul.sub-menu > li > ul.sub-menu a {
+  div > ul.sub-menu > li > ul.sub-menu a {
     padding-left: 60px;
   }
 
   // 第三级子菜单
-  > li > ul.sub-menu > li > ul.sub-menu > li > ul.sub-menu a {
+  div > ul.sub-menu > li > ul.sub-menu > li > ul.sub-menu a {
     padding-left: 80px;
   }
 
@@ -158,9 +187,10 @@ a.ell-sidebar-title:focus {
   position:absolute;
   left: 15px;
   right: 15px;
-}
-.ell-alert .alert {
-  display: none;
+
+  .alert {
+    display: none;
+  }
 }
 
 .ell-main-title {

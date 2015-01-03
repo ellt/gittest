@@ -1,21 +1,29 @@
-.ell-navbar-inverse {
-  background-color: #303a40;
-  border-color: #080808;
+.ell-navbar {
+  border: 0;
+  border-radius: 0;
 }
-.ell-navbar-inverse .navbar-brand {
+.ell-navbar .navbar-brand {
   color: #fff;
 }
-.ell-navbar-inverse .navbar-nav > li > a {
+.ell-navbar .navbar-nav > li > a {
   color: #ccc;
 }
-.ell-navbar-inverse .navbar-nav > .active > a,
-.ell-navbar-inverse .navbar-nav > .active > a:hover,
-.ell-navbar-inverse .navbar-nav > .active > a:focus {
+.ell-navbar .navbar-nav > .active > a,
+.ell-navbar .navbar-nav > .active > a:hover,
+.ell-navbar .navbar-nav > .active > a:focus {
   color: #fff;
   background-color: #428bca;
 }
 .ell-main-container {
   min-height: 550px;
+}
+.ell-sidebar {
+  margin-top: -20px;
+  padding: 0;
+  padding-top: 20px;
+  min-height: 600px;
+  max-width: 200px;
+  background-color: #3d3d3d;
 }
 .ell-sidebar .nav {
   background-color: #3d3d3d;
@@ -33,8 +41,11 @@
 .ell-sidebar .nav > li > a:focus {
   background: #282424;
 }
-.ell-sidebar .nav > li > ul.sub-menu {
+.ell-sidebar .nav > li div > ul.sub-menu {
   margin: 8px 0px;
+}
+.ell-sidebar .nav a > i {
+  margin-right: 8px;
 }
 .ell-sidebar .nav ul.sub-menu {
   padding: 0;
@@ -50,7 +61,7 @@
 .ell-sidebar .nav ul.sub-menu > li > a {
   display: block;
   margin: 0;
-  padding: 5px 0px;
+  padding: 5px 15px;
   color: #bdbdbd;
   text-decoration: none;
   font-size: 14px;
@@ -62,13 +73,19 @@
   color: #fff;
   background: #575757;
 }
-.ell-sidebar .nav > li > ul.sub-menu a {
-  padding-left: 44px;
+.ell-sidebar .nav ul.sub-menu > li.active > a,
+.ell-sidebar .nav ul.sub-menu > li.active > a:hover,
+.ell-sidebar .nav ul.sub-menu > li.active > a:focus {
+  color: #fff;
+  background: #575757;
 }
-.ell-sidebar .nav > li > ul.sub-menu > li > ul.sub-menu a {
+.ell-sidebar .nav div > ul.sub-menu a {
+  padding-left: 40px;
+}
+.ell-sidebar .nav div > ul.sub-menu > li > ul.sub-menu a {
   padding-left: 60px;
 }
-.ell-sidebar .nav > li > ul.sub-menu > li > ul.sub-menu > li > ul.sub-menu a {
+.ell-sidebar .nav div > ul.sub-menu > li > ul.sub-menu > li > ul.sub-menu a {
   padding-left: 80px;
 }
 .ell-sidebar .nav > .ell-sidebar-title {
