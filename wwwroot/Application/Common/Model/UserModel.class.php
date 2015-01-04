@@ -9,7 +9,7 @@
 // +----------------------------------------------------------------------
 
 namespace Common\Model;
-use Think\Model\RelationModel;
+use Think\Model;
 
 
 /**
@@ -17,7 +17,7 @@ use Think\Model\RelationModel;
  * Class UserModel
  * @package Home\Model
  */
-class UserModel extends RelationModel
+class UserModel extends Model
 {
 
     /**
@@ -25,7 +25,7 @@ class UserModel extends RelationModel
      */
     public $_link = array(
 
-    )
+    );
 
 
 }

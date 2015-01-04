@@ -12,29 +12,11 @@ namespace Common\Logic;
 use Think\Model\RelationModel;
 
 /**
- * 用户逻辑定义
+ * 老师逻辑定义
  * Class UserLogic
  * @package Common\Logic
  */
 class UserLogic extends RelationModel
 {
-
-    /**
-     * 获取指定用户信息
-     */
-    public function detail($uid, $relation = true)
-    {
-
-    }
-
-    /**
-     * 获取list
-     */
-    public function getList($limit = true, $relation = true)
-    {
-       
-    }
-
-
 
 }

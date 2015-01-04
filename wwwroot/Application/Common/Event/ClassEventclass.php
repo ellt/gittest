@@ -8,33 +8,18 @@
 // | Author: jigc <mrji1990@gmail.com>
 // +----------------------------------------------------------------------
 
-namespace Common\Logic;
-use Think\Model\RelationModel;
+namespace Common\Event;
+
+use Common\Controller\CommonBaseController;
+use Common\Logic\UserLogic;
 
 /**
- * 用户逻辑定义
- * Class UserLogic
- * @package Common\Logic
+ * 用户事件
+ * Class ClassEvent
+ * @package Common\Event
  */
-class UserLogic extends RelationModel
+class UserEvent extends CommonBaseController
 {
 
-    /**
-     * 获取指定用户信息
-     */
-    public function detail($uid, $relation = true)
-    {
-
-    }
-
-    /**
-     * 获取list
-     */
-    public function getList($limit = true, $relation = true)
-    {
-       
-    }
-
-
-
+ 
 }
