@@ -14,6 +14,7 @@ const ONETHINK_ADDON_PATH = Addon_PATH; // 将插件配置关联到 const_cconfi
 
 // 以下加载扩展函数文件 add by jigc 2014-12-30
 include APP_PATH . 'Common/Common/function_greencms.php';
+include APP_PATH . 'Common/Common/function_user.php';
         
 /**
  * 系统公共库文件

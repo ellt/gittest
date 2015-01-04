@@ -14,7 +14,7 @@ use Think\Page;
  * 后台内容控制器
  * @author huajie <banhuajie@163.com>
  */
-class ArticleController extends AdminController {
+class ArticleController extends UserCenterController {
 
 	/* 保存允许访问的公共方法 */
 	static protected $allow = array( 'draftbox','mydocument');
