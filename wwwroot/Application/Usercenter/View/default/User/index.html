@@ -1,179 +1,89 @@
-<extend name="Public/base"/>
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<link rel="shortcut icon" href="__PUBLIC__/favicon.ico">
+<title>{:C('WEB_SITE_TITLE')}</title>
+<!-- <link href="__STATIC__/bootstrap/css/bootstrap.css" rel="stylesheet"> -->
+<link href="__BS__/css/bootstrap.css" rel="stylesheet">
+<!-- <link href="__STATIC__/font-awesome/css/font-awesome.min.css" rel="stylesheet"> -->
+<link href="__STATIC__/handsontable/handsontable.full.min.css" rel="stylesheet">
+<!-- <link href="__STATIC__/common/css/common.css" rel="stylesheet"> -->
+<!-- Custom styles for this template -->
+<!-- <link href="__CSS__/module.css" rel="stylesheet"> -->
+<!-- <link href="__CSS__/elanglang.css" rel="stylesheet"> -->
+<block name="style"></block>
 
-<!-- 子导航 -->
-<block name="sidebar">
-    <include file="sidemenu" />
-</block>
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+<script src="__BS__/js/html5shiv.min.js"></script>
+<script src="__BS__/js/respond.min.js"></script>
+<![endif]-->
+<script src="__STATIC__/jquery-1.10.2.min.js"></script>
+<!-- <script src="__BS__/js/bootstrap.min.js"></script> -->
+<script src="__STATIC__/handsontable/handsontable.full.min.js"></script>
+</head>
+<body>
+<div id="hstable"></div>
+<script>
+        $(function(){ 
+    $(function(){ 
+        // var content;
+        // $("#content td").click(function(){ 
+        // var clickObj = $(this); 
+        // content = clickObj.html(); 
+        // changeToEdit(clickObj); 
+        // }); 
+        // function changeToEdit(node){ 
+        //     node.html(""); 
+        //     var inputObj = $("<input type='text'/>"); 
+        //     // inputObj.css("border","0").css("background-color",node.css("background-color")) 
+        //     // .css("font-size",node.css("font-size")).css("height","20px") 
+        //     // .css("width",node.css("width")).val(content).appendTo(node) 
+        //     // .get(0).select(); 
 
-<block name="content">
-    <!-- 标题 -->
-    <div class="ell-main-title">
-        <h2>我的文档({$_total})</h2>
-    </div>
+        //     inputObj.val(content).appendTo(node).get(0).select(); 
 
-    <!-- 按钮工具栏 -->
-    <div class="row">
-        <div class="col-md-6">
-            <div class="pull-left">
-                <button class="btn btn-success ajax-post" target-form="ids" url="{:U("Article/setStatus",array("status"=>1))}">启 用</button>
-                <button class="btn btn-success ajax-post" target-form="ids" url="{:U("Article/setStatus",array("status"=>0))}">禁 用</button>
-                <button class="btn btn-success ajax-post confirm" target-form="ids" url="{:U("Article/setStatus",array("status"=>-1))}">删 除</button>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <!-- 高级搜索 -->
-            <div class="pull-right search-form cf">
-                <div class="row">
-                    <div class="col-md-9">
-                        <div class="input-group">
-                            <div class="input-group-btn">
-                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">所有 <span class="caret"></span></button>
-                                <ul class="dropdown-menu" role="menu">
-                                  <li><a href="#">所有</a></li>
-                                  <li><a href="#">正常</a></li>
-                                  <li><a href="#">禁用</a></li>
-                                  <li><a href="#">待审核</a></li>
-                                </ul>
-                            </div><!-- /btn-group -->
-                            <input type="text" class="form-control" name="title" value="{:I('title')}" placeholder="请输入文档标题">
-                            <span class="input-group-btn">
-                                <a class="btn btn-default" id="search" url="{:U('article/mydocument','pid='.I('pid',0).'&cate_id='.$cate_id,false)}">
-                                    <span class="glyphicon glyphicon-search"></span>
-                                </a>
-                            </span>
-                        </div><!-- /input-group -->
-                    </div>
-                    <div class="col-md-3">
-                        <div class="btn-group-click adv-sch-pannel pull-right">
-                            <button class="btn btn-success">高 级 <span class="caret"></span></button>
-                            <div class="dropdown-pannel">
-                                <form class="form-inline" role="form">
-                                    <div class="form-group">
-                                    <label>创建时间：</label>
-                                    <input type="text" id="time-start" name="time-start"value="" placeholder="起始时间" /> -                        
-                                    <div class="input-append date" id="datetimepicker"  style="display:inline-block">
-                                        <input type="text" id="time-end" name="time-end"value="" placeholder="结束时间" />
-                                        <span class="add-on"><i class="icon-th"></i></span>
-                                    </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+        //     inputObj.click(function(){ 
+        //         return false; 
+        //         }).keyup(function(event){ 
+        //         var keyvalue = event.which; 
+        //         if(keyvalue==13){ 
+        //         node.html(node.children("input").val()); 
+        //         } 
+        //         if(keyvalue==27){ 
+        //         node.html(content); 
+        //         } 
+        //         }).blur(function(){ 
+        //         if(node.children("input").val()!=content){ 
+        //         if(confirm("是否保存修改的内容？","Yes","No")){ 
+        //         node.html(node.children("input").val()); 
+        //         }else{ 
+        //         node.html(content); 
+        //         } 
+        //         }else{ 
+        //         node.html(content); 
+        //         } 
+        //     }); 
+        // }
+    }); 
 
-    <!-- 数据表格 -->
-    <div class="data-table">
-        <table class="table table-striped table-hover">
-            <thead>
-                <tr>
-                    <th class="row-selected"><input class="check-all" type="checkbox"/></th>
-                    <th>编号</th>
-                    <th>标题</th>
-                    <th>子文档</th>
-                    <th>类型</th>
-                    <th>分类</th>
-                    <th>优先级</th>
-                    <th>最后更新</th>
-                    <th>浏览</th>
-                    <th>状态</th>
-                    <th>操作</th>
-                </tr>
-            </thead>
-            <tbody>
-                <volist name="list" id="vo">
-                <tr>
-                    <td><input class="ids" type="checkbox" name="ids[]" value="{$vo.id}" /></td>
-                    <td>{$vo.id} </td>
-                    <td><a href="{:U('Article/index?cate_id='.$vo['category_id'].'&pid='.$vo['id'])}">{$vo.title}</a></td>
-                    <td>{:get_subdocument_count($vo['id'])}</td>
-                    <td>{:get_document_type($vo['type'])}</td>
-                    <td>{:get_cate($vo['category_id'])}</td>
-                    <td>{$vo.level}</td>
-                    <td>{$vo.update_time|time_format}</td>
-                    <td>{$vo.view}</td>
-                    <td>{$vo.status_text}</td>
-                    <td>
-                        <a href="{:U('Article/edit?cate_id='.$vo['category_id'].'&id='.$vo['id'])}">编辑</a>
-                        <a href="{:U('Article/setStatus?ids='.$vo['id'].'&status='.abs(1-$vo['status']))}" class="ajax-get">{$vo.status|show_status_op}</a>
-                        <a href="{:U('Article/setStatus?status=-1&ids='.$vo['id'])}" class="confirm ajax-get">删除</a>
-                    </td>
-                </tr>
-                </volist>
-            </tbody>
-        </table>
-    </div>
-
-    <!-- 分页 -->
-    <div class="page">
-        {$_page}
-    </div>
-</block>
-
-<block name="script">
-    <link href="__STATIC__/datetimepicker/css/datetimepicker.css" rel="stylesheet">
-    <script src="__STATIC__/datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
-    <script src="__STATIC__/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
-
-    <script>
-    $(function(){
-        //搜索功能
-        $("#search").click(function(){
-            var url = $(this).attr('url');
-            var status = $("#sch-sort-txt").attr("data");
-            var query  = $('.search-form').find('input').serialize();
-            query = query.replace(/(&|^)(\w*?\d*?\-*?_*?)*?=?((?=&)|(?=$))/g,'');
-            query = query.replace(/^&/g,'');
-            if(status != ''){
-                query += 'status=' + status + "&" + query;
-            }
-            if( url.indexOf('?')>0 ){
-                url += '&' + query;
-            }else{
-                url += '?' + query;
-            }
-            window.location.href = url;
-        });
-
-        /* 状态搜索子菜单 */
-        $(".search-form").find(".drop-down").hover(function(){
-            $("#sub-sch-menu").removeClass("hidden");
-        },function(){
-            $("#sub-sch-menu").addClass("hidden");
-        });
-        $("#sub-sch-menu li").find("a").each(function(){
-            $(this).click(function(){
-                var text = $(this).text();
-                $("#sch-sort-txt").text(text).attr("data",$(this).attr("value"));
-                $("#sub-sch-menu").addClass("hidden");
-            })
-        });
-
-        //回车自动提交
-        $('.search-form').find('input').keyup(function(event){
-            if(event.keyCode===13){
-                $("#search").click();
-            }
-        });
-
-        $('#time-start').datetimepicker({
-            format: 'yyyy-mm-dd',
-            language:"zh-CN",
-            minView:2,
-            autoclose:true
-        });
-
-        $('#datetimepicker').datetimepicker({
-           format: 'yyyy-mm-dd',
-            language:"zh-CN",
-            minView:2,
-            autoclose:true,
-            pickerPosition:'bottom-left'
-        })
-        
-    })
-    </script>
-</block>
+        var data = [
+          ["", "Kia", "Nissan", "Toyota", "Honda"],
+          ["2008", 10, 11, 12, 13],
+          ["2009", 20, 11, 14, 13],
+          ["2010", 30, 15, 12, 13]
+        ],
+          container = document.getElementById('hstable'),
+          settings1 = {
+            data:data
+          },
+          hot = new Handsontable(container,settings1);
+        data[0][1] = "Ford"; //change "Kia" to "Ford" programatically
+        hot.render();
+    }); 
+</script>
+</body>
+</html>
