@@ -139,7 +139,7 @@
             })
         });
 
-        // 新增年级Modal
+        // 新增科目Modal
 
         // 初始化Modal
         $(".init").click(function() {
@@ -175,7 +175,6 @@
             var formId = $(this).attr('form');
             var formContent = $("#"+formId).serialize();
             var btn = $(this);
-            var originButtonText = btn.val();
             btn.button('loading');
             //发送到服务器
             $.post(url, formContent).success(function(data){
