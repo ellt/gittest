@@ -1,0 +1,153 @@
+<ul class="nav nav-blocks nav-stacked" role="tablist">
+    <li class="active">
+        <a href="javascript:;" data-toggle="collapse" data-target="#demo1">
+            <i class="fa fa-cog"></i>
+            基础信息设置
+            <span class="pull-right"><i class="fa fa-caret-left fa-lg"></i></span>
+        </a>
+        <div class="collapse" id="demo1"><!-- 消除bootstrap折叠sidebar时，因间距产生的跳跃 -->
+        <ul class="sub-menu">
+            <li class="active">
+                <a href="javascript:;" data-toggle="collapse" data-target="#demo11">
+                    年级班级设置
+                    <span class="pull-right"><i class="fa fa-caret-left fa-lg"></i></span>
+                </a>
+                <ul class="sub-menu collapse" id="demo11">
+                    <li>
+                        <a href="javascript:;" data-toggle="collapse" data-target="#demo111">
+                            2013 级
+                            <span class="pull-right"><i class="fa fa-caret-left fa-lg"></i></span>
+                        </a>
+                        <ul class="sub-menu collapse" id="demo111">
+                            <li>
+                                <a>1 班</a>
+                            </li>
+                            <li>
+                                <a>2 班</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="javascript:;" data-toggle="collapse" data-target="#demo112">
+                            2014 级
+                            <span class="pull-right"><i class="fa fa-caret-left fa-lg"></i></span>
+                        </a>
+                        <ul class="sub-menu collapse" id="demo112">
+                            <li>
+                                <a>1 班</a>
+                            </li>
+                            <li>
+                                <a>2 班</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="javascript:;" data-toggle="collapse" data-target="#demo12">
+                    科目设置
+                    <span class="pull-right"><i class="fa fa-caret-left fa-lg"></i></span>
+                </a>
+                <ul class="sub-menu collapse" id="demo12">
+                    <li>
+                        <a href="javascript:;" data-toggle="collapse" data-target="#demo121">
+                            2013 级
+                            <span class="pull-right"><i class="fa fa-caret-left fa-lg"></i></span>
+                        </a>
+                        <ul class="sub-menu collapse" id="demo121">
+                            <li>
+                                <a>1 班</a>
+
+                            </li>
+                            <li>
+                                <a>2 班</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="javascript:;" data-toggle="collapse" data-target="#demo122">
+                            2014 级
+                            <span class="pull-right"><i class="fa fa-caret-left fa-lg"></i></span>
+                        </a>
+                        <ul class="sub-menu collapse" id="demo122">
+                            <li>
+                                <a>1 班</a>
+                            </li>
+                            <li>
+                                <a>2 班</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        </div>
+    </li>
+    <li>
+        <a href="javascript:;" data-toggle="collapse" data-target="#demo2">
+            <i class="fa fa-table"></i>
+            班级信息管理
+            <span class="pull-right"><i class="fa fa-caret-left fa-lg"></i></span>
+        </a>
+        <div class="collapse" id="demo2"><!-- 消除bootstrap折叠sidebar时，因间距产生的跳跃 -->
+        <ul class="sub-menu">
+            <li>
+                <a href="javascript:;">
+                    2013 级
+                </a>
+            </li>
+            <li>
+                <a href="javascript:;">
+                    2014 级
+                </a>
+            </li>
+        </ul>
+        </div>
+    </li>
+    <li>
+        <a>
+            <i class="fa fa-user"></i>
+            教师信息管理
+        </a>
+    </li>
+    <li>
+        <a> 
+            <i class="fa fa-child"></i>
+            学生信息管理
+        </a>
+    </li>
+</ul>
+
+<script>
+    $(function(){
+        var targetId, id;
+
+        $("[data-toggle='collapse']").click(function() {
+            targetId = $(this).attr("data-target");
+        });
+
+        $(".collapse").on('show.bs.collapse', function () {
+            id = $(this).attr("id");
+
+            // 确认被点击的目标
+            if("#"+id == targetId) {
+                changeIcon(targetId, "show");
+            }
+        })
+        $(".collapse").on('hide.bs.collapse', function () {
+            id = $(this).attr("id");
+            if("#"+id == targetId) {
+                changeIcon(targetId, "hide");
+            }
+        })
+    });
+
+    function changeIcon(targetId, status) {
+        var a = $("[data-target=" + targetId + "]");
+        if (status == "show") {
+            a.find("span i").removeClass("fa-caret-left").addClass("fa-caret-down");
+        } else {
+            a.find("span i").removeClass("fa-caret-down").addClass("fa-caret-left");
+        }
+    }
+</script>

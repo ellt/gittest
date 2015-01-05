@@ -1,0 +1,134 @@
+<table class="table table-bordered table-striped">
+  <thead>
+    <tr>
+      <th style="width: 100px;">名称</th>
+      <th style="width: 50px;">类型</th>
+      <th style="width: 100px;">默认值</th>
+      <th>描述</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>source</td>
+      <td>array, function</td>
+      <td>[ ]</td>
+      <td>
+        用于查询的数据源。可以是一个字符串数组，一个带name属性的JSON对象数组或是一个函数。函数会接收到两个参数，分别是输入域中的
+        <code>query</code>
+        值和
+        <code>process</code>
+        回调函数。函数可能会被同步调用，直接返回数据源；或者异步调用，通过
+        <code>process</code>
+        回调函数的唯一一个参数。
+      </td>
+    </tr>
+    <tr>
+      <td>items</td>
+      <td>number</td>
+      <td>8</td>
+      <td>下拉菜单中显示的最大的条目数。可以设置为'all'</td>
+    </tr>
+    <tr>
+      <td>minLength</td>
+      <td>number</td>
+      <td>1</td>
+      <td>触发提示所需的最小字符个数。设置为0时，当lookup函数被调用，即使没有输入，提示信息也会被打开</td>
+    </tr>
+    <tr>
+      <td>showHintOnFocus</td>
+      <td>boolean</td>
+      <td>false</td>
+      <td>当输入框获得焦点时，并且满足（minLength等）条件时，马上显示提示</td>
+    </tr>
+    <tr>
+      <td>scrollHeight</td>
+      <td>number, function</td>
+      <td>0</td>
+      <td>可滚动的父容器向下滚动的像素个数（滚动超出视框）</td>
+    </tr>
+    <tr>
+      <td>matcher</td>
+      <td>function</td>
+      <td>case insensitive</td>
+      <td>
+        该方法用于决定某个查询是否匹配某个条目。它接受唯一一个参数
+        <code>item</code>
+        ，表示当前需要测试的条目。 使用
+        <code>this.query</code>
+        引用当前查询字符串。如果匹配查询，就返回一个布尔值
+        <code>true</code>
+        。
+      </td>
+    </tr>
+    <tr>
+      <td>sorter</td>
+      <td>function</td>
+      <td>
+        exact match,
+        <br>
+        case sensitive,
+        <br>case insensitive</td>
+      <td>
+        该函数用来排序提示项。它接受唯一一个参数
+        <code>items</code>
+        ，并且其变量范围在typeahead实例内。使用
+        <code>this.query</code>
+        引用当前查询字符串。
+      </td>
+    </tr>
+    <tr>
+      <td>updater</td>
+      <td>function</td>
+      <td>returns selected item</td>
+      <td>
+        此方法用于返回选中的条目。其接受一个参数
+        <code>item</code>
+        ，并且其变量范围在typeahead实例内。
+      </td>
+    </tr>
+    <tr>
+      <td>highlighter</td>
+      <td>function</td>
+      <td>highlights all default matches</td>
+      <td>
+        该函数用来高亮自动完成的结果。 它接受唯一一个参数
+        <code>item</code>
+        ，并且变量范围在typeahead实例内。应该返回html。
+      </td>
+    </tr>
+    <tr>
+      <td>displayText</td>
+      <td>function</td>
+      <td>item.name || item</td>
+      <td>
+        该函数用来获取一条数据源的文本表示。 它接受唯一一个参数
+        <code>item</code>
+        ，并且变量范围在typeahead实例内。应该返回一个字符串。
+      </td>
+    </tr>
+    <tr>
+      <td>autoSelect</td>
+      <td>boolean</td>
+      <td>true</td>
+      <td>自动选中第一个提示项。如果设置为false，那么在没有选中提示项的情况下，按enter或tab输入不会被补全。</td>
+    </tr>
+    <tr>
+      <td>afterSelect</td>
+      <td>function</td>
+      <td>$.noop()</td>
+      <td>在选中提示项后调用该函数。该选中的提示项会被作为参数。</td>
+    </tr>
+    <tr>
+      <td>delay</td>
+      <td>integer</td>
+      <td>0</td>
+      <td>在显示提示项前增加延时</td>
+    </tr>
+    <tr>
+      <td>addItem</td>
+      <td>JSON object</td>
+      <td>false</td>
+      <td>向列表末尾增加条目</td>
+    </tr>
+  </tbody>
+</table>
