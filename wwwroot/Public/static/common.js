@@ -17,6 +17,26 @@
         });
     });
 
+    //全选的实现(通用方式)
+    $("[data-toggle='checkall']").click(function(){
+        var target = $(this).attr("data-target");
+        var checkbox = $("[data-check=" + target + "]");
+        checkbox.prop("checked", this.checked);
+    });
+    $("[data-check]").click(function(){
+        var target = $(this).attr("data-check");
+        var checkbox = $("[data-check=" + target + "]");
+        var checkall = $("[data-toggle='checkall']").filter("[data-target=" + target +"]");
+        checkbox.each(function(i){
+            if(!this.checked){
+                checkall.prop("checked", false);
+                return false;
+            }else{
+                checkall.prop("checked", true);
+            }
+        });
+    });
+
     /**顶部警告栏*/
     var top_alert = $('#top-alert');
     top_alert.find('.close').on('click', function () {
@@ -40,7 +60,7 @@
 
     /**
      * ajax-form
-     * 通过ajax提交表单，通过oneplus提示消息
+     * 通过ajax提交表单，显示提示消息
      * 示例：<form class="ajax-form" method="post" action="xxx">
      */
     $(document).on('submit', 'form.ajax-form', function (e) {
@@ -49,7 +69,7 @@
 
         //禁用提交按钮，防止重复提交
         var form = $(this);
-        $('[type=submit]', form).addClass('disabled');
+        $("[type='submit']", form).button('loading');
 
         //获取提交地址，方式
         var action = form.attr('action');
@@ -60,24 +80,15 @@
             return false;
         }
 
-        //默认提交方式为get
-        if (!method) {
-            method = 'get';
-        }
-
         //获取表单内容
         var formContent = form.serialize();
 
         //发送提交请求
-        var callable;
-        if (method == 'post') {
-            callable = $.post;
-        } else {
-            callable = $.get;
-        }
+        var callable = (method == 'post') ? $.post : $.get;
+
         callable(action, formContent, function (a) {
             handleAjax(a);
-            $('[type=submit]', form).removeClass('disabled');
+            $("[type='submit']", form).button('reset');
         });
 
         return false;
