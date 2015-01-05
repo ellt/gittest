@@ -23,18 +23,14 @@ class UserCenterController extends CommonBaseController {
      * 后台控制器初始化
      */
     protected function _initialize(){
+        
+        parent::_initialize();
+        
         // 获取当前用户ID
         define('UID',is_login());
         if( !UID ){// 还没登录 跳转到登录页面
             $this->redirect('Public/login');
         }
-        /* 读取数据库中的配置 */
-        $config =   S('DB_CONFIG_DATA');
-        if(!$config){
-            $config =   api('Config/lists');
-            S('DB_CONFIG_DATA',$config);
-        }
-        C($config); //添加配置
         
         // 加载完数据库配置文件，后再更新用户中心主题   add by jigc 2014-12-21
         if(C('USER_CENTET_THEME') && is_file(MODULE_PATH . 'Conf/theme.php'))
