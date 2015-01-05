@@ -155,3 +155,6 @@ a.ell-sidebar-title:focus {
 .ell-tab-wrap > ul {
   margin-bottom: 10px;
 }
+i.text-inverse {
+  color: #fff;
+}

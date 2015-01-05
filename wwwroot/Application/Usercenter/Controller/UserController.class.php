@@ -15,7 +15,7 @@ namespace Usercenter\Controller;
 class UserController extends AdminController {
 
     public function index(){
-        $this->redirect('subjectSetting');
+        $this->redirect('classManager');
         //$this->display();
     }
 
@@ -106,5 +106,15 @@ class UserController extends AdminController {
             $data['url'] = "no-refresh";
             $this->ajaxReturn($data);
         }
+    }
+
+    public function classManager(){
+        if (IS_AJAX) {
+            $data['status']  = 1;
+            $data['info'] = "保存成功！";
+            $data['url'] = "refresh";
+            $this->ajaxReturn($data);
+        }
+        $this->display();
     }
 }
