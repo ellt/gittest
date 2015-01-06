@@ -10,7 +10,7 @@
 namespace Toolkit\Controller;
 use Think\Controller;
 
-class RmbomController extends Controller{
+class RmbomController extends ToolkitBaseController{
 
     private $basedir = '';
     

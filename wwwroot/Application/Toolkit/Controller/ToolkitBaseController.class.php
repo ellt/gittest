@@ -9,11 +9,14 @@
 // +----------------------------------------------------------------------
 
 namespace Toolkit\Controller;
+
 use Think\Controller;
+use Common\Controller\CommonBaseController;
 
 
-class ToolkitController extends Controller {
+abstract class ToolkitBaseController extends CommonBaseController {
 
+    
     /**
      * 工具箱基类控制器初始化
      */
@@ -22,12 +25,11 @@ class ToolkitController extends Controller {
         if (!APP_DEBUG) {
             $this->error('非调试模式，禁止访问');
         }
-        /* 读取数据库中的配置 */
-        $config =   S('DB_CONFIG_DATA');
-        if(!$config){
-            $config =   api('Config/lists');
-            S('DB_CONFIG_DATA',$config);
-        }
-        C($config); //添加配置
+        parent::_initialize();
     }
+    
+    /**
+     * 工具箱基类处理函数
+     */
+    abstract public function process();
 }

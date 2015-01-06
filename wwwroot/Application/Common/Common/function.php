@@ -7,10 +7,15 @@
 // | Author: 麦当苗儿 <zuojiazi@vip.qq.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
 
+
 // OneThink常量定义
 const ONETHINK_VERSION    = '1.0.131218';
-const ONETHINK_ADDON_PATH = './Addons/';
+const ONETHINK_ADDON_PATH = Addon_PATH; // 将插件配置关联到 const_cconfig.php 中配置 modify by jigc 2014-12-30
 
+// 以下加载扩展函数文件 add by jigc 2014-12-30
+include APP_PATH . 'Common/Common/function_greencms.php';
+include APP_PATH . 'Common/Common/function_user.php';
+        
 /**
  * 系统公共库文件
  * 主要定义系统公共函数库

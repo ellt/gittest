@@ -1,4 +1,4 @@
-#!/bin/sh -x
+#!/bin/sh 
 #配置快捷键
 git config --global alias.co checkout
 git config --global alias.br branch

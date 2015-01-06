@@ -36,7 +36,7 @@ return array(
 
     /* 全局过滤配置 */
     'DEFAULT_FILTER' => '', //全局过滤函数
-
+    
     /* 数据库配置 */
     'DB_TYPE'   => 'mysql', // 数据库类型
     'DB_HOST'   => '127.0.0.1', // 服务器地址
@@ -48,4 +48,7 @@ return array(
 
     /* 文档模型配置 (文档模型核心配置，请勿更改) */
     'DOCUMENT_MODEL_TYPE' => array(2 => '主题', 1 => '目录', 3 => '段落'),
+    
+    /* 添加数据库要夹在的扩展文件列表   add by jigc 2014-12-30*/
+    'LOAD_EXT_CONFIG'      => 'config_opinion,config_school', 
 );
