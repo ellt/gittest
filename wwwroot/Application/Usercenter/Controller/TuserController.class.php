@@ -12,7 +12,7 @@ namespace Usercenter\Controller;
 /**
  * 用户控制器
  */
-class UserController extends AdminController {
+class TuserController extends AdminController {
 
     public function index(){
         $this->redirect('classManager');

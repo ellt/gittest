@@ -45,7 +45,7 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary" id="addSubjectBtn" data-loading-text="提交中..." data-url="{:U('User/addSubject')}" form="addSubjectForm" autocomplete="off">确定</button>
+                    <button type="submit" class="btn btn-primary" id="addSubjectBtn" data-loading-text="提交中..." data-url="{:U('Tuser/addSubject')}" form="addSubjectForm" autocomplete="off">确定</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                 </div>
             </div>
@@ -75,7 +75,7 @@
         <div class="col-md-6">
             <div class="pull-left">
                 <button class="btn btn-success init" data-toggle="modal" data-target="#myModal">新 增</button>
-                <button class="btn btn-success" data-target-form="table" data-url="{:U('User/saveSubject')}" data-edit="edit">保 存</button>
+                <button class="btn btn-success" data-target-form="table" data-url="{:U('Tuser/saveSubject')}" data-edit="edit">保 存</button>
                 <button class="btn btn-success ajax-post confirm" data-edit="edit" target-form="ids" url="{:U("Article/setStatus",array("status"=>-1))}">删 除</button>
             </div>
         </div>
