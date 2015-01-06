@@ -27,7 +27,7 @@ class File
     public static function file_exists($filename)
     {
         $Storage = new Storage();
-        $Storage::connect();
+//         $Storage::connect();
         return $Storage::has($filename);
     }
 
@@ -51,7 +51,7 @@ class File
     {
         $content = '';
         $Storage = new Storage();
-        $Storage::connect();
+//         $Storage::connect();
         @$content = $Storage::read($filename);
         return $content;
     }
@@ -83,7 +83,7 @@ class File
     public static function delFile($filename)
     {
         $Storage = new Storage();
-        $Storage::connect();
+//         $Storage::connect();
         return $Storage::unlink($filename);
     }
 

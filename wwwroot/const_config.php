@@ -59,6 +59,12 @@ define("Upgrade_PATH", WEB_ROOT . "Data/Upgrade/");
 define("HTML_PATH", WEB_ROOT . "Data/Temp/HTML/");
 
 /**
+ * SQL数据库脚本存放目录
+ * 此目录必须可写，建议移动到非WEB目录
+ */
+define("SQL_PATH", WEB_ROOT . "Data/SQL");
+
+/**
  * 扩展存放目录
  * 此目录必须可写，建议移动到非WEB目录
  */
