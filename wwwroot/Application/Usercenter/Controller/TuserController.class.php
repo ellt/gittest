@@ -8,7 +8,7 @@ use Common\Controller\CommonBaseController;
  * 后台用户控制器
  * @author 麦当苗儿 <zuojiazi@vip.qq.com>
  */
-class UserController extends UserCenterController {
+class TuserController extends UserCenterController {
 
     /**
      * 用户管理首页

@@ -28,7 +28,7 @@
         </div>
         <div class="collapse in" id="quickMenu">
             <div class="panel-body">
-                <form class="ajax-form" method="post" action="{:U('User/classManager')}">
+                <form class="ajax-form" method="post" action="{:U('Tuser/classManager')}">
                     <div class="lead">添加科目
                         <button type="submit" class="btn btn-success btn-sm" data-loading-text="提交中..." autocomplete="off">确定</button>
                     </div>
@@ -42,7 +42,7 @@
                         <input type="checkbox" data-check="add" name="ids[]" value="3">英语</label>
                 </form>
                 <hr>
-                <form class="ajax-form" method="post" action="{:U('User/classManager')}">
+                <form class="ajax-form" method="post" action="{:U('Tuser/classManager')}">
                     <div class="lead">删除科目
                         <button type="submit" class="btn btn-danger btn-sm" data-loading-text="提交中..." autocomplete="off">确定</button>
                     </div>
@@ -64,7 +64,7 @@
         <div class="col-md-6">
             <div class="pull-left">
                 <button class="btn btn-success init" data-toggle="modal" data-target="#myModal">新 增</button>
-                <button class="btn btn-success" data-target-form="table" data-url="{:U('User/saveSubject')}" data-edit="edit">保 存</button>
+                <button class="btn btn-success" data-target-form="table" data-url="{:U('Tuser/saveSubject')}" data-edit="edit">保 存</button>
                 <button class="btn btn-success ajax-post confirm" data-edit="edit" target-form="ids" url="{:U("Article/setStatus",array("status"=>-1))}">删 除</button>
             </div>
         </div>

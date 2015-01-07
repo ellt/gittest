@@ -20,7 +20,7 @@ class SqlController extends ToolkitBaseController{
     private $sql_file_list = array();
 
     protected function _initialize() {
-        File::getFiles($this->sql_dir, $this->sql_file_list, '#\.sql#i'); # <-- 获取以 .sql 文件结尾的文件列表
+        File::getFiles($this->sql_dir, $this->sql_file_list, '#\.sql#i'); // 获取以 .sql 文件结尾的文件列表
     }
 
     public function index() {
@@ -30,18 +30,30 @@ class SqlController extends ToolkitBaseController{
     }
 
     public function process() {
-        switch (I("method")) {
+
+        switch (I('request.method')) {
             case 'executeSqlFromFile':
-                $file = './Data/SQL/install-table.sql'; # <-- 这个变量需要通过post传递
+                //$file = './Data/SQL/install-table.sql'; // 这个变量需要通过post传递
+                $file = $this->sql_file_list[I("id")];
+
                 $this->executeSqlFromFile($file);
                 break;
-            
+            case 'executeSqlFromFiles':
+                //TODO: 多个文件按顺序执行
+                $ids = I('ids');
+                if(empty($ids)){
+                    $this->error('请选择要操作的数据', "no-refresh");
+                }
+
+                $this->error('暂时不能多文件一起执行', "no-refresh");
+                break;
+
             case null:
-                $this->error('参数method不能为空！');
+                $this->error('参数method不能为空！', "no-refresh");
                 break;
             
             default:
-                $this->error('参数method未知！');
+                $this->error('参数method未知！', "no-refresh");
                 break;
         }
     }
@@ -59,7 +71,7 @@ class SqlController extends ToolkitBaseController{
             $orginal = C('ORIGINAL_TABLE_PREFIX');
             $sql = str_replace(" `{$orginal}", " `{$prefix}", $sql);
             
-            echo ("执行SQL文件：$sql_file... \n");
+            //             echo ("执行SQL文件：$sql_file... \n");
             foreach ($sql as $value) {
                 $value = trim($value);
                 if (empty($value)) continue;
@@ -67,32 +79,32 @@ class SqlController extends ToolkitBaseController{
                     $name = preg_replace("/^CREATE TABLE `(\w+)` .*/s", "\\1", $value);
                     $msg = "创建数据表{$name}";
                     if (false !== $db->execute($value)) {
-                        echo ($msg . '...成功\n');
+                        // echo ($msg . '...成功');
                     } else {
-                        echo ($msg . '...失败！' . 'error:' . $db->getDbError() . '\n');
-                        $success_flag = FALSE;
+                        // echo ($msg . '...失败！' . 'error:' . $db->getDbError());
+                        //                         $success_flag = FALSE;
                         break;
                     }
                 } else {
-                    $db->execute($value);
+                    $msg = $value;
                     if (false !== $db->execute($value)) {
-                        echo ($msg . '...失败！' . 'error:' . $db->getDbError() . '\n');
+                        // 执行成功
+                    } else {
+                        // echo ($msg . '...失败！' . 'error:' . $db->getDbError());
                         $success_flag = FALSE;
                         break;
                     }
-                }
-                
-                if ($success_flag == TRUE) {
-                    //                  $this->success("执行SQL文件：$sql_file 成功... \n");
-                } else {
-                    $this->error("执行SQL文件：$sql_file 失败... \n");
                 }
             }
+            //dump($success_flag);
+            if ($success_flag == TRUE) {
+                $this->success("执行SQL文件：$file 成功!", "no-refresh");
+            } else {
+                $this->error("执行SQL文件：$sql_file 失败!", "no-refresh");
+            }
         } else {
-            $this->error("文件: $sql_file 不存在");
+            $this->error("文件: $sql_file 不存在", "no-refresh");
         }
     }
-
-  
 }
     
