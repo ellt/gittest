@@ -33,7 +33,7 @@
                                 <h4 class="pull-right">科目名称：</h4>
                             </div>
                             <div class="col-sm-4">
-                                <input type="text" class="form-control" name="subject" value="">
+                                <input type="text" class="form-control" name="name" value="">
                             </div>
                             <div class="col-sm-5">
                                 <div class="help-block hidden">
@@ -45,7 +45,7 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary" id="addSubjectBtn" data-loading-text="提交中..." data-url="{:U('Tuser/addSubject')}" form="addSubjectForm" autocomplete="off">确定</button>
+                    <button type="submit" class="btn btn-primary" id="addSubjectBtn" data-loading-text="提交中..." data-url="{:U('add')}" form="addSubjectForm" autocomplete="off">确定</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                 </div>
             </div>
@@ -75,7 +75,7 @@
         <div class="col-md-6">
             <div class="pull-left">
                 <button class="btn btn-success init" data-toggle="modal" data-target="#myModal">新 增</button>
-                <button class="btn btn-success" data-target-form="table" data-url="{:U('Tuser/saveSubject')}" data-edit="edit">保 存</button>
+                <button class="btn btn-success" data-target-form="table" data-url="{:U('User/saveSubject')}" data-edit="edit">保 存</button>
                 <button class="btn btn-success ajax-post confirm" data-edit="edit" target-form="ids" url="{:U("Article/setStatus",array("status"=>-1))}">删 除</button>
             </div>
         </div>
@@ -92,19 +92,14 @@
                 </tr>
             </thead>
             <tbody  id="content">
-                <tr>
-                    <td data-edit="edit"><input class="ids" type="checkbox" name="ids[]" value="{$vo.id}" /></td>
-                    <td><input type="text" name="number_1" data-form="table" value="0001">
-                    </td>
-                    <td><input type="text" name="subject_1" data-form="table" value="语文"></td>
-                </tr>
-                <tr>
-                    <td data-edit="edit"><input class="ids" type="checkbox" name="ids[]" value="{$vo.id}" /></td>
-                    <td>
-                        <input type="text" name="number_2" data-form="table" value="0002">
-                    </td>
-                    <td><input type="text" name="subject_2" data-form="table" value="数学"></td>
-                </tr>
+            	<foreach name="subject_lists" item="v">
+	            	 <tr>
+	                    <td data-edit="edit"><input class="ids" type="checkbox" name="ids[]" value="{$v.id}" /></td>
+	                    <td><input type="text" name="number_1" data-form="table" value="{$v.subject_number}">
+	                    </td>
+	                    <td><input type="text" name="subject_1" data-form="table" value="{$v.subject_name}"></td>
+	                </tr>
+            	 </foreach>
             </tbody>
         </table>
     </div>

@@ -9,8 +9,6 @@
 // +----------------------------------------------------------------------
 
 namespace Usercenter\Controller;
-use User\Api\UserApi;
-use Common\Controller\CommonBaseController;
 
 
 class SubjectController extends UserCenterController {
@@ -28,7 +26,7 @@ class SubjectController extends UserCenterController {
         $this->assign('sidemenu', $sidemenu);
 
         $this->assign('subject_lists', $this->model->select());
-        $this->display();
+        $this->display("Tuser/subjectsetting"); // TODO 模板路径待迁移
     }
 
     public function add() {

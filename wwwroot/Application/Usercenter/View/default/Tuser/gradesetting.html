@@ -131,42 +131,31 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td><input class="ids" type="checkbox" name="ids[]" value="{$vo.id}" /></td>
-                    <td data-grade="2014">2014级</td>
-                    <td><a> <i class="fa fa-edit fa-lg text-primary"></i></a></td>
-                    <td data-classes="2">
-                        <span class="label label-primary">1 班</span>
-                        <span class="label label-primary">2 班</span>
-                        
-                    </td>
-                    <td>
-                        <button class="btn btn-primary btn-xs" data-table-btn="inc" data-grade-id="2014">
-                            <span class="glyphicon glyphicon-plus"></span>
-                        </button>
-                        <button class="btn btn-danger btn-xs" data-table-btn="dec" data-grade-id="2014">
-                            <span class="glyphicon glyphicon-minus"></span>
-                        </button>
-                    </td>
-                </tr>
-                <tr>
-                    <td><input class="ids" type="checkbox" name="ids[]" value="{$vo.id}" /></td>
-                    <td data-grade="2015">2015级</td>
-                    <td><a> <i class="fa fa-edit fa-lg text-primary"></i></a></td>
-                    <td data-classes="3">
-                        <span class="label label-primary">1 班</span>
-                        <span class="label label-primary">2 班</span>
-                        <span class="label label-primary">3 班</span>
-                    </td>
-                    <td>
-                        <button class="btn btn-primary btn-xs" data-table-btn="inc" data-grade-id="2015">
-                            <span class="glyphicon glyphicon-plus"></span>
-                        </button>
-                        <button class="btn btn-danger btn-xs" data-table-btn="dec" data-grade-id="2015">
-                            <span class="glyphicon glyphicon-minus"></span>
-                        </button>
-                    </td>
-                </tr>
+            
+                 <foreach name="class_tree" item="g">
+	                <tr>
+	                    <td><input class="ids" type="checkbox" name="ids[]" value="{$vo.id}" /></td>
+	                    <td data-grade="2014">{$g.grade_number}</td>
+	                    <td><a>{$g.grade_name}<i class="fa fa-edit fa-lg text-primary"></i></a></td>
+	                    <td data-classes="2">
+	                    	<foreach name="g.class" item="v" >
+	                        	<span class="label label-primary">{$v.class_name}</span>
+	                        </foreach>
+	                        
+	                    </td>
+	                    <td>
+	                        <button class="btn btn-primary btn-xs" data-table-btn="inc" data-grade-id="2014">
+	                            <span class="glyphicon glyphicon-plus"></span>
+	                        </button>
+	                        <button class="btn btn-danger btn-xs" data-table-btn="dec" data-grade-id="2014">
+	                            <span class="glyphicon glyphicon-minus"></span>
+	                        </button>
+	                    </td>
+	                </tr>
+
+            	 </foreach>
+                
+        
             </tbody>
         </table>
     </div>
