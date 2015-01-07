@@ -11,7 +11,7 @@ namespace Toolkit\Controller;
 use Common\Util\File;
 use Think\Model;
 
-class SqlController extends ToolkitBaseController{
+class SqlController extends ToolkitController{
 
     /* SQL 文件存放路径  */
     private $sql_dir = SQL_PATH;
@@ -33,7 +33,6 @@ class SqlController extends ToolkitBaseController{
 
         switch (I('request.method')) {
             case 'executeSqlFromFile':
-                //$file = './Data/SQL/install-table.sql'; // 这个变量需要通过post传递
                 $file = $this->sql_file_list[I("id")];
 
                 $this->executeSqlFromFile($file);
@@ -71,7 +70,6 @@ class SqlController extends ToolkitBaseController{
             $orginal = C('ORIGINAL_TABLE_PREFIX');
             $sql = str_replace(" `{$orginal}", " `{$prefix}", $sql);
             
-            //             echo ("执行SQL文件：$sql_file... \n");
             foreach ($sql as $value) {
                 $value = trim($value);
                 if (empty($value)) continue;
@@ -82,7 +80,7 @@ class SqlController extends ToolkitBaseController{
                         // echo ($msg . '...成功');
                     } else {
                         // echo ($msg . '...失败！' . 'error:' . $db->getDbError());
-                        //                         $success_flag = FALSE;
+                        $success_flag = FALSE;
                         break;
                     }
                 } else {
@@ -96,9 +94,8 @@ class SqlController extends ToolkitBaseController{
                     }
                 }
             }
-            //dump($success_flag);
             if ($success_flag == TRUE) {
-                $this->success("执行SQL文件：$file 成功!", "no-refresh");
+                $this->success("执行SQL文件：$sql_file 成功!", "no-refresh");
             } else {
                 $this->error("执行SQL文件：$sql_file 失败!", "no-refresh");
             }

@@ -14,7 +14,7 @@ use Think\Controller;
 use Common\Controller\CommonBaseController;
 
 
-abstract class ToolkitBaseController extends CommonBaseController {
+abstract class ToolkitController extends CommonBaseController {
 
     
     /**

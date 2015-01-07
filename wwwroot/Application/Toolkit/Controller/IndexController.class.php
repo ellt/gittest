@@ -13,7 +13,7 @@ use Think\Controller;
 /**
  * 工具箱首页控制器
  */
-class IndexController extends ToolkitBaseController {
+class IndexController extends ToolkitController {
     
     /* 支持的主题列表 */
     private $allow_theme_list = array('default' => "默认主题", 'otori' => "OT原生主题");

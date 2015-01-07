@@ -18,7 +18,7 @@ use Think\Log;
  * Class ToolsController
  * @package Admin\Controller
  */
-class LogController extends ToolkitBaseController
+class LogController extends ToolkitController
 {
     /**
      *

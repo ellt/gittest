@@ -24,9 +24,6 @@ CREATE TABLE `onethink_user` (
   KEY `status` (`status`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='用户表';
 
-INSERT INTO `onethink_user` (`id`, `username`, `password`, `email`, `mobile`, `reg_time`, `reg_ip`, `last_login_time`, `last_login_ip`, `update_time`, `status`) VALUES (1, 'root', '149bb7ed74d9bf6f2781ed39fc520893', 'mrji1990@gmail.com', '', 1417342882, 2130706433, 1420470762, 2130706433, 1417342882, 1);
-
-
 -- -----------------------------
 -- 学科信息
 -- -----------------------------
