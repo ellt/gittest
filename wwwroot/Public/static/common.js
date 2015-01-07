@@ -96,18 +96,25 @@
 
     //ajax get请求
     $('.ajax-get').click(function(){
-        var target;
-        var that = this;
         if ( $(this).hasClass('confirm') ) {
             if(!confirm('确认要执行该操作吗?')){
                 return false;
             }
         }
-        if ( (target = $(this).attr('href')) || (target = $(this).attr('url')) ) {
-            $.get(target).success(function(data){
-                handleAjax(data);
-            });
 
+        var url,btn=undefined;
+        (url = $(this).attr('href')) || (url = $(this).attr('url'));
+        if(undefined==url) { //逐渐过渡到使用html5标准 data-*
+            url = $(this).attr('data-url');
+            btn = this;
+            $(btn).button('loading');
+        }
+
+        if (url) {
+            $.get(url, function(data) {
+                handleAjax(data);
+                btn && $(btn).button('reset');
+            });
         }
         return false;
     });
@@ -162,6 +169,15 @@
             $.post(target,query).success(function(data){
                 handleAjax(data);
                 $(that).removeClass('disabled').prop('disabled',false);
+            });
+        }
+        var url;
+        if(url = $(this).attr('data-url')) {
+            var target = $(this).attr("data-target");
+            var form = $("["+ target + "]");
+            query = form.serialize();
+            $.post(url,query).success(function(data){
+                handleAjax(data);
             });
         }
         return false;

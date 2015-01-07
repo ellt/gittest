@@ -8,11 +8,21 @@
                     <div class="list-group">
                         <a class="list-group-item <eq name='Think.CONTROLLER_NAME' value='Index'>active</eq>" href="{:U('Index/index')}" >工具箱配置</a>
                         <a class="list-group-item <eq name='Think.CONTROLLER_NAME' value='Rmbom'>active</eq>" href="{:U('Rmbom/index')}" >去除BOM头</a>
+                        <a class="list-group-item <eq name='Think.CONTROLLER_NAME' value='Sql'>active</eq>" href="{:U('Sql/index')}" >SQL管理</a>
                         <a class="list-group-item <eq name='Think.CONTROLLER_NAME' value='Log'>active</eq>" href="{:U('Log/index')}" >日志管理</a>
                     </div>
                 </block>
             </div>
             <div class="col-md-10" id="mainContent" role="main">
+                <div class="ell-alert">
+                    <div class="alert alert-warning alert-dismissible" id="top-alert" role="alert">
+                        <button type="button" class="close">
+                            <span aria-hidden="true">&times;</span>
+                            <span class="sr-only">关闭</span>
+                        </button>
+                        <div class="alert-content">这是内容</div>
+                    </div>
+                </div>
                 <!-- 内容 ================================================== -->    
                 <block name="content"></block>
             </div>
