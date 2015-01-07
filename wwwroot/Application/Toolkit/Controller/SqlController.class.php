@@ -30,7 +30,8 @@ class SqlController extends ToolkitBaseController{
     }
 
     public function process() {
-        switch (I("method")) {
+
+        switch (I('request.method')) {
             case 'executeSqlFromFile':
                 //$file = './Data/SQL/install-table.sql'; // 这个变量需要通过post传递
                 $file = $this->sql_file_list[I("id")];
@@ -39,6 +40,11 @@ class SqlController extends ToolkitBaseController{
                 break;
             case 'executeSqlFromFiles':
                 //TODO: 多个文件按顺序执行
+                $ids = I('ids');
+                if(empty($ids)){
+                    $this->error('请选择要操作的数据', "no-refresh");
+                }
+
                 $this->error('暂时不能多文件一起执行', "no-refresh");
                 break;
 
