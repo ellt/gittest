@@ -211,7 +211,7 @@ class File
              //   dump($path2);
 
                 if (is_dir($path2)) {
-                    self::getFiles($path2, $files);
+                    self::getFiles($path2, $files, $preg); # 修复bug, modify by jigc 2015-1-9
                 } else {
                     if (preg_match($preg, $file)) {
                         $files [] = $path2;

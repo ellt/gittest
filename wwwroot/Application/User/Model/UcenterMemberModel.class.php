@@ -17,6 +17,12 @@ class UcenterMemberModel extends Model{
 	 * @var string
 	 */
 	protected $tablePrefix = UC_TABLE_PREFIX;
+	
+	/**
+	 * 数据表名称
+	 * @var string
+	 */
+	protected $tableName   = 'user'; # 强制转换用户数据库表为 user_student
 
 	/**
 	 * 数据库连接
