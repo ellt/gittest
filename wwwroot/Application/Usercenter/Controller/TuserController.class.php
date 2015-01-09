@@ -345,4 +345,31 @@ class TuserController extends UserCenterController {
         $this->display();
     }
 
+    public function studentManager(){
+        $this->display();
+    }
+    public function studentEdit(){
+        if (IS_AJAX) {
+            $data['status']  = 1;
+            $data['info'] = "保存成功！";
+            $data['url'] = "refresh";
+            $data['data'] = array(
+              array("学号", "姓名", "性别", "家长联系方式"),
+              array(1011, sss11, 12, 13),
+              array(2011, 11, 14, 13),
+              array(3011, 15, 12, 13)
+            );
+            $this->ajaxReturn($data);
+        }
+        $this->display();
+    }
+
+    public function studentSave(){
+        if (IS_AJAX) {
+            $tableData = I("data");
+            //dump($tableData); //点击保存后 可以通过浏览器查看获取到的hstable的值
+            //$this->error("错误提示", "no-refresh");
+            $this->success("正确提示", U("studentManager"));
+        }
+    }
 }

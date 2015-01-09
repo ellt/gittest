@@ -1,0 +1,91 @@
+<extend name="Public/base"/>
+
+<block name="header"></block>
+<!-- 子导航 -->
+<block name="sidebar">
+    <include file="sidemenu" />
+</block>
+
+<block name="content">
+    <!-- 标题 -->
+    <div class="ell-main-title">
+        <h2>学生信息管理({$_total}) [2013 级 1 班
+        <volist name="rightNav" id="nav">
+        <a href="{:U('article/index','cate_id='.$nav['id'])}">{$nav.title}</a>
+            <if condition="count($rightNav) gt $i"><i class="ca"></i></if>
+        </volist>
+        <present name="article">：<a href="{:U('article/index','cate_id='.$cate_id.'&pid='.$article['id'])}">{$article.title}</a></present>
+        ]
+        </h2>
+    </div>
+
+        <!-- 按钮工具栏 -->
+    <div class="row">
+        <div class="col-md-6">
+            <div class="pull-left">
+                <button class="btn btn-success" data-submit="edit-table" data-target="#hs" data-url="{:U('Usercenter/Tuser/studentsave')}">保 存</button>
+                <a class="btn btn-danger" href="{:U('Tuser/studentmanager')}">返 回</a>
+            </div>
+        </div>
+    </div>
+    <div id="hs" style="margin:10px 0;" data-url="{:U('Usercenter/Tuser/studentedit')}"></div>
+</block>
+
+<block name="style">
+    <link href="__STATIC__/handsontable/handsontable.full.min.css" rel="stylesheet">
+</block>
+
+<block name="script">
+    <script src="__STATIC__/handsontable/handsontable.full.min.js"></script>
+    <script>
+    $(function(){
+
+        var container = document.getElementById('hs');
+        var settings = {
+            startRows: 0,
+            stretchH: 'all',
+            minSpareRows: 1,
+            
+            cells: function (row, col, prop) {
+                var cellProperties = {};
+                if (row === 0) {
+                    cellProperties.readOnly = true;
+                    cellProperties.renderer = firstRowRenderer;
+                }
+                return cellProperties;
+            },
+        };
+        hs = new Handsontable(container, settings);
+        loadData($("#hs"), hs);
+
+    });
+
+    $("[data-submit='edit-table']").click(function(event) {
+        var target = $(this).attr("data-target");
+        var url = $(this).attr("data-url");
+        saveData(url, hs);
+    });
+
+    function loadData(container, hs) {
+        var url= container.attr("data-url");
+        $.post(url).success(function(data){
+            hs.loadData(data.data);
+        });
+    }
+
+    function saveData(url, hs) {
+        var data = hs.getData();
+        $.post(url, {data:data}).success(function(data){
+            handleAjax(data);
+        });
+    }
+
+    function firstRowRenderer(instance, td, row, col, prop, value, cellProperties) {
+        Handsontable.renderers.TextRenderer.apply(this, arguments);
+        td.style.padding = '5px';
+        td.style.fontWeight = 'bold';
+        td.style.color = 'white';
+        td.style.background = '#444';
+    }
+    </script>
+</block>
