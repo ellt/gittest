@@ -21,7 +21,7 @@
         <div class="col-md-6">
             <div class="pull-left">
                 <button class="btn btn-success" data-toggle="modal" data-target="#myModal">新 增</button>
-                <button class="btn btn-success ajax-post confirm" target-form="ids" url="">删 除</button>
+                <button class="btn btn-success ajax-post" data-target="[data-check='ids']" data-confirm="确认要删除吗?" data-url="">删 除</button>
             </div>
         </div>
     </div>
@@ -40,8 +40,8 @@
             </thead>
             <tbody>
                  <foreach name="class_tree" item="vo">
-	                <tr>
-	                    <td><input type="checkbox" data-check="ids" name="ids[]" value="{$vo.id}"></td>
+                     <tr>
+                        <td><input type="checkbox" data-check="ids" name="ids[]" value="{$vo.id}"></td>
 	                    <td data-grade="2014">{$vo.grade_number}</td>
 	                    <td><a>{$vo.grade_name}<i class="fa fa-edit fa-lg text-primary"></i></a></td>
 	                    <td data-classes="2">
@@ -56,9 +56,9 @@
 	                        <button class="btn btn-danger btn-xs" data-table-btn="dec" data-target="2014">
 	                            <span class="glyphicon glyphicon-minus"></span>
 	                        </button>
-	                    </td>
-	                </tr>
-            	 </foreach>
+                        </td>
+                    </tr>
+                 </foreach>
             </tbody>
         </table>
     </div>

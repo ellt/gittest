@@ -102,13 +102,8 @@
             }
         }
 
-        var url,btn=undefined;
+        var url;
         (url = $(this).attr('href')) || (url = $(this).attr('url'));
-        if(undefined==url) { //逐渐过渡到使用html5标准 data-*
-            url = $(this).attr('data-url');
-            btn = this;
-            $(btn).button('loading');
-        }
 
         if (url) {
             $.get(url, function(data) {
@@ -116,6 +111,24 @@
                 btn && $(btn).button('reset');
             });
         }
+
+        if(url = $(this).attr('data-url')) {//逐渐过渡到使用html5标准 data-*
+            var confirmText = $(this).attr('data-confirm');
+            //如果需要的话，发出确认提示信息
+            if (confirmText) {
+                if (!confirm(confirmText)) {
+                    return false;
+                }
+            }
+
+            var btn = this;
+            $(btn).button('loading');
+            $.get(url, function(data) {
+                handleAjax(data);
+                $(btn).button('reset');
+            });
+        }
+
         return false;
     });
 
@@ -172,9 +185,19 @@
             });
         }
         var url;
+        
+        //逐渐过渡到使用html5标准 data-*
         if(url = $(this).attr('data-url')) {
+            var confirmText = $(this).attr('data-confirm');
+            //如果需要的话，发出确认提示信息
+            if (confirmText) {
+                if (!confirm(confirmText)) {
+                    return false;
+                }
+            }
+
             var target = $(this).attr("data-target");
-            var form = $("["+ target + "]");
+            var form = $(target);
             query = form.serialize();
             $.post(url,query).success(function(data){
                 handleAjax(data);
