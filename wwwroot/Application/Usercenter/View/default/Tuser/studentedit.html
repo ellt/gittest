@@ -1,25 +1,20 @@
 <extend name="Public/base"/>
 
 <block name="header"></block>
+
 <!-- 子导航 -->
 <block name="sidebar">
-    <include file="sidemenu" />
+    <include file="Public/sidemenu"/>
 </block>
 
 <block name="content">
     <!-- 标题 -->
     <div class="ell-main-title">
-        <h2>学生信息管理({$_total}) [2013 级 1 班
-        <volist name="rightNav" id="nav">
-        <a href="{:U('article/index','cate_id='.$nav['id'])}">{$nav.title}</a>
-            <if condition="count($rightNav) gt $i"><i class="ca"></i></if>
-        </volist>
-        <present name="article">：<a href="{:U('article/index','cate_id='.$cate_id.'&pid='.$article['id'])}">{$article.title}</a></present>
-        ]
+        <h2>学生信息管理({$_total}) [2013 级 1 班]
         </h2>
     </div>
 
-        <!-- 按钮工具栏 -->
+    <!-- 按钮工具栏 -->
     <div class="row">
         <div class="col-md-6">
             <div class="pull-left">
@@ -28,7 +23,11 @@
             </div>
         </div>
     </div>
-    <div id="hs" style="margin:10px 0;" data-url="{:U('Usercenter/Tuser/studentedit')}"></div>
+
+    <!-- 数据表格 -->
+    <div class="data-table">
+        <div id="hs" data-url="{:U('Usercenter/Tuser/studentedit')}"></div>
+    </div>
 </block>
 
 <block name="style">

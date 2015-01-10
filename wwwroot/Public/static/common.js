@@ -205,34 +205,12 @@
         return false;
     });
 
-    //ajax 发送 submit 请求
-    $("[data-target-form]").click(function() {
-        var target_form = $(this).attr("data-target-form");
-        form = $('.'+target_form);
-        var url = $(this).attr("data-url");
-        
-        $.post(url, form.serialize(), function (data) {
-            handleAjax(data);
-        })
-    });
+
+    //Modal 提交 及错误提示
+    
 
     //按钮组
     (function(){
-        //按钮组(鼠标悬浮显示)
-        // $(".btn-group").mouseenter(function(){
-        //     var userMenu = $(this).children(".dropdown ");
-        //     var icon = $(this).find(".btn i");
-        //     icon.addClass("btn-arrowup").removeClass("btn-arrowdown");
-        //     userMenu.show();
-        //     clearTimeout(userMenu.data("timeout"));
-        // }).mouseleave(function(){
-        //     var userMenu = $(this).children(".dropdown");
-        //     var icon = $(this).find(".btn i");
-        //     icon.removeClass("btn-arrowup").addClass("btn-arrowdown");
-        //     userMenu.data("timeout") && clearTimeout(userMenu.data("timeout"));
-        //     userMenu.data("timeout", setTimeout(function(){userMenu.hide()}, 100));
-        // });
-
         $(".btn-group-click .btn").click(function(e){
             if ($(this).next(".dropdown-pannel").is(":hidden")) {
                 $(this).next(".dropdown-pannel").show();
@@ -250,18 +228,6 @@
             $(".btn-group-click .btn").find("i").removeClass("btn-arrowup");
         });
     })();
-
-//     // 独立域表单获取焦点样式
-//     $(".text").focus(function(){
-//         $(this).addClass("focus");
-//     }).blur(function(){
-//         $(this).removeClass('focus');
-//     });
-//     $("textarea").focus(function(){
-//         $(this).closest(".textarea").addClass("focus");
-//     }).blur(function(){
-//         $(this).closest(".textarea").removeClass("focus");
-//     });
 });
 
 /**
@@ -329,165 +295,9 @@ function handleAjax(data) {
     }
 }
 
-/**
- * 改变按钮状态
- * 参数：
- * btn：按钮对象
- * status：true active，false disabled
- * text：按钮显示的内容
- */
-function changeBtnStatus(btn, status, text) {
-    
-    if(status == true) { // 激活状态
-        btn.removeClass('disabled').prop('disabled',false);
-    } else { // 禁用状态
-        btn.addClass('disabled').prop('disabled',true);
-    }
-
-    if(text != undefined) {
-        btn.val(text);
-    }
-}
-
  function isInt(obj){
     reg = /^-?\d+$/;
     result = reg.test(obj) ? true : false;
     return result;
  }   
- // function isEmail(obj){
- //     reg=/^w{3,}@w+(.w+)+$/;   
- //    if(!reg.test(obj)){        
- //         $("#test").html("<b>请输入正确的邮箱地址</b>");   
- //     }else{   
- //         $("#test").html("");   
- //     }   
- // }   
- // function isString(obj){
- //     reg=/^[a-z,A-Z]+$/;   
- //    if(!reg.test(obj)){   
- //         $("#test").html("<b>只能输入字符</b>");   
- //     }else{   
- //         $("#test").html("");   
- //     }   
- // }   
- // function isTelephone(obj){
- //     reg=/^(d{3,4}-)?[1-9]d{6,7}$/;   
- //    if(!reg.test(obj)){   
- //         $("#test").html("<b>请输入正确的电话号码！</b>");   
- //     }else{   
- //         $("#test").html("");   
- //     }   
- // }   
- // function isMobile(obj){   
- //     reg=/^(+d{2,3}-)?d{11}$/;   
- //    if(!reg.test(obj)){   
- //         $("#test").html("请输入正确移动电话");   
- //     }else{   
- //         $("#test").html("");   
- //     }   
- // }   
- // function isUri(obj){   
- //     reg=/^http://[a-zA-Z0-9]+.[a-zA-Z0-9]+[/=?%-&_~`@[]':+!]*([^<>""])*$/;
- //    if(!reg.test(obj)){   
- //         $("#test").html($("#uri").val()+"请输入正确的inernet地址");   
- //     }else{   
- //         $("#test").html("");   
- //     }   
- // }   
-
-// /* 上传图片预览弹出层 */
-// $(function(){
-//     $(window).resize(function(){
-//         var winW = $(window).width();
-//         var winH = $(window).height();
-//         $(".upload-img-box").click(function(){
-//          //如果没有图片则不显示
-//          if($(this).find('img').attr('src') === undefined){
-//              return false;
-//          }
-//             // 创建弹出框以及获取弹出图片
-//             var imgPopup = "<div id=\"uploadPop\" class=\"upload-img-popup\"></div>"
-//             var imgItem = $(this).find(".upload-pre-item").html();
-
-//             //如果弹出层存在，则不能再弹出
-//             var popupLen = $(".upload-img-popup").length;
-//             if( popupLen < 1 ) {
-//                 $(imgPopup).appendTo("body");
-//                 $(".upload-img-popup").html(
-//                     imgItem + "<a class=\"close-pop\" href=\"javascript:;\" title=\"关闭\"></a>"
-//                 );
-//             }
-
-//             // 弹出层定位
-//             var uploadImg = $("#uploadPop").find("img");
-//             var popW = uploadImg.width();
-//             var popH = uploadImg.height();
-//             var left = (winW -popW)/2;
-//             var top = (winH - popH)/2 + 50;
-//             $(".upload-img-popup").css({
-//                 "max-width" : winW * 0.9,
-//                 "left": left,
-//                 "top": top
-//             });
-//         });
-
-//         // 关闭弹出层
-//         $("body").on("click", "#uploadPop .close-pop", function(){
-//             $(this).parent().remove();
-//         });
-//     }).resize();
-
-//     // 缩放图片
-//     function resizeImg(node,isSmall){
-//         if(!isSmall){
-//             $(node).height($(node).height()*1.2);
-//         } else {
-//             $(node).height($(node).height()*0.8);
-//         }
-//     }
-// })
-
-// //标签页切换(无下一步)
-// function showTab() {
-//     $(".tab-nav li").click(function(){
-//         var self = $(this), target = self.data("tab");
-//         self.addClass("current").siblings(".current").removeClass("current");
-//         window.location.hash = "#" + target.substr(3);
-//         $(".tab-pane.in").removeClass("in");
-//         $("." + target).addClass("in");
-//     }).filter("[data-tab=tab" + window.location.hash.substr(1) + "]").click();
-// }
-
-// //标签页切换(有下一步)
-// function nextTab() {
-//      $(".tab-nav li").click(function(){
-//         var self = $(this), target = self.data("tab");
-//         self.addClass("current").siblings(".current").removeClass("current");
-//         window.location.hash = "#" + target.substr(3);
-//         $(".tab-pane.in").removeClass("in");
-//         $("." + target).addClass("in");
-//         showBtn();
-//     }).filter("[data-tab=tab" + window.location.hash.substr(1) + "]").click();
-
-//     $("#submit-next").click(function(){
-//         $(".tab-nav li.current").next().click();
-//         showBtn();
-//     });
-// }
-
-// // 下一步按钮切换
-// function showBtn() {
-//     var lastTabItem = $(".tab-nav li:last");
-//     if( lastTabItem.hasClass("current") ) {
-//         $("#submit").removeClass("hidden");
-//         $("#submit-next").addClass("hidden");
-//     } else {
-//         $("#submit").addClass("hidden");
-//         $("#submit-next").removeClass("hidden");
-//     }
-// }
-
-// //导航高亮
-// function highlight_subnav(url){
-//     $('.side-sub-menu').find('a[href="'+url+'"]').closest('li').addClass('current');
-// }
+ 

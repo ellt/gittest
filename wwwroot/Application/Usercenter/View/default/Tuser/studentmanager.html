@@ -1,105 +1,18 @@
 <extend name="Public/base"/>
 
 <block name="header">
-    <!-- 新增学生Modal -->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">
-                        <span aria-hidden="true">&times;</span>
-                        <span class="sr-only">关闭</span>
-                    </button>
-                    <h4 class="modal-title" id="myModalLabel">新增学生</h4>
-                </div>
-                <div class="modal-body">
-                    <form id="addGradeForm" role="form">
-                        <div class="row">
-                            <div class="col-sm-3">
-                                <h4 class="pull-right">学号：</h4>
-                            </div>
-                            <div class="col-sm-4">
-                                <input type="text" class="form-control" name="number" value="">
-                            </div>
-                            <div class="col-sm-5">
-                                <div class="help-block hidden">
-                                    <span class="glyphicon glyphicon-remove"></span>
-                                    <span>格式错误</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row"><!--错误时 class="has-error" -->
-                            <div class="col-sm-3">
-                                <h4 class="pull-right">姓名：</h4>
-                            </div>
-                            <div class="col-sm-4">
-                                <input type="text" class="form-control" name="gradename" value="">
-                            </div>
-                            <div class="col-sm-5">
-                                <div class="help-block hidden">
-                                    <span class="glyphicon glyphicon-remove"></span>
-                                    <span>格式错误</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-3">
-                                <h4 class="pull-right">性别：</h4>
-                            </div>
-                            <div class="col-sm-4">
-                                <label class="radio-inline">
-                                  <input type="radio" name="sex" value="male" checked> 男
-                                </label>
-                                <label class="radio-inline">
-                                  <input type="radio" name="sex" value="female"> 女
-                                </label>
-                            </div>
-                            <div class="col-sm-5">
-                                <div class="help-block hidden">
-                                    <span class="glyphicon glyphicon-remove"></span>
-                                    <span>格式错误</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-3">
-                                <h4 class="pull-right">家长联系方式：</h4>
-                            </div>
-                            <div class="col-sm-4">
-                                <input type="text" class="form-control" name="phone" value="">
-                            </div>
-                            <div class="col-sm-5">
-                                <div class="help-block hidden">
-                                    <span class="glyphicon glyphicon-remove"></span>
-                                    <span>格式错误</span>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary" id="addGradeBtn" data-loading-text="提交中..." data-url="{:U('Tuser/addGrade')}" form="addGradeForm" autocomplete="off">确定</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                </div>
-            </div>
-        </div>
-    </div>
+    <include file="modal"/>
 </block>
+
 <!-- 子导航 -->
 <block name="sidebar">
-    <include file="sidemenu" />
+    <include file="Public/sidemenu"/>
 </block>
 
 <block name="content">
     <!-- 标题 -->
     <div class="ell-main-title">
-        <h2>学生信息管理({$_total}) [2013 级 1 班
-        <volist name="rightNav" id="nav">
-        <a href="{:U('article/index','cate_id='.$nav['id'])}">{$nav.title}</a>
-            <if condition="count($rightNav) gt $i"><i class="ca"></i></if>
-        </volist>
-        <present name="article">：<a href="{:U('article/index','cate_id='.$cate_id.'&pid='.$article['id'])}">{$article.title}</a></present>
-        ]
+        <h2>学生信息管理 [2013 级 1 班]
         </h2>
     </div>
 
@@ -107,8 +20,8 @@
     <div class="row">
         <div class="col-md-6">
             <div class="pull-left">
-                <button class="btn btn-success init" data-toggle="modal" data-target="#myModal">新 增</button>
-                <button class="btn btn-success ajax-post confirm" target-form="ids" url="{:U("Article/setStatus",array("status"=>-1))}">删 除</button>
+                <button class="btn btn-success" data-toggle="modal" data-target="#myModal">新 增</button>
+                <button class="btn btn-success ajax-post" data-target="[data-check='ids']" data-confirm="确认要删除吗?" data-url="">删 除</button>
                 <a class="btn btn-success" href="{:U('Tuser/studentedit')}">批量编辑</a>
             </div>
         </div>
@@ -119,30 +32,30 @@
         <table class="table table-condensed table-striped table-hover">
             <thead>
                 <tr>
-                    <th class="row-selected"><input class="check-all" type="checkbox"/></th>
+                    <th class="row-selected"><input type="checkbox" data-toggle="checkall" data-target="ids"/></th>
                     <th>学号</th>
                     <th>姓名</th>
                     <th>性别</th>
-                    <th>家长联系方式</th>
+                    <th>联系方式</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td><input class="ids" type="checkbox" name="ids[]" value="{$vo.id}" /></td>
+                    <td><input type="checkbox" data-check="ids" name="ids[]" value="{$vo.id}"></td>
                     <td>201305141</td>
                     <td>李芳</td>
                     <td>女</td>
                     <td>134584556</td>
                 </tr>
                 <tr>
-                    <td><input class="ids" type="checkbox" name="ids[]" value="{$vo.id}" /></td>
+                    <td><input type="checkbox" data-check="ids" name="ids[]" value="{$vo.id}"></td>
                     <td>201305141</td>
                     <td>李爽</td>
                     <td>女</td>
                     <td>134584556</td>
                 </tr>
                 <tr>
-                    <td><input class="ids" type="checkbox" name="ids[]" value="{$vo.id}" /></td>
+                    <td><input type="checkbox" data-check="ids" name="ids[]" value="{$vo.id}"></td>
                     <td>201305141</td>
                     <td>马芬</td>
                     <td>女</td>
@@ -151,81 +64,4 @@
             </tbody>
         </table>
     </div>
-</block>
-
-<block name="script">
-    <script>
-    $(function(){
-        // 新增Modal
-
-        // 初始化Modal
-        $(".init").click(function() {
-            var gradeInfo = $("[data-grade]").last();
-            if(gradeInfo.length == 1){ //找到年级列表最后一行
-                var classesInfo = gradeInfo.next().next();
-                var grade = parseInt(gradeInfo.attr("data-grade"));
-                var classes = parseInt(classesInfo.attr("data-classes"));
-
-                $("input[name=grade]").attr("value", grade + 1);
-                $("input[name=classes]").attr("value", classes);
-            }
-        });
-
-        $("[data-form-btn]").click(function() {
-            var op = $(this).attr("data-form-btn");
-            var inputName = $(this).attr("data-input");
-            var input = $("input[name=" + inputName + "]");
-            var method = op == "dec" ? -1 : 1;
-
-            var value = parseInt(input.val());
-            value = isNaN(value) ? parseInt(input.attr("value")) : value;
-            input.val(value + method);
-        });
-
-        // 新增年级表单提交
-        $("#addGradeBtn").click(function(e) {
-            //取消默认动作，防止表单两次提交
-            e.preventDefault();
-
-            var url = $(this).attr('data-url');
-            var formId = $(this).attr('form');
-            var formContent = $("#"+formId).serialize();
-            var btn = $(this);
-            var originButtonText = btn.val();
-            btn.button('loading');
-            //发送到服务器
-            $.post(url, formContent).success(function(data){
-                btn.button('reset');
-                if (data.status) {
-                    //todo 刷新年级列表
-                    showFormTip();
-                    $('#myModal').modal('hide');
-                } else {
-                    showFormTip(data.error_info);
-                }
-            });
-        });
-    });
-
-    function showFormTip(data) {
-        var form = $("#addGradeForm");
-        var row, tip, tipContent;
-        data = data || []; // 给定默认值为空数组
-        $("input", form).each(function(index){
-            row = $(this).parentsUntil("form").filter(".row");
-            tip = row.find(".help-block");
-            tipContent = tip.find("span").next();
-
-            if (data[index]) {
-                row.addClass("has-error");
-                tipContent.html(data[index]);
-                tip.removeClass("hidden").addClass("show");
-            } else {
-                row.removeClass("has-error");
-                tipContent.html();
-                tip.removeClass("show").addClass("hidden");
-            }
-        });
-    }
-    </script>
 </block>
