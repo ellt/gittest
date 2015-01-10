@@ -63,7 +63,7 @@
      * 通过ajax提交表单，显示提示消息
      * 示例：<form class="ajax-form" method="post" action="xxx">
      */
-    $(document).on('submit', 'form.ajax-form', function (e) {
+    $('.ajax-form').submit(function(e) {
         //取消默认动作，防止表单两次提交
         e.preventDefault();
 
@@ -85,9 +85,8 @@
 
         //发送提交请求
         var callable = (method == 'post') ? $.post : $.get;
-
-        callable(action, formContent, function (a) {
-            handleAjax(a);
+        callable(action, formContent, function (data) {
+            handleAjax(data);
             $("[type='submit']", form).button('reset');
         });
 

@@ -1,26 +1,20 @@
 <extend name="Public/base"/>
 
 <block name="header"></block>
+
 <!-- 子导航 -->
 <block name="sidebar">
-    <include file="sidemenu" />
+    <include file="Public/sidemenu"/>
 </block>
 
 <block name="content">
     <!-- 标题 -->
     <div class="ell-main-title">
-        <h2>班级信息设置({$_total}) [2013 级
-        <volist name="rightNav" id="nav">
-        <a href="{:U('article/index','cate_id='.$nav['id'])}">{$nav.title}</a>
-            <if condition="count($rightNav) gt $i"><i class="ca"></i></if>
-        </volist>
-        <present name="article">：<a href="{:U('article/index','cate_id='.$cate_id.'&pid='.$article['id'])}">{$article.title}</a></present>
-        ]
+        <h2>班级信息设置 [2013 级]
         </h2>
     </div>
 
     <div class="panel panel-primary">
-        <!-- Default panel contents -->
         <div class="panel-heading">
             年级统一操作
             <a class="pull-right" href="javascript:;" data-toggle="collapse" data-target="#quickMenu"> <i class="fa fa-caret-up text-inverse"></i>
@@ -30,7 +24,7 @@
             <div class="panel-body">
                 <form class="ajax-form" method="post" action="{:U('Tuser/classManager')}">
                     <div class="lead">添加科目
-                        <button type="submit" class="btn btn-success btn-sm" data-loading-text="提交中..." autocomplete="off">确定</button>
+                        <button type="submit" class="btn btn-success btn-sm" data-loading-text="提交中..." autocomplete="off">确 定</button>
                     </div>
                     <label class="checkbox-inline">
                         <input type="checkbox" data-toggle="checkall" data-target="add"/>全选</label>
@@ -44,7 +38,7 @@
                 <hr>
                 <form class="ajax-form" method="post" action="{:U('Tuser/classManager')}">
                     <div class="lead">删除科目
-                        <button type="submit" class="btn btn-danger btn-sm" data-loading-text="提交中..." autocomplete="off">确定</button>
+                        <button type="submit" class="btn btn-danger btn-sm" data-loading-text="提交中..." autocomplete="off">确 定</button>
                     </div>
                     <label class="checkbox-inline">
                         <input type="checkbox" data-toggle="checkall" data-target="del"/>全选</label>
@@ -65,7 +59,7 @@
             <div class="pull-left">
                 <button class="btn btn-success init" data-toggle="modal" data-target="#myModal">新 增</button>
                 <button class="btn btn-success" data-target-form="table" data-url="{:U('Tuser/saveSubject')}" data-edit="edit">保 存</button>
-                <button class="btn btn-success ajax-post confirm" data-edit="edit" target-form="ids" url="{:U("Article/setStatus",array("status"=>-1))}">删 除</button>
+                <button class="btn btn-success ajax-post confirm" target-form="ids" url="{:U("Article/setStatus",array("status"=>-1))}">删 除</button>
             </div>
         </div>
     </div> -->
@@ -86,7 +80,7 @@
             <table class="table table-hover">
                 <thead>
                     <tr>
-                        <th class="row-selected" data-edit="edit">
+                        <th class="row-selected">
                         <input type="checkbox" data-toggle="checkall" data-target="class1"/></th>
                         <th>科目名称</th>
                         <th>任课教师</th>
