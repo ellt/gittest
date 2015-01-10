@@ -39,26 +39,26 @@
                 </tr>
             </thead>
             <tbody>
-                 <foreach name="class_tree" item="vo">
-                     <tr>
-                        <td><input type="checkbox" data-check="ids" name="ids[]" value="{$vo.id}"></td>
-	                    <td data-grade="2014">{$vo.grade_number}</td>
-	                    <td><a>{$vo.grade_name}<i class="fa fa-edit fa-lg text-primary"></i></a></td>
-	                    <td data-classes="2">
-	                    	<foreach name="vo.class" item="class" >
-	                        <span class="label label-primary">{$class.class_name}</span>
-	                        </foreach>
-	                    </td>
-	                    <td>
-	                        <button class="btn btn-primary btn-xs" data-table-btn="inc" data-target="2014">
-	                            <span class="glyphicon glyphicon-plus"></span>
-	                        </button>
-	                        <button class="btn btn-danger btn-xs" data-table-btn="dec" data-target="2014">
-	                            <span class="glyphicon glyphicon-minus"></span>
-	                        </button>
-                        </td>
-                    </tr>
-                 </foreach>
+                <foreach name="class_tree" item="vo" key="k">
+                <tr id="{$k}" data-info-grade="{$vo.grade_number}" data-info-classes="2">
+                    <td><input type="checkbox" data-check="ids" name="ids[]" value="{$vo.grade_number}"></td>
+                    <td>{$vo.grade_number}</td>
+                    <td><a>{$vo.grade_name}<i class="fa fa-edit fa-lg text-primary"></i></a></td>
+                    <td>
+                    	<foreach name="vo.class" item="class">
+                        <span class="label label-primary">{$class.class_name}</span>
+                        </foreach>
+                    </td>
+                    <td>
+                        <button class="btn btn-primary btn-xs" data-table-btn="inc" data-target="#{$k}">
+                            <span class="glyphicon glyphicon-plus"></span>
+                        </button>
+                        <button class="btn btn-danger btn-xs" data-table-btn="dec" data-target="#{$k}">
+                            <span class="glyphicon glyphicon-minus"></span>
+                        </button>
+                    </td>
+                </tr>
+                </foreach>
             </tbody>
         </table>
     </div>
@@ -70,10 +70,11 @@
 
         $("[data-table-btn]").click(function() {
             var op = $(this).attr("data-table-btn");
-            var gradeId = $(this).attr("data-target");
-            var url = U("Usercenter/User/baseSetting");
+            var targetTr = $(this).attr("data-target");
+            var grade = $(targetTr).attr("data-info-grade");
+            var url = U("Usercenter/Tuser/gradeSetting");
             var method = op == "dec" ? -1 : 1;
-            $.post(url, {grade: gradeId, status: method}, function (data) {
+            $.post(url, {grade: grade, status: method}, function (data) {
                 handleAjax(data);
                 if (data.status) {
                     updateClasses(data.grade, data.classes);
@@ -96,14 +97,14 @@
     });
 
     function updateClasses(grade, classes) {
-        var gradeInfo = $("[data-grade=" + grade + "]");
-        var classesInfo = gradeInfo.next().next();
-        classesInfo.attr("data-classes", classes);
+        var targetTr = $("[data-info-grade=" + grade + "]");
+        targetTr.attr("data-info-classes", classes);
+        var classesTd = $("td", targetTr).eq(3);
         var html = "";
         for(i=1;i<=classes;i++){
             html += "<span class='label label-primary'>" + i +" 班</span> ";
         }
-        classesInfo.html(html);
+        classesTd.html(html);
     }
     </script>
 </block>

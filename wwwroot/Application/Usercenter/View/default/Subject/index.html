@@ -39,13 +39,13 @@
             </thead>
             <tbody>
                 <foreach name="subject_lists" item="vo">
-                     <tr>
-                        <td><input type="checkbox" data-check="ids" name="ids[]" value="{$vo.id}"></td>
-                        <td><input type="text" name="number_1" data-form="table" value="{$vo.subject_number}">
-                        </td>
-                        <td><input type="text" name="subject_1" data-form="table" value="{$vo.subject_name}"></td>
-                    </tr>
-                 </foreach>
+                <tr>
+                    <td><input type="checkbox" data-check="ids" name="ids[]" value="{$vo.id}"></td>
+                    <td><input type="text" name="number_1" data-form="table" value="{$vo.subject_number}">
+                    </td>
+                    <td><input type="text" name="subject_1" data-form="table" value="{$vo.subject_name}"></td>
+                </tr>
+                </foreach>
             </tbody>
         </table>
     </div>
