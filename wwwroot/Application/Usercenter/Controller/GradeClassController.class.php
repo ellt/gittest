@@ -26,7 +26,7 @@ class GradeClassController extends UserCenterController {
 //         dump($class_tree); # < -- 答应查看树状信息
         $this->assign('sidemenu', $sidemenu);
         $this->assign('class_tree', $class_tree);
-        $this->display('Tuser/gradesetting'); // TODO 模板路径待迁移
+        $this->display();
     }
 
 }

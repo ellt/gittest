@@ -26,7 +26,7 @@ class SubjectController extends UserCenterController {
         $this->assign('sidemenu', $sidemenu);
 
         $this->assign('subject_lists', $this->model->select());
-        $this->display("Tuser/subjectsetting"); // TODO 模板路径待迁移
+        $this->display();
     }
 
     public function add() {

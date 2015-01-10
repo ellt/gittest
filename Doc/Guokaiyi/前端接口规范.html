@@ -1,0 +1,115 @@
+<!-- 目录 （搜索以下目录关键词）
+    全选
+    表单
+    输入框组
+    表格
+    标签
+ -->
+
+<!-- 全选 -->
+<!-- checkbox 全选框 添加 data-toggle="checkall" data-target="(data-check标识值)"
+    选项 添加 data-check="标识值"
+-->
+<input type="checkbox" data-toggle="checkall" data-target="sql"/>
+<input type="checkbox" data-check="sql" name="ids[]" value="{$key}" />
+
+<!-- 表单 -->
+<!-- 表单命名 -->
+<!-- id名以set开头 -->
+<input type="text" id="setClasses" class="form-control" name="classes" value="4" form="addGradeForm">
+
+<button type="submit" class="btn btn-primary" data-submit="form" data-target="#addGradeForm" data-url="{:U('Tuser/addGrade')}" data-loading-text="提交中..." autocomplete="off">确定</button>
+
+<!-- 表单内操作 -->
+<span class="input-group-btn">
+    <button class="btn btn-default" data-form-btn="dec" data-target="#setClasses" type="button">
+        <span class="glyphicon glyphicon-minus"></span>
+    </button>
+</span>
+<input type="text" id="setClasses" class="form-control" name="classes" value="4" form="addGradeForm">
+<span class="input-group-btn">
+    <button class="btn btn-default" data-form-btn="inc" data-target="#setClasses" type="button">
+        <span class="glyphicon glyphicon-plus"></span>
+    </button>
+</span>
+
+<!-- 表单提交 -->
+<!-- 表单 添加 class="ajax-form" method="get/post" action="提交地址"
+    提交按钮 type="submit" 
+    如需显示loding 添加 data-loading-text="提交中..." autocomplete="off"
+-->
+<form class="ajax-form" method="post" action="{:U('Tuser/classManager')}"></form>
+<button type="submit" class="btn btn-success btn-sm" data-loading-text="提交中..." autocomplete="off">确定</button>
+
+<!-- 输入框组 -->
+<!-- 提交 -->
+<!-- get方式 -->
+<!-- 提交按钮 添加 class="ajax-get" data-url="提交地址" 
+    如需要确认 添加 data-confirm="提示语"
+    如需显示loding 添加 data-loading-text="提交中..." autocomplete="off"
+-->
+<button type="button" class="btn btn-success btn-sm ajax-get" data-confirm="确认要执行吗?" data-loading-text="执行中..." data-url="{:U('Sql/process?method=executeSqlFromFile&id='.$key)}" autocomplete="off">执行</button>
+
+<!-- post方式 -->
+<!-- 提交按钮 添加 class="ajax-post" data-target="标识" data-url="提交地址"
+    输入项 添加 data-*标识 data-check(全选)/data-form(表单项)
+    如需显示loding 添加 data-loading-text="提交中..." autocomplete="off"
+ -->
+<button class="btn btn-success ajax-post" data-target="[data-check='sql']" data-url="{:U('Sql/process?method=executeSqlFromFiles')}">执 行</button>
+<input type="checkbox" data-check="sql" name="ids[]" value="{$key}"/>
+
+<!-- 自定义方式 -->
+<!-- 提交按钮 添加 data-submit="类型"(edit-table 可编辑表格提交、form 表单) 
+                   data-target="标识" data-url="提交地址" 
+    自定义提交JS
+-->
+<button type="submit" class="btn btn-primary" data-submit="form" data-target="#addGradeForm" data-url="{:U('Tuser/addGrade')}" data-loading-text="提交中..." autocomplete="off">确定</button>
+<script>
+$(function(){
+    // 新增年级表单提交
+    $("[data-submit='form']").click(function(e) { 
+        //取消默认动作，防止表单两次提交
+        e.preventDefault();
+
+        var url = $(this).attr('data-url');
+        var targetForm = $(this).attr('data-target');
+        var form = $(targetForm);
+        var formContent = form.serialize();
+
+        var btn = $(this);
+        btn.button('loading');
+        //发送到服务器
+        $.post(url, formContent).success(function(data){
+            btn.button('reset');
+            if (data.status) {
+                //todo 刷新年级列表
+                showFormTip(form);
+                $('#myModal').modal('hide');
+            } else {
+                showFormTip(form, data.error_info);
+            }
+        });
+    });
+});
+</script>
+
+
+<!-- 表格 -->
+<!-- 操作按钮 添加 data-table-btn="操作标识" data-target="标识" 
+-->
+<button class="btn btn-primary btn-xs" data-table-btn="inc" data-target="#{$k}">
+    <span class="glyphicon glyphicon-plus"></span>
+</button>
+<button class="btn btn-danger btn-xs" data-table-btn="dec" data-target="#{$k}">
+    <span class="glyphicon glyphicon-minus"></span>
+</button>
+<tr id="{$k}" data-info-grade="2014" data-info-classes="2"></tr>
+
+
+<!-- 标签 -->
+<!-- foreach 和 volist
+    一般情况下 第一级用 vo ，第二级根据变量实际意义命名
+    如果像菜单有多级，可采用 menu 、two_menu 、three_menu 
+-->
+<foreach name="list" item="vo" ></foreach>
+<volist name="category" id="vo"></volist>
