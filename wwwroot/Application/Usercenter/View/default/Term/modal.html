@@ -42,8 +42,11 @@
                         <div class="col-sm-3">
                             <h4 class="pull-right">开始时间：</h4>
                         </div>
-                        <div class="col-sm-4">
-                            <input type="text" class="form-control" name="start" value="">
+                        <div class="col-sm-4 input-group date">
+                            <input type="text" class="form-control" name="start" value="" readonly>
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
                         </div>
                         <div class="col-sm-5">
                             <div class="help-block hidden">
@@ -56,8 +59,11 @@
                         <div class="col-sm-3">
                             <h4 class="pull-right">结束时间：</h4>
                         </div>
-                        <div class="col-sm-4">
-                            <input type="text" class="form-control" name="start" value="">
+                        <div class="col-sm-4 input-group date">
+                            <input type="text" class="form-control" name="end" value="" readonly>
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
                         </div>
                         <div class="col-sm-5">
                             <div class="help-block hidden">
@@ -78,8 +84,24 @@
 
 <script>
 $(function(){
+    $('.date').datetimepicker({
+        language:  'zh-CN',
+        weekStart: 1,
+        todayBtn:  1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        forceParse: 0,
+        format: "yyyy-mm-dd",
+        pickerPosition: "bottom-left"
+    });
 
     $('#myModal').on('show.bs.modal', function (e) {
+        // 过滤datatimepicker产生的事件
+        if(e.relatedTarget === undefined) {
+            return false;
+        }
         var url = U("usercenter/Tuser/termInit");
         var modal = $(this);
         var content = $(e.relatedTarget).attr("data-content");
@@ -92,12 +114,12 @@ $(function(){
                     $(this).val(initData[index]);
                 });
             } else {
-                
+                return e.preventDefault() // 阻止模态框的展示
             }
         });
     })
 
-    // 新增科目表单提交
+    // 新增表单提交
     $("[data-submit='form']").click(function(e) { 
         //取消默认动作，防止表单两次提交
         e.preventDefault();
