@@ -372,4 +372,23 @@ class TuserController extends UserCenterController {
             $this->success("正确提示", U("studentManager"));
         }
     }
+
+    public function termSetting(){
+        $this->display("Term/index");
+    }
+
+    public function termInit(){
+        if (IS_AJAX) {
+            $data['status']  = 1;
+            $data['info'] = "保存成功！";
+            $data['url'] = "refresh";
+            $content = I("content");
+            if($content == "add") {
+                $data['data'] = array("2014-2015","下学期","2015-3-1","2015-7-1");
+            } else {
+                $data['data'] = array("2014-2015","下学期","2015-3-1","555");    
+            }
+            $this->ajaxReturn($data);
+        }
+    }
 }
