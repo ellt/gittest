@@ -1,0 +1,46 @@
+快捷键
+1、Ctrl+Shift+P
+打开Package Control，上面已经介绍过了。这里还有个技巧，此技巧在下面的各种地方都能用的上，就是ST支持模糊匹配。比如，你想找Install Package，你在 Package Control 的输入框中install，可以自动匹配到Install Package，也可以简单的输入ip，也能匹配到它，这种模糊匹配的功能很方便。
+
+2、Ctrl+P
+根据文件名打开文件。比如你想打开login/func/funtion.php，你只要在输入框中输入login/func/funtion.php即可，也可以用模糊匹配，如login/function等，模糊匹配还是自己去体验吧。
+
+3、Ctrl+D
+多处同步编辑。当你想同时修改多个相同代码的时候，比如，将
+$user['name'] = 'bananaplan';
+$user['age'] = 28;
+$user['desc'] = '弟要永远的28岁';
+中的user统一改成member，可以双击选中user，然后Ctrl+D，会向下连选user，重复，直到你满意的位置，然后就可以统一编辑了。
+
+4、shift+鼠标右键拖动
+功能和Ctrl+D相似，也可以对列进行操作。
+
+5、Ctrl+F
+Enter查找下一个，Shift+Enter，查找上一个。
+
+6、Ctrl+Shift+F
+全项目查找
+
+7、Ctrl+H
+查找替换
+
+
+
+
+
+插件
+1、CTags 函数跳转功能
+一、下载：
+1）http://ctags.sourceforge.net/
+2）http://prdownloads.sourceforge.net/ctags/
+解压后放到d:/下。
+二、安装Sublime text插件：
+1）确认Sublime text已安装Install Package；
+2）按Ctrl+shift+P，输入ctags，回车进行下载；
+3）以同样方式安装PhpBeautifier插件。
+三、配置：
+1）打开菜单在Preferences(设置)菜单中打开Package Control(插件管理器)settings->ctags->settings-user和settings-default，把default中的配置全部复制到user中，然后改一下command配置项，为ctags的可执行文件路径
+2）再到，侧左栏的工程/项目文件上右键执行CTags: Rebuild Tags菜单项，发弹出一个ctags的运行框，说明可以正常工作了
+四、使用：
+1）在Sublime text中按Ctrl+shift+鼠标左键点击函数调用位置可跳转至函数定义位置；
+2）在弹出的函数定义位置处按Ctrl+shift+鼠标右键点击函数可跳转回函数调用位置。
