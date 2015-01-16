@@ -2,9 +2,25 @@
 @import "../../bootstrap3/less/mixins.less";
 @import "common-variables.less";
 
+html,
+body {
+  margin: 0;
+  height:100%;
+}
+
+body {
+  padding-top: 50px;
+}
+
+// 使内容区占满整个屏幕，让页脚始终在页面底部
+.ell-main-container,
+.ell-main-container > .row,
+.ell-content,
+.ell-main-content {
+  height: 100%;
+}
+
 .ell-navbar {
-  border: 0;
-  border-radius: 0;
 
   .navbar-brand {
     color: #fff;
@@ -26,16 +42,15 @@
   }
 }
 
-.ell-main-container {
-  min-height: 550px;
-}
 
 .ell-sidebar {
-  margin-top: -20px;
-  padding: 0;
-  padding-top: 20px;
-  min-height: 600px;
-  max-width: 200px;
+  position: fixed;
+  top:50px;
+  left: 0;
+  bottom: 0;
+  width: 192px;
+  padding: 20px 0;
+  overflow:auto;
   background-color: #3d3d3d;
 }
 
@@ -207,7 +222,6 @@ a.ell-sidebar-title:focus {
 }
 .ell-main-title h2 {
   float: left;
-  margin-top: 0;
   font-weight: 400;
 }
 

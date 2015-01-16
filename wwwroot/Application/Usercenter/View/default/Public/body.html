@@ -2,27 +2,29 @@
 
     <div class="container-fluid ell-main-container">
         <div class="row">
-            <div class="col-md-2 ell-sidebar" id="sideBar">
-                <block name="sidebar">
-                    <!-- 左侧 nav ================================================== -->    
-                    <div class="list-group">
-                        <a class="list-group-item ell-sidebar-title" href="#" >基础配置</a>
-                        <a class="list-group-item" id="sidebar-academic" href="#" >教务信息设置</a>
-                        <a class="list-group-item ell-sidebar-title" href="#" >教务管理</a>
-                        <a class="list-group-item" id="sidebar-homework" href="#" >布置作业</a>
-                        <a class="list-group-item" id="sidebar-score" href="#" >成绩管理</a>
-                        <a class="list-group-item ell-sidebar-title" href="#" >微信公众号管理</a>
-                        <a class="list-group-item" id="sidebar-customreply" href="{:U('Keywords/index')}" >自定义回复</a>
-                        <a class="list-group-item" id="sidebar-custommenu" href="{:U('WxMenu/index')}" >自定义菜单</a>
-                        <a class="list-group-item" id="sidebar-weisite" href="#" >微官网</a>
-                        <!-- <a class="list-group-item ell-sidebar-title" href="#" >ajax测试</a>
-                        <a class="list-group-item" id="sidebar-test1" href="{:U('Website/Test/index','id=这里是测试1111')}" >test1</a>
-                        <a class="list-group-item" id="sidebar-test2" href="{:U('Website/Test/index','id=这里是测试2222')}" >test2</a>
-                        <a class="list-group-item" id="sidebar-test3" href="{:U('Website/Test/index','id=这里是测试3333')}" >test3</a> -->
-                    </div>
-                </block>
+            <div class="col-md-2 col-sm-3 hidden-xs">
+                <div class="ell-sidebar" id="sideBar">
+                    <block name="sidebar">
+                        <!-- 左侧 nav ================================================== -->    
+                        <div class="list-group">
+                            <a class="list-group-item ell-sidebar-title" href="#" >基础配置</a>
+                            <a class="list-group-item" id="sidebar-academic" href="#" >教务信息设置</a>
+                            <a class="list-group-item ell-sidebar-title" href="#" >教务管理</a>
+                            <a class="list-group-item" id="sidebar-homework" href="#" >布置作业</a>
+                            <a class="list-group-item" id="sidebar-score" href="#" >成绩管理</a>
+                            <a class="list-group-item ell-sidebar-title" href="#" >微信公众号管理</a>
+                            <a class="list-group-item" id="sidebar-customreply" href="{:U('Keywords/index')}" >自定义回复</a>
+                            <a class="list-group-item" id="sidebar-custommenu" href="{:U('WxMenu/index')}" >自定义菜单</a>
+                            <a class="list-group-item" id="sidebar-weisite" href="#" >微官网</a>
+                            <!-- <a class="list-group-item ell-sidebar-title" href="#" >ajax测试</a>
+                            <a class="list-group-item" id="sidebar-test1" href="{:U('Website/Test/index','id=这里是测试1111')}" >test1</a>
+                            <a class="list-group-item" id="sidebar-test2" href="{:U('Website/Test/index','id=这里是测试2222')}" >test2</a>
+                            <a class="list-group-item" id="sidebar-test3" href="{:U('Website/Test/index','id=这里是测试3333')}" >test3</a> -->
+                        </div>
+                    </block>
+                </div>
             </div>
-            <div class="col-md-10" id="mainContent" role="main">
+            <div class="col-md-10 col-md-offset-2 col-sm-9 col-sm-offset-3 ell-content">
                 <div class="ell-alert">
                     <div class="alert alert-warning alert-dismissible" id="top-alert" role="alert">
                         <button type="button" class="close">
@@ -32,8 +34,19 @@
                         <div class="alert-content">这是内容</div>
                     </div>
                 </div>
-                <!-- 内容 ================================================== -->    
-                <block name="content"></block>
+                <!-- 内容 ================================================== -->
+                <div class="ell-main-content">
+                    <block name="content"></block>
+                </div>
+                <!--  页脚，版权信息   ================================================== -->
+                <footer class="row">
+                    <div class="col-sm-2 col-sm-offset-10">
+                        <p>
+                            本站由 <strong><a href="#">e朗朗</a></strong> 强力驱动
+                        </p>
+                    </div>
+                </footer>
+                <!--  /页脚，版权信息   ================================================= -->
             </div>
         </div>
     </div>
