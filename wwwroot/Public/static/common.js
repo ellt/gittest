@@ -1,5 +1,5 @@
 //dom加载完成后执行的js
-;$(function(){
++$(function(){
 
     //全选的实现
     $(".check-all").click(function(){
@@ -143,7 +143,7 @@
             if ($(this).attr('hide-data') === 'true'){//无数据时也可以使用的功能
                 form = $('.hide-data');
                 query = form.serialize();
-            }else if (form.get(0)==undefined){
+            }else if (form.get(0)===undefined){
                 return false;
             }else if ( form.get(0).nodeName=='FORM' ){
                 if ( $(this).hasClass('confirm') ) {

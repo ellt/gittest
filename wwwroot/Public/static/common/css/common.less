@@ -1,11 +1,11 @@
 @import "../../bootstrap3/less/variables.less";
-@import "../../bootstrap3/less/mixins.less";
+//@import "../../bootstrap3/less/mixins.less";
 @import "common-variables.less";
 
 html,
 body {
-  margin: 0;
   height:100%;
+  margin: 0;
 }
 
 body {
@@ -46,8 +46,8 @@ body {
 .ell-sidebar {
   position: fixed;
   top:50px;
-  left: 0;
   bottom: 0;
+  left: 0;
   width: 192px;
   padding: 20px 0;
   overflow:auto;
@@ -59,13 +59,13 @@ body {
 
   // 第一级列表
   > li {
-    margin: 0;
     padding: 0;
+    margin: 0;
     border: 0;
 
     > a {
-      border-top: 1px solid #5c5c5c;
       color: #ffffff;
+      border-top: 1px solid #5c5c5c;
       &:hover,
       &:focus {
         background: #282424;
@@ -73,8 +73,8 @@ body {
     }
 
     // 第一级子菜单
-    div > ul.sub-menu {
-      margin: 8px 0px;
+    div > .sub-menu {
+      margin: 8px 0;
     }
   }
 
@@ -83,25 +83,25 @@ body {
   }
 
   // 所有子菜单
-  ul.sub-menu {
+  .sub-menu {
     padding: 0;
-    list-style: none;
     clear: both;
+    list-style: none;
 
     > li {
-      background: none;
-      margin: 0px;
-      padding: 0px;
+      padding: 0;
+      margin: 0;
       margin-top: 1px;
+      background: none;
 
       > a {
         display: block; 
-        margin: 0;
         padding: 5px 15px;
-        color: #bdbdbd;
-        text-decoration: none;
+        margin: 0;
         font-size: 14px;
         font-weight: 300;
+        color: #bdbdbd;
+        text-decoration: none;
         background: none;
         &:hover,
         &:focus {
@@ -122,27 +122,27 @@ body {
   }
 
   // 第一级子菜单
-  div > ul.sub-menu a {
+  div > .sub-menu a {
     padding-left: 40px;
   }
 
   // 第二级子菜单
-  div > ul.sub-menu > li > ul.sub-menu a {
+  div > .sub-menu > li > .sub-menu a {
     padding-left: 60px;
   }
 
   // 第三级子菜单
-  div > ul.sub-menu > li > ul.sub-menu > li > ul.sub-menu a {
+  div > .sub-menu > li > .sub-menu > li > .sub-menu a {
     padding-left: 80px;
   }
 
   // 下面为临时
   > .ell-sidebar-title {
-    color: #fff;
     font-weight: bold;
+    color: #fff;
+    cursor:default;
     background-color: #444;
     border: 1px solid #444;
-    cursor:default;
   }
 
   > .list-group-item {
@@ -181,17 +181,17 @@ body {
 a.ell-sidebar-title,
 a.ell-sidebar-title:hover,
 a.ell-sidebar-title:focus {
-  color: #fff;
   font-weight: bold;
-  border: 1px solid #444;
-  background-color: #444;
+  color: #fff;
   cursor:default;
+  background-color: #444;
+  border: 1px solid #444;
 }
 .ell-sidebar-tree {
 
   .list-group-item {
-    margin-left: -1px;
     margin-right: -1px;
+    margin-left: -1px;
     border-top: none;
     border-bottom: none;
     border-radius: 0;
@@ -200,8 +200,8 @@ a.ell-sidebar-title:focus {
 
 .ell-alert {
   position:absolute;
-  left: 15px;
   right: 15px;
+  left: 15px;
 
   .alert {
     display: none;
@@ -210,7 +210,6 @@ a.ell-sidebar-title:focus {
 
 .ell-main-title {
   padding-bottom: 10px;
-  *zoom: 1;
 }
 .ell-main-title:before,
 .ell-main-title:after {
@@ -220,7 +219,7 @@ a.ell-sidebar-title:focus {
 .ell-main-title:after {
   clear: both;
 }
-.ell-main-title h2 {
+.ell-main-title > h2 {
   float: left;
   font-weight: 400;
 }
@@ -229,6 +228,6 @@ a.ell-sidebar-title:focus {
   margin-bottom: 10px;
 }
 
-i.text-inverse {
+.text-inverse {
   color: #fff;
 }
