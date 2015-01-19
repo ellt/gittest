@@ -9,16 +9,21 @@
 
 namespace User\Api;
 use User\Api\Api;
-use User\Model\UcenterMemberModel;
+use User\Model\UserModel;
 
 class UserApi extends Api{
     /**
      * 构造方法，实例化操作模型
      */
     protected function _init(){
-        $this->model = new UcenterMemberModel();
+        $this->model = new UserModel();
     }
 
+    public function update($data = null){
+        return  $this->model->update($data);
+    }
+    
+    
     /**
      * 注册一个新用户
      * @param  string $username 用户名
