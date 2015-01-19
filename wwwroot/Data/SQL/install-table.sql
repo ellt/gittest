@@ -37,12 +37,12 @@ CREATE TABLE `onethink_user_student` (
   `class_id` varchar(20) NOT NULL COMMENT 'classinfo',
   `sex` char(10) NOT NULL DEFAULT '0' COMMENT '性别',
   `student_id` varchar(255) NOT NULL COMMENT '学号',
-  `dad_name` varchar(255) NOT NULL COMMENT '父亲姓名',
-  `dad_mobile` varchar(255) NOT NULL COMMENT '父亲手机号码',
-  `mom_name` varchar(255) NOT NULL COMMENT '母亲姓名',
-  `mom_mobile` varchar(255) NOT NULL COMMENT '母亲手机号码',
-  `home_phone` varchar(255) NOT NULL COMMENT '家庭电话号码',
-  `home_address` varchar(255) NOT NULL COMMENT '家庭住址',
+  `dad_name` varchar(255)  COMMENT '父亲姓名',
+  `dad_mobile` varchar(255)  COMMENT '父亲手机号码',
+  `mom_name` varchar(255) COMMENT '母亲姓名',
+  `mom_mobile` varchar(255) COMMENT '母亲手机号码',
+  `home_phone` varchar(255) COMMENT '家庭电话号码',
+  `home_address` varchar(255) COMMENT '家庭住址',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 

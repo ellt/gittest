@@ -10,6 +10,7 @@
 
 namespace User\Model;
 use Think\Model\RelationModel;
+use User\Api\UserApi;
 
 
 /**
@@ -20,10 +21,15 @@ use Think\Model\RelationModel;
 class UserModel extends RelationModel
 {
 
-    const TYPE_SUPPER  = 0; 
-    const TYPE_STUDENT = 1; 
-    const TYPE_TERCHER = 2; 
-    
+    protected $user_type = NULL;
+
+    /**
+     * 构造方法
+     */
+    public function __construct($user_type = UserApi::TYPE_SUPPER){
+        $this->user_type = $user_type;
+        parent::__construct();
+    }
     
     /* 用户模型自动验证 */
     protected $_validate = array(
@@ -133,9 +139,9 @@ class UserModel extends RelationModel
     private function logic($user_type){
         
         switch ($user_type){
-            case UserModel::TYPE_SUPPER: $modle = null; break;
-            case UserModel::TYPE_STUDENT: $modle = D('Common\Student', 'Logic'); break;
-            case UserModel::TYPE_TERCHER: $modle = D('Common\Teacher', 'Logic'); break;
+            case UserApi::TYPE_SUPPER: $modle = null; break;
+            case UserApi::TYPE_STUDENT: $modle = D('Common/Student', 'Logic'); break;
+            case UserApi::TYPE_TERCHER: $modle = D('Common/Teacher', 'Logic'); break;
             
             default: $modle = null;
             
@@ -304,26 +310,17 @@ class UserModel extends RelationModel
      * @return boolean|\Think\mixed
      * @author jigc <mrji1990@gmail.com>
      */
-    public function update($data = null) {
+    public function update($data) {
     
         /* 获取数据对象 */
-        $this->where('id>9')->delete();
-        if(!$data = $this->create($data))
-        {
-            die($this->getDbError());
-        }
-        dump($data);die();
+        $data = $this->create($data);
         if (empty($data)) {
             return false;
         }
     
         /* 添加或新增基础内容 */
         if (empty($data['id'])) { //新增数据
-             
-            dump($data);
             $id = $this->add(); //添加基础内容
-    
-            dump($this->getError());
             if (!$id) {
                 $this->error = '新增基础内容出错！';
                 return false;
@@ -338,7 +335,8 @@ class UserModel extends RelationModel
          
     
         /* 添加或新增扩展内容 */
-        $logic = $this->logic($data['user_type']);
+        $logic = $this->logic($this->user_type);
+//         $ret = $logic->update($id);
         if (!$logic->update($id)) {
             if (isset($id)) { //新增失败，删除基础数据
                 $this->delete($id);

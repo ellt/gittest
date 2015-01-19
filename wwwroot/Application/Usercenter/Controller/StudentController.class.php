@@ -10,23 +10,31 @@
 
 namespace Usercenter\Controller;
 
-class GradeClassController extends UserCenterController {
+class StudentController extends UserCenterController {
 
     protected $model;
 
     public function _initialize() {
         parent::_initialize();
+        $this->model = D('Common/Student', 'Logic');
     }
     
     public function index(){
-        
         $sidemenu['title'] = "基础信息设置";
-        $class_tree = D("Common/Grade","Logic")->getClassTree();
+        $student_lists = $this->model->lists();
         
-        dump($class_tree); # 打印查看树状信息
+        $this->assign('student_lists',$student_lists);
         $this->assign('sidemenu', $sidemenu);
-        $this->assign('class_tree', $class_tree);
-        $this->display();
+        $this->display('tuser/studentManager');
     }
 
+    public function add() {
+        if (IS_AJAX) {
+            if ($this->model->register()) {
+                $this->success('添加学生信息成功！', U('index'));
+            } else {
+                $this->error('添加学生信息错误！');
+            }
+        }
+    }
 }
