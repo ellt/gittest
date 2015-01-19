@@ -1,37 +1,37 @@
 //dom加载完成后执行的js
-+$(function(){
+$(function() {
 
     //全选的实现
-    $(".check-all").click(function(){
+    $(".check-all").click(function() {
         $(".ids").prop("checked", this.checked);
     });
-    $(".ids").click(function(){
+    $(".ids").click(function() {
         var option = $(".ids");
-        option.each(function(i){
-            if(!this.checked){
+        option.each(function(i) {
+            if (!this.checked) {
                 $(".check-all").prop("checked", false);
                 return false;
-            }else{
+            } else {
                 $(".check-all").prop("checked", true);
             }
         });
     });
 
     //全选的实现(通用方式)
-    $("[data-toggle='checkall']").click(function(){
+    $("[data-toggle='checkall']").click(function() {
         var target = $(this).attr("data-target");
         var checkbox = $("[data-check=" + target + "]");
         checkbox.prop("checked", this.checked);
     });
-    $("[data-check]").click(function(){
+    $("[data-check]").click(function() {
         var target = $(this).attr("data-check");
         var checkbox = $("[data-check=" + target + "]");
-        var checkall = $("[data-toggle='checkall']").filter("[data-target=" + target +"]");
-        checkbox.each(function(i){
-            if(!this.checked){
+        var checkall = $("[data-toggle='checkall']").filter("[data-target=" + target + "]");
+        checkbox.each(function(i) {
+            if (!this.checked) {
                 checkall.prop("checked", false);
                 return false;
-            }else{
+            } else {
                 checkall.prop("checked", true);
             }
         });
@@ -39,18 +39,18 @@
 
     /**顶部警告栏*/
     var top_alert = $('#top-alert');
-    top_alert.find('.close').on('click', function () {
+    top_alert.find('.close').on('click', function() {
         top_alert.hide();
     });
 
     // 警告栏的弹出与隐藏
-    window.updateAlert = function (info, status) {
+    window.updateAlert = function(info, status) {
         if (status) { //如果不是隐藏提示框
             var c = (status == "success") ? "alert-success" : "alert-warning";
             top_alert.removeClass('alert-warning alert-success').addClass(c);
             top_alert.find('.alert-content').text(info);
             top_alert.show();
-            setTimeout(function () {
+            setTimeout(function() {
                 top_alert.hide();
             }, 1500);
         } else {
@@ -85,7 +85,7 @@
 
         //发送提交请求
         var callable = (method == 'post') ? $.post : $.get;
-        callable(action, formContent, function (data) {
+        callable(action, formContent, function(data) {
             handleAjax(data);
             $("[type='submit']", form).button('reset');
         });
@@ -94,24 +94,24 @@
     });
 
     //ajax get请求
-    $('.ajax-get').click(function(){
-        if ( $(this).hasClass('confirm') ) {
-            if(!confirm('确认要执行该操作吗?')){
+    $('.ajax-get').click(function() {
+        if ($(this).hasClass('confirm')) {
+            if (!confirm('确认要执行该操作吗?')) {
                 return false;
             }
         }
 
         var url;
-        (url = $(this).attr('href')) || (url = $(this).attr('url'));
-
+        url = $(this).attr('href') || $(this).attr('url');
         if (url) {
             $.get(url, function(data) {
                 handleAjax(data);
-                btn && $(btn).button('reset');
             });
         }
 
-        if(url = $(this).attr('data-url')) {//逐渐过渡到使用html5标准 data-*
+        //逐渐过渡到使用html5标准 data-*
+        url = $(this).attr('data-url');
+        if (url) {
             var confirmText = $(this).attr('data-confirm');
             //如果需要的话，发出确认提示信息
             if (confirmText) {
@@ -132,61 +132,62 @@
     });
 
     //ajax post submit请求
-    $('.ajax-post').click(function(){
-        var target,query,form;
+    $('.ajax-post').click(function() {
+        var target, query, form;
         var target_form = $(this).attr('target-form');
         var that = this;
-        var nead_confirm=false;
-        if( ($(this).attr('type')=='submit') || (target = $(this).attr('href')) || (target = $(this).attr('url')) ){
-            form = $('.'+target_form);
+        var nead_confirm = false;
+        if (($(this).attr('type') == 'submit') || (target = $(this).attr('href')) || (target = $(this).attr('url'))) {
+            form = $('.' + target_form);
 
-            if ($(this).attr('hide-data') === 'true'){//无数据时也可以使用的功能
+            if ($(this).attr('hide-data') === 'true') { //无数据时也可以使用的功能
                 form = $('.hide-data');
                 query = form.serialize();
-            }else if (form.get(0)===undefined){
+            } else if (form.get(0) === undefined) {
                 return false;
-            }else if ( form.get(0).nodeName=='FORM' ){
-                if ( $(this).hasClass('confirm') ) {
-                    if(!confirm('确认要执行该操作吗?')){
+            } else if (form.get(0).nodeName == 'FORM') {
+                if ($(this).hasClass('confirm')) {
+                    if (!confirm('确认要执行该操作吗?')) {
                         return false;
                     }
                 }
-                if($(this).attr('url') !== undefined){
+                if ($(this).attr('url') !== undefined) {
                     target = $(this).attr('url');
-                }else{
+                } else {
                     target = form.get(0).action;
                 }
                 query = form.serialize();
-            }else if( form.get(0).nodeName=='INPUT' || form.get(0).nodeName=='SELECT' || form.get(0).nodeName=='TEXTAREA') {
-                form.each(function(k,v){
-                    if(v.type=='checkbox' && v.checked==true){
+            } else if (form.get(0).nodeName == 'INPUT' || form.get(0).nodeName == 'SELECT' || form.get(0).nodeName == 'TEXTAREA') {
+                form.each(function(k, v) {
+                    if (v.type == 'checkbox' && v.checked === true) {
                         nead_confirm = true;
                     }
-                })
-                if ( nead_confirm && $(this).hasClass('confirm') ) {
-                    if(!confirm('确认要执行该操作吗?')){
+                });
+                if (nead_confirm && $(this).hasClass('confirm')) {
+                    if (!confirm('确认要执行该操作吗?')) {
                         return false;
                     }
                 }
                 query = form.serialize();
-            }else{
-                if ( $(this).hasClass('confirm') ) {
-                    if(!confirm('确认要执行该操作吗?')){
+            } else {
+                if ($(this).hasClass('confirm')) {
+                    if (!confirm('确认要执行该操作吗?')) {
                         return false;
                     }
                 }
                 query = form.find('input,select,textarea').serialize();
             }
-            $(that).addClass('disabled').attr('autocomplete','off').prop('disabled',true);
-            $.post(target,query).success(function(data){
+            $(that).addClass('disabled').attr('autocomplete', 'off').prop('disabled', true);
+            $.post(target, query).success(function(data) {
                 handleAjax(data);
-                $(that).removeClass('disabled').prop('disabled',false);
+                $(that).removeClass('disabled').prop('disabled', false);
             });
         }
         var url;
-        
+
         //逐渐过渡到使用html5标准 data-*
-        if(url = $(this).attr('data-url')) {
+        url = $(this).attr('data-url');
+        if (url) {
             var confirmText = $(this).attr('data-confirm');
             //如果需要的话，发出确认提示信息
             if (confirmText) {
@@ -195,10 +196,10 @@
                 }
             }
 
-            var target = $(this).attr("data-target");
-            var form = $(target);
+            target = $(this).attr("data-target");
+            form = $(target);
             query = form.serialize();
-            $.post(url,query).success(function(data){
+            $.post(url, query).success(function(data) {
                 handleAjax(data);
             });
         }
@@ -207,19 +208,19 @@
 
 
     //Modal 提交 及错误提示
-    
+
 
     //按钮组
-    (function(){
-        $(".btn-group-click .btn").click(function(e){
+    (function() {
+        $(".btn-group-click .btn").click(function(e) {
             if ($(this).next(".dropdown-pannel").is(":hidden")) {
                 $(this).next(".dropdown-pannel").show();
                 $(this).find("i").addClass("btn-arrowup");
                 e.stopPropagation();
-            }else{
+            } else {
                 $(this).find("i").removeClass("btn-arrowup");
             }
-        })
+        });
         $(".dropdown-pannel").click(function(e) {
             e.stopPropagation();
         });
@@ -240,7 +241,7 @@
 function U(url, params, rewrite) {
     var website = Think.ROOT + '/index.php';
     url = url.split('/');
-    if (url[0] == '' || url[0] == '@')
+    if (url[0] === '' || url[0] === '@')
         url[0] = APPNAME;
     if (!url[1])
         url[1] = 'Index';
@@ -283,21 +284,20 @@ function handleAjax(data) {
     //需要跳转的话就跳转
     var interval = 1000;
     if (data.url == "refresh") {
-        setTimeout(function () {
+        setTimeout(function() {
             location.href = location.href;
         }, interval);
     } else if (data.url == "no-refresh") {
         // 暂时留空
     } else if (data.url) {
-        setTimeout(function () {
+        setTimeout(function() {
             location.href = data.url;
         }, interval);
     }
 }
 
- function isInt(obj){
+function isInt(obj) {
     reg = /^-?\d+$/;
     result = reg.test(obj) ? true : false;
     return result;
- }   
- 
+}

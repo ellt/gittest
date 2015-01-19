@@ -1,0 +1,146 @@
+ECMAScript （http://www.w3school.com.cn/js/pro_js_primitivetypes.asp）
+1、 有 5 种原始类型： Undefined、Null、Boolean、Number 和 String，
+用typeof 运算符来判断一个值是否在某种类型的范围内。
+    对变量或值调用 typeof 运算符将返回下列值之一：
+    undefined - 如果变量是 Undefined 类型的
+    boolean - 如果变量是 Boolean 类型的
+    number - 如果变量是 Number 类型的
+    string - 如果变量是 String 类型的
+    object - 如果变量是一种引用类型或 Null 类型的
+
+Undefined 类型
+1）当声明的变量未初始化时，该变量的默认值是 undefined
+2）对未声明的变量使用typeof时，返回的值是 undefined
+3）当函数无明确返回值时，返回的也是值 undefined
+
+Null 类型
+1）它只有一个专用值 null
+2）alert(null == undefined);  //输出 "true"
+3）undefined 是声明了变量但未对其初始化时赋予该变量的值，null 则用于表示尚未存在的对象
+
+Boolean 类型
+1）它有两个值 true 和 false
+
+Number 类型
+1）这种类型既可以表示 32 位的整数，还可以表示 64 位的浮点数
+2）Number.MAX_VALUE 和 Number.MIN_VALUE，它们定义了 Number 值集合的外边界。所有 ECMAScript 数都必须在这两个值之间。
+3）当计算生成的数大于 Number.MAX_VALUE 或小于 Number.MIN_VALUE 时，它将被赋予值 Number.POSITIVE_INFINITY 或 Number.NEGATIVE_INFINITY，意味着不再有数字值。如果计算返回的是无穷大值，那么生成的结果不能再用于其他计算。
+4）Number.POSITIVE_INFINITY 的值为 Infinity，Number.NEGATIVE_INFINITY 的值为 -Infinity。可以对任何数调用 isFinite() 方法，以确保该数不是无穷大。
+5）类型（String、Boolean 等）转换失败时，值为NaN，NaN 也不能用于算术计算。
+6）alert(NaN == NaN);  //输出 "false"。alert(isNaN("blue"));  //输出 "true"
+
+String 类型
+
+字面量 含义
+\n      换行
+\t      制表符
+\b      空格
+\r      回车
+\f      换页符
+\\      反斜杠
+\'      单引号
+\"      双引号
+\0nnn   八进制代码 nnn 表示的字符（n 是 0 到 7 中的一个八进制数字）
+\xnn    十六进制代码 nn 表示的字符（n 是 0 到 F 中的一个十六进制数字）
+\unnnn  十六进制代码 nnnn 表示的 Unicode 字符（n 是 0 到 F 中的一个十六进制数字）
+
+2、类型转换
+
+转换成字符串
+
+1）3 种主要的原始类型 Boolean、 Number和String都有 toString() 方法。
+2）Number 类型的 toString() 方法比较特殊，它有两种模式，即默认模式和基模式。
+在默认模式中，toString() 方法只是用相应的字符串输出数字值（无论是整数、浮点数还是科学计数法）,无论最初采用什么表示法声明数字，Number 类型的 toString() 方法返回的都是数字的十进制表示。
+采用基模式，可以用不同的基输出数字，例如二进制的基是 2，八进制的基是 8，十六进制的基是 16。
+var iNum = 10;
+alert(iNum.toString(2));    //输出 "1010"
+alert(iNum.toString(8));    //输出 "12"
+alert(iNum.toString(16));   //输出 "A"
+
+转换成数字
+1）ECMAScript 提供了两种把非数字的原始值转换成数字的方法，即 parseInt() 和 parseFloat()。只有对 String 类型调用这些方法，它们才能正确运行；对其他类型返回的都是 NaN。
+2）parseInt()
+var iNum1 = parseInt("12345red");   //返回 12345
+var iNum1 = parseInt("0xA");    //返回 10
+var iNum1 = parseInt("56.9");   //返回 56
+var iNum1 = parseInt("red");    //返回 NaN
+该方法还有基模式，可以把二进制、八进制、十六进制或其他任何进制的字符串转换成整数。基是由 parseInt() 方法的第二个参数指定的。
+3）parseFloat()方法没有基模式，字符串必须以十进制形式表示浮点数，而不是用八进制或十六进制。第一个出现的小数点是有效字符。如果有两个小数点，第二个小数点将被看作无效的。
+var fNum1 = parseFloat("12345red"); //返回 12345
+var fNum2 = parseFloat("0xA");  //返回 NaN
+var fNum3 = parseFloat("11.2"); //返回 11.2
+var fNum4 = parseFloat("11.22.33"); //返回 11.22
+var fNum5 = parseFloat("0102"); //返回 102
+var fNum1 = parseFloat("red");  //返回 NaN
+
+强制类型转换
+1）Boolean() 函数
+当要转换的值是至少有一个字符的字符串、非 0 数字或对象时，Boolean() 函数将返回 true。转换的值是空字符串、数字 0、undefined 或 null，它将返回 false。
+2）Number() 函数
+Number() 函数的强制类型转换与 parseInt() 和 parseFloat() 方法的处理方式相似，只是它转换的是整个值，而不是部分值。
+    Number(false)           0
+    Number(true)            1
+    Number(undefined)       NaN
+    Number(null)            0
+    Number("1.2")           1.2
+    Number("12")            12
+    Number("1.2.3")         NaN
+    Number(new object())    NaN
+    Number(50)              50
+3)String() 函数
+强制转换成字符串和调用 toString() 方法的唯一不同之处在于，对 null 和 undefined 值强制类型转换可以生成字符串而不引发错误：
+var s1 = String(null);  //"null"
+var oNull = null;
+var s2 = oNull.toString();  //会引发错误
+
+3、运算符
+等性运算符
+1）如果一个运算数是 Boolean 值，在检查相等性之前，把它转换成数字值。false 转换成 0，true 为 1。
+2）如果一个运算数是字符串，另一个是数字，在检查相等性之前，要尝试把字符串转换成数字。
+3）如果一个运算数是对象，另一个是字符串，在检查相等性之前，要尝试把对象转换成字符串。
+4）如果一个运算数是对象，另一个是数字，在检查相等性之前，要尝试把对象转换成数字。
+5）NaN == * //false。
+6）null == undefined  //true。
+7）在检查相等性时，不能把 null 和 undefined 转换成其他值。
+   undefined == 0 //false。
+   null == 0 //false。
+8）如果两个运算数都是对象，那么比较的是它们的引用值。如果两个运算数指向同一对象，那么等号返回 true，否则两个运算数不等。
+9)全等号由三个等号表示（===），只有在无需类型转换运算数就相等的情况下，才返回 true。
+
+4、定义类或对象
+1）混合的构造函数/原型方式
+function Car(sColor,iDoors,iMpg) {
+  this.color = sColor;
+  this.doors = iDoors;
+  this.mpg = iMpg;
+  this.drivers = new Array("Mike","John");
+}
+
+Car.prototype.showColor = function() {
+  alert(this.color);
+};
+
+var oCar1 = new Car("red",4,23);
+var oCar2 = new Car("blue",3,25);
+
+oCar1.drivers.push("Bill");
+
+alert(oCar1.drivers);   //输出 "Mike,John,Bill"
+alert(oCar2.drivers);   //输出 "Mike,John"
+
+2）
+动态原型方法
+function Car(sColor,iDoors,iMpg) {
+  this.color = sColor;
+  this.doors = iDoors;
+  this.mpg = iMpg;
+  this.drivers = new Array("Mike","John");
+  
+  if (typeof Car._initialized == "undefined") {
+    Car.prototype.showColor = function() {
+      alert(this.color);
+    };
+    
+    Car._initialized = true;
+  }
+}

@@ -44,3 +44,8 @@ Enter查找下一个，Shift+Enter，查找上一个。
 四、使用：
 1）在Sublime text中按Ctrl+shift+鼠标左键点击函数调用位置可跳转至函数定义位置；
 2）在弹出的函数定义位置处按Ctrl+shift+鼠标右键点击函数可跳转回函数调用位置。
+
+2、SublimeLinter 语法提示
+一、安装SublimeLinter插件
+1）通过Package Control安装SublimeLinter、SublimeLinter-jshint、SublimeLinter-csslint
+二、通过npm（首先安装npm）安装jshint、csslint，命令npm install -g jshint、npm install -g csslint
