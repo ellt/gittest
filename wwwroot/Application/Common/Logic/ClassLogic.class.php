@@ -19,4 +19,23 @@ use Think\Model\RelationModel;
 class ClassLogic extends RelationModel
 {
 
+    protected $modle = NULL;
+    
+    /**
+     * 构造方法
+     */
+    public function _initialize(){
+        parent::_initialize();
+        $this->modle = D('ClassInfo');
+    }
+    
+    public function getClassInfoById($id){
+        return $this->modle->where("id=$id")->relation(true)->find();
+    }
+    
+    public function getClassNameById($id){
+         
+        $info = $this->modle->where("id=$id")->relation(true)->find();
+        return $info['grade_name'] . $info['class_name'];
+    }
 }

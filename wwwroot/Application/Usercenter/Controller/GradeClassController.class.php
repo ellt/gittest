@@ -23,7 +23,7 @@ class GradeClassController extends UserCenterController {
         $sidemenu['title'] = "基础信息设置";
         $class_tree = D("Common/Grade","Logic")->getClassTree();
         
-        dump($class_tree); # 打印查看树状信息
+//         dump($class_tree); # 打印查看树状信息
         $this->assign('sidemenu', $sidemenu);
         $this->assign('class_tree', $class_tree);
         $this->display();

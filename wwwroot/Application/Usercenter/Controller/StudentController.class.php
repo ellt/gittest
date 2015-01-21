@@ -21,8 +21,12 @@ class StudentController extends UserCenterController {
     
     public function index(){
         $sidemenu['title'] = "基础信息设置";
-        $student_lists = $this->model->lists();
         
+        $class_id = 1; # 这里获取班级ID
+        
+        # 获取学生列表
+        $student_lists = $this->relationLists($this->model, array('class_id' => $class_id));
+        $this->assign('calss_name', D('Class','Logic')->getClassNameById(1));
         $this->assign('student_lists',$student_lists);
         $this->assign('sidemenu', $sidemenu);
         $this->display('tuser/studentManager');
@@ -37,4 +41,5 @@ class StudentController extends UserCenterController {
             }
         }
     }
+    
 }
