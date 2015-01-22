@@ -324,9 +324,7 @@ class UserModel extends RelationModel
         }
         
         if(!empty($extern_table_name)){
-            dump($extern_table_name);
             $info = M('model')->where("name='%s'",$extern_table_name)->find();
-            dump($info['id']);
             if($info)
             {
                 $user_extern_model_id = $info['id'];
