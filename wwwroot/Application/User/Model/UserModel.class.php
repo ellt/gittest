@@ -60,6 +60,7 @@ class UserModel extends RelationModel
             array('reg_ip', 'get_client_ip', self::MODEL_INSERT, 'function', 1),
             array('update_time', NOW_TIME),
             array('status', 'getStatus', self::MODEL_BOTH, 'callback'),
+            array('user_extern_model_id', 'getUserMoldelIdByUserType', self::MODEL_BOTH, 'callback'),
     );
     
 
@@ -302,7 +303,37 @@ class UserModel extends RelationModel
         }
         return false;
     }
-    
+
+    protected function getUserMoldelIdByUserType() {
+        $user_type = $this->user_type;
+        $extern_table_name = '';
+        switch ($user_type) {
+            case UserApi::TYPE_SUPPER:
+                $user_extern_model_id = 0;
+                break;
+            case UserApi::TYPE_STUDENT:
+                $extern_table_name = 'student';
+               
+                break;
+            case UserApi::TYPE_TERCHER:
+                $extern_table_name = 'teacher';
+                break;
+            
+            default:
+                $user_extern_model_id = 0;
+        }
+        
+        if(!empty($extern_table_name)){
+            dump($extern_table_name);
+            $info = M('model')->where("name='%s'",$extern_table_name)->find();
+            dump($info['id']);
+            if($info)
+            {
+                $user_extern_model_id = $info['id'];
+            }
+        }
+        return $user_extern_model_id;
+    }
     
     /**
      * 新增或更新一个用户
@@ -336,7 +367,6 @@ class UserModel extends RelationModel
     
         /* 添加或新增扩展内容 */
         $logic = $this->logic($this->user_type);
-//         $ret = $logic->update($id);
         if (!$logic->update($id)) {
             if (isset($id)) { //新增失败，删除基础数据
                 $this->delete($id);
