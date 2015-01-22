@@ -1,0 +1,212 @@
+<extend name="Tuser/homeworkbase"/>
+
+<block name="header"></block>
+
+<block name="content">
+    <div class="well well-lg ell-homework-main">
+        <div class="row">
+            <h2>布置作业</h2>
+        </div>
+        <form id="addHomeworkForm" role="form">
+            <div class="row">
+                <div class="col-xs-4 col-sm-2">
+                    <p class="h5 text-right">科 目</p>
+                </div>
+                <div class="col-xs-8 col-sm-10">
+                    <a class="btn btn-primary btn-sm" href="">语文</a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-4 col-sm-2">
+                    <p class="h5 text-right">班 级</p>
+                </div>
+                <div class="col-xs-8 col-sm-10">
+                    <div class="row">
+                        <div class="col-sm-3 col-lg-2">
+                            <label class="checkbox-inline">
+                                <input type="checkbox" data-toggle="checkall" data-target="class" checked> 全 选
+                            </label>
+                        </div>
+                        <div class="col-sm-3 col-lg-2">
+                            <label class="checkbox-inline">
+                                <input type="checkbox" data-check="class" name="ids[]" value="0" checked> 2009级1班
+                            </label>
+                        </div>
+                        <div class="col-sm-3 col-lg-2">
+                            <label class="checkbox-inline">
+                                <input type="checkbox" data-check="class" name="ids[]" value="1" checked> 2009级2班
+                            </label>
+                        </div>
+                        <div class="col-sm-3 col-lg-2">
+                            <label class="checkbox-inline">
+                                <input type="checkbox" data-check="class" name="ids[]" value="2" checked> 2009级3班
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-4 col-sm-2">
+                    <p class="h5 text-right">已布置班级</p>
+                </div>
+                <div class="col-xs-8 col-sm-10">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <span>2009级4班</span>
+                            <a href="">编辑</a>
+                        </div>
+                        <div class="col-sm-3">
+                            <span>2009级5班</span>
+                            <a href="">编辑</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-4 col-sm-2">
+                    <p class="h5 text-right">预计用时</p>
+                </div>
+                <div class="col-xs-8 col-sm-3">
+                    <div class="input-group input-group-sm">
+                      <input type="text" class="form-control" id="setTime" name="time">
+                      <span class="input-group-addon">分钟</span>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-7">
+                    <button type="button" class="btn btn-primary btn-sm" data-form-btn="set-time" data-target="#setTime" data-content="15">15分钟</button>
+                    <button type="button" class="btn btn-primary btn-sm" data-form-btn="set-time" data-target="#setTime" data-content="30">30分钟</button>
+                    <button type="button" class="btn btn-primary btn-sm" data-form-btn="set-time" data-target="#setTime" data-content="60">60分钟</button>
+                    <button type="button" class="btn btn-primary btn-sm" data-form-btn="set-time" data-target="#setTime" data-content="90">90分钟</button>
+                </div>
+            </div>
+
+            <div class="row">
+                <div>
+                    <textarea class="form-control" id="homework" name="homework" rows="5" placeholder="请输入作业内容，建议格式如下："></textarea>
+                    <div class="pull-right">
+                        <button type="button" class="btn btn-danger" data-submit="form" data-target="#addHomeworkForm" data-url="{:U('Tuser/homework')}" data-status="0" data-loading-text="提交中..." autocomplete="off">今天没作业</button>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <h3>
+              作业布置情况  
+            </h3>
+            <div class="row">
+                <div class="col-xs-6 col-sm-2">
+                    <span class="h5"><strong>2009 级 1 班</strong></span>
+                </div>
+                <div class="col-xs-6 col-sm-2">
+                    合计：<span class="label label-primary">120分钟</span>
+                </div>
+                <div class="col-xs-6 col-sm-2">
+                    数学：<span class="label label-default">60分钟</span> 
+                </div>
+                <div class="col-xs-6 col-sm-2">
+                    英语：<span class="label label-default">60分钟</span> 
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6 col-sm-2">
+                    <span class="h5"><strong>2009 级 2 班</strong></span>
+                </div>
+                <div class="col-xs-6 col-sm-2">
+                    合计：<span class="label label-primary">70分钟</span>
+                </div>
+                <div class="col-xs-6 col-sm-2">
+                    数学：<span class="label label-default">70分钟</span> 
+                </div>
+                <div class="col-xs-6 col-sm-2">
+                    英语：<span class="label label-default">0分钟</span> 
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="ell-homework-history">
+        <include file="homeworkhistory"/>
+    </div>
+</block>
+
+<block name="script">
+    <script>
+    $(function() {
+        $("[data-target='class']").change(function() {
+            var history = $("[id^='history']");
+            if(this.checked) {console.log(111);
+                history.show();
+            } else {console.log(222);
+                history.hide();
+            }
+        });
+        $("[data-check='class']").change(function() {
+            var checkboxes = $("[data-check='class']");
+            $(this).each(function(index, el) {
+                var id = $(this).attr("value"); 
+                var history = $("#history"+id); console.log(id+": "+this.checked);
+                if(this.checked) {
+                    history.show();
+                } else {
+                    history.hide();
+                }
+            });
+        });
+
+        $("[data-form-btn='set-time']").click(function() {
+            var targetInput = $(this).attr('data-target');
+            var input = $(targetInput);
+            var content = $(this).attr('data-content');
+            input.val(content);
+        });
+
+        $("#homework").bind('input propertychange', function() {
+            var btn = $("[data-submit='form']");
+            var status = btn.attr("data-status");
+            var text = $(this).val();
+
+            if (text === "" && status === "1") {
+                // 没作业
+                btn.attr("data-status", "0");
+                btn.html("今天没作业");
+                btn.removeClass("btn-primary").addClass("btn-danger");
+            } else if (text !== "" && status === "0") {
+                // 有作业
+                btn.attr("data-status", "1");
+                btn.html("发布作业");
+                btn.removeClass("btn-danger").addClass("btn-primary");
+            }
+        });
+
+        $("[data-submit='form']").click(function(e) {
+            //取消默认动作，防止表单两次提交
+            e.preventDefault();
+
+            var url = $(this).attr('data-url');
+            var status = $(this).attr("data-status");
+            var content = "";
+
+            if (status === "1") {
+                var targetForm = $(this).attr('data-target');
+                var form = $(targetForm);
+                content = form.serialize();
+                content += "&status=true";
+            } else {
+                var checkbox = $("[data-check='class']");
+                content = checkbox.serialize();
+                content += "&status=false";
+            }
+
+            var btn = $(this);
+            btn.button('loading');
+            //发送到服务器
+            $.post(url, content).success(function(data) {
+                btn.button('reset');
+                if (data.status) {
+                    
+                } else {
+                    
+                }
+            });
+        });
+    });
+    </script>
+</block>

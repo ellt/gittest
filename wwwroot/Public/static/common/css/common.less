@@ -2,12 +2,6 @@
 //@import "../../bootstrap3/less/mixins.less";
 @import "common-variables.less";
 
-html,
-body {
-  height:100%;
-  margin: 0;
-}
-
 body {
   padding-top: 50px;
 }
@@ -226,6 +220,32 @@ a.ell-sidebar-title:focus {
 
 .ell-tab-wrap > ul {
   margin-bottom: 10px;
+}
+
+.ell-homework-main {
+  margin: 20px 0;
+  background: white; 
+  .row {
+    margin-bottom: 10px;
+  }
+
+  textarea {
+    margin-bottom: 10px;
+
+    &::-webkit-input-placeholder:after {
+      display:block;
+      content:"1、XXXX。\A 2、XXXX。";/*  \A 表示换行  */
+      
+    }
+    &::-moz-placeholder:after {
+      content:"1、XXXX。\A 2、XXXX。";/*  \A 表示换行  */
+     
+    }
+  }
+}
+
+.ell-homework-footer {
+  text-align: center;
 }
 
 .text-inverse {
