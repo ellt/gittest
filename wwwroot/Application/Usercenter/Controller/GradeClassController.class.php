@@ -18,27 +18,27 @@ class GradeClassController extends UserCenterController {
         parent::_initialize();
     }
     
-//     public function index(){
+    public function index(){
         
-//         $sidemenu['title'] = "基础信息设置";
-//         $class_tree = D("Common/Grade","Logic")->getClassTree();
+        theme(); 
+        $sidemenu['title'] = "基础信息设置";
+        $class_tree = D('Category')->getClassTree('id, title as name,sort,pid,status');
         
 //         dump($class_tree); # 打印查看树状信息
-//         $this->assign('sidemenu', $sidemenu);
-//         $this->assign('class_tree', $class_tree);
-//         $this->display();
-//     }
+        $this->assign('sidemenu', $sidemenu);
+        $this->assign('class_tree', $class_tree);
+        $this->display();
+    }
     
     /**
      * 分类管理列表
      */
-    public function index(){
-        $tree = D('Category')->getClassTree(0,'id,name,title,sort,pid,allow_publish,status');
-//         dump($tree);
-        $this->assign('tree', $tree);
+    public function showtree(){
+        $tree = D('Category')->getClassTree('id,name,title,sort,pid,allow_publish,status');
         C('_SYS_GET_CATEGORY_TREE_', true); //标记系统获取分类树模板
+        $this->assign('tree', $tree);
         $this->meta_title = '分类管理';
-        $this->display();
+        $this->display('index');
     }
     
     /**
@@ -226,6 +226,79 @@ class GradeClassController extends UserCenterController {
             $this->error('合并分类失败！');
         }
     
+    }
+    
+    public function addGrade(){
+        
+        // 测试链接: s=/usercenter/grade_class/addgrade/grade_number/2008/class_count/10.html
+        $grade_number =  (int)I('grade_number') ;
+        $class_count = (int)I('class_count');
+
+        if($grade_number > 0 && $class_count > 0){
+            $cate_model = D('Category');
+            
+            $data['name'] = 'school@grade:' . $grade_number;
+            $data['cate_type'] = 1;
+            $data['pid'] = 3; // TODO 这里id=3默认是为学校班级年级根分类，后续需要修改成自动获取
+            $data['title'] = $grade_number . '级';
+            $data['sort'] = $grade_number;
+            
+            $info = $cate_model->info($data['name']);
+            if($info['id']){
+                $data['id'] = $info['id'];
+            }
+            
+            $cate_model->create($data);
+            
+            if(empty($data['id'])){
+                
+                $res = $cate_model->add($data);
+                
+            }else{
+                
+                $res = $cate_model->save($data);
+            }
+            
+            $grade_title = $data['title'];
+            $ret = $cate_model->field('id')->where("name='%s'", $data['name'])->find();
+            if (!empty($ret['id'])) {
+                
+                $grade_cate_id = (int)$ret['id'];
+            } else {
+                // TODO 出错提示
+            }
+            $data = null;
+            
+            for($i=1; $i < $class_count + 1; $i++)
+            {
+                $data['name'] = 'school@grade:' . $grade_number . ',class:' . $i;
+                $data['cate_type'] = 1;
+                $data['pid'] = $grade_cate_id; 
+                $data['title'] = $grade_title . $i . '班';
+                $data['sort'] = $i;
+                
+                $info = $cate_model->info($data['name']);
+                if($info['id']){
+                    $data['id'] = $info['id'];
+                }
+                
+                $cate_model->create($data);
+                
+                if(empty($data['id'])){
+                    $res = $cate_model->add($data);
+                }else{
+                
+                    $res = $cate_model->save($data);
+                }
+                $data = null;
+                
+            }
+            $this->success('添加成功',U('index'));
+        }
+        else{
+            //TODO 报错
+           $this->error('年级编号与班级数量必须大于0');
+        }
     }
     
 }
