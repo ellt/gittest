@@ -274,7 +274,7 @@ class GradeClassController extends UserCenterController {
                 $data['name'] = 'school@grade:' . $grade_number . ',class:' . $i;
                 $data['cate_type'] = 1;
                 $data['pid'] = $grade_cate_id; 
-                $data['title'] = $grade_title . $i . '班';
+                $data['title'] = /* $grade_title . */$i . '班';
                 $data['sort'] = $i;
                 
                 $info = $cate_model->info($data['name']);

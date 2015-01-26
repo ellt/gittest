@@ -16,13 +16,14 @@ class StudentController extends UserCenterController {
 
     public function _initialize() {
         parent::_initialize();
+        theme('default');
         $this->model = D('Common/Student', 'Logic');
     }
     
     public function index(){
         $sidemenu['title'] = "基础信息设置";
         
-        $class_id = 1; # 这里获取班级ID
+        $class_id = I('class_id'); # 这里获取班级ID
         
         # 获取学生列表
         $student_lists = $this->relationLists($this->model, array('class_id' => $class_id));

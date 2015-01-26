@@ -7,7 +7,7 @@
 // | Author: huajie <banhuajie@163.com>
 // +----------------------------------------------------------------------
 namespace Usercenter\Controller;
-use Admin\Model\AuthGroupModel;
+use Usercenter\Model\AuthGroupModel;
 use Think\Page;
 
 /**
