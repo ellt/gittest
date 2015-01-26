@@ -1,0 +1,40 @@
+JQUERY_VERSION = '1.11.2'
+
+1、attr() prop() val()
+1)首先统一个概念 attribute表示HTML文档节点的属性，property表示JS对象的属性。
+2)attr()用于设置或获取指定DOM元素所对应的HTML文档节点上的属性(attribute)。
+window和document中不能有attributes，使用.attr()将被自动转成使用.prop。
+3)prop()用于设置或获取指定DOM元素所对应的JS对象的属性(property)
+使用场景
+获取和设置在html(比如：window.location)中不存在的properties，包括selectedIndex, tagName, nodeName, nodeType, ownerDocument, defaultChecked, and defaultSelected的值
+获取和设置boolean attributes/properties，包括autofocus, autoplay, async, checked, controls, defer, disabled, hidden, loop, multiple, open, readonly, required, scoped, selected
+4)val()用于取值，attr()和.prop()都不应该被用来取值/设值
+
+2、html() text() val()
+1)html()获取集合中第一个匹配元素的HTML内容
+html(val)设置集合中每一个匹配元素的HTML内容
+2)text()只读取元素的纯文本内容，包括他的后代元素，而此元素中的HTML标签（包括其后代元素的HTML标签）都被剥离出去，只留下文本内容。他在匹配多个元素时，会同时读取多个元素的内容.
+.text(textString)方法和.html(htmlString)方法都是一样用来替换元素的内容，他们不同之种是：.html(htmlString)方法会把HTML标签当作新的HTML标签来替换原来的内容，而.text(textString)则把HTML标签会转换成纯文本内容来代替元素的旧内容。如果匹配多个元素时，采用.text(textString)会将所匹配元素的内容替换成相同的内容。
+3)val()用来读取或修改表单元素的value值,如果其应用在多个元素上时，只能读取第一个表单元素的"value"值
+
+3、on()
+（参考网址：http://www.365mini.com/page/jquery-on.htm）
+从jQuery 1.7开始，on()函数提供了绑定事件处理程序所需的所有功能，用于统一取代以前的bind()、 delegate()、 live()等事件函数。
+用法一：jQueryObject.on( events [, selector ] [, data ], handler )
+用法二：jQueryObject.on( eventsMap [, selector ] [, data ] )
+-----------------------------------------------------------------------------------
+参数                       描述
+events    | String类型一个或多个用空格分隔的事件类型和可选的命名空间，例如"click"、"focus click"、"keydown.myPlugin"。
+
+eventsMap | Object类型一个Object对象，其每个属性对应事件类型和可选的命名空间(参数events)，属性值对应绑定的事件处理函数(参数handler)。
+
+selector  | 可选/String类型一个jQuery选择器，用于指定哪些后代元素可以触发绑定的事件。如果该参数为null或被省略，则表示当前元素自身绑定事件(实际触发者也可能是后代元素，只要事件流能到达当前元素即可)。
+
+data      | 可选/任意类型触发事件时，需要通过event.data传递给事件处理函数的任意数据。
+
+handler   | Function类型指定的事件处理函数。
+-------------------------------------------------------------------------------------
+1)关于参数selector，你可以简单地理解为：如果该参数等于null或被省略，则为当前匹配元素绑定事件；否则就是为当前匹配元素的后代元素中符合selector选择器的元素绑定事件。
+2)参数handler中的this指向当前匹配元素的后代元素中触发该事件的DOM元素。如果参数selector等于null或被省略，则this指向当前匹配元素(也就是该元素)。
+3)on()还会为handler传入一个参数：表示当前事件的Event对象。
+4)参数handler的返回值与DOM原生事件的处理函数返回值作用一致。例如"submit"(表单提交)事件的事件处理函数返回false，可以阻止表单的提交。
