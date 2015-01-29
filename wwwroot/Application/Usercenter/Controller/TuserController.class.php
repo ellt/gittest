@@ -422,4 +422,102 @@ class TuserController extends UserCenterController {
             $this->display('homeworkhistory');
         }
     }
+
+    public function gradeScore() {
+        $this->display('TempScore/gradescore');
+    }
+
+    public function getScoreData() {
+        $data['status']  = 1;
+        $data['info'] = "保存成功！";
+        $data['url'] = "refresh";
+        $data['data'] = $this->creatData();
+        //dump($data);
+        $this->ajaxReturn($data);
+    }
+
+    public function creatData() {
+
+        $data = array(
+            'order' => array(
+                'base' => array('class','studentCnt','master'),
+                'cate' => array('s001','s002','s003'),
+                'cateTwo' => array("attendance","average","max","min"),
+            ),
+
+            'title' => array(
+                'class'      => "班级",
+                'studentCnt' => "人数",
+                'master'     => "班主任",
+                'subject'    => array(
+                    'cate' => array(
+                        's001' => "语文",
+                        's002' => "数学",
+                        's003' => "总分",
+                    ),
+                    'cateTwo' => array(
+                        'attendance' => '参加人数',
+                        'average'    => '平均分',
+                        'max'        => '最高分',
+                        'min'        => '最低分',
+                    )
+                )
+            ),
+
+            'info' => array(
+                '200901' => array(
+                    'class'      => "2009级1班",
+                    'studentCnt' => "56",
+                    'master'     => "李忠",
+                    'subject'    => array(
+                        's001' => array(
+                            'attendance' => '56',
+                            'average'    => '88',
+                            'max'        => '98',
+                            'min'        => '73',
+                        ),
+                        's002' => array(
+                            'attendance' => '56',
+                            'average'    => '87',
+                            'max'        => '97',
+                            'min'        => '77',
+                        ),                        
+                        's003' => array(
+                            'attendance' => '55',
+                            'average'    => '86',
+                            'max'        => '96',
+                            'min'        => '76',
+                        ),
+                    )
+                ),
+                '200902' => array(
+                    'class'      => "2009级2班",
+                    'studentCnt' => "55",
+                    'master'     => "李明",
+                    'subject'    => array(
+                        's001' => array(
+                            'attendance' => '54',
+                            'average'    => '81',
+                            'max'        => '91',
+                            'min'        => '71',
+                        ),
+                        's002' => array(
+                            'attendance' => '54',
+                            'average'    => '81',
+                            'max'        => '91',
+                            'min'        => '71',
+                        ),                        
+                        's003' => array(
+                            'attendance' => '55',
+                            'average'    => '81',
+                            'max'        => '91',
+                            'min'        => '71',
+                        ),
+                    )
+                )
+            )
+        );
+        return $data;
+        //dump($data);
+    }
 }
