@@ -88,72 +88,41 @@
 
         var container = document.getElementById('hs');
         var scoreData = getScoreData(container);
-        var pattern = {cate : "all", cateTwo : "all"};
-        var hs = loadTable(container, scoreData, pattern);
 
-        // 全选一级类目                
+        var pattern = {};
+        pattern.cate    = setPattern("cate", "all");
+        pattern.cateTwo = setPattern("two-cate", "all");
+
+        var hs = creatTable(container, scoreData, pattern);
+
+        // 一级类目-全选
         $("[data-target='cate']").click(function(event) {
-            if (this.checked) {
-                pattern.cate = setPattern($("[data-check='cate']"), "all");
-            } else {
-                pattern.cate = setPattern($("[data-check='cate']"), "none");
-            }
-
-            hs.destroy();
-            hs = loadTable(container, scoreData, pattern);
+            hs = updateTable(container, scoreData, pattern, hs, "cate");
         });
-
+        // 一级类目-单选
         $("[data-check='cate']").click(function(event) {
-            pattern.cate = setPattern($("[data-check='cate']"));
-            hs.destroy();
-            hs = loadTable(container, scoreData, pattern);
+            hs = updateTable(container, scoreData, pattern, hs, "cate");
         });
 
-        // 全选二级类目
-        $("[data-target='two-cate']").click(function(event) {elog("ss"+":"+pattern.cateTwo);
-            if (this.checked) {
-                pattern.cateTwo = setPattern($("[data-check='two-cate']"), "all");
-            } else {
-                pattern.cateTwo = setPattern($("[data-check='two-cate']"), "none");
-            }
-                elog("kk"+":"+pattern.cateTwo);
-            hs.destroy();
-            hs = loadTable(container, scoreData, pattern);
+        // 二级类目-全选
+        $("[data-target='two-cate']").click(function(event) {
+            hs = updateTable(container, scoreData, pattern, hs, "two-cate");
         });
-
+        // 二级类目-单选
         $("[data-check='two-cate']").click(function(event) {
-            pattern.cateTwo = setPattern($("[data-check='two-cate']"));
-            hs.destroy();
-            hs = loadTable(container, scoreData, pattern);
+            hs = updateTable(container, scoreData, pattern, hs, "two-cate");
         });
     });
 
-    function setPattern(obj, mode) {
-        var ret = Array();
-
-        if (mode === "all") {
-            obj.each(function(index, el) {
-                ret.push($(this).val());
-            });
-        } else if (mode !== "none"){
-            obj.each(function(index, el) {
-                if (this.checked) {
-                    ret.push($(this).val());
-                }
-            });
-        }
-
-        return ret;
-    }
-
     function getScoreData(container) {
+        var url = $(container).attr("data-url");
+        var scoreData;
+
         // 设置为同步，等待获取完数据再进行其他的步骤
         $.ajaxSetup({
             async : false
         });
 
-        var url= $(container).attr("data-url");
-        var scoreData;
         $.post(url).success(function(data){
             scoreData = data.data;
         });
@@ -166,7 +135,58 @@
         return scoreData;
     }
 
-    function loadData(container, scoreData, pattern) {
+    function updateTable(container, scoreData, pattern, oldHs, type) {
+        if (type === "cate") {
+            pattern.cate = setPattern(type);
+        } else if (type === "two-cate") {
+            pattern.cateTwo = setPattern(type);
+        }
+        
+        oldHs.destroy();
+        return creatTable(container, scoreData, pattern);
+    }
+
+    function setPattern(type) {
+        var ret = Array();
+        var obj;
+
+        if (type === "cate") {
+            obj = $("[data-check='cate']");
+        } else if (type === "two-cate") {
+            obj = $("[data-check='two-cate']");
+        }
+
+        obj.each(function(index, el) {
+            if (this.checked) {
+                ret.push($(this).val());
+            }
+        });
+
+        return ret;
+    }
+
+    function creatTable(container, scoreData, pattern) {
+        var ret = getSettings(scoreData, pattern);
+        var settings = {
+            data : ret.data,
+            startRows: 0,
+            stretchH: 'all',
+            fillHandle: false,
+            cells: function (row, col, prop) {
+                var cellProperties = {};
+                cellProperties.readOnly = true;
+                if (row === 0 || row === 1) {
+                    cellProperties.renderer = firstRowRenderer;
+                }
+                return cellProperties;
+            },
+            mergeCells: ret.mergeCells,
+        };
+        var hs = new Handsontable(container, settings);
+        return hs;
+    }
+
+    function getSettings(scoreData, pattern) {
         var order = scoreData.order;
         var orderBase    = order.base;     // 班级、人数
         var orderCate    = order.cate;     // 语文、数学
@@ -209,36 +229,33 @@
         }
 
         // 成绩标题
-        if (patCate !== "none" && patCateTwo !== "none") {
+        for (cateCnt = 0, i = 0; i < orderCate.length; i++) {
+ 
+            if($.inArray(orderCate[i], patCate) === -1) {
+                continue;
+            }
 
-            for (cateCnt = 0, i = 0; i < orderCate.length; i++) {
-     
-                if(patCate !== "all" && $.inArray(orderCate[i], patCate) === -1) {
+            for (cateTwoCnt = 0, j = 0; j < orderCateTwo.length; j++) {
+                if ($.inArray(orderCateTwo[j], patCateTwo) === -1) {
                     continue;
                 }
 
-                for (cateTwoCnt = 0, j = 0; j < orderCateTwo.length; j++) {
-                    if (patCateTwo !== "all" && $.inArray(orderCateTwo[j], patCateTwo) === -1) {
-                        continue;
-                    }
-
-                    firstRow.push(cate[orderCate[i]]); // 一级类目
-                    secondRow.push(cateTwo[orderCateTwo[j]]); // 二级类目
-                    cateTwoCnt++;
-                }
-
-                if (cateTwoCnt !== 0) {
-                    // 合并单元格
-                    mergeCells.push({
-                        row: 0,
-                        col: orderBase.length + cateCnt * cateTwoCnt,
-                        rowspan: 1,
-                        colspan: cateTwoCnt,
-                    });
-                }
-
-                cateCnt++;
+                firstRow.push(cate[orderCate[i]]); // 一级类目
+                secondRow.push(cateTwo[orderCateTwo[j]]); // 二级类目
+                cateTwoCnt++;
             }
+
+            if (cateTwoCnt !== 0) {
+                // 合并单元格
+                mergeCells.push({
+                    row: 0,
+                    col: orderBase.length + cateCnt * cateTwoCnt,
+                    rowspan: 1,
+                    colspan: cateTwoCnt,
+                });
+            }
+
+            cateCnt++;
         }
 
         ret = {
@@ -266,23 +283,20 @@
             }
 
             // 成绩信息
-            if (patCate !== "none") {
-            
-                for (j = 0; j < orderCate.length; j++) {
-                    if(patCate !== "all" && $.inArray(orderCate[j], patCate) === -1) {
+            for (j = 0; j < orderCate.length; j++) {
+                if($.inArray(orderCate[j], patCate) === -1) {
+                    continue;
+                }
+
+                cateInfo = info[i].subject[orderCate[j]]; // 一级类目
+
+                for (k = 0; k < orderCateTwo.length; k++) {
+                    if ($.inArray(orderCateTwo[k], patCateTwo) === -1) {
                         continue;
                     }
 
-                    cateInfo = info[i].subject[orderCate[j]]; // 一级类目
-
-                    for (k = 0; k < orderCateTwo.length; k++) {
-                        if (patCateTwo !== "all" && $.inArray(orderCateTwo[k], patCateTwo) === -1) {
-                            continue;
-                        }
-
-                        cateTwoInfo = cateInfo[orderCateTwo[k]]; // 二级类目
-                        infoRow.push(cateTwoInfo);
-                    }
+                    cateTwoInfo = cateInfo[orderCateTwo[k]]; // 二级类目
+                    infoRow.push(cateTwoInfo);
                 }
             }
 
@@ -290,27 +304,6 @@
         }
 
         return ret;
-    }
-
-    function loadTable(container, scoreData, pattern) {
-        var ret = loadData($("#hs"), scoreData, pattern);
-        var settings = {
-            data : ret.data,
-            startRows: 0,
-            stretchH: 'all',
-            fillHandle: false,
-            cells: function (row, col, prop) {
-                var cellProperties = {};
-                cellProperties.readOnly = true;
-                if (row === 0 || row === 1) {
-                    cellProperties.renderer = firstRowRenderer;
-                }
-                return cellProperties;
-            },
-            mergeCells: ret.mergeCells,
-        };
-        var hs = new Handsontable(container, settings);
-        return hs;
     }
 
     function firstRowRenderer(instance, td, row, col, prop, value, cellProperties) {
