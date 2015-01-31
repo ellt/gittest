@@ -1,3 +1,4 @@
+
 <extend name="Public/base"/>
 
 <block name="header">
@@ -75,6 +76,11 @@
     <div class="data-table">
         <div id="hs" data-url="{:U('Usercenter/Tuser/getScoreData')}"></div>
     </div>
+
+    <!-- 数据图表 -->
+    <div class="data-chart">
+        <div id="chart"  style="height:400px;"></div>
+    </div>
 </block>
 
 <block name="style">
@@ -83,12 +89,103 @@
 
 <block name="script">
     <script src="__STATIC__/handsontable/handsontable.full.min.js"></script>
+    <script src="__STATIC__/echarts/echarts-all.js"></script>
     <script>
     $(function(){
+        // 获取成绩数据
+        var scoreData = getScoreData();
 
+        // 数据表格处理
+        tableHandle(scoreData);
+
+        // 数据图表处理
+        chartHandle(scoreData);
+    });
+
+    function chartHandle(scoreData) {
+        //数据图表处理
+        var myChart = echarts.init(document.getElementById('chart'));
+
+        var ret = getOption(scoreData);
+
+        // 图表使用-------------------
+        var option = {
+            title : {
+                text: '各科平均分',
+            },
+            legend: {                                   // 图例配置                
+                data: ret.legend.data,
+            },
+            tooltip: {                                  // 气泡提示配置
+                trigger: 'axis',
+            },
+            xAxis: [
+                {
+                    type: 'category',
+                    //data: ['语文', '数学', '英语']
+                    data: ret.xAxis.data,
+                }
+            ],
+            yAxis: [
+                {
+                    type: 'value',
+                    scale: true,
+                    boundaryGap: [0.1, 0.1],
+                }
+            ],
+            series: [
+                {
+                    name: '2009级1班',
+                    type: 'line',
+                    data: [88, 87, 86]
+                },
+                {
+                    name: '2009级2班',
+                    type: 'line',
+                    data: [81, 81, 86.5]
+                }
+            ]
+        };
+        myChart.setOption(option);
+    }
+
+    function getOption(scoreData, pattern) {
+        var order = scoreData.order;
+        var orderBase    = order.base;     // 班级、人数
+        var orderCate    = order.cate;     // 语文、数学
+        var orderCateTwo = order.cateTwo;  // 平均分、最高分
+        var ret = {};
+        ret.legend = {};
+        ret.xAxis = {};
+        ret.legend.data = getLegend(scoreData.info);
+        ret.xAxis.data  = getXAxis(orderCate, scoreData.title);
+
+        return ret;
+    }
+
+    function getLegend(info) {
+        var i;
+        var ret = Array();
+        for (i in info) {
+            ret.push(info[i].name);
+        }
+        return ret;
+    }
+
+    function getXAxis(orderCate, title) {
+        var cate = title.subject.cate;   
+        var i;
+        var ret = Array();
+
+        for (i = 0; i < orderCate.length; i++) {
+            ret.push(cate[orderCate[i]]); // 一级类目
+        }
+
+        return ret; 
+    }
+
+    function tableHandle(scoreData) {
         var container = document.getElementById('hs');
-        var scoreData = getScoreData(container);
-
         var pattern = {};
         pattern.cate    = setPattern("cate", "all");
         pattern.cateTwo = setPattern("two-cate", "all");
@@ -112,10 +209,10 @@
         $("[data-check='two-cate']").click(function(event) {
             hs = updateTable(container, scoreData, pattern, hs, "two-cate");
         });
-    });
-
-    function getScoreData(container) {
-        var url = $(container).attr("data-url");
+    }
+    
+    function getScoreData() {
+        var url = $("#hs").attr("data-url");
         var scoreData;
 
         // 设置为同步，等待获取完数据再进行其他的步骤

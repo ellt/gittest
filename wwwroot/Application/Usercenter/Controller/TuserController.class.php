@@ -440,7 +440,7 @@ class TuserController extends UserCenterController {
 
         $data = array(
             'order' => array(
-                'base' => array('class','studentCnt','master'),
+                'base' => array('name','studentCnt','master'),
                 'cate' => array('s001','s002','s003'),
                 'cateTwo' => array("attendance","average","max","min"),
             ),
@@ -466,7 +466,7 @@ class TuserController extends UserCenterController {
 
             'info' => array(
                 '200901' => array(
-                    'class'      => "2009级1班",
+                    'name'      => "2009级1班",
                     'studentCnt' => "56",
                     'master'     => "李忠",
                     'subject'    => array(
@@ -491,7 +491,7 @@ class TuserController extends UserCenterController {
                     )
                 ),
                 '200902' => array(
-                    'class'      => "2009级2班",
+                    'name'      => "2009级2班",
                     'studentCnt' => "55",
                     'master'     => "李明",
                     'subject'    => array(
