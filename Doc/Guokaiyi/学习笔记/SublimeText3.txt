@@ -24,7 +24,9 @@ Enter查找下一个，Shift+Enter，查找上一个。
 7、Ctrl+H
 查找替换
 
+8、Alt+Shift+数字：分屏显示
 
+9、ctrl+F2可以进行增删标记,然后F2在标记之间切换
 
 
 

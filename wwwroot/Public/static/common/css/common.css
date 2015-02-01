@@ -176,6 +176,23 @@ a.ell-sidebar-title:focus {
   content: "1、XXXX。\A 2、XXXX。";
   /*  \A 表示换行  */
 }
+.data-chart {
+  margin: 50px 0;
+}
+.data-chart .chart-toolbox {
+  padding: 20px;
+  margin: 20px 0;
+  border: 1px solid #eee;
+  border-left-color: #1b809e;
+  border-left-width: 5px;
+  border-radius: 3px;
+}
+.data-chart .chart-toolbox h4 {
+  margin-top: 0;
+  margin-bottom: 5px;
+  font-weight: 700;
+  color: #1b809e;
+}
 .ell-homework-footer {
   text-align: center;
 }

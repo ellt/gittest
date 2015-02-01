@@ -19,7 +19,7 @@
 
     <div class="panel panel-primary">
         <div class="panel-heading">
-            动态查询
+            表格动态查询
             <a class="pull-right" href="javascript:;" data-toggle="collapse" data-target="#quickMenu"> <i class="fa fa-caret-up text-inverse"></i>
             </a>
         </div>
@@ -79,6 +79,22 @@
 
     <!-- 数据图表 -->
     <div class="data-chart">
+        <div class="chart-toolbox">
+            <h4>图表工具箱</h4>
+            <label class="radio-inline">
+                <input type="radio" name="chart-radio" value="attendance" checked> 参加人数
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="chart-radio" value="average"> 平均分
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="chart-radio" value="max"> 最高分
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="chart-radio" value="min"> 最低分
+            </label>
+        </div>
+
         <div id="chart"  style="height:400px;"></div>
     </div>
 </block>
@@ -103,18 +119,37 @@
     });
 
     function chartHandle(scoreData) {
-        //数据图表处理
-        var myChart = echarts.init(document.getElementById('chart'));
+        var container = document.getElementById('chart');
+        var chart = echarts.init(container);
+        var pattern = getChartPattern();
+        updateChart(chart, scoreData, pattern);
 
-        var ret = getOption(scoreData);
+        $("[name='chart-radio']").click(function(event) {
+            pattern = getChartPattern();
+            updateChart(chart, scoreData, pattern);
+        });
+    }
 
-        // 图表使用-------------------
+    function getChartPattern() {
+        var ret;
+        $("[name='chart-radio']").each(function(index, el) {
+            if ($(this).prop('checked')) {
+                ret = $(this).val();
+            }
+        });
+
+        return ret;
+    }
+
+    function updateChart(chart, scoreData, pattern) {
+        var ret = getOption(scoreData, pattern);
+
         var option = {
             title : {
-                text: '各科平均分',
+                text: '各科'+ret.title,
             },
             legend: {                                   // 图例配置                
-                data: ret.legend.data,
+                data: ret.legend,
             },
             tooltip: {                                  // 气泡提示配置
                 trigger: 'axis',
@@ -122,8 +157,7 @@
             xAxis: [
                 {
                     type: 'category',
-                    //data: ['语文', '数学', '英语']
-                    data: ret.xAxis.data,
+                    data: ret.xAxis,   //data: ['语文', '数学', '英语']
                 }
             ],
             yAxis: [
@@ -133,20 +167,12 @@
                     boundaryGap: [0.1, 0.1],
                 }
             ],
-            series: [
-                {
-                    name: '2009级1班',
-                    type: 'line',
-                    data: [88, 87, 86]
-                },
-                {
-                    name: '2009级2班',
-                    type: 'line',
-                    data: [81, 81, 86.5]
-                }
-            ]
+            series: ret.series
         };
-        myChart.setOption(option);
+
+        chart.setOption(option);
+
+        return chart;
     }
 
     function getOption(scoreData, pattern) {
@@ -154,41 +180,46 @@
         var orderBase    = order.base;     // 班级、人数
         var orderCate    = order.cate;     // 语文、数学
         var orderCateTwo = order.cateTwo;  // 平均分、最高分
+        var title = scoreData.title;
+        var info  = scoreData.info;
+        var cate = title.subject.cate;
+        var i,temp, tempObj, tempArr = Array();
         var ret = {};
-        ret.legend = {};
-        ret.xAxis = {};
-        ret.legend.data = getLegend(scoreData.info);
-        ret.xAxis.data  = getXAxis(orderCate, scoreData.title);
 
-        return ret;
-    }
+        ret.title = title.subject.cateTwo[pattern];
 
-    function getLegend(info) {
-        var i;
-        var ret = Array();
+        // 获取图表图例 及 数据内容数组
+        temp = Array();
         for (i in info) {
-            ret.push(info[i].name);
+            temp.push(info[i].name); // 图表图例
+
+            tempObj = {};
+            tempObj.name = info[i].name;
+            tempObj.type = "line";
+            tempObj.data = Array();
+            for (j = 0; j < orderCate.length; j++) {
+                tempObj.data.push(info[i].subject[orderCate[j]][pattern]);
+            }
+            tempArr.push(tempObj); // 数据内容数组
         }
-        return ret;
-    }
+        ret.legend = temp;
+        ret.series = tempArr;
 
-    function getXAxis(orderCate, title) {
-        var cate = title.subject.cate;   
-        var i;
-        var ret = Array();
-
+        // 获取x轴数据
+        temp = Array();
         for (i = 0; i < orderCate.length; i++) {
-            ret.push(cate[orderCate[i]]); // 一级类目
+            temp.push(cate[orderCate[i]]);
         }
+        ret.xAxis = temp;
 
-        return ret; 
+        return ret;
     }
 
     function tableHandle(scoreData) {
         var container = document.getElementById('hs');
         var pattern = {};
-        pattern.cate    = setPattern("cate", "all");
-        pattern.cateTwo = setPattern("two-cate", "all");
+        pattern.cate    = getTablePattern("cate", "all");
+        pattern.cateTwo = getTablePattern("two-cate", "all");
 
         var hs = creatTable(container, scoreData, pattern);
 
@@ -234,16 +265,16 @@
 
     function updateTable(container, scoreData, pattern, oldHs, type) {
         if (type === "cate") {
-            pattern.cate = setPattern(type);
+            pattern.cate = getTablePattern(type);
         } else if (type === "two-cate") {
-            pattern.cateTwo = setPattern(type);
+            pattern.cateTwo = getTablePattern(type);
         }
         
         oldHs.destroy();
         return creatTable(container, scoreData, pattern);
     }
 
-    function setPattern(type) {
+    function getTablePattern(type) {
         var ret = Array();
         var obj;
 
