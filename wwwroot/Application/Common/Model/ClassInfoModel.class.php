@@ -16,33 +16,5 @@ class ClassInfoModel  extends RelationModel{
     /* 数据表前缀 */ 
     protected $tablePrefix      =   'school_';
     
-    /**
-     * @var array
-     */
-    public $_link = array(
-    
-            'GradeInfo' => array(
-    
-                    'mapping_type' => self::BELONGS_TO,
-    
-                    'class_name'   => 'GradeInfo',
-    
-                    'foreign_key'  => 'grade_id',
-    
-                    'mapping_name' => 'grade',
-    
-                    'as_fields' => 'grade_name',
-    
-    
-            ),
-    
-    );
-
-    /* 配置自动验证规则 */
-    protected $_validate = array(
-       
-            
-     );
-    
 
 } 

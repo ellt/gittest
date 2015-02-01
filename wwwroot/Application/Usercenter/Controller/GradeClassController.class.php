@@ -262,7 +262,6 @@ class GradeClassController extends UserCenterController {
             $grade_title = $data['title'];
             $ret = $cate_model->field('id')->where("name='%s'", $data['name'])->find();
             if (!empty($ret['id'])) {
-                
                 $grade_cate_id = (int)$ret['id'];
             } else {
                 // TODO 出错提示
@@ -286,18 +285,48 @@ class GradeClassController extends UserCenterController {
                 
                 if(empty($data['id'])){
                     $res = $cate_model->add($data);
+                    $data['id'] = $res;
                 }else{
-                
                     $res = $cate_model->save($data);
                 }
+                
+                if(!$data['id']){
+                    die($cate_model->getDbError());
+                }
+                
+                // 将数据插入班级表
+                $class_info['cate_id'] = $data['id'];
+                $class_info['grade_id'] = $grade_number;
+                $class_info['class_number'] = $i;
+                $class_info['class_name'] =  $grade_number . '级' . $i . '班';
+                
+                $class_mode = D('Common/ClassInfo');
+                $class_mode->create($class_info);
+                
+                if(empty($class_info['id'])){
+                    $res = $class_mode->add($class_info);
+                    $class_info['id'] = $res;
+                }else{
+                    $res = $class_mode->save($class_info);
+                }
+                
+                if(!$class_info['id']){
+                    die($class_mode->getDbError());
+                }
+                
+                $class_info = null;
                 $data = null;
                 
             }
-            $this->success('添加成功',U('index'));
+            if(IS_POST) {
+                $this->success('添加成功',U('index'));
+            }
         }
         else{
             //TODO 报错
-           $this->error('年级编号与班级数量必须大于0');
+            if(IS_POST){
+                $this->error('年级编号与班级数量必须大于0');
+            }
         }
     }
     

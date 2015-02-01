@@ -33,6 +33,10 @@ class ClassLogic extends RelationModel
         return $this->modle->where("id=$id")->relation(true)->find();
     }
     
+    public function getClassInfoByCategoryId($cate_id){
+        return $this->modle->where("cate_id=$cate_id")->relation(true)->find();
+    }
+    
     public function getClassNameById($id){
          
         $info = $this->modle->where("id=$id")->relation(true)->find();

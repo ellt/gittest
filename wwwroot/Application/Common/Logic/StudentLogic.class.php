@@ -47,9 +47,23 @@ class StudentLogic extends RelationModel
     
                     'mapping_name' => 'user',
                     
-                    'as_fields' => 'username,email,mobile',
+                    'as_fields' => 'username,email,mobile,true_name',
+            ),
+            
+            'class' => array(
+            
+                    'mapping_type' => self::BELONGS_TO,
+            
+                    'class_name' => 'ClassInfo',
+            
+                    'foreign_key' => 'class_id',
+            
+                    'mapping_name' => 'class',
+            
+                    'as_fields' => 'class_name',
             )
     );
+    
     
     public function lists()
     {
