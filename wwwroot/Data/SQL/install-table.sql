@@ -82,6 +82,7 @@ CREATE TABLE `school_grade_info` (
 DROP TABLE IF EXISTS `school_class_info`;
 CREATE TABLE `school_class_info` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '班级id',
+  `cate_id` int(10) NOT NULL COMMENT '内容分类id',
   `grade_id` int(10) NOT NULL COMMENT '关联的年级编号',
   `class_number` int(10) NOT NULL COMMENT '班级编号',
   `class_name` char(32) NOT NULL COMMENT '班级名称',
@@ -89,19 +90,3 @@ CREATE TABLE `school_class_info` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='班级信息表';
 
-
-
--- -----------------------------
--- 年级年级信息表
--- -----------------------------
-DROP TABLE IF EXISTS `school_grade_class_info`;
-CREATE TABLE `school_grade_info` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
-  `cate_id` int(10) unsigned NOT NULL COMMENT '对应分类id',
-  `number` int(10)  NOT NULL COMMENT '年级编号',
-  `name` char(32) NOT NULL COMMENT '年级名称',
-  `remark` char(128) COMMENT '备注',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `number` (`grade_number`),
-  UNIQUE KEY `name` (`grade_name`)
-) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='班级年级信息表';
