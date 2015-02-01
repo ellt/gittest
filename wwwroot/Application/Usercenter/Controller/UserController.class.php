@@ -33,7 +33,7 @@ class UserController extends UserCenterController {
         //获取动态分类
         $cate_auth  =   AuthGroupModel::getAuthCategories(UID);	//获取当前用户所有的内容权限节点
         $cate_auth  =   $cate_auth == null ? array() : $cate_auth;
-        $cate       =    D("Common/Grade","Logic")->getGradeClassList();
+        $cate       =   D("Common/Grade","Logic")->getGradeClassList();
     
         //没有权限的分类则不显示
         if(!IS_ROOT){
@@ -63,6 +63,7 @@ class UserController extends UserCenterController {
             }else{
                 $value['current'] = false;
             }
+            
             if(!empty($value['_child'])){
                 $is_child = false;
                 foreach ($value['_child'] as $ka=>&$va){
@@ -70,7 +71,9 @@ class UserController extends UserCenterController {
 
                     if(!empty($va['_child'])){
                         foreach ($va['_child'] as $k=>&$v){
-                            $v['url']   =   'student/index?class_id='.$v['id'];
+                            $class_info = D('Common/Class', 'Logic')->getClassInfoByCategoryId($v['id']);
+                            
+                            $v['url']   =   'student/index?class_id='. $class_info['id'];
                             $v['pid']   =   $va['id'];
                             $is_child = $v['id'] == $cate_id ? true : false;
                         }
@@ -91,7 +94,7 @@ class UserController extends UserCenterController {
                 }
             }
         }
-//         dump($cate);
+
         $this->assign('nodes',      $cate);
         $this->assign('cate_id',    $this->cate_id);
     

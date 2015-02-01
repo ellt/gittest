@@ -36,7 +36,7 @@
                         <ul class="subitem">
                         	<foreach name="menu['_child']" item="three_menu">
                             <li>
-                                <gt name="three_menu['allow_publish']" value="0"><a class="item" href="{$three_menu.url|U}">{$three_menu.title}</a><else/><a class="item" href="javascript:void(0);">{$three_menu.title}</a></gt>
+                                <a class="item" href="{$three_menu.url|U}">{$three_menu.title}</a>
                                 <!-- 二级子菜单 -->
                                 <present name="three_menu['_child']">
                                 <ul class="subitem">
