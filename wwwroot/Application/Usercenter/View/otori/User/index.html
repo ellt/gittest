@@ -1,5 +1,11 @@
 <extend name="Public/base" />
 
+<!-- 子导航 -->
+<block name="sidebar">
+    <include file="sidemenu" />
+</block>
+
+
 <block name="body">
 	<!-- 标题栏 -->
 	<div class="main-title">
@@ -29,7 +35,7 @@
 		<th class="row-selected row-selected"><input class="check-all" type="checkbox"/></th>
 		<th class="">UID</th>
 		<th class="">昵称</th>
-		<th class="">积分</th>
+		<th class="">用户类型</th>
 		<th class="">登录次数</th>
 		<th class="">最后登录时间</th>
 		<th class="">最后登录IP</th>
@@ -44,7 +50,7 @@
             <td><input class="ids" type="checkbox" name="id[]" value="{$vo.uid}" /></td>
 			<td>{$vo.id} </td>
 			<td>{$vo.username}</td>
-			<td>{$vo.score}</td>
+			<td>{$vo.user_extern_model_id|conver_model_id_as_name_to_dispaly}</td>
 			<td>{$vo.login}</td>
 			<td><span>{$vo.last_login_time|time_format}</span></td>
 			<td><span>{:long2ip($vo['last_login_ip'])}</span></td>

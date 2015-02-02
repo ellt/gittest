@@ -73,7 +73,7 @@ class CategoryModel extends Model{
         }
 
         /* 获取所有分类 */
-        $map  = array('status' => array('gt', -1));
+        $map  = array('status' => array('gt', -1), 'cate_type' => array('eq', 0));
         $list = $this->field($field)->where($map)->order('sort')->select();
         $list = list_to_tree($list, $pk = 'id', $pid = 'pid', $child = '_', $root = $id);
 
@@ -84,6 +84,26 @@ class CategoryModel extends Model{
             $info = $list;
         }
 
+        return $info;
+    }
+    
+    public function getClassTree($field = true){
+        
+        /* 获取所有分类 */
+        $map['status']  = array('gt', -1);
+        $map['cate_type'] = array('eq', 1);
+        $map['name'] =  array('like', 'school@grade%');
+
+        $list = $this->field($field)->where($map)->order('sort')->select();
+        $list = list_to_tree($list, $pk = 'id', $pid = 'pid', $child = '_', $root = 3/* 年级班级分类信息默认根id为3 */);
+        
+        /* 获取返回数据 */
+        if(isset($info)){ //指定分类则返回当前分类极其子分类
+            $info['_'] = $list;
+        } else { //否则返回所有分类
+            $info = $list;
+        }
+        
         return $info;
     }
 

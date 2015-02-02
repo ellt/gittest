@@ -43,10 +43,10 @@
                 <tr id="{$k}" data-info-grade="{$vo.grade_number}" data-info-classes="2">
                     <td><input type="checkbox" data-check="ids" name="ids[]" value="{$vo.grade_number}"></td>
                     <td>{$vo.grade_number}</td>
-                    <td><a>{$vo.grade_name}<i class="fa fa-edit fa-lg text-primary"></i></a></td>
+                    <td><a>{$vo.name}<i class="fa fa-edit fa-lg text-primary"></i></a></td>
                     <td>
-                    	<foreach name="vo.class" item="class">
-                        <span class="label label-primary">{$class.class_name}</span>
+                    	<foreach name="vo._" item="class">
+                        <span class="label label-primary">{$class.name}</span>
                         </foreach>
                     </td>
                     <td>

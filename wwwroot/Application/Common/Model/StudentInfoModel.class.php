@@ -9,23 +9,18 @@
 // +----------------------------------------------------------------------
 
 namespace Common\Model;
-use Think\Model;
+use Think\Model\RelationModel;
 
+class StudentInfoModel  extends RelationModel{
+    
+    protected $tableName   = 'user_student'; # 强制转换用户数据库表为 user_student
 
-/**
- * 用户模型定义
- * Class UserModel
- * @package Home\Model
- */
-class UserModel extends Model
-{
-
-    /**
-     * @var array
-     */
-    public $_link = array(
-
+    /* 配置自动验证规则 */
+    protected $_validate = array(
+            
+     );
+    
+    /* 配置字段映射 */
+    protected $_map = array(
     );
-
-
-}
+} 

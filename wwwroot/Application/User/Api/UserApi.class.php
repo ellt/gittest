@@ -9,16 +9,37 @@
 
 namespace User\Api;
 use User\Api\Api;
-use User\Model\UcenterMemberModel;
+use User\Model\UserModel;
 
 class UserApi extends Api{
+    
+    const TYPE_SUPPER  = 0;
+    const TYPE_STUDENT = 1;
+    const TYPE_TERCHER = 2;
+    
+    protected $user_type = NULL;
+    
+    /**
+     * 构造方法
+     */
+    public function __construct($user_type = UserApi::TYPE_SUPPER){
+        $this->user_type = $user_type;
+        parent::__construct();
+    }
+    
+    
     /**
      * 构造方法，实例化操作模型
      */
     protected function _init(){
-        $this->model = new UcenterMemberModel();
+        $this->model = new UserModel($this->user_type);
     }
 
+    public function update($data = null){
+        return $this->model->update($data);
+    }
+    
+    
     /**
      * 注册一个新用户
      * @param  string $username 用户名

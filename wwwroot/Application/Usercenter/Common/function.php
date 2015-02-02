@@ -371,3 +371,13 @@ function get_action_type($type, $all = false){
 	}
 	return $list[$type];
 }
+
+
+function theme($theme='default'){
+    
+    C('USER_CENTET_THEME', $theme);
+    if(C('USER_CENTET_THEME') && is_file(MODULE_PATH . 'Conf/theme.php'))
+    {
+        C(include MODULE_PATH . 'Conf/theme.php');
+    }
+}

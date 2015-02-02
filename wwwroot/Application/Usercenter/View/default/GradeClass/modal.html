@@ -21,7 +21,7 @@
                                         <span class="glyphicon glyphicon-minus"></span>
                                     </button>
                                 </span>
-                                <input type="text" class="form-control" id="setGrade" name="grade" value="2015" readonly>
+                                <input type="text" class="form-control" id="setGrade" name="grade_number" value="2015" readonly>
                                 <span class="input-group-btn">
                                     <button class="btn btn-default" data-form-btn="inc" data-target="#setGrade" type="button">
                                         <span class="glyphicon glyphicon-plus"></span>
@@ -61,7 +61,7 @@
                                         <span class="glyphicon glyphicon-minus"></span>
                                     </button>
                                 </span>
-                                <input type="text" id="setClasses" class="form-control" name="classes" value="4" form="addGradeForm">
+                                <input type="text" id="setClasses" class="form-control" name="class_count" value="4" form="addGradeForm">
                                 <span class="input-group-btn">
                                     <button class="btn btn-default" data-form-btn="inc" data-target="#setClasses" type="button">
                                         <span class="glyphicon glyphicon-plus"></span>
@@ -79,7 +79,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-primary" data-submit="form" data-target="#addGradeForm" data-url="{:U('Tuser/addGrade')}" data-loading-text="提交中..." autocomplete="off">确定</button>
+                <button type="submit" class="btn btn-primary" data-submit="form" data-target="#addGradeForm" data-url="{:U('addGrade')}" data-loading-text="提交中..." autocomplete="off">确定</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
             </div>
         </div>

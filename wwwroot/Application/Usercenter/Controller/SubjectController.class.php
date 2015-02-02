@@ -31,9 +31,9 @@ class SubjectController extends UserCenterController {
 
     public function add() {
         if (IS_AJAX) {
-            $data = $this->model->create();
-            if (!$data) { // 数据格式不合法
-                $data['status'] = ERROR_DATA_FORMAT;
+            $info = $this->model->create();
+            if (!$info) { // 数据格式不合法
+                $data['status'] = ERROR_OK;
                 /* TODO 数据不合法仅给出错误的提示， 具体要提示到哪个错误，需通过前端表单提交前自行判定 */ 
                 $data['error_info'] = $this->model->getError();
             } else {

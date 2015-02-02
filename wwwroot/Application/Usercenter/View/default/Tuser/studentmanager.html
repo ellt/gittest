@@ -1,7 +1,7 @@
 <extend name="Public/base"/>
 
 <block name="header">
-    <include file="modal"/>
+    <include file="tuser/modal"/>
 </block>
 
 <!-- 子导航 -->
@@ -12,7 +12,7 @@
 <block name="content">
     <!-- 标题 -->
     <div class="ell-main-title">
-        <h2>学生信息管理 [2013 级 1 班]
+        <h2>学生信息管理 [{$calss_name}]
         </h2>
     </div>
 
@@ -25,7 +25,12 @@
                 <a class="btn btn-success" href="{:U('Tuser/studentedit')}">批量编辑</a>
             </div>
         </div>
+        <div class="sleft">
+				<input type="text" name="nickname" class="search-input" value="{:I('nickname')}" placeholder="请输入学生昵称或者ID">
+				<a class="sch-btn" href="javascript:;" id="search" url="{:U('index')}"><i class="btn-search"></i></a>
+		</div>
     </div>
+    
 
     <!-- 数据表格 -->
     <div class="data-table">
@@ -33,35 +38,31 @@
             <thead>
                 <tr>
                     <th class="row-selected"><input type="checkbox" data-toggle="checkall" data-target="ids"/></th>
+                    <th>用户名</th>
                     <th>学号</th>
                     <th>姓名</th>
                     <th>性别</th>
-                    <th>联系方式</th>
+                    <th>班级</th>
+                    <th>手机</th>
                 </tr>
             </thead>
             <tbody>
+           	 <foreach name="student_lists" item="vo">
                 <tr>
                     <td><input type="checkbox" data-check="ids" name="ids[]" value="{$vo.id}"></td>
-                    <td>201305141</td>
-                    <td>李芳</td>
-                    <td>女</td>
-                    <td>134584556</td>
+                    <td>{$vo.username}</td>
+                    <td>{$vo.student_id}</td>
+                    <td>{$vo.true_name}</td>
+                    <td>{$vo.sex}</td>
+                    <td>{$vo.class_name}</td>
+                    <td>{$vo.mobile}</td>
                 </tr>
-                <tr>
-                    <td><input type="checkbox" data-check="ids" name="ids[]" value="{$vo.id}"></td>
-                    <td>201305141</td>
-                    <td>李爽</td>
-                    <td>女</td>
-                    <td>134584556</td>
-                </tr>
-                <tr>
-                    <td><input type="checkbox" data-check="ids" name="ids[]" value="{$vo.id}"></td>
-                    <td>201305141</td>
-                    <td>马芬</td>
-                    <td>女</td>
-                    <td>134584556</td>
-                </tr>
+              </foreach>
+              
             </tbody>
         </table>
+    </div>
+    <div class="page">
+        {$_page}
     </div>
 </block>
