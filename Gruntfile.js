@@ -3,13 +3,47 @@ module.exports = function(grunt) {
   // Project configuration.
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
-    uglify: {
-      options: {
-        banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'
+    workpath: {
+      common: {
+        css: 'wwwroot/Public/static/common/css',
+        js: 'wwwroot/Public/static/',
       },
-      build: {
-        src: 'src/<%= pkg.name %>.js',
-        dest: 'build/<%= pkg.name %>.min.js'
+      public: 'wwwroot/Public',
+
+      App: 'wwwroot/Application',
+    },
+
+    jshint: {
+      options: {
+        globals: {
+          jQuery: true,
+          console: true,
+          module: true
+        }
+      },
+
+      files: ['<%= workpath.common.js %>/common.js'],
+    },
+
+    csslint: {
+      options: {
+         csslintrc: '.csslintrc'
+       },
+      common: [
+        '<%= workpath.common.css %>/common.css',
+      ], 
+//      all: [
+//        '<%= workpath.public %>/**/*.css',
+//      ],
+    },
+
+    csscomb: {
+      options: {
+        config: '.csscomb.json'
+      },
+      common: {
+        src: '<%= workpath.common.css %>/common.css',
+        dest: '<%= workpath.common.css %>/common.css'
       }
     },
 
@@ -17,32 +51,46 @@ module.exports = function(grunt) {
       // 编译
       compile: {
         files: {
-          'wwwroot/Public/static/common/css/common.css': 'wwwroot/Public/static/common/css/common.less'
+          '<%= workpath.common.css %>/common.css': '<%= workpath.common.css %>/common.less'
         }
       },
       // 压缩
-      yuicompress: {
+      compress: {
         files: {
-          'common.min.css': 'common.css'
+          '<%= workpath.common.css %>/common.min.css': '<%= workpath.common.css %>/common.css'
         },
         options: {
-          yuicompress: false
+          compress: true
         }
       }
     },
+
     watch: {
-      scripts: {
-        files: ['wwwroot/Public/static/common/**/*.less'],
-        tasks: ['less'] }
+      commoncss: {
+        files: ['<%= workpath.common.css %>/*.less'],
+        tasks: ['common-css'],
+      },
+      js: {
+        files: ['<%= jshint.files %>'],
+        tasks: ['jshint'],
+      }
     }
   });
 
-  // Load the plugin that provides the "uglify" task.
-  //grunt.loadNpmTasks('grunt-contrib-uglify');
+  // Load the plugin
+  grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-less');
   grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-contrib-csslint');
+  grunt.loadNpmTasks('grunt-csscomb');
+  //由于recess长时间没有更新，所以只用于优化检测，
+  //使用grunt-contrib-less编译和压缩
+  grunt.loadNpmTasks('grunt-recess');
 
   // Default task(s).
-  //grunt.registerTask('default', ['uglify']);
-  grunt.registerTask('default', ['less', 'watch']);
+  grunt.registerTask('default', ['watch']);
+  grunt.registerTask('lint-js', ['jshint']);
+  grunt.registerTask('lint-css', ['csslint']);
+  grunt.registerTask('lint-common', ['lint-js', 'lint-css']);
+  grunt.registerTask('common-css', ['less','csscomb:common']);
 };

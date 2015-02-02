@@ -16,7 +16,7 @@ class TuserController extends UserCenterController {
      */
     public function index(){
         
-        $this->redirect('classManager');
+        $this->redirect('homework');
         
         $nickname       =   I('nickname');
         $map['status']  =   array('egt',0);
@@ -389,6 +389,37 @@ class TuserController extends UserCenterController {
                 $data['data'] = array("2014-2015","下学期","2015-3-1","555");    
             }
             $this->ajaxReturn($data);
+        }
+    }
+
+    public function homework(){
+        if (IS_AJAX) {
+            $data = I("post.");
+            dump($data);
+        } else {
+            $list[] = array('name' => '2009级1班', 'time' => '90', 'date' => '2015年1月1日(星期三)', 'homework' => '1、完成XXX');
+            $list[] = array('name' => '2009级2班', 'time' => '120', 'date' => '2015年1月1日(星期三)', 'homework' => '1、完成XXX');
+            $list[] = array('name' => '2009级3班', 'time' => '50', 'date' => '2015年1月1日(星期三)', 'homework' => '1、完成XXX');
+            $this->assign('list', $list);
+            $this->display();
+        }
+    }
+    public function gethistory(){
+
+        $data = I("ids");
+        foreach ($data as $value) {
+            if($value == "1"){
+                $list[] = array('name' => '2009级1班', 'time' => '90', 'date' => '2015年1月1日(星期三)', 'homework' => '1、完成XXX');
+            } elseif ($value == "2") {
+                $list[] = array('name' => '2009级2班', 'time' => '120', 'date' => '2015年1月1日(星期三)', 'homework' => '1、完成XXX');
+            } elseif ($value == "3") {
+                $list[] = array('name' => '2009级3班', 'time' => '50', 'date' => '2015年1月1日(星期三)', 'homework' => '1、完成XXX');
+            }
+        }
+        $this->assign('list', $list);
+
+        if (IS_AJAX) {
+            $this->display('homeworkhistory');
         }
     }
 }
