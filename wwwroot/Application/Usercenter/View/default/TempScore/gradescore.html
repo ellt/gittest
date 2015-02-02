@@ -108,11 +108,13 @@
     <script src="__STATIC__/echarts/echarts-all.js"></script>
     <script>
     $(function(){
+        var mode = "single";
+           // var mode = "multiple";
         // 获取成绩数据
         var scoreData = getScoreData();
 
         // 数据表格处理
-        tableHandle(scoreData);
+        tableHandle(scoreData, mode);
 
         // 数据图表处理
         chartHandle(scoreData);
@@ -215,11 +217,12 @@
         return ret;
     }
 
-    function tableHandle(scoreData) {
+    function tableHandle(scoreData, mode) {
         var container = document.getElementById('hs');
         var pattern = {};
-        pattern.cate    = getTablePattern("cate", "all");
-        pattern.cateTwo = getTablePattern("two-cate", "all");
+        pattern.mode    = mode;
+        pattern.cate    = getTablePattern("cate", mode);
+        pattern.cateTwo = getTablePattern("two-cate", mode);
 
         var hs = creatTable(container, scoreData, pattern);
 
@@ -241,27 +244,6 @@
             hs = updateTable(container, scoreData, pattern, hs, "two-cate");
         });
     }
-    
-    function getScoreData() {
-        var url = $("#hs").attr("data-url");
-        var scoreData;
-
-        // 设置为同步，等待获取完数据再进行其他的步骤
-        $.ajaxSetup({
-            async : false
-        });
-
-        $.post(url).success(function(data){
-            scoreData = data.data;
-        });
-
-        // 恢复为异步
-        $.ajaxSetup({
-            async: true
-        });
-
-        return scoreData;
-    }
 
     function updateTable(container, scoreData, pattern, oldHs, type) {
         if (type === "cate") {
@@ -274,10 +256,16 @@
         return creatTable(container, scoreData, pattern);
     }
 
-    function getTablePattern(type) {
+    function getTablePattern(type, mode) {
         var ret = Array();
         var obj;
 
+        if (mode === "single") {
+            ret = "s002";
+            return ret;
+        }
+
+        // mode === "multiple"
         if (type === "cate") {
             obj = $("[data-check='cate']");
         } else if (type === "two-cate") {
@@ -319,10 +307,12 @@
         var orderBase    = order.base;     // 班级、人数
         var orderCate    = order.cate;     // 语文、数学
         var orderCateTwo = order.cateTwo;  // 平均分、最高分
+        var orderLevel   = order.level;    // A、B、C、D
         var ret = {};
 
         // 加载标题
-        var retTitle = setTitle(orderBase, orderCate, orderCateTwo, scoreData.title, pattern);
+        var retTitle = setTitle(orderBase, orderCate, orderCateTwo, orderLevel, 
+                                scoreData.title, pattern);
         ret.mergeCells = retTitle.mergeCells;
         ret.data = Array();
         ret.data.push(retTitle.firstRow);
@@ -335,9 +325,10 @@
         return ret;
     }
 
-    function setTitle(orderBase, orderCate, orderCateTwo, title, pattern) {
+    function setTitle(orderBase, orderCate, orderCateTwo, orderLevel, title, pattern) {
         var cate       = title.subject.cate;     
         var cateTwo    = title.subject.cateTwo;
+        var patMode    = pattern.mode;
         var patCate    = pattern.cate;
         var patCateTwo = pattern.cateTwo;
         var firstRow   = Array(),
@@ -356,19 +347,21 @@
             );
         }
 
-        // 成绩标题
-        for (cateCnt = 0, i = 0; i < orderCate.length; i++) {
- 
-            if($.inArray(orderCate[i], patCate) === -1) {
-                continue;
+        if (patMode === "single") {
+            for (i = 0; i < orderCateTwo.length; i++) {
+                firstRow.push(cateTwo[orderCateTwo[i]]);
+                secondRow.push('');
+
+                // 合并单元格
+                mergeCells.push(
+                    {row: 0, col: orderBase.length + i, rowspan: 2, colspan: 1}
+                );
             }
 
-            for (cateTwoCnt = 0, j = 0; j < orderCateTwo.length; j++) {
-                if ($.inArray(orderCateTwo[j], patCateTwo) === -1) {
-                    continue;
-                }
+            // 等级
+            for (i = 0; i < orderCateTwo.length; i++) {
 
-                firstRow.push(cate[orderCate[i]]); // 一级类目
+                firstRow.push(cateTwo[orderCate[i]]); // 一级类目
                 secondRow.push(cateTwo[orderCateTwo[j]]); // 二级类目
                 cateTwoCnt++;
             }
@@ -383,7 +376,36 @@
                 });
             }
 
-            cateCnt++;
+        } else {
+            // 成绩标题
+            for (cateCnt = 0, i = 0; i < orderCate.length; i++) {
+     
+                if($.inArray(orderCate[i], patCate) === -1) {
+                    continue;
+                }
+
+                for (cateTwoCnt = 0, j = 0; j < orderCateTwo.length; j++) {
+                    if ($.inArray(orderCateTwo[j], patCateTwo) === -1) {
+                        continue;
+                    }
+
+                    firstRow.push(cate[orderCate[i]]); // 一级类目
+                    secondRow.push(cateTwo[orderCateTwo[j]]); // 二级类目
+                    cateTwoCnt++;
+                }
+
+                if (cateTwoCnt !== 0) {
+                    // 合并单元格
+                    mergeCells.push({
+                        row: 0,
+                        col: orderBase.length + cateCnt * cateTwoCnt,
+                        rowspan: 1,
+                        colspan: cateTwoCnt,
+                    });
+                }
+
+                cateCnt++;
+            }
         }
 
         ret = {
@@ -440,6 +462,27 @@
         td.style.fontWeight = 'bold';
         td.style.color = 'white';
         td.style.background = '#444';
+    }
+
+    function getScoreData() {
+        var url = $("#hs").attr("data-url");
+        var scoreData;
+
+        // 设置为同步，等待获取完数据再进行其他的步骤
+        $.ajaxSetup({
+            async : false
+        });
+
+        $.post(url).success(function(data){
+            scoreData = data.data;
+        });
+
+        // 恢复为异步
+        $.ajaxSetup({
+            async: true
+        });
+
+        return scoreData;
     }
     </script>
 </block>

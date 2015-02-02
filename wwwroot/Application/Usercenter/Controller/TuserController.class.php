@@ -443,10 +443,12 @@ class TuserController extends UserCenterController {
                 'base' => array('name','studentCnt','master'),
                 'cate' => array('s001','s002','s003'),
                 'cateTwo' => array("attendance","average","max","min"),
+                'level' => array("001","002","003","004"), //等级为全部相加人数等于参考人数
+                'statistics' => array('001','002','003','004'), //统计存在包含情况
             ),
 
             'title' => array(
-                'class'      => "班级",
+                'name'      => "班级",
                 'studentCnt' => "人数",
                 'master'     => "班主任",
                 'subject'    => array(
@@ -460,7 +462,20 @@ class TuserController extends UserCenterController {
                         'average'    => '平均分',
                         'max'        => '最高分',
                         'min'        => '最低分',
-                    )
+                        'level'      => '等级',
+                    ),
+                    'level' => array(
+                        "001" => "A",
+                        "002" => "B",
+                        "003" => "C",
+                        "004" => "D",
+                    ),
+                    'statistics'  => array(
+                        '001' => "满分",
+                        '002' => "优秀",
+                        '003' => "及格",
+                        '004' => "低分",
+                    ),
                 )
             ),
 
@@ -471,47 +486,83 @@ class TuserController extends UserCenterController {
                     'master'     => "李忠",
                     'subject'    => array(
                         's001' => array(
-                            'attendance' => '56',
+                            'attendance' => '50',
                             'average'    => '88',
                             'max'        => '98',
                             'min'        => '73',
+                            'level' => array(
+                                "001" => array('10','20%'),
+                                "002" => array('20','40%'),
+                                "003" => array('10','20%'),
+                                "004" => array('10','20%'),
+                            ),
                         ),
                         's002' => array(
-                            'attendance' => '56',
+                            'attendance' => '50',
                             'average'    => '87',
                             'max'        => '97',
                             'min'        => '77',
+                            'level' => array(
+                                "001" => array('10','20%'),
+                                "002" => array('10','20%'),
+                                "003" => array('20','40%'),
+                                "004" => array('10','20%'),
+                            ),
                         ),                        
                         's003' => array(
-                            'attendance' => '55',
+                            'attendance' => '50',
                             'average'    => '86',
                             'max'        => '96',
                             'min'        => '76',
+                            'level' => array(
+                                "001" => array('10','20%'),
+                                "002" => array('10','40%'),
+                                "003" => array('15','30%'),
+                                "004" => array('15','30%'),
+                            ),
                         ),
                     )
                 ),
                 '200902' => array(
                     'name'      => "2009级2班",
-                    'studentCnt' => "55",
+                    'studentCnt' => "100",
                     'master'     => "李明",
                     'subject'    => array(
                         's001' => array(
-                            'attendance' => '54',
+                            'attendance' => '100',
                             'average'    => '81',
                             'max'        => '91',
                             'min'        => '71',
+                            'level' => array(
+                                "001" => array('20','20%'),
+                                "002" => array('30','30%'),
+                                "003" => array('20','20%'),
+                                "004" => array('30','30%'),
+                            ),
                         ),
                         's002' => array(
-                            'attendance' => '54',
+                            'attendance' => '100',
                             'average'    => '81',
                             'max'        => '91',
                             'min'        => '71',
+                            'level' => array(
+                                "001" => array('30','30%'),
+                                "002" => array('20','20%'),
+                                "003" => array('20','20%'),
+                                "004" => array('20','20%'),
+                            ),
                         ),                        
                         's003' => array(
-                            'attendance' => '55',
+                            'attendance' => '100',
                             'average'    => '81',
                             'max'        => '91',
                             'min'        => '71',
+                            'level' => array(
+                                "001" => array('30','30%'),
+                                "002" => array('25','25%'),
+                                "003" => array('25','25%'),
+                                "004" => array('20','20%'),
+                            ),
                         ),
                     )
                 )
