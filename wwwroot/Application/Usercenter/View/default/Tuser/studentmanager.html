@@ -62,7 +62,28 @@
             </tbody>
         </table>
     </div>
-    <div class="page">
-        {$_page}
-    </div>
+    <nav>
+        <ul class="pagination">
+            {$_page}
+            <li class="disabled">
+                <a href="#">
+                    <span aria-hidden="true">&laquo;</span>
+                    <span class="sr-only">上一页</span>
+                </a>
+            </li>
+            <li class="active">
+                <a href="#">1 <span class="sr-only">(当前页)</span></a>
+            </li>
+            <li><a href="#">2</a></li>
+            <li><a href="#">3</a></li>
+            <li><a href="#">4</a></li>
+            <li><a href="#">5</a></li>
+            <li>
+                <a href="#">
+                    <span aria-hidden="true">&raquo;</span>
+                    <span class="sr-only">下一页</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
 </block>
