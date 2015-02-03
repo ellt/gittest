@@ -350,6 +350,19 @@ class TuserController extends UserCenterController {
     }
     public function studentEdit(){
         if (IS_AJAX) {
+            $mode = I("mode");
+            if($mode == 'check') {
+                $data['error_info'] = array(); //当没有错误时返回一个空的数组
+
+                $data['error_info'] = array(
+                    array(1, 2, 'error msg!'),
+                    array(2, 2, 'error msg!'),
+                    array(1, 3, 'error msg!'),
+                );
+
+                $this->ajaxReturn($data);
+            }
+
             $data['status']  = 1;
             $data['info'] = "保存成功！";
             $data['url'] = "refresh";

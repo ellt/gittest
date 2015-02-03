@@ -18,7 +18,7 @@
     <div class="row">
         <div class="col-md-6">
             <div class="pull-left">
-                <button class="btn btn-success" data-submit="edit-table" data-target="#hs" data-url="{:U('Usercenter/Tuser/studentsave')}">保 存</button>
+                <button class="btn btn-success" data-submit="edit-table" data-target="#hs" data-loading-text="保存中..." data-url="{:U('Usercenter/Tuser/studentsave')}" autocomplete="off">保 存</button>
                 <a class="btn btn-danger" href="{:U('Tuser/studentmanager')}">返 回</a>
             </div>
         </div>
@@ -38,13 +38,60 @@
     <script src="__STATIC__/handsontable/handsontable.full.min.js"></script>
     <script>
     $(function(){
+        // 获取用户数据
+        var userData = getUserData();
+        
+        tableHandle(userData);
+    });
 
+    function tableHandle(userData) {
         var container = document.getElementById('hs');
+        var url = $(container).attr("data-url");
+        var hs = creatTable(container, userData);
+
+        $("[data-submit='edit-table']").click(function(event) {
+            var btn = this;
+            $(btn).button('loading');
+
+            var url = $(this).attr("data-url");
+            var data = hs.getData();
+            var mode = "save";
+            
+            $.post(url, {mode:mode, data:data}).success(function(data){
+                $(btn).button('reset');
+                if (data.status) {
+                    handleAjax(data);
+                }
+                else {
+                    showTableTip(hs, data.error_info);
+                }
+            });
+        });
+
+        hs.addHook('afterChange', function(changes, source) {
+            if (changes === null) return false;
+
+            var oldVal, newVal;
+            for (var i = 0; i < changes.length; i++) {
+                oldVal = changes[i][2];
+                newVal = changes[i][3];
+                //elog("changes:"+oldVal+"=>"+newVal);
+                if (oldVal !== newVal) {
+                    checkData(url, hs);
+                }
+            }
+        });
+    }
+
+    function creatTable(container, userData) {
+        var ret = getSettings(userData);
         var settings = {
+            data: ret.data,
             startRows: 0,
             stretchH: 'all',
             minSpareRows: 1,
-            
+            maxCols: ret.maxCols,
+            comments: true,
             cells: function (row, col, prop) {
                 var cellProperties = {};
                 if (row === 0) {
@@ -54,29 +101,55 @@
                 return cellProperties;
             },
         };
-        hs = new Handsontable(container, settings);
-        loadData($("#hs"), hs);
+        var hs = new Handsontable(container, settings);
 
-    });
+        return hs;
+    }
 
-    $("[data-submit='edit-table']").click(function(event) {
-        var target = $(this).attr("data-target");
-        var url = $(this).attr("data-url");
-        saveData(url, hs);
-    });
+    function getSettings(rowData) {
+        var ret = {};
+        ret.data = rowData;
+        ret.maxCols = rowData[0].length;
+        return ret;
+    }
 
-    function loadData(container, hs) {
-        var url= container.attr("data-url");
-        $.post(url).success(function(data){
-            hs.loadData(data.data);
+    function checkData(url, hs) {
+        var data = hs.getData();
+        var mode = "check";
+        $.post(url, {mode:mode, data:data}).success(function(data){
+            showTableTip(hs, data.error_info);
         });
     }
 
-    function saveData(url, hs) {
-        var data = hs.getData();
-        $.post(url, {data:data}).success(function(data){
-            handleAjax(data);
+    function showTableTip(hs, info) {
+        hs.updateSettings({
+            cells: function (row, col, prop) {
+                var cellProperties = {};
+                if (row === 0) {
+                    cellProperties.readOnly = true;
+                    cellProperties.renderer = firstRowRenderer;
+                }
+
+                for (var i = 0; i < info.length; i++) {
+                    if (row === info[i][0] && col === info[i][1]) {
+                        cellProperties.renderer = errorRenderer;
+                        cellProperties.comment = info[i][2];
+                    }
+                }
+
+                return cellProperties;
+            },
+              // cell: [
+              //   {row: 1, col: 1, comment: 'Test comment'},
+              //   {row: 2, col: 2, comment: 'Sample'}
+              // ]
         });
+        elog("error_info:" + info);
+    }
+
+    function errorRenderer(instance, td, row, col, prop, value, cellProperties) {
+        Handsontable.renderers.TextRenderer.apply(this, arguments);
+        td.style.background = 'pink';
     }
 
     function firstRowRenderer(instance, td, row, col, prop, value, cellProperties) {
@@ -85,6 +158,27 @@
         td.style.fontWeight = 'bold';
         td.style.color = 'white';
         td.style.background = '#444';
+    }
+
+    function getUserData() {
+        var url = $("#hs").attr("data-url");
+        var ret;
+
+        // 设置为同步，等待获取完数据再进行其他的步骤
+        $.ajaxSetup({
+            async : false
+        });
+
+        $.post(url).success(function(data){
+            ret = data.data;
+        });
+
+        // 恢复为异步
+        $.ajaxSetup({
+            async: true
+        });
+
+        return ret;
     }
     </script>
 </block>
