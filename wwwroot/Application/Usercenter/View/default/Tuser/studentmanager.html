@@ -25,10 +25,16 @@
                 <a class="btn btn-success" href="{:U('Tuser/studentedit')}">批量编辑</a>
             </div>
         </div>
-        <div class="sleft">
-				<input type="text" name="nickname" class="search-input" value="{:I('nickname')}" placeholder="请输入学生昵称或者ID">
-				<a class="sch-btn" href="javascript:;" id="search" url="{:U('index')}"><i class="btn-search"></i></a>
-		</div>
+        <div class="col-md-6">
+            <div class="col-md-6 input-group pull-right">
+                <input type="text" class="form-control" id="search" name="nickname" value="{:I('nickname')}" placeholder="请输入学生昵称或者ID">
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-primary" data-submit="search" data-target="#search" data-url="{:U('index')}">
+                        <span class="glyphicon glyphicon-search"></span>
+                    </button>
+                </span>
+            </div>
+        </div>
     </div>
     
 
