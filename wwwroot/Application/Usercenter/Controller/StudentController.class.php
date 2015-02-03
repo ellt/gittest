@@ -45,6 +45,19 @@ class StudentController extends UserCenterController {
         }
     }
     
+    
+    public function listEdit(){
+        if (IS_AJAX) {
+            $data['status']  = 1;
+            $data['info'] = "保存成功！";
+            $data['url'] = "refresh";
+            $data['data'] = get_model_table_data($this, 'student');
+            $this->ajaxReturn($data);
+        }
+        $this->display('Tuser/studentedit');
+    }
+    
+    
     public function loadStudentFormExcelObjiec(){
         //         Vendor('Classes.PHPExcel');
         import("Vendor.Classes.PHPExcel");
