@@ -1,0 +1,488 @@
+
+<extend name="Public/base"/>
+
+<block name="header">
+    <include file="modal"/>
+</block>
+
+<!-- 子导航 -->
+<block name="sidebar">
+    <include file="Public/sidemenu"/>
+</block>
+
+<block name="content">
+    <!-- 标题 -->
+    <div class="ell-main-title">
+        <h2>年级成绩查询 [2013 级]
+        </h2>
+    </div>
+
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            表格动态查询
+            <a class="pull-right" href="javascript:;" data-toggle="collapse" data-target="#quickMenu"> <i class="fa fa-caret-up text-inverse"></i>
+            </a>
+        </div>
+        <div class="collapse in" id="quickMenu">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-xs-4 col-sm-2 col-lg-1">
+                        <p class="h5 text-right">查询方式</p>
+                    </div>
+                    <div class="col-xs-8 col-sm-10 col-lg-11">
+                        <label class="radio-inline">
+                            <input type="radio" name="inlineRadioOptions" checked/>综合</label>
+                        <label class="radio-inline">
+                            <input type="radio" name="inlineRadioOptions"/>单科</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-4 col-sm-2 col-lg-1">
+                        <p class="h5 text-right">一级类目</p>
+                    </div>
+                    <div class="col-xs-8 col-sm-10 col-lg-11">
+                        <label class="checkbox-inline">
+                            <input type="checkbox" data-toggle="checkall" data-target="cate" checked />全选</label>
+                        <label class="checkbox-inline">
+                            <input type="checkbox" data-check="cate" name="ids[]" value="s001" checked>语文</label>
+                        <label class="checkbox-inline">
+                            <input type="checkbox" data-check="cate" name="ids[]" value="s002" checked>数学</label>
+                       <label class="checkbox-inline">
+                            <input type="checkbox" data-check="cate" name="ids[]" value="s003" checked>总分</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-4 col-sm-2 col-lg-1">
+                        <p class="h5 text-right">二级类目</p>
+                    </div>
+                    <div class="col-xs-8 col-sm-10 col-lg-11">
+                        <label class="checkbox-inline">
+                            <input type="checkbox" data-toggle="checkall" data-target="two-cate" checked/>全选</label>
+                        <label class="checkbox-inline">
+                            <input type="checkbox" data-check="two-cate" name="ids[]" value="attendance" checked>参加人数</label>
+                        <label class="checkbox-inline">
+                            <input type="checkbox" data-check="two-cate" name="ids[]" value="average" checked>平均分</label>
+                       <label class="checkbox-inline">
+                            <input type="checkbox" data-check="two-cate" name="ids[]" value="max" checked>最高分</label>
+                        <label class="checkbox-inline">
+                            <input type="checkbox" data-check="two-cate" name="ids[]" value="min" checked>最低分</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 数据表格 -->
+    <div class="data-table">
+        <div id="hs" data-url="{:U('Usercenter/Tuser/getScoreData')}"></div>
+    </div>
+
+    <!-- 数据图表 -->
+    <div class="data-chart">
+        <div class="chart-toolbox">
+            <h4>图表工具箱</h4>
+            <label class="radio-inline">
+                <input type="radio" name="chart-radio" value="attendance" checked> 参加人数
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="chart-radio" value="average"> 平均分
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="chart-radio" value="max"> 最高分
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="chart-radio" value="min"> 最低分
+            </label>
+        </div>
+
+        <div id="chart"  style="height:400px;"></div>
+    </div>
+</block>
+
+<block name="style">
+    <link href="__STATIC__/handsontable/handsontable.full.min.css" rel="stylesheet">
+</block>
+
+<block name="script">
+    <script src="__STATIC__/handsontable/handsontable.full.min.js"></script>
+    <script src="__STATIC__/echarts/echarts-all.js"></script>
+    <script>
+    $(function(){
+        var mode = "single";
+           // var mode = "multiple";
+        // 获取成绩数据
+        var scoreData = getScoreData();
+
+        // 数据表格处理
+        tableHandle(scoreData, mode);
+
+        // 数据图表处理
+        chartHandle(scoreData);
+    });
+
+    function chartHandle(scoreData) {
+        var container = document.getElementById('chart');
+        var chart = echarts.init(container);
+        var pattern = getChartPattern();
+        updateChart(chart, scoreData, pattern);
+
+        $("[name='chart-radio']").click(function(event) {
+            pattern = getChartPattern();
+            updateChart(chart, scoreData, pattern);
+        });
+    }
+
+    function getChartPattern() {
+        var ret;
+        $("[name='chart-radio']").each(function(index, el) {
+            if ($(this).prop('checked')) {
+                ret = $(this).val();
+            }
+        });
+
+        return ret;
+    }
+
+    function updateChart(chart, scoreData, pattern) {
+        var ret = getOption(scoreData, pattern);
+
+        var option = {
+            title : {
+                text: '各科'+ret.title,
+            },
+            legend: {                                   // 图例配置                
+                data: ret.legend,
+            },
+            tooltip: {                                  // 气泡提示配置
+                trigger: 'axis',
+            },
+            xAxis: [
+                {
+                    type: 'category',
+                    data: ret.xAxis,   //data: ['语文', '数学', '英语']
+                }
+            ],
+            yAxis: [
+                {
+                    type: 'value',
+                    scale: true,
+                    boundaryGap: [0.1, 0.1],
+                }
+            ],
+            series: ret.series
+        };
+
+        chart.setOption(option);
+
+        return chart;
+    }
+
+    function getOption(scoreData, pattern) {
+        var order = scoreData.order;
+        var orderBase    = order.base;     // 班级、人数
+        var orderCate    = order.cate;     // 语文、数学
+        var orderCateTwo = order.cateTwo;  // 平均分、最高分
+        var title = scoreData.title;
+        var info  = scoreData.info;
+        var cate = title.subject.cate;
+        var i,temp, tempObj, tempArr = Array();
+        var ret = {};
+
+        ret.title = title.subject.cateTwo[pattern];
+
+        // 获取图表图例 及 数据内容数组
+        temp = Array();
+        for (i in info) {
+            temp.push(info[i].name); // 图表图例
+
+            tempObj = {};
+            tempObj.name = info[i].name;
+            tempObj.type = "line";
+            tempObj.data = Array();
+            for (j = 0; j < orderCate.length; j++) {
+                tempObj.data.push(info[i].subject[orderCate[j]][pattern]);
+            }
+            tempArr.push(tempObj); // 数据内容数组
+        }
+        ret.legend = temp;
+        ret.series = tempArr;
+
+        // 获取x轴数据
+        temp = Array();
+        for (i = 0; i < orderCate.length; i++) {
+            temp.push(cate[orderCate[i]]);
+        }
+        ret.xAxis = temp;
+
+        return ret;
+    }
+
+    function tableHandle(scoreData, mode) {
+        var container = document.getElementById('hs');
+        var pattern = {};
+        pattern.mode    = mode;
+        pattern.cate    = getTablePattern("cate", mode);
+        pattern.cateTwo = getTablePattern("two-cate", mode);
+
+        var hs = creatTable(container, scoreData, pattern);
+
+        // 一级类目-全选
+        $("[data-target='cate']").click(function(event) {
+            hs = updateTable(container, scoreData, pattern, hs, "cate");
+        });
+        // 一级类目-单选
+        $("[data-check='cate']").click(function(event) {
+            hs = updateTable(container, scoreData, pattern, hs, "cate");
+        });
+
+        // 二级类目-全选
+        $("[data-target='two-cate']").click(function(event) {
+            hs = updateTable(container, scoreData, pattern, hs, "two-cate");
+        });
+        // 二级类目-单选
+        $("[data-check='two-cate']").click(function(event) {
+            hs = updateTable(container, scoreData, pattern, hs, "two-cate");
+        });
+    }
+
+    function updateTable(container, scoreData, pattern, oldHs, type) {
+        if (type === "cate") {
+            pattern.cate = getTablePattern(type);
+        } else if (type === "two-cate") {
+            pattern.cateTwo = getTablePattern(type);
+        }
+        
+        oldHs.destroy();
+        return creatTable(container, scoreData, pattern);
+    }
+
+    function getTablePattern(type, mode) {
+        var ret = Array();
+        var obj;
+
+        if (mode === "single") {
+            ret = "s002";
+            return ret;
+        }
+
+        // mode === "multiple"
+        if (type === "cate") {
+            obj = $("[data-check='cate']");
+        } else if (type === "two-cate") {
+            obj = $("[data-check='two-cate']");
+        }
+
+        obj.each(function(index, el) {
+            if (this.checked) {
+                ret.push($(this).val());
+            }
+        });
+
+        return ret;
+    }
+
+    function creatTable(container, scoreData, pattern) {
+        var ret = getSettings(scoreData, pattern);
+        var settings = {
+            data : ret.data,
+            startRows: 0,
+            stretchH: 'all',
+            fillHandle: false,
+            cells: function (row, col, prop) {
+                var cellProperties = {};
+                cellProperties.readOnly = true;
+                if (row === 0 || row === 1) {
+                    cellProperties.renderer = firstRowRenderer;
+                }
+                return cellProperties;
+            },
+            mergeCells: ret.mergeCells,
+        };
+        var hs = new Handsontable(container, settings);
+        return hs;
+    }
+
+    function getSettings(scoreData, pattern) {
+        var order = scoreData.order;
+        var orderBase    = order.base;     // 班级、人数
+        var orderCate    = order.cate;     // 语文、数学
+        var orderCateTwo = order.cateTwo;  // 平均分、最高分
+        var orderLevel   = order.level;    // A、B、C、D
+        var ret = {};
+
+        // 加载标题
+        var retTitle = setTitle(orderBase, orderCate, orderCateTwo, orderLevel, 
+                                scoreData.title, pattern);
+        ret.mergeCells = retTitle.mergeCells;
+        ret.data = Array();
+        ret.data.push(retTitle.firstRow);
+        ret.data.push(retTitle.secondRow);
+
+        // 加载信息
+        var retInfo = setInfo(orderBase, orderCate, orderCateTwo, scoreData.info, pattern);
+        ret.data = ret.data.concat(retInfo);
+
+        return ret;
+    }
+
+    function setTitle(orderBase, orderCate, orderCateTwo, orderLevel, title, pattern) {
+        var cate       = title.subject.cate;     
+        var cateTwo    = title.subject.cateTwo;
+        var patMode    = pattern.mode;
+        var patCate    = pattern.cate;
+        var patCateTwo = pattern.cateTwo;
+        var firstRow   = Array(),
+            secondRow  = Array(),
+            mergeCells = Array();
+        var i, j, cateCnt, cateTwoCnt, ret  = {};
+
+        // 基础标题
+        for (i = 0; i < orderBase.length; i++) {
+            firstRow.push(title[orderBase[i]]);
+            secondRow.push('');
+
+            // 合并单元格
+            mergeCells.push(
+                {row: 0, col: i, rowspan: 2, colspan: 1}
+            );
+        }
+
+        if (patMode === "single") {
+            for (i = 0; i < orderCateTwo.length; i++) {
+                firstRow.push(cateTwo[orderCateTwo[i]]);
+                secondRow.push('');
+
+                // 合并单元格
+                mergeCells.push(
+                    {row: 0, col: orderBase.length + i, rowspan: 2, colspan: 1}
+                );
+            }
+
+            // 等级
+            for (i = 0; i < orderCateTwo.length; i++) {
+
+                firstRow.push(cateTwo[orderCate[i]]); // 一级类目
+                secondRow.push(cateTwo[orderCateTwo[j]]); // 二级类目
+                cateTwoCnt++;
+            }
+
+            if (cateTwoCnt !== 0) {
+                // 合并单元格
+                mergeCells.push({
+                    row: 0,
+                    col: orderBase.length + cateCnt * cateTwoCnt,
+                    rowspan: 1,
+                    colspan: cateTwoCnt,
+                });
+            }
+
+        } else {
+            // 成绩标题
+            for (cateCnt = 0, i = 0; i < orderCate.length; i++) {
+     
+                if($.inArray(orderCate[i], patCate) === -1) {
+                    continue;
+                }
+
+                for (cateTwoCnt = 0, j = 0; j < orderCateTwo.length; j++) {
+                    if ($.inArray(orderCateTwo[j], patCateTwo) === -1) {
+                        continue;
+                    }
+
+                    firstRow.push(cate[orderCate[i]]); // 一级类目
+                    secondRow.push(cateTwo[orderCateTwo[j]]); // 二级类目
+                    cateTwoCnt++;
+                }
+
+                if (cateTwoCnt !== 0) {
+                    // 合并单元格
+                    mergeCells.push({
+                        row: 0,
+                        col: orderBase.length + cateCnt * cateTwoCnt,
+                        rowspan: 1,
+                        colspan: cateTwoCnt,
+                    });
+                }
+
+                cateCnt++;
+            }
+        }
+
+        ret = {
+            firstRow : firstRow,
+            secondRow : secondRow,
+            mergeCells : mergeCells,
+        };
+
+        return ret;
+    }
+
+    function setInfo(orderBase, orderCate, orderCateTwo, info, pattern) {
+        var patCate    = pattern.cate;
+        var patCateTwo = pattern.cateTwo;
+        var infoRow, cateInfo, cateTwoInfo;
+        var i, j, k;
+        var ret = Array();
+
+        for (i in info) {
+            infoRow = Array();
+
+            // 基础信息
+            for (j = 0; j < orderBase.length; j++) {
+                infoRow.push(info[i][orderBase[j]]);
+            }
+
+            // 成绩信息
+            for (j = 0; j < orderCate.length; j++) {
+                if($.inArray(orderCate[j], patCate) === -1) {
+                    continue;
+                }
+
+                cateInfo = info[i].subject[orderCate[j]]; // 一级类目
+
+                for (k = 0; k < orderCateTwo.length; k++) {
+                    if ($.inArray(orderCateTwo[k], patCateTwo) === -1) {
+                        continue;
+                    }
+
+                    cateTwoInfo = cateInfo[orderCateTwo[k]]; // 二级类目
+                    infoRow.push(cateTwoInfo);
+                }
+            }
+
+            ret.push(infoRow);
+        }
+
+        return ret;
+    }
+
+    function firstRowRenderer(instance, td, row, col, prop, value, cellProperties) {
+        Handsontable.renderers.TextRenderer.apply(this, arguments);
+        td.style.padding = '5px';
+        td.style.fontWeight = 'bold';
+        td.style.color = 'white';
+        td.style.background = '#444';
+    }
+
+    function getScoreData() {
+        var url = $("#hs").attr("data-url");
+        var scoreData;
+
+        // 设置为同步，等待获取完数据再进行其他的步骤
+        $.ajaxSetup({
+            async : false
+        });
+
+        $.post(url).success(function(data){
+            scoreData = data.data;
+        });
+
+        // 恢复为异步
+        $.ajaxSetup({
+            async: true
+        });
+
+        return scoreData;
+    }
+    </script>
+</block>

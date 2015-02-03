@@ -301,3 +301,17 @@ function isInt(obj) {
     result = reg.test(obj) ? true : false;
     return result;
 }
+
+// 工具函数
+
+function displayObj(obj) {
+    var names = "";
+    for (var name in obj) {
+        names += name + ": " + obj[name] + ", ";
+    }
+    alert(names);
+}
+
+function elog(msg) {
+    console.log(msg);
+}

@@ -350,6 +350,19 @@ class TuserController extends UserCenterController {
     }
     public function studentEdit(){
         if (IS_AJAX) {
+            $mode = I("mode");
+            if($mode == 'check') {
+                $data['error_info'] = array(); //当没有错误时返回一个空的数组
+
+                $data['error_info'] = array(
+                    array(1, 2, 'error msg!'),
+                    array(2, 2, 'error msg!'),
+                    array(1, 3, 'error msg!'),
+                );
+
+                $this->ajaxReturn($data);
+            }
+
             $data['status']  = 1;
             $data['info'] = "保存成功！";
             $data['url'] = "refresh";
@@ -421,5 +434,154 @@ class TuserController extends UserCenterController {
         if (IS_AJAX) {
             $this->display('homeworkhistory');
         }
+    }
+
+    public function gradeScore() {
+        $this->display('TempScore/gradescore');
+    }
+
+    public function getScoreData() {
+        $data['status']  = 1;
+        $data['info'] = "保存成功！";
+        $data['url'] = "refresh";
+        $data['data'] = $this->creatData();
+        //dump($data);
+        $this->ajaxReturn($data);
+    }
+
+    public function creatData() {
+
+        $data = array(
+            'order' => array(
+                'base' => array('name','studentCnt','master'),
+                'cate' => array('s001','s002','s003'),
+                'cateTwo' => array("attendance","average","max","min"),
+                'level' => array("001","002","003","004"), //等级为全部相加人数等于参考人数
+                'statistics' => array('001','002','003','004'), //统计存在包含情况
+            ),
+
+            'title' => array(
+                'name'      => "班级",
+                'studentCnt' => "人数",
+                'master'     => "班主任",
+                'subject'    => array(
+                    'cate' => array(
+                        's001' => "语文",
+                        's002' => "数学",
+                        's003' => "总分",
+                    ),
+                    'cateTwo' => array(
+                        'attendance' => '参加人数',
+                        'average'    => '平均分',
+                        'max'        => '最高分',
+                        'min'        => '最低分',
+                        'level'      => '等级',
+                    ),
+                    'level' => array(
+                        "001" => "A",
+                        "002" => "B",
+                        "003" => "C",
+                        "004" => "D",
+                    ),
+                    'statistics'  => array(
+                        '001' => "满分",
+                        '002' => "优秀",
+                        '003' => "及格",
+                        '004' => "低分",
+                    ),
+                )
+            ),
+
+            'info' => array(
+                '200901' => array(
+                    'name'      => "2009级1班",
+                    'studentCnt' => "56",
+                    'master'     => "李忠",
+                    'subject'    => array(
+                        's001' => array(
+                            'attendance' => '50',
+                            'average'    => '88',
+                            'max'        => '98',
+                            'min'        => '73',
+                            'level' => array(
+                                "001" => array('10','20%'),
+                                "002" => array('20','40%'),
+                                "003" => array('10','20%'),
+                                "004" => array('10','20%'),
+                            ),
+                        ),
+                        's002' => array(
+                            'attendance' => '50',
+                            'average'    => '87',
+                            'max'        => '97',
+                            'min'        => '77',
+                            'level' => array(
+                                "001" => array('10','20%'),
+                                "002" => array('10','20%'),
+                                "003" => array('20','40%'),
+                                "004" => array('10','20%'),
+                            ),
+                        ),                        
+                        's003' => array(
+                            'attendance' => '50',
+                            'average'    => '86',
+                            'max'        => '96',
+                            'min'        => '76',
+                            'level' => array(
+                                "001" => array('10','20%'),
+                                "002" => array('10','40%'),
+                                "003" => array('15','30%'),
+                                "004" => array('15','30%'),
+                            ),
+                        ),
+                    )
+                ),
+                '200902' => array(
+                    'name'      => "2009级2班",
+                    'studentCnt' => "100",
+                    'master'     => "李明",
+                    'subject'    => array(
+                        's001' => array(
+                            'attendance' => '100',
+                            'average'    => '81',
+                            'max'        => '91',
+                            'min'        => '71',
+                            'level' => array(
+                                "001" => array('20','20%'),
+                                "002" => array('30','30%'),
+                                "003" => array('20','20%'),
+                                "004" => array('30','30%'),
+                            ),
+                        ),
+                        's002' => array(
+                            'attendance' => '100',
+                            'average'    => '81',
+                            'max'        => '91',
+                            'min'        => '71',
+                            'level' => array(
+                                "001" => array('30','30%'),
+                                "002" => array('20','20%'),
+                                "003" => array('20','20%'),
+                                "004" => array('20','20%'),
+                            ),
+                        ),                        
+                        's003' => array(
+                            'attendance' => '100',
+                            'average'    => '81',
+                            'max'        => '91',
+                            'min'        => '71',
+                            'level' => array(
+                                "001" => array('30','30%'),
+                                "002" => array('25','25%'),
+                                "003" => array('25','25%'),
+                                "004" => array('20','20%'),
+                            ),
+                        ),
+                    )
+                )
+            )
+        );
+        return $data;
+        //dump($data);
     }
 }

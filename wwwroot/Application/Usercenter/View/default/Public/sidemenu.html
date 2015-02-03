@@ -121,6 +121,34 @@
             学生信息管理
         </a>
     </li>
+    <volist name="nodes" id="sub_menu" >
+    <li>
+        <a href="javascript:;" data-toggle="collapse" data-target="#demo5">
+            <i class="fa fa-child"></i>
+            学生信息管理
+            <span class="pull-right"><i class="fa fa-caret-left fa-lg"></i></span>
+        </a>
+        <div class="collapse" id="demo5"><!-- 消除bootstrap折叠sidebar时，因间距产生的跳跃 -->
+        <ul class="sub-menu">
+            <volist name="sub_menu['_child']" id="menu" key="subkey">
+            <li>
+                <a href="javascript:;" data-toggle="collapse" data-target="#demo5{$subkey}">
+                    {$menu.title}
+                    <span class="pull-right"><i class="fa fa-caret-left fa-lg"></i></span>
+                </a>
+                <ul class="sub-menu collapse" id="demo5{$subkey}">
+                    <foreach name="menu['_child']" item="three_menu">
+                    <li>
+                        <a href="{$three_menu.url|U}">{$three_menu.title}</a>
+                    </li>
+                    </foreach>
+                </ul>
+            </li>
+            </volist>
+        </ul>
+        </div>
+    </li>
+    </volist>
 </ul>
 
 <script>
@@ -138,13 +166,13 @@
             if("#"+id == targetId) {
                 changeIcon(targetId, "show");
             }
-        })
+        });
         $(".collapse").on('hide.bs.collapse', function () {
             id = $(this).attr("id");
             if("#"+id == targetId) {
                 changeIcon(targetId, "hide");
             }
-        })
+        });
     });
 
     function changeIcon(targetId, status) {
