@@ -12,6 +12,8 @@
 const ONETHINK_VERSION    = '1.0.131218';
 const ONETHINK_ADDON_PATH = Addon_PATH; // 将插件配置关联到 const_cconfig.php 中配置 modify by jigc 2014-12-30
 
+const ONE_DAY_SECONE    =   86400;
+
 // 以下加载扩展函数文件 add by jigc 2014-12-30
 include APP_PATH . 'Common/Common/function_error.php';
 include APP_PATH . 'Common/Common/function_greencms.php';
