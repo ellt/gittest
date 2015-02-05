@@ -23,34 +23,43 @@ class UserModel extends RelationModel
 
     protected $user_type = NULL;
 
+    protected $user_extern_model_name = '';
+    
+    // 是否批处理验证
+    protected $patchValidate = true;
+
     /**
      * 构造方法
      */
     public function __construct($user_type = UserApi::TYPE_SUPPER){
         $this->user_type = $user_type;
+        if($model_info = $this->getUserMoldelInfoByUserType()){
+            $this->user_extern_model_name =  $model_info['name'];
+        }
+       
         parent::__construct();
     }
     
     /* 用户模型自动验证 */
     protected $_validate = array(
             /* 验证用户名 */
-            array('username', '1,30', -1, self::EXISTS_VALIDATE, 'length'), //用户名长度不合法
-            array('username', 'checkDenyMember', -2, self::EXISTS_VALIDATE, 'callback'), //用户名禁止注册
-            array('username', '', -3, self::EXISTS_VALIDATE, 'unique'), //用户名被占用
+            array('username', '1,30', '用户名长度不合法', self::EXISTS_VALIDATE, 'length'), //用户名长度不合法
+            array('username', 'checkDenyMember', '用户名禁止注册', self::EXISTS_VALIDATE, 'callback'), //用户名禁止注册
+            array('username', '', '用户名被占用', self::EXISTS_VALIDATE, 'unique'), //用户名被占用
     
             /* 验证密码 */
-            array('password', '0,30', -4, self::EXISTS_VALIDATE, 'length'), //密码长度不合法
+            array('password', '0,30', '密码长度不合法', self::EXISTS_VALIDATE, 'length'), //密码长度不合法
     
             /* 验证邮箱 */
-            array('email', 'email', -5, self::EXISTS_VALIDATE), //邮箱格式不正确
-            array('email', '1,32', -6, self::EXISTS_VALIDATE, 'length'), //邮箱长度不合法
-            array('email', 'checkDenyEmail', -7, self::EXISTS_VALIDATE, 'callback'), //邮箱禁止注册
-            array('email', '', -8, self::EXISTS_VALIDATE, 'unique'), //邮箱被占用
+            array('email', 'email', '邮箱格式不正确', self::EXISTS_VALIDATE), //邮箱格式不正确
+            array('email', '1,32', '邮箱长度不合法', self::EXISTS_VALIDATE, 'length'), //邮箱长度不合法
+            array('email', 'checkDenyEmail', '邮箱禁止注册', self::EXISTS_VALIDATE, 'callback'), //邮箱禁止注册
+            array('email', '', '邮箱被占用', self::EXISTS_VALIDATE, 'unique'), //邮箱被占用
     
             /* 验证手机号码 */
-            array('mobile', '//', -9, self::EXISTS_VALIDATE), //手机格式不正确 TODO:
-            array('mobile', 'checkDenyMobile', -10, self::EXISTS_VALIDATE, 'callback'), //手机禁止注册
-            array('mobile', '', -11, self::EXISTS_VALIDATE, 'unique'), //手机号被占用
+            array('mobile', '//', '手机格式不正确 ', self::EXISTS_VALIDATE), //手机格式不正确 TODO:
+            array('mobile', 'checkDenyMobile', '手机禁止注册', self::EXISTS_VALIDATE, 'callback'), //手机禁止注册
+            array('mobile', '', '手机号被占用', self::EXISTS_VALIDATE, 'unique'), //手机号被占用
     );
     
     /* 用户模型自动完成 */
@@ -305,32 +314,42 @@ class UserModel extends RelationModel
     }
 
     protected function getUserMoldelIdByUserType() {
+        
+        $info = $this->getUserMoldelInfoByUserType();
+        if ($info) {
+            $user_extern_model_id = $info['id'];
+        } else { //TODO 错误处理！
+            die('用户扩展模型:' . $extern_table_name . '未定义');
+        }
+        return $user_extern_model_id;
+    }
+    
+    protected function getUserMoldelInfoByUserType() {
         $user_type = $this->user_type;
         $extern_table_name = '';
+        $info = null;
         switch ($user_type) {
             case UserApi::TYPE_SUPPER:
                 $user_extern_model_id = 0;
                 break;
             case UserApi::TYPE_STUDENT:
                 $extern_table_name = 'student';
-               
+                 
                 break;
             case UserApi::TYPE_TERCHER:
                 $extern_table_name = 'teacher';
                 break;
-            
+    
             default:
                 $user_extern_model_id = 0;
         }
-        
-        if(!empty($extern_table_name)){
-            $info = M('model')->where("name='%s'",$extern_table_name)->find();
-            if($info)
-            {
-                $user_extern_model_id = $info['id'];
+        if (!empty($extern_table_name)) {
+            $info = M('model')->where("name='%s'", $extern_table_name)->find();
+            if (!$info) { //TODO 错误处理！
+                die('用户扩展模型:' . $extern_table_name . '未定义');
             }
         }
-        return $user_extern_model_id;
+        return $info;
     }
     
     /**
@@ -341,37 +360,45 @@ class UserModel extends RelationModel
      */
     public function update($data) {
     
-        /* 获取数据对象 */
-        $data = $this->create($data);
+        $update_success_id = 0;
         if (empty($data)) {
-            return false;
+            $data = I('post.');
         }
-    
-        /* 添加或新增基础内容 */
-        if (empty($data['id'])) { //新增数据
-            $id = $this->add(); //添加基础内容
-            if (!$id) {
-                $this->error = '新增基础内容出错！';
+        
+        /* 获取数据对象 */
+        $base_data = $this->create($data);
+        if (!empty($this->user_extern_model_name)) {
+            
+            $extern_model = $this->logic($this->user_type);
+            $extern_data = $extern_model->create($data);
+            
+            if (empty($base_data) || empty($extern_data)) {
+                $this->error = array_merge($this->getError(), $extern_model->getError()); // 合并错误信息
                 return false;
             }
-        } else { //更新数据
-            $status = $this->save(); //更新基础内容
-            if (false === $status) {
-                $this->error = '更新基础内容出错！';
-                return false;
+            $relation_data = $base_data;
+            $relation_data[$this->user_extern_model_name] = $extern_data;
+//                         dump($relation_data);
+            if (empty($relation_data['id'])) {
+                $update_success_id = $this->relation($this->user_extern_model_name)->add($relation_data);
+                if (!$update_success_id) {
+                    $this->delete($update_success_id);
+                    return false;
+                }
+            }else{
+                $update_success_id = $this->relation($this->user_extern_model_name)->save($relation_data);
+                if(false === $update_success_id){
+                    return false;
+                }else{
+                    $update_success_id = $relation_data['id'];
+                }
             }
+            
+        } else {
+            //TODO 无扩展用户数据添加逻辑
         }
+                
          
-    
-        /* 添加或新增扩展内容 */
-        $logic = $this->logic($this->user_type);
-        if (!$logic->update($id)) {
-            if (isset($id)) { //新增失败，删除基础数据
-                $this->delete($id);
-            }
-            $this->error = $logic->getError();
-            return false;
-        }
         /* TODO 使用钩子及行为记录
          hook('documentSaveComplete', array('model_id' => $data['model_id'] ));
     
@@ -381,6 +408,6 @@ class UserModel extends RelationModel
          }
          */
         //内容添加或更新完成
-        return $data;
+        return $update_success_id;
     }
 }

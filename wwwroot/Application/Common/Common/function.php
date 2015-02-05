@@ -1082,7 +1082,9 @@ function check_category_model($info){
 //-----ot1.1 增加的函数  add by Guoky -----end
 
 
-//-----增加的函数  add by jigc -----end
+//-----增加的函数  add by jigc -----start
+
+
 function  conver_girds_data_to_table($girds , $input_data){
     $output_table=array();
     $one_row = array();
@@ -1105,6 +1107,13 @@ function  conver_girds_data_to_table($girds , $input_data){
     return $output_table;
 }
 
+/**
+ * @param unknown $contorller
+ * @param string $model
+ * @param number $p
+ * @return multitype:
+ * @author jigc <mrji1990@gmail.com>
+ */
 function get_model_table_data($contorller, $model = null, $p = 0){
     $model || $this->error('模型名标识必须！');
     $page = intval($p);

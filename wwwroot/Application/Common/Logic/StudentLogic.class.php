@@ -22,10 +22,14 @@ class StudentLogic extends RelationModel
 {
     protected $tableName   = 'user_student'; # 强制转换用户数据库表为 user_student
 
-    /* 配置自动验证规则 */
+    // 是否批处理验证
+    protected $patchValidate = true;
+    
+    /* 学生扩展模型自动验证 */
     protected $_validate = array(
-            
-     );
+            array('student_id', '8,14', '学号长度不合法', self::EXISTS_VALIDATE, 'length'),
+    );
+    
     
     /* 配置字段映射 */
     protected $_map = array(
@@ -72,7 +76,12 @@ class StudentLogic extends RelationModel
 
     public function register() {
         $User = new UserApi(UserApi::TYPE_STUDENT);
-        return $User->update();
+        $ret = $User->update();
+        if(!$ret){
+            $this->error = $User->getError();
+        }
+
+        return $ret;
     }
     
     /**
@@ -81,27 +90,15 @@ class StudentLogic extends RelationModel
      * @return boolean    true-操作成功，false-操作失败
      * @author jigc <mrji1990@gmail.com>
      */
-    public function update($id = 0){
-        $data = $this->create();
-        if($data === false){
-            return false;
-        }
-        /* 添加或更新数据 */
-        if(empty($data['id'])){//新增数据
-            $data['id'] = $id;
-            $id = $this->add($data);
-            if(!$id){
-                $this->error = '新增学生详细内容失败！';
-                return false;
-            }
-        } else { //更新数据
-            $status = $this->save($data);
-            if(false === $status){
-                $this->error = '更新详细内容失败！';
-                return false;
-            }
+    public function update($data = null){
+       
+        $User = new UserApi(UserApi::TYPE_STUDENT);
+        $ret = $User->update($data);
+        if(!$ret){
+            $this->error = $User->getError();
         }
         
+        return $ret;
         return true;
     }
     
