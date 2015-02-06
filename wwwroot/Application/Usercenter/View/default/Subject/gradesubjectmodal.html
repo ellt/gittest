@@ -1,0 +1,132 @@
+<div class="modal fade" id="myModal" data-url="{:U('getGradeSubjectInfo')}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">关闭</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">年级科目设置</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h4><span id="gradeId"></span>的科目<span class="small">（点击移除科目）</span></h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12" id="hasSubjects"></div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <h4>点击添加科目</h4>
+                    </div>
+                    <div class="col-sm-12" id="allSubjects"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary" data-submit="custom" data-url="{:U('Tuser/gradeSubject')}" data-loading-text="提交中..." autocomplete="off">确定</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+$(function(){
+
+    $('#myModal').on('show.bs.modal', function (e) {
+        var url = $(this).attr('data-url');
+        var gradeId = $(e.relatedTarget).attr("data-content");
+        $.post(url, {content : gradeId}).success(function(data) {
+            if (data.status) {
+                initModal(data.data, gradeId);
+            } else {
+                elog("（错误：gradeId "+gradeId+"）");
+                return e.preventDefault(); // 阻止模态框的展示
+            }
+        });
+    });
+
+    function initModal(data, gradeId) {
+        var hasSubjects = data.hasSubjects;
+        var allSubjects = data.allSubjects;
+        var temp, tempObj, tempArr = Array();
+
+        $('#gradeId').html(data.grade).data("gradeId", gradeId);
+
+        $('#hasSubjects').html("");
+        for (var i in hasSubjects) {
+            tempArr.push(i);
+
+            tempObj = $('<button type="button"></button>')
+                    .html(i+hasSubjects[i][0])
+                    .addClass('btn btn-default btn-sm')
+                    .data("subject-id",i);
+            
+            if (hasSubjects[i][1]) {
+                tempObj.addClass('active')
+                       .attr('data-toggle', 'tooltip')
+                       .attr('data-placement', 'bottom')
+                       .attr('title', '科目在使用，不可直接移除！');
+            }
+
+            $('#hasSubjects').append(tempObj).append(' ');
+        }
+        $('#hasSubjects').data("hasSubjects", tempArr);
+
+        $('#allSubjects').html("");
+        for (var j in allSubjects) {
+            temp = $.inArray(j, tempArr);
+            if (temp === -1) {
+                tempObj = $('<button type="button"></button>')
+                        .html(j+allSubjects[j])
+                        .addClass('btn btn-default btn-sm')
+                        .data("subject-id",j);
+
+                $('#allSubjects').append(tempObj).append(' ');
+            }
+        }
+
+        $('[data-toggle="tooltip"]').tooltip();
+
+        $('#hasSubjects').on('click', 'button', function(event) {
+            if(!$(this).hasClass('active')) {
+                $('#allSubjects').append(this).append(' ');
+            }
+        });
+
+        $('#allSubjects').on('click', 'button', function(event) {
+            $('#hasSubjects').append(this).append(' ');
+        });
+    }
+
+    // 科目设置提交
+    $("[data-submit='custom']").click(function(e) { 
+        var url = $(this).attr('data-url');
+        var gradeId = $('#gradeId').data("gradeId");
+        var subjects = Array();
+        $("button","#hasSubjects").each(function(index, el) {
+            subjects.push($(this).data("subject-id"));
+        });
+
+        // 检查是否有修改
+        var hasSubjects = $('#hasSubjects').data('hasSubjects');
+        var oldSubjects = hasSubjects.sort().toString();
+        var newSubjects = subjects.sort().toString();
+        if (oldSubjects === newSubjects) {
+            $('#myModal').modal('hide');
+            return false; // 没有修改不进行提交
+        }
+        
+        var btn = $(this);
+        btn.button('loading');
+        //发送到服务器
+        $.post(url, {gradeId: gradeId, subjects: subjects}).success(function(data){
+            btn.button('reset');
+            $('#myModal').modal('hide');
+            handleAjax(data);
+        });
+    });
+});
+</script>
