@@ -12,6 +12,8 @@
 const ONETHINK_VERSION    = '1.0.131218';
 const ONETHINK_ADDON_PATH = Addon_PATH; // 将插件配置关联到 const_cconfig.php 中配置 modify by jigc 2014-12-30
 
+const ONE_DAY_SECONE    =   86400;
+
 // 以下加载扩展函数文件 add by jigc 2014-12-30
 include APP_PATH . 'Common/Common/function_error.php';
 include APP_PATH . 'Common/Common/function_greencms.php';
@@ -1080,3 +1082,147 @@ function check_category_model($info){
     return in_array($info['model_id'], $array);
 }
 //-----ot1.1 增加的函数  add by Guoky -----end
+
+
+//-----增加的函数  add by jigc -----start
+
+
+function  conver_girds_data_to_table($girds , $input_data){
+    $output_table=array();
+    $one_row = array();
+
+    // 第一行数据是表头需要特殊处理
+    foreach ($girds as $one_col){
+        array_push($one_row, $one_col['title']);
+    }
+    
+    array_push($output_table, $one_row);
+
+    foreach ($input_data as $one_data){
+        $one_row = array();
+        foreach ($girds as $one_col){
+            array_push($one_row, $one_data[$one_col['field'][0]]);
+
+        }
+        array_push($output_table, $one_row);
+    }
+    return $output_table;
+}
+
+/**
+ * @param unknown $contorller
+ * @param string $model
+ * @param number $p
+ * @return multitype:
+ * @author jigc <mrji1990@gmail.com>
+ */
+function get_model_table_data($contorller, $model = null, $p = 0){
+    $model || $this->error('模型名标识必须！');
+    $page = intval($p);
+    $page = $page ? $page : 1; //默认显示第一页数据
+    
+//     dump($contorller);
+    
+    //获取模型信息
+    $model = M('Model')->getByName($model);
+    $model || $contorller->error('模型不存在！');
+    
+    //解析列表规则
+    $fields = array();
+    $grids  = preg_split('/[;\r\n]+/s', $model['list_grid']);
+    foreach ($grids as &$value) {
+        // 字段:标题:链接
+        $val      = explode(':', $value);
+        // 支持多个字段显示
+        $field   = explode(',', $val[0]);
+        $value    = array('field' => $field, 'title' => $val[1]);
+        if(isset($val[2])){
+            // 链接信息
+            $value['href']	=	$val[2];
+            // 搜索链接信息中的字段信息
+            preg_replace_callback('/\[([a-z_]+)\]/', function($match) use(&$fields){$fields[]=$match[1];}, $value['href']);
+        }
+        if(strpos($val[1],'|')){
+            // 显示格式定义
+            list($value['title'],$value['format'])    =   explode('|',$val[1]);
+        }
+        foreach($field as $val){
+            $array	=	explode('|',$val);
+            $fields[] = $array[0];
+        }
+    }
+    // 过滤重复字段信息
+    $fields =   array_unique($fields);
+    // 关键字搜索
+    $map	=	array();
+    $key	=	$model['search_key']?$model['search_key']:'title';
+    if(isset($_REQUEST[$key])){
+        $map[$key]	=	array('like','%'.$_GET[$key].'%');
+        unset($_REQUEST[$key]);
+    }
+    // 条件搜索
+    foreach($_REQUEST as $name=>$val){
+        if(in_array($name,$fields)){
+            $map[$name]	=	$val;
+        }
+    }
+    $row    = empty($model['list_row']) ? 10 : $model['list_row'];
+    
+    //读取模型数据列表
+    if($model['extend']){
+        $name   = get_table_name($model['id']);
+        $parent = get_table_name($model['extend']);
+        $fix    = C("DB_PREFIX");
+    
+        $key = array_search('id', $fields);
+        if(false === $key){
+            array_push($fields, "{$fix}{$parent}.id as id");
+        } else {
+            $fields[$key] = "{$fix}{$parent}.id as id";
+        }
+    
+        /* 查询记录数 */
+        $count = M($parent)->join("INNER JOIN {$fix}{$name} ON {$fix}{$parent}.id = {$fix}{$name}.id")->where($map)->count();
+    
+        // 查询数据
+        $data   = M($parent)
+        ->join("INNER JOIN {$fix}{$name} ON {$fix}{$parent}.id = {$fix}{$name}.id")
+        /* 查询指定字段，不指定则查询所有字段 */
+        ->field(empty($fields) ? true : $fields)
+        // 查询条件
+        ->where($map)
+        /* 默认通过id逆序排列 */
+        ->order("{$fix}{$parent}.id DESC")
+        /* 数据分页 */
+        ->page($page, $row)
+        /* 执行查询 */
+        ->select();
+    
+    } else {
+        in_array('id', $fields) || array_push($fields, 'id');
+        $name = parse_name(get_table_name($model['id']), true);
+        $data = M($name)
+        /* 查询指定字段，不指定则查询所有字段 */
+        ->field(empty($fields) ? true : $fields)
+        // 查询条件
+        ->where($map)
+        /* 默认通过id逆序排列 */
+        ->order('id DESC')
+        /* 数据分页 */
+        ->page($page, $row)
+        /* 执行查询 */
+        ->select();
+    
+        /* 查询记录总数 */
+        $count = M($name)->where($map)->count();
+    }
+    
+    //分页
+    if($count > $row){
+        $page = new \Think\Page($count, $row);
+        $page->setConfig('theme','%FIRST% %UP_PAGE% %LINK_PAGE% %DOWN_PAGE% %END% %HEADER%');
+//         $contorller->assign('_page', $page->show());
+    }
+    return conver_girds_data_to_table($grids, $data);
+}
+//-----增加的函数  add by jigc -----end

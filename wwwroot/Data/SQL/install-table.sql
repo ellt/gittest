@@ -90,3 +90,17 @@ CREATE TABLE `school_class_info` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='班级信息表';
 
+
+-- -----------------------------
+-- 学期记录表
+-- -----------------------------
+DROP TABLE IF EXISTS `school_term_info`;
+CREATE TABLE `school_term_info` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '学期id',
+  `term_year` char(32)  NOT NULL COMMENT '学期名字',
+  `term_order` char(32) NOT NULL COMMENT '学期排序 (上学期、下学期)',
+  `term_start` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '学期开始时间',
+  `term_end`  int(10) unsigned NOT NULL DEFAULT '0' COMMENT '学期结束时间',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='学期记录表';
+
