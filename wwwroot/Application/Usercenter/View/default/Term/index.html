@@ -38,20 +38,15 @@
                 </tr>
             </thead>
             <tbody>
+                <foreach name="term_list" item="vo">
                 <tr>
-                    <td>2013-2014</td>
-                    <td>下学期</td>
-                    <td>2014-3-1</td>
-                    <td>2014-7-1</td>
-                    <td><button class="btn btn-success btn-sm" data-toggle="modal" data-target="#myModal" data-content="标识">编 辑</button></td>
+                    <td>{$vo.term_year}</td>
+                    <td>{$vo.term_order}</td>
+                    <td>{$vo.term_start|date='Y-m-d',###}</td>
+                    <td>{$vo.term_end|date='Y-m-d',###}</td>
+                     <td><button class="btn btn-success btn-sm" data-toggle="modal" data-target="#myModal" data-content="标识">编 辑</button></td>
                 </tr>
-                <tr>
-                    <td>2013-2014</td>
-                    <td>上学期</td>
-                    <td>2013-9-1</td>
-                    <td>2014-2-1</td>
-                    <td></td>
-                </tr>
+                </foreach>
             </tbody>
         </table>
     </div>

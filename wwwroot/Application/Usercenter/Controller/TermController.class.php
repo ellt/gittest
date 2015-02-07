@@ -38,17 +38,27 @@ class TermController extends UserCenterController {
     }
     
     public function index(){
-//         $data['term_start'] = date('Y-m-d');
-//         dump($this->model->getInitData($data));die();
+
+        $termList = $this->model->select();
+
+        $this->assign('term_list', $termList);
         $this->display();
     }
 
     public function update() {
         if ($_POST) {
-            $data = $this->model->saveData($_POST);
-            if(false === $data){
+            $ret = $this->model->saveData($_POST);
+            if(false === $ret){
                dump($this->model->getError());
             }
+            else{
+                $data['status']  = 1;
+                $data['info'] = "保存成功！";
+                $data['url'] = "refresh";
+                $content = I("content");
+                $this->ajaxReturn($data);
+            }
+           
         }
     }
 

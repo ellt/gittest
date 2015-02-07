@@ -83,6 +83,17 @@ class TermInfoModel  extends Model{
         } else {
             $data['term_year'] = $termName;
         }
+        
+        // 重复记录检查
+        $map['term_year'] = $data['term_year'];
+        $map['term_order'] = $data['term_order'];
+        $info = $this->where($map)->find();
+        
+       
+        if(!empty($info)){
+            $data['id'] = $info['id'];
+        }
+        
         // 自动检测
         $data = $this->create($data);
         return $data;
