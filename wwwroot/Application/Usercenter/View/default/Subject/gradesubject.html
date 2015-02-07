@@ -1,0 +1,54 @@
+<extend name="Public/base"/>
+
+<block name="header">
+    <include file="Subject/gradesubjectmodal"/>
+</block>
+
+<!-- 子导航 -->
+<block name="sidebar">
+    <include file="Public/sidemenu"/>
+</block>
+
+<block name="content">
+    <!-- 标题 -->
+    <div class="ell-main-title">
+        <h2>基础信息设置 [学科设置 年级学科设置]
+        </h2>
+    </div>
+
+    <!-- 数据表格 -->
+    <div class="data-table">
+        <table class="table table-condensed table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>年级</th>
+                    <th>科目编号及名称</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>一年级</td>
+                    <td>
+                        <span class="label label-primary">0001 语文</span>
+                        <span class="label label-primary">0002 数学</span>
+                    </td>
+                    <td>
+                        <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#myModal" data-content="grade1">编 辑</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>二年级</td>
+                    <td>
+                        <span class="label label-primary">0001 语文</span>
+                        <span class="label label-primary">0002 数学</span>
+                        <span class="label label-primary">0003 英语</span>
+                    </td>
+                    <td>
+                        <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#myModal" data-content="grade2">编 辑</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</block>

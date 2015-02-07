@@ -37,6 +37,28 @@ $(function() {
         });
     });
 
+    //搜索功能
+    $("[data-submit='search']").click(function(){
+        var url = $(this).attr('data-url');
+        var targetForm = $(this).attr('data-target');
+        var query = $(targetForm).serialize();
+        query = query.replace(/(&|^)(\w*?\d*?\-*?_*?)*?=?((?=&)|(?=$))/g,'');
+        query = query.replace(/^&/g,'');
+        if( url.indexOf('?')>0 ){
+            url += '&' + query;
+        }else{
+            url += '?' + query;
+        }
+        window.location.href = url;
+    });
+    //回车触发搜索
+    $("#search").keyup(function(e){
+        if(e.keyCode === 13){
+            $("[data-submit='search']").click();
+            return false;
+        }
+    });
+
     /**顶部警告栏*/
     var top_alert = $('#top-alert');
     top_alert.find('.close').on('click', function() {

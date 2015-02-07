@@ -103,7 +103,7 @@ $(function(){
             return false;
         }
         var url = U("usercenter/Term/termInit");
-        var modal = $(this);
+        var name;
         var content = $(e.relatedTarget).attr("data-content");
         $.post(url, {content : content}).success(function(data){
             if (data.status) {
@@ -111,7 +111,8 @@ $(function(){
                 var form = $("#addTermForm");
                 var inputs = $("input", form);
                 inputs.each(function(index, el) {
-                    $(this).val(initData[index]);
+                    name = $(this).attr('name');
+                    $(this).val(initData[name]);
                 });
             } else {
                 return e.preventDefault() // 阻止模态框的展示
