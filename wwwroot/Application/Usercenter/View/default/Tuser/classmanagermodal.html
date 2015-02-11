@@ -1,0 +1,109 @@
+<div class="modal fade" id="myModal" data-url="{:U('getClassManagerInfo')}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">关闭</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">编辑<span></span></h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="changeTeacherForm" role="form">
+                    <div class="form-group">
+                        <label for="original" class="col-sm-2 control-label">原来的</label>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control" id="original" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="new" class="col-sm-2 control-label">新的</label>
+                        <div class="col-sm-5 typeahead">
+                            <input type="text" class="form-control" id="new" name="teacher_2" data-provide="typeahead" placeholder="请输入教师工号或姓名" autocomplete="off">
+                        </div>
+                        <div class="col-sm-5">
+                            <div class="help-block hidden">
+                                <span class="glyphicon glyphicon-remove text-danger"></span>
+                                <span>教师不存在，前往<a href="">教师信息管理</a></span>
+                            </div>
+                            <div class="help-block hidden">
+                                <span class="glyphicon glyphicon-info-sign text-info"></span>
+                                <span>请在下方提示框中点击选取</span>
+                            </div>
+                            <div class="help-block">
+                                <span class="glyphicon glyphicon-info-sign text-info"></span>
+                                <span>该教师原不属于数学科组，点击确定后将自动加入数学科组</span>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary" data-submit="custom" data-target="#changeTeacherForm" data-url="{:U('Term/update')}" data-loading-text="提交中..." autocomplete="off">确定</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+$(function(){
+    $('#myModal').on('show.bs.modal', function (e) {
+        var url = $(this).attr('data-url');
+        var param = $(e.relatedTarget).data("get-param");
+        $.get(url+param).success(function(data){
+            if (data.status) {
+                initModal(data.data);
+            } else {
+                return e.preventDefault(); // 阻止模态框的展示
+            }
+        });
+    });
+
+    $("[data-submit='custom']").click(function(e) { 
+        //取消默认动作，防止表单两次提交
+        e.preventDefault();
+
+        var url = $(this).attr('data-url');
+        var targetForm = $(this).attr('data-target');
+        var form = $(targetForm);
+        var formContent = form.serialize();
+
+        var btn = $(this);
+        btn.button('loading');
+        //发送到服务器
+        $.post(url, formContent).success(function(data){
+            btn.button('reset');
+            if (data.status) {
+                //todo 刷新年级列表
+                showFormTip(form);
+                $('#myModal').modal('hide');
+            } else {
+                showFormTip(form, data.error_info);
+            }
+        });
+    });
+});
+
+function initModal(data) {
+    var title = data.title;
+    var old = data.old;
+    $("span", "#myModalLabel").html(title);
+    $("#original").val("("+old[0]+")   "+old[1]);
+    initTypeahead(data.list);
+}
+
+function initTypeahead(list) {
+    var tempArr = Array();
+    for (var i in list) {
+        tempArr.push("("+i+")  "+list[i]);
+    }
+
+    $("#new").typeahead({
+        source:tempArr,
+        items:'all',
+        showHintOnFocus:true,
+        minLength:0,
+    });  
+}
+</script>

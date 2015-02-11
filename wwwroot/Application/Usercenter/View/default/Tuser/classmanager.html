@@ -1,6 +1,8 @@
 <extend name="Public/base"/>
 
-<block name="header"></block>
+<block name="header">
+    <include file="Tuser/classmanagermodal"/>
+</block>
 
 <!-- 子导航 -->
 <block name="sidebar">
@@ -14,100 +16,43 @@
         </h2>
     </div>
 
-    <div class="panel panel-primary">
-        <div class="panel-heading">
-            年级统一操作
-            <a class="pull-right" href="javascript:;" data-toggle="collapse" data-target="#quickMenu"> <i class="fa fa-caret-up text-inverse"></i>
-            </a>
-        </div>
-        <div class="collapse in" id="quickMenu">
-            <div class="panel-body">
-                <form class="ajax-form" method="post" action="{:U('Tuser/classManager')}">
-                    <div class="lead">添加科目
-                        <button type="submit" class="btn btn-success btn-sm" data-loading-text="提交中..." autocomplete="off">确 定</button>
-                    </div>
-                    <label class="checkbox-inline">
-                        <input type="checkbox" data-toggle="checkall" data-target="add"/>全选</label>
-                    <label class="checkbox-inline">
-                        <input type="checkbox" data-check="add" name="ids[]" value="1">语文</label>
-                    <label class="checkbox-inline">
-                        <input type="checkbox" data-check="add" name="ids[]" value="2">数学</label>
-                    <label class="checkbox-inline">
-                        <input type="checkbox" data-check="add" name="ids[]" value="3">英语</label>
-                </form>
-                <hr>
-                <form class="ajax-form" method="post" action="{:U('Tuser/classManager')}">
-                    <div class="lead">删除科目
-                        <button type="submit" class="btn btn-danger btn-sm" data-loading-text="提交中..." autocomplete="off">确 定</button>
-                    </div>
-                    <label class="checkbox-inline">
-                        <input type="checkbox" data-toggle="checkall" data-target="del"/>全选</label>
-                    <label class="checkbox-inline">
-                        <input type="checkbox" data-check="del" name="ids[]" value="4">科学</label>
-                    <label class="checkbox-inline">
-                        <input type="checkbox" data-check="del" name="ids[]" value="5">体育</label>
-                    <label class="checkbox-inline">
-                        <input type="checkbox" data-check="del" name="ids[]" value="6">音乐</label>
-                </form>
-            </div>
-        </div>
-    </div>
-
     <!-- 数据表格 -->
     <div class="panel panel-primary">
-        <div class="panel-heading">1 班
-            <div class="pull-right">
-                <a href="javascript:;">
-                    <i class="fa fa-save fa-lg text-inverse" title="保存"></i>
-                </a>
-                <a href="javascript:;">
-                    <i class="fa fa-trash-o fa-lg text-inverse" title="删除"></i>
-                </a>
-            </div>
+        <div class="panel-heading">2013 级 1 班</div>
+        <div class="panel-body">
+            <h4>班主任: <strong>李芳</strong>
+                <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#myModal" data-get-param="&class=1&role=master">编 辑</button>
+            </h4>
         </div>
         <div>
-            <table class="table table-hover">
+            <table class="table table-condensed table-hover">
                 <thead>
                     <tr>
-                        <th class="row-selected">
-                        <input type="checkbox" data-toggle="checkall" data-target="class1"/></th>
                         <th>科目名称</th>
                         <th>任课教师</th>
+                        <th>操作</th>
                     </tr>
                 </thead>
                 <tbody  id="content">
                     <tr>
+                        <td><span title="科目编号：0001">语文</span></td>
+                        <td>李梅</td>
                         <td>
-                            <input type="checkbox" data-check="class1" name="ids[]" value="1" />
+                            <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#myModal" data-get-param="&class=1&role=teacher&subject=0001">编 辑</button>
                         </td>
-                        <td><input type="text" name="subject_1" data-provide="typeahead" autocomplete="off">
-                        </td>
-                        <td><input type="text" name="teacher_1" data-provide="typeahead" autocomplete="off"></td>
                     </tr>
                     <tr>
+                        <td><span title="科目编号：0002">数学</span></td>
+                        <td>大山</td>
                         <td>
-                            <input type="checkbox" data-check="class1" name="ids[]" value="2" />
+                            <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#myModal" data-get-param="&class=1&role=teacher&subject=0002">编 辑</button>
                         </td>
-                        <td>
-                            <input type="text" name="subject_2" data-provide="typeahead" autocomplete="off">
-                        </td>
-                        <td><input type="text" name="teacher_2" data-provide="typeahead" autocomplete="off"></td>
                     </tr>
                 </tbody>
             </table>
+            <div class="panel-footer">
+                <small>提示：没有找到想要的科目，请点击<a href="">这里</a>设置。</small>
+            </div>
         </div>
     </div>
-</block>
-
-<block name="script">
-    <script>
-    var data = ["语文","吴彦祖","梁文豪","01111","20000","15545","164646"];
-    $("[name='subject_1']").typeahead({
-        source:data,
-        items:'all',
-        showHintOnFocus:true,
-        minLength:0,
-    });
-
-    </script>
 </block>
