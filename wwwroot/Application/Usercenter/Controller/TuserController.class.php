@@ -533,6 +533,18 @@ class TuserController extends UserCenterController {
             $this->display();
         }
     }
+
+    public function homeworkEdit(){
+        if (IS_AJAX) {
+            $data = I("post.");
+            dump($data);
+        } else {
+            $list[] = array('name' => '2009级1班', 'time' => '90', 'date' => '2014年12月31日(星期二)', 'homework' => '1、完成XXX');
+            $this->assign('list', $list);
+            $this->display();
+        }
+    }
+
     public function gethistory(){
 
         $data = I("ids");

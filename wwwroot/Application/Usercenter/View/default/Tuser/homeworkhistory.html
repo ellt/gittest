@@ -5,10 +5,12 @@
 <div class="panel panel-primary" id="history{$key}">
     <div class="panel-heading">
         <span>{$vo.name} ({$vo.time}分钟)</span>
-        <span class="pull-right">{$vo.date}</span>
     </div>
     <div class="panel-body">
         {$vo.homework}
+    </div>
+    <div class="panel-footer clearfix">
+        <span class="pull-right">{$vo.date}</span>
     </div>
 </div>
 </foreach>
