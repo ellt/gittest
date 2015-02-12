@@ -26,29 +26,24 @@
                     <th>操作</th>
                 </tr>
             </thead>
-            <tbody>
+            
+            <foreach  name='static_grade_info_list' item='vo'>
+           	<tbody>
                 <tr>
-                    <td>一年级</td>
+                    <td>{$vo.grade_name}</td>
                     <td>
-                        <span class="label label-primary">0001 语文</span>
-                        <span class="label label-primary">0002 数学</span>
+                    	<foreach name="vo['subject_info']" item='subject'>
+                        <span class="label label-primary">{$subject.subject_number} {$subject.subject_name}</span>                    	
+                    	</foreach>
+                        
                     </td>
                     <td>
-                        <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#myModal" data-content="grade1">编 辑</button>
+                        <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#myModal" data-content={$vo.id}>编 辑</button>
                     </td>
                 </tr>
-                <tr>
-                    <td>二年级</td>
-                    <td>
-                        <span class="label label-primary">0001 语文</span>
-                        <span class="label label-primary">0002 数学</span>
-                        <span class="label label-primary">0003 英语</span>
-                    </td>
-                    <td>
-                        <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#myModal" data-content="grade2">编 辑</button>
-                    </td>
-                </tr>
+              
             </tbody>
+            </foreach>
         </table>
     </div>
 </block>

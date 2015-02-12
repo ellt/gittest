@@ -25,7 +25,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-primary" data-submit="custom" data-url="{:U('Tuser/gradeSubject')}" data-loading-text="提交中..." autocomplete="off">确定</button>
+                <button type="submit" class="btn btn-primary" data-submit="custom" data-url="{:U('staticGradeList')}" data-loading-text="提交中..." autocomplete="off">确定</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
             </div>
         </div>
@@ -60,7 +60,7 @@ $(function(){
             tempArr.push(i);
 
             tempObj = $('<button type="button"></button>')
-                    .html(i+hasSubjects[i][0])
+                    .html(hasSubjects[i][0])
                     .addClass('btn btn-default btn-sm')
                     .data("subject-id",i);
             
@@ -80,7 +80,7 @@ $(function(){
             temp = $.inArray(j, tempArr);
             if (temp === -1) {
                 tempObj = $('<button type="button"></button>')
-                        .html(j+allSubjects[j])
+                        .html(allSubjects[j])
                         .addClass('btn btn-default btn-sm')
                         .data("subject-id",j);
 

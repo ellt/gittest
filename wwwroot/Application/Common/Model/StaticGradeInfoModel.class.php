@@ -19,8 +19,6 @@ class StaticGradeInfoModel  extends Model{
     /* 配置自动验证规则 */
     protected $_validate = array(
         array('grade_number', '', '年级序号冲突', self::MUST_VALIDATE, 'unique', self::MODEL_BOTH ),
-        array('grade_number', array(1,10), '年级范围错误', self::MUST_VALIDATE, 'between', self::MODEL_BOTH ),
-            
      );
     
   
@@ -29,4 +27,10 @@ class StaticGradeInfoModel  extends Model{
             array('valid_time', NOW_TIME),
     );
     
+    
+    public function getStaticGradeInfoById($id){
+         
+        $info = $this->where("id=$id")->find();
+        return $info;
+    }
 } 

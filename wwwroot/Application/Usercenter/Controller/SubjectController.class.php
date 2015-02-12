@@ -62,5 +62,106 @@ class SubjectController extends UserCenterController {
         }
         $this->display();
     }
+    
+    public function staticGradeList(){
+        
+        $staticGradeInfoModel = D('Common/StaticGradeInfo');
+        
+        if (IS_AJAX) {
+//             dump(I('post.'));die();
+            $subjects =  I('subjects');
+            
+            
+            foreach ($subjects as $id){
+                if(!empty($supportIds)){
+                    $supportIds = $supportIds . ',' . $id;
+                }
+                else{
+                    $supportIds = $id;
+                }
+                
+            }
+            $info['id'] =  I('gradeId');
+            $info['support_subject'] = $supportIds;
+            $ret = $staticGradeInfoModel->create($info);
+            if(!empty($ret)){
+                $ret = $staticGradeInfoModel->save($info);
+            }
+            
+            if(!empty($ret)){
+                $data['status']  = 1;
+                $data['info'] = "保存成功！";
+                $data['url'] = "refresh";
+                $data['data'] = array(
+                        I('gradeId'),
+                        I('subjects'), //subjects为收到的科目列表 数组格式
+                );
+            }
+            else{
+                $data['status']  = 0;
+                $data['info'] = "保存失败！";
+            }
+            $this->ajaxReturn($data);
+        }
+        
+        
+        
+        $data = $staticGradeInfoModel->select();
+//         dump($data);
+        
+        $staticGradeInfoList = array();
+        foreach ($data as &$staticGrade){
+            $subjectIds = $staticGrade['support_subject'];
+            
+            $map['id'] = array('in',$subjectIds);
+            
+            $staticGradeInfo['id'] = $staticGrade['id'];
+            $staticGradeInfo['grade_name'] = $staticGrade['grade_name'];
+            $staticGradeInfo['subject_info'] = $this->model->where($map)->select();
+            array_push($staticGradeInfoList, $staticGradeInfo);
+        }
+        
+//         dump($staticGradeInfoList);die();
+        
+        $this->assign('static_grade_info_list', $staticGradeInfoList);
+        $this->display('Subject/gradesubject');
+    }
 
+    public function getGradeSubjectInfo() {
+        $gradeId = (int) I('content'); //打开编辑模态框时会接收到年级编号
+        
+        $model = D('Common/StaticGradeInfo');
+        $info = $model->getStaticGradeInfoById($gradeId);
+        
+        $subject_list = $this->model->select();
+        
+//         dump($info);
+        $hasSubjects = array();
+        $allSubjects = array();
+        $supportIds = explode(',', $info['support_subject']);
+//         dump($supportIds);
+        foreach ($subject_list as $v) {
+            
+            if (in_array($v['id'], $supportIds)) {// 已经支持的科目ID
+                $support = array($v['subject_number'] . ' ' . $v['subject_name'], false );
+                $hasSubjects[$v['id']] = $support;
+//                 array_push($hasSubjects, $support);
+            }
+            $sub = $v['subject_number'] . ' ' . $v['subject_name'];
+//             array_push($allSubjects, $sub);
+            $allSubjects[$v['id']]= $sub;
+        }
+        
+        $data['status'] = 1;
+        $data['data'] = array(
+                'gradeId' => $gradeId,
+                'grade' => $info['grade_name'], 
+                'hasSubjects' => $hasSubjects, 
+                'allSubjects' => $allSubjects );
+    
+//         dump($data);die();
+        $this->ajaxReturn($data);
+    }
+    
+    
 }

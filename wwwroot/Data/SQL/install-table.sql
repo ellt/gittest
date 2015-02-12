@@ -108,10 +108,11 @@ CREATE TABLE `school_term_info` (
 -- 静态年级科目表
 -- -----------------------------
 DROP TABLE IF EXISTS `school_static_grade_info`;
-CREATE TABLE `school_term_info` (
+CREATE TABLE `school_static_grade_info` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
   `grade_number` char(32)  NOT NULL COMMENT '年级编号',
-  `support_subjecr` char(128) NOT NULL COMMENT '支持的科目列表',
+  `grade_name` char(32)  NOT NULL COMMENT '年级名称',
+  `support_subject` char(128) NOT NULL COMMENT '支持的科目列表',
   `valid_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '生效时间',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='静态年级科目表';
