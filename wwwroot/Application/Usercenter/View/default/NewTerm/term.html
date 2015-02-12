@@ -1,0 +1,132 @@
+<extend name="Public/base"/>
+
+<block name="header"></block>
+
+<!-- 子导航 -->
+<block name="sidebar">
+    <include file="Public/sidemenu"/>
+</block>
+
+<block name="content">
+    <!-- 标题 -->
+    <div class="ell-main-title">
+        <h2>学期设置 [2014-2015学年 下学期]
+        </h2>
+    </div>
+
+    <div>
+        <form class="form-horizontal" id="setTermForm" role="form">
+            <div class="form-group">
+                <label for="termYear" class="col-sm-2 control-label">学年：</label>
+                <div class="col-sm-3">
+                    <input type="text" class="form-control" id="termYear" name="term_year" value="2014-2015" readonly>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="termOrder" class="col-sm-2 control-label">学期：</label>
+                <div class="col-sm-3">
+                    <input type="text" class="form-control" id="termOrder" name="term_order" value="下学期" readonly>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="termStart" class="col-sm-2 control-label">开始时间：</label>
+                <div class="col-sm-3 input-group date">
+                    <input type="text" class="form-control" id="termStart" name="term_start" value="2015-10-12" readonly>
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+                <div class="col-sm-5">
+                    <div class="help-block hidden">
+                        <span class="glyphicon glyphicon-remove"></span>
+                        <span>格式错误</span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="termEnd" class="col-sm-2 control-label">结束时间：</label>
+                <div class="col-sm-3 input-group date">
+                    <input type="text" class="form-control" id="termEnd" name="term_end" value="2015-10-13" readonly>
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+                <div class="col-sm-5">
+                    <div class="help-block hidden">
+                        <span class="glyphicon glyphicon-remove"></span>
+                        <span>格式错误</span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-xs-6 col-sm-offset-1 col-sm-2">
+                    <button type="button" class="btn btn-primary form-control" data-submit="form" data-target="#setTermForm" data-url="{:U('Term/update')}" data-loading-text="提交中..." autocomplete="off">确定，下一步</button>
+                </div>
+                <div class="col-xs-6 col-sm-2">
+                    <button type="button" class="btn btn-danger form-control" data-dismiss="modal">返回</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</block>
+
+<block name="script">
+    <script>
+    $(function(){
+        $('.date').datetimepicker({
+            language:  'zh-CN',
+            weekStart: 1,
+            todayBtn:  1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            minView: 2,
+            forceParse: 0,
+            format: "yyyy-mm-dd",
+            pickerPosition: "bottom-left"
+        });
+
+        $("[data-submit='form']").click(function(e) { 
+            //取消默认动作，防止表单两次提交
+            e.preventDefault();
+
+            var url = $(this).attr('data-url');
+            var targetForm = $(this).attr('data-target');
+            var form = $(targetForm);
+            var formContent = form.serialize();
+
+            var btn = $(this);
+            btn.button('loading');
+            //发送到服务器
+            $.post(url, formContent).success(function(data){
+                btn.button('reset');
+                if (data.status) {
+                    showFormTip(form);
+                } else {
+                    showFormTip(form, data.error_info);
+                }
+            });
+        });
+    });
+
+    function showFormTip(form, data) {
+        var row, tip, tipContent;
+        data = data || []; // 给定默认值为空数组
+        $("input", form).each(function(index){
+            row = $(this).parentsUntil("form").filter(".row");
+            tip = row.find(".help-block");
+            tipContent = tip.find("span").next();
+
+            if (data[index]) {
+                row.addClass("has-error");
+                tipContent.html(data[index]);
+                tip.removeClass("hidden").addClass("show");
+            } else {
+                row.removeClass("has-error");
+                tipContent.html();
+                tip.removeClass("show").addClass("hidden");
+            }
+        });
+    }
+    </script>
+</block>
