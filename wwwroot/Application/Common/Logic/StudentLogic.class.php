@@ -10,7 +10,6 @@
 
 namespace Common\Logic;
 use Think\Model\RelationModel;
-use Common\Controller\CommonBaseController;
 use User\Api\UserApi;
 
 /**
@@ -86,7 +85,6 @@ class StudentLogic extends RelationModel
     
     /**
      * 新增或添加一个学生用户详细信息
-     * @param  number $id 文章ID
      * @return boolean    true-操作成功，false-操作失败
      * @author jigc <mrji1990@gmail.com>
      */
@@ -99,7 +97,23 @@ class StudentLogic extends RelationModel
         }
         
         return $ret;
-        return true;
+    }
+    
+    /**
+     * 新增或添加一个学生用户详细信息
+     * @param  number $id 文章ID
+     * @return boolean    true-操作成功，false-操作失败
+     * @author jigc <mrji1990@gmail.com>
+     */
+    public function checkData($data = null){
+         
+        $User = new UserApi(UserApi::TYPE_STUDENT);
+        $ret = $User->checkData($data);
+        if(!$ret){
+            $this->error = $User->getError();
+        }
+    
+        return $ret;
     }
     
 }

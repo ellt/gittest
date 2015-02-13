@@ -353,6 +353,44 @@ class UserModel extends RelationModel
     }
     
     /**
+     * 检查数据的有效性
+     * @param unknown $data
+     * @return boolean
+     * @author jigc <mrji1990@gmail.com>
+     */
+    public function checkData($data) {
+    
+        $relation_data = false;
+        if (empty($data)) {
+            $data = I('post.');
+        }
+    
+        /* 获取数据对象 */
+        $base_data = $this->create($data);
+        if (!empty($this->user_extern_model_name)) {
+    
+            $extern_model = $this->logic($this->user_type);
+            $extern_data = $extern_model->create($data);
+            if (empty($base_data) || empty($extern_data)) {
+                $this->error = array_merge($this->getError(), $extern_model->getError()); // 合并错误信息
+                $check_success_flag = false;
+                
+            } else { // 数据有效
+                $relation_data = $base_data;
+                $relation_data[$this->user_extern_model_name] = $extern_data;
+                return $relation_data;
+            }
+              
+        } else {
+            $check_success_flag = false;
+            //TODO 无扩展用户数据添加逻辑
+        }
+    
+         
+        return $check_success_flag;
+    }
+    
+    /**
      * 新增或更新一个用户
      * @param string $data
      * @return boolean|\Think\mixed
@@ -366,19 +404,15 @@ class UserModel extends RelationModel
         }
         
         /* 获取数据对象 */
-        $base_data = $this->create($data);
+      
         if (!empty($this->user_extern_model_name)) {
             
-            $extern_model = $this->logic($this->user_type);
-            $extern_data = $extern_model->create($data);
-            
-            if (empty($base_data) || empty($extern_data)) {
-                $this->error = array_merge($this->getError(), $extern_model->getError()); // 合并错误信息
+            $relation_data =  $this->checkData($data);
+//             dump($relation_data);
+            if($relation_data === false){ // 数据检查失败
                 return false;
             }
-            $relation_data = $base_data;
-            $relation_data[$this->user_extern_model_name] = $extern_data;
-//                         dump($relation_data);
+            
             if (empty($relation_data['id'])) {
                 $update_success_id = $this->relation($this->user_extern_model_name)->add($relation_data);
                 if (!$update_success_id) {
@@ -408,6 +442,7 @@ class UserModel extends RelationModel
          }
          */
         //内容添加或更新完成
+//         dump('********* $update_success_id=' . $update_success_id . ' user_extern_model_name='. $this->user_extern_model_name);
         return $update_success_id;
     }
 }

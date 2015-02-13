@@ -26,9 +26,8 @@
                     <th>操作</th>
                 </tr>
             </thead>
-            
-            <foreach  name='static_grade_info_list' item='vo'>
-           	<tbody>
+            <tbody>
+            	<foreach  name='static_grade_info_list' item='vo'>
                 <tr>
                     <td>{$vo.grade_name}</td>
                     <td>
@@ -38,12 +37,11 @@
                         
                     </td>
                     <td>
-                        <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#myModal" data-content={$vo.id}>编 辑</button>
+                        <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#myModal" data-content="{$vo.id}">编 辑</button>
                     </td>
                 </tr>
-              
+            	</foreach>
             </tbody>
-            </foreach>
         </table>
     </div>
 </block>

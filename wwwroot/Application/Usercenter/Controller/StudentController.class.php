@@ -61,7 +61,7 @@ class StudentController extends UserCenterController {
                 $errorInfo = array();
                 foreach ($insertData as $oneStudentData){
                     $data = $oneStudentData['data'];
-                    if ($this->model->update($data)) {
+                    if ($this->model->checkData($data)) {
                         //                     $this->success('添加学生信息成功！', U('index'));
                     } else {
                         $oneRowerrorHint = array();

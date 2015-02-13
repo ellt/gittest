@@ -39,6 +39,10 @@ class UserApi extends Api{
         return $this->model->update($data);
     }
     
+    public function checkData($data = null){
+        return $this->model->checkData($data);
+    }
+    
     /**
      * 获取用户模式失败信息
      * @author jigc <mrji1990@gmail.com>
