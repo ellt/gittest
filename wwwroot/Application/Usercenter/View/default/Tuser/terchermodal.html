@@ -1,0 +1,175 @@
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">关闭</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">添加教师</h4>
+            </div>
+            <div class="modal-body">
+                <form id="addStudentForm" role="form">
+                	<div class="row">
+                        <div class="col-sm-3">
+                            <h4 class="pull-right">用户名：</h4>
+                        </div>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" name="username" value="">
+                        </div>
+                        <div class="col-sm-5">
+                            <div class="help-block hidden">
+                                <span class="glyphicon glyphicon-remove"></span>
+                                <span>格式错误</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <h4 class="pull-right">密码：</h4>
+                        </div>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" name="password" value="">
+                        </div>
+                        <div class="col-sm-5">
+                            <div class="help-block hidden">
+                                <span class="glyphicon glyphicon-remove"></span>
+                                <span>格式错误</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <h4 class="pull-right">工号：</h4>
+                        </div>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" name="teacher_id" value="">
+                        </div>
+                        <div class="col-sm-5">
+                            <div class="help-block hidden">
+                                <span class="glyphicon glyphicon-remove"></span>
+                                <span>格式错误</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <h4 class="pull-right">姓名：</h4>
+                        </div>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" name="true_name" value="">
+                        </div>
+                        <div class="col-sm-5">
+                            <div class="help-block hidden">
+                                <span class="glyphicon glyphicon-remove"></span>
+                                <span>格式错误</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <h4 class="pull-right">性别：</h4>
+                        </div>
+                        <div class="col-sm-4">
+                            <label class="radio-inline">
+                              <input type="radio" name="sex" value="male" checked> 男
+                            </label>
+                            <label class="radio-inline">
+                              <input type="radio" name="sex" value="female"> 女
+                            </label>
+                        </div>
+                        <div class="col-sm-5">
+                            <div class="help-block hidden">
+                                <span class="glyphicon glyphicon-remove"></span>
+                                <span>格式错误</span>
+                            </div>
+                        </div>
+                    </div>
+					<div class="row">
+                        <div class="col-sm-3">
+                            <h4 class="pull-right">邮箱：</h4>
+                        </div>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" name="email" value="">
+                        </div>
+                        <div class="col-sm-5">
+                            <div class="help-block hidden">
+                                <span class="glyphicon glyphicon-remove"></span>
+                                <span>格式错误</span>
+                            </div>
+                        </div>
+                    </div>  
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <h4 class="pull-right">联系方式：</h4>
+                        </div>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" name="mobile" value="">
+                        </div>
+                        <div class="col-sm-5">
+                            <div class="help-block hidden">
+                                <span class="glyphicon glyphicon-remove"></span>
+                                <span>格式错误</span>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary" data-submit="form" data-target="#addStudentForm" data-url="{:U('add')}" data-loading-text="提交中..." autocomplete="off">确定</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+$(function(){
+
+    // 新增表单提交
+    $("[data-submit='form']").click(function(e) { 
+        //取消默认动作，防止表单两次提交
+        e.preventDefault();
+
+        var url = $(this).attr('data-url');
+        var targetForm = $(this).attr('data-target');
+        var form = $(targetForm);
+        var formContent = form.serialize();
+
+        var btn = $(this);
+        btn.button('loading');
+        //发送到服务器
+        $.post(url, formContent).success(function(data){
+            btn.button('reset');
+            if (data.status) {
+                //todo 刷新年级列表
+                showFormTip(form);
+                $('#myModal').modal('hide');
+            } else {
+                showFormTip(form, data.error_info);
+            }
+        });
+    });
+});
+
+function showFormTip(form, data) {
+    var row, tip, tipContent;
+    data = data || []; // 给定默认值为空数组
+    $("input", form).each(function(index){
+        row = $(this).parentsUntil("form").filter(".row");
+        tip = row.find(".help-block");
+        tipContent = tip.find("span").next();
+
+        if (data[index]) {
+            row.addClass("has-error");
+            tipContent.html(data[index]);
+            tip.removeClass("hidden").addClass("show");
+        } else {
+            row.removeClass("has-error");
+            tipContent.html();
+            tip.removeClass("show").addClass("hidden");
+        }
+    });
+}
+</script>
