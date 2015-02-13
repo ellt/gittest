@@ -116,7 +116,7 @@ class TeacherController extends UserCenterController {
                 $inData = I("data");
                
 //                 $data['error_info'] = $this->getUiErrorMsg_new($inData); //新的错误的数据格式
-//                 $data['error_info'] = $this->getUiErrorMsg($inData); //旧的错误的数据格式
+                $data['error_info'] = $this->getUiErrorMsg($inData); //旧的错误的数据格式
                 $this->ajaxReturn($data);
             }
     
