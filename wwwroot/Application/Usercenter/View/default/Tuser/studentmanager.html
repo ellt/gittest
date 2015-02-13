@@ -20,8 +20,18 @@
     <div class="row">
         <div class="col-md-6">
             <div class="pull-left">
-                <button class="btn btn-success" data-toggle="modal" data-target="#myModal">新 增</button>
+                <div class="btn-group">
+                    <button class="btn btn-success" data-toggle="modal" data-target="#myModal">新 增</button>
+                    <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                        <span class="caret"></span>
+                        <span class="sr-only">下拉菜单</span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                    <li><a href="{:U('listEdit')}">批量新增</a></li>
+                    </ul>
+                </div>
                 <button class="btn btn-success ajax-post" data-target="[data-check='ids']" data-confirm="确认要删除吗?" data-url="">删 除</button>
+                
                 <a class="btn btn-success" href="{:U('listEdit')}">批量编辑</a>
             </div>
         </div>

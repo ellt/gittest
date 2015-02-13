@@ -401,6 +401,66 @@ class TuserController extends UserCenterController {
         $this->display();
     }
 
+    public function getClassManagerInfo() {
+       $class = I("class"); //班级
+       $role = I("role");  
+       $teacherList = $this->getTeacherList();//dump($teacherList);
+       if ($role == "master") {
+            $data['data'] = array(
+                "title" => "班主任",
+                "old" => array("201512130752", "李芳"), //20154是教师编号
+                "list" => $teacherList,
+            );
+       } elseif ($role == "teacher") {
+            $subject = I("subject");
+            if ($subject=="0001") {
+                $subjectTitle = "语文";
+                $teacher = array("201512130752", "李梅");
+            }elseif ($subject=="0002") {
+                $subjectTitle = "数学";
+                $teacher = array("201512130752", "大山");
+            }
+
+            $data['data'] = array(
+                "title" => $subjectTitle."任课教师",
+                "old" => $teacher,
+                "list" => $teacherList,
+            );
+       }
+       $data['status']=1;
+        $this->ajaxReturn($data);
+    }
+
+    public function getTeacherList() {
+        $teacherList = array(
+            "201512130751" => "种大山",
+            "201512130752" => "王大山",
+            "201512130753" => "陈大山",
+            "201512130754" => "荔大山",
+            "201512130755" => "元大山",
+            "201512130756" => "方大山",
+            "201512130741" => "种大山",
+            "201512130742" => "猪大山",
+            "201512130743" => "小大山",
+            "201512130744" => "飞大山",
+            "201512130745" => "罗大山",
+            "201512130746" => "明大山",
+            "201512130731" => "号大山",
+            "201512130732" => "以大山",
+            "201512130733" => "而大山",
+            "201512130734" => "四大山",
+            "201512130735" => "五大山",
+            "201512130736" => "六大山",
+            "201512130721" => "亲大山",
+            "201512130722" => "弄大山",
+            "201512130723" => "农大山",
+            "201512130724" => "开大山",
+            "201512130725" => "觉大山",
+            "201512130726" => "得大山",
+        );
+        return $teacherList;
+    }
+
     public function studentManager(){
         $this->display();
     }
@@ -473,6 +533,18 @@ class TuserController extends UserCenterController {
             $this->display();
         }
     }
+
+    public function homeworkEdit(){
+        if (IS_AJAX) {
+            $data = I("post.");
+            dump($data);
+        } else {
+            $list[] = array('name' => '2009级1班', 'time' => '90', 'date' => '2014年12月31日(星期二)', 'homework' => '1、完成XXX');
+            $this->assign('list', $list);
+            $this->display();
+        }
+    }
+
     public function gethistory(){
 
         $data = I("ids");
@@ -640,4 +712,18 @@ class TuserController extends UserCenterController {
         return $data;
         //dump($data);
     }
+////////////////////////新学期设置 NewTerm////////////////////////////////
+
+    public function newIndex() {
+        $this->display('NewTerm/index');
+    }
+
+    public function setNewTerm() {
+        $this->display('NewTerm/term');
+    }
+
+    public function setNewGradeClass() {
+        $this->display('GradeClass/index');
+    }
 }
+

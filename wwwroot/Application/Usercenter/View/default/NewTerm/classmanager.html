@@ -1,8 +1,6 @@
 <extend name="Public/base"/>
 
-<block name="header">
-    <include file="Tuser/classmanagermodal"/>
-</block>
+<block name="header"></block>
 
 <!-- 子导航 -->
 <block name="sidebar">
@@ -18,14 +16,23 @@
 
     <!-- 数据表格 -->
     <div class="panel panel-primary">
-        <div class="panel-heading">2013 级 1 班</div>
+        <div class="panel-heading">2013 级 1 班
+            <div class="pull-right">
+                <a href="javascript:;">
+                    <i class="fa fa-save fa-lg text-inverse" title="保存"></i>
+                </a>
+                <a href="javascript:;">
+                    <i class="fa fa-trash-o fa-lg text-inverse" title="删除"></i>
+                </a>
+            </div>
+        </div>
         <div class="panel-body">
             <h4>班主任: <strong>李芳</strong>
-                <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#myModal" data-get-param="&class=1&role=master">编 辑</button>
+                <button class="btn btn-primary btn-sm">更换</button>
             </h4>
         </div>
         <div>
-            <table class="table table-condensed table-hover">
+            <table class="table table-hover">
                 <thead>
                     <tr>
                         <th>科目名称</th>
@@ -36,16 +43,16 @@
                 <tbody  id="content">
                     <tr>
                         <td><span title="科目编号：0001">语文</span></td>
-                        <td>李梅</td>
+                        <td><input type="text" name="teacher_1" data-provide="typeahead" autocomplete="off"></td>
                         <td>
-                            <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#myModal" data-get-param="&class=1&role=teacher&subject=0001">编 辑</button>
+                            
                         </td>
                     </tr>
                     <tr>
                         <td><span title="科目编号：0002">数学</span></td>
-                        <td>大山</td>
+                        <td><input type="text" name="teacher_2" data-provide="typeahead" autocomplete="off"></td>
                         <td>
-                            <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#myModal" data-get-param="&class=1&role=teacher&subject=0002">编 辑</button>
+                            
                         </td>
                     </tr>
                 </tbody>
@@ -55,4 +62,17 @@
             </div>
         </div>
     </div>
+</block>
+
+<block name="script">
+    <script>
+    var data = ["语文","吴彦祖","梁文豪","01111","20000","15545","164646"];
+    $("[name='subject_1']").typeahead({
+        source:data,
+        items:'all',
+        showHintOnFocus:true,
+        minLength:0,
+    });
+
+    </script>
 </block>

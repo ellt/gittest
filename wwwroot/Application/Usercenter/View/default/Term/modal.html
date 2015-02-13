@@ -115,10 +115,10 @@ $(function(){
                     $(this).val(initData[name]);
                 });
             } else {
-                return e.preventDefault() // 阻止模态框的展示
+                return e.preventDefault(); // 阻止模态框的展示
             }
         });
-    })
+    });
 
     // 新增表单提交
     $("[data-submit='form']").click(function(e) { 
