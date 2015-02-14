@@ -73,7 +73,7 @@ class TeacherController extends UserCenterController {
                 $errorInfo[$rowNumber] = $uiErrorMsg;
             }
         }
-        dump($errorInfo);die();
+        //dump($errorInfo);die();
         return $errorInfo;
     }
     
@@ -115,15 +115,16 @@ class TeacherController extends UserCenterController {
 //                 dump($inData);
                 $inData = I("data");
                
-//                 $data['error_info'] = $this->getUiErrorMsg_new($inData); //新的错误的数据格式
-                $data['error_info'] = $this->getUiErrorMsg($inData); //旧的错误的数据格式
+                $data['error_info'] = $this->getUiErrorMsg_new($inData); //新的错误的数据格式
+                //$data['error_info'] = $this->getUiErrorMsg($inData); //旧的错误的数据格式
                 $this->ajaxReturn($data);
             }
-    
+            $tableData = $this->getModelTableData('teacher');
             $data['status']  = 1;
-            $data['info'] = "检查格式";
+            $data['info'] = "检查格式111";
             $data['url'] = "refresh";
-            $data['data'] = $this->getModelTableData('teacher');
+            $data['data']['head'] = array_shift($tableData);
+            $data['data']['body'] = $tableData;
 //             dump($data);die();
             $this->ajaxReturn($data);
         }
@@ -251,6 +252,7 @@ class TeacherController extends UserCenterController {
         
         $this->table_header_info = $girds;
         
+        $firstRow = array();
         // 第一行数据是表头需要特殊处理
         foreach ($girds as $key=>$one_col) {
 //             array_push($one_row, $one_col['title']);
@@ -259,10 +261,11 @@ class TeacherController extends UserCenterController {
 //             unset($this->table_header_info[$key]['field']);
 //             $this->table_header_info[$key]['field'] = $one_col['field'][0];
 //             dump($one_col['field'][0]);
+            array_push($firstRow, $one_row);
            
         }
 //         dump($this->table_header_info);
-        array_push($output_table, $one_row);
+        array_push($output_table, $firstRow);
         
         foreach ($input_data as $one_data) {
             $one_row = array();
@@ -453,8 +456,9 @@ public function converGirdsDataToTable($girds, $input_data) {
             //         $this->assign('_page', $page->show());
         }
         
-        $data = $this->converGirdsDataToTable($grids, $data);
-//         dump($data);die();
+        $data = $this->converGirdsDataToTable_new($grids, $data);
+        //$data = $this->converGirdsDataToTable($grids, $data);
+        //dump($data);die();
         return $data;
     }
 }

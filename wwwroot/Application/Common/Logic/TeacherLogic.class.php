@@ -77,7 +77,8 @@ class TeacherLogic extends RelationModel
      * @author jigc <mrji1990@gmail.com>
      */
     public function update($data = null){
-         
+        
+        $this->error = null;
         $User = new UserApi(UserApi::TYPE_TERCHER);
         $ret = $User->update($data);
         if(!$ret){
@@ -94,7 +95,8 @@ class TeacherLogic extends RelationModel
      * @author jigc <mrji1990@gmail.com>
      */
     public function checkData($data = null){
-         
+        
+        $this->error = null;
         $User = new UserApi(UserApi::TYPE_TERCHER);
         $ret = $User->checkData($data);
         if(!$ret){
