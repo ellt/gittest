@@ -12,6 +12,7 @@ use User\Api\UserApi;
 use Common\Controller\CommonBaseController;
 use Usercenter\Model\AuthGroupModel;
 use Think\Page;
+use Admin\Controller\PublicController;
 
 /**
  * 后台用户控制器
@@ -29,7 +30,7 @@ class UserController extends UserCenterController {
      * 显示左边菜单，进行权限控制
      * @author huajie <banhuajie@163.com>
      */
-    protected function getMenu(){
+    public function getMenu(){
         //获取动态分类
         $cate_auth  =   AuthGroupModel::getAuthCategories(UID);	//获取当前用户所有的内容权限节点
         $cate_auth  =   $cate_auth == null ? array() : $cate_auth;

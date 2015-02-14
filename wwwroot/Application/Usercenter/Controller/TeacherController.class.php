@@ -71,6 +71,7 @@ class TeacherController extends UserCenterController {
                     $uiErrorMsg[$k]['errorInfo'] = $v;
                 }
                 $errorInfo[$rowNumber] = $uiErrorMsg;
+                $uiErrorMsg = null;
             }
         }
         //dump($errorInfo);die();

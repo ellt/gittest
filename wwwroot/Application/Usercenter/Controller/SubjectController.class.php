@@ -26,6 +26,9 @@ class SubjectController extends UserCenterController {
         $this->assign('sidemenu', $sidemenu);
 
         $this->assign('subject_lists', $this->model->select());
+        $userAction =  A('User');
+//         dump($userAction);
+        $userAction->getMenu();
         $this->display();
     }
 

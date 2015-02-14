@@ -1,3 +1,23 @@
+ <!-- 
+ add by jigc 2015-2-14，sidemenu的通过数据库加载，参考 base.html
+ -->
+ <volist name="__MENU__.child" id="sub_menu">
+     <!-- 子导航 -->
+     <notempty name="sub_menu">
+         <notempty name="key"><h3><i class="icon icon-unfold"></i>{$key}</h3></notempty>
+         <ul class="side-sub-menu">
+             <volist name="sub_menu" id="menu">
+                 <li>
+                     <a class="item" href="{$menu.url|U}">{$menu.title}</a>
+                 </li>
+             </volist>
+         </ul>
+     </notempty>
+     <!-- /子导航 -->
+ </volist>
+  <!-- 
+ end of add by jigc 2015-2-14，sidemenu的通过数据库加载，参考 base.html
+ -->
 <ul class="nav nav-blocks nav-stacked" role="tablist">
     <li class="active">
         <a href="javascript:;" data-toggle="collapse" data-target="#demo1">
