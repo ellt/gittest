@@ -73,7 +73,7 @@ class TeacherController extends UserCenterController {
                 $errorInfo[$rowNumber] = $uiErrorMsg;
             }
         }
-        dump($errorInfo);die();
+        //dump($errorInfo);die();
         return $errorInfo;
     }
     
@@ -115,17 +115,16 @@ class TeacherController extends UserCenterController {
 //                 dump($inData);
                 $inData = I("data");
                
-//                 $data['error_info'] = $this->getUiErrorMsg_new($inData); //新的错误的数据格式
-                $data['error_info'] = $this->getUiErrorMsg($inData); //旧的错误的数据格式
+                $data['error_info'] = $this->getUiErrorMsg_new($inData); //新的错误的数据格式
+                //$data['error_info'] = $this->getUiErrorMsg($inData); //旧的错误的数据格式
                 $this->ajaxReturn($data);
             }
             $tableData = $this->getModelTableData('teacher');
             $data['status']  = 1;
-            $data['info'] = "检查格式";
+            $data['info'] = "检查格式111";
             $data['url'] = "refresh";
-            $data['data'] = $tableData;
-//             $data['data']['head'] = array_shift($tableData);
-//             $data['data']['body'] = $tableData;
+            $data['data']['head'] = array_shift($tableData);
+            $data['data']['body'] = $tableData;
 //             dump($data);die();
             $this->ajaxReturn($data);
         }
@@ -457,8 +456,9 @@ public function converGirdsDataToTable($girds, $input_data) {
             //         $this->assign('_page', $page->show());
         }
         
-        $data = $this->converGirdsDataToTable($grids, $data);
-//         dump($data);die();
+        $data = $this->converGirdsDataToTable_new($grids, $data);
+        //$data = $this->converGirdsDataToTable($grids, $data);
+        //dump($data);die();
         return $data;
     }
 }
