@@ -74,6 +74,8 @@ class StudentLogic extends RelationModel
     }
 
     public function register() {
+        
+        $this->error = null;
         $User = new UserApi(UserApi::TYPE_STUDENT);
         $ret = $User->update();
         if(!$ret){
@@ -90,6 +92,7 @@ class StudentLogic extends RelationModel
      */
     public function update($data = null){
        
+        $this->error = null;
         $User = new UserApi(UserApi::TYPE_STUDENT);
         $ret = $User->update($data);
         if(!$ret){
@@ -106,7 +109,8 @@ class StudentLogic extends RelationModel
      * @author jigc <mrji1990@gmail.com>
      */
     public function checkData($data = null){
-         
+        
+        $this->error = null;
         $User = new UserApi(UserApi::TYPE_STUDENT);
         $ret = $User->checkData($data);
         if(!$ret){

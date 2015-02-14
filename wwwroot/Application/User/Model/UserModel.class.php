@@ -361,6 +361,7 @@ class UserModel extends RelationModel
     public function checkData($data) {
     
         $relation_data = false;
+        $this->error = null;
         if (empty($data)) {
             $data = I('post.');
         }
@@ -399,6 +400,7 @@ class UserModel extends RelationModel
     public function update($data) {
     
         $update_success_id = 0;
+        $this->error = null;
         if (empty($data)) {
             $data = I('post.');
         }
