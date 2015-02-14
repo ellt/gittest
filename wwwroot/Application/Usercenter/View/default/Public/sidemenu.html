@@ -1,23 +1,49 @@
- <!-- 
- add by jigc 2015-2-14，sidemenu的通过数据库加载，参考 base.html
- -->
- <volist name="__MENU__.child" id="sub_menu">
-     <!-- 子导航 -->
-     <notempty name="sub_menu">
-         <notempty name="key"><h3><i class="icon icon-unfold"></i>{$key}</h3></notempty>
-         <ul class="side-sub-menu">
-             <volist name="sub_menu" id="menu">
-                 <li>
-                     <a class="item" href="{$menu.url|U}">{$menu.title}</a>
-                 </li>
-             </volist>
-         </ul>
-     </notempty>
-     <!-- /子导航 -->
- </volist>
-  <!-- 
- end of add by jigc 2015-2-14，sidemenu的通过数据库加载，参考 base.html
- -->
+<ul class="nav nav-blocks nav-stacked" role="tablist">
+
+    <volist name="__MENU__.child" id="menu" key="menu_key">
+    <!-- 导航 -->
+    <notempty name="menu">
+        <li class="">
+            <a href="javascript:;" data-toggle="collapse" data-target="#menu{$menu_key}">
+                <i class="fa fa-cog"></i>
+                {$key}
+                <span class="pull-right"><i class="fa fa-caret-left fa-lg"></i></span>
+            </a>
+            <div class="collapse" id="menu{$menu_key}"><!-- 消除bootstrap折叠sidebar时，因间距产生的跳跃 -->
+            <!-- 第二级菜单 -->
+            <ul class="sub-menu">
+                <volist name="menu" id="two_menu" key="two_menu_key">
+                <li>
+                    <notpresent name="two_menu['_child']">
+                    <a href="{$two_menu.url|U}">{$two_menu.title}</a>
+                    </notpresent>
+
+                    <present name="two_menu['_child']">
+                    <a href="javascript:;" data-toggle="collapse" data-target="#twoMenu{$menu_two_key}">
+                        {$two_menu.title}
+                        <span class="pull-right"><i class="fa fa-caret-left fa-lg"></i></span>
+                    </a>
+                    <!-- 第三级菜单 -->
+                    <ul class="sub-menu collapse" id="twoMenu{$menu_two_key}">
+                        <volist name="two_menu['_child']" id="three_menu" key="three_menu_key">
+                        <li>
+                            <notpresent name="three_menu['_child']">
+                            <a href="{$three_menu.url|U}">{$three_menu.title}</a>
+                            </notpresent>
+                        </li>
+                        </volist>
+                    </ul>
+                    </present>
+                </li>
+                </volist>
+            </ul>
+            </div>
+        </li>
+    </notempty>
+    <!-- /导航 -->
+    </volist>
+</ul>
+<hr><!-- 新旧分界线，下面为临时 add by guoky -->
 <ul class="nav nav-blocks nav-stacked" role="tablist">
     <li class="active">
         <a href="javascript:;" data-toggle="collapse" data-target="#demo1">
