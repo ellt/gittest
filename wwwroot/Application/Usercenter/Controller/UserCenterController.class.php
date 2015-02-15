@@ -330,7 +330,16 @@ class UserCenterController extends CommonBaseController {
                         if($menus['child'] === array()){
                             //$this->error('主菜单下缺少子菜单，请去系统=》后台菜单管理里添加');
                         }
-//                         dump($menus['child']);
+//                         dump($menus['child']); die();
+                        foreach ($menus['child'] as $gkey => $g){
+                            foreach ($g as $k=> $v){
+                                if($v['url'] == 'student/index'){
+                                    $t = get_grade_class_tree();
+                                    $menus['child'][$gkey][$k]['child'] = $t;
+                                }
+                            }
+                        }
+                        
                         
                         $CurrentUrl = U(MODULE_NAME.'/'.CONTROLLER_NAME .'/'.ACTION_NAME);
                         foreach ($menus['child'] as $gkey => $g){
@@ -348,7 +357,7 @@ class UserCenterController extends CommonBaseController {
                     }
                 }
             }
-//             dump($menus['child']);
+//             dump($menus['child']);die();
 //             dump(U(MODULE_NAME.'/'.CONTROLLER_NAME .'/'.ACTION_NAME)); DIE();
             // session('ADMIN_MENU_LIST'.$controller,$menus);
         }

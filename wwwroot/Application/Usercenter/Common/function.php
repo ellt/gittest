@@ -7,6 +7,8 @@
 // | Author: 麦当苗儿 <zuojiazi@vip.qq.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
 
+use Usercenter\Model\AuthGroupModel;
+
 /**
  * 后台公共文件
  * 主要定义后台公共函数库
@@ -380,4 +382,74 @@ function theme($theme='default'){
     {
         C(include MODULE_PATH . 'Conf/theme.php');
     }
+}
+
+function get_grade_class_tree()
+{
+    //获取动态分类
+    $cate_auth  =   AuthGroupModel::getAuthCategories(UID);	//获取当前用户所有的内容权限节点
+    $cate_auth  =   $cate_auth == null ? array() : $cate_auth;
+    $cate       =   D("Common/Grade","Logic")->getGradeClassList();
+
+    //没有权限的分类则不显示
+    if(!IS_ROOT){
+        foreach ($cate as $key=>$value){
+            if(!in_array($value['id'], $cate_auth)){
+                unset($cate[$key]);
+            }
+        }
+    }
+
+    $cate           =   list_to_tree($cate);	//生成分类树
+
+    //获取分类id
+    $cate_id        =   I('param.cate_id');
+//     $this->cate_id  =   $cate_id;
+
+    //是否展开分类
+    $hide_cate = false;
+    if(ACTION_NAME != 'recycle' && ACTION_NAME != 'draftbox' && ACTION_NAME != 'mydocument'){
+        $hide_cate  =   true;
+    }
+    //生成每个分类的url
+    foreach ($cate as $key=>&$value){
+        //$value['url']   =   'student/index?class_id='.$value['id'];
+        if($cate_id == $value['id'] && $hide_cate){
+            $value['current'] = true;
+        }else{
+            $value['current'] = false;
+        }
+
+        if(!empty($value['_child'])){
+            $is_child = false;
+            foreach ($value['_child'] as $ka=>&$va){
+                //                     $va['url']      =   'student/index?class_id='.$va['id'];
+
+                if(!empty($va['_child'])){
+                    foreach ($va['_child'] as $k=>&$v){
+                        $class_info = D('Common/Class', 'Logic')->getClassInfoByCategoryId($v['id']);
+
+                        $v['url']   =   'student/index?class_id='. $class_info['id'];
+                        $v['pid']   =   $va['id'];
+                        $is_child = $v['id'] == $cate_id ? true : false;
+                    }
+                }
+                //展开子分类的父分类
+                if($va['id'] == $cate_id || $is_child){
+                    $is_child = false;
+                    if($hide_cate){
+                        $value['current']   =   true;
+                        $va['current']      =   true;
+                    }else{
+                        $value['current'] 	= 	false;
+                        $va['current']      =   false;
+                    }
+                }else{
+                    $va['current']      =   false;
+                }
+            }
+        }
+    }
+    //         dump($cate);die();
+    return $cate;
 }
