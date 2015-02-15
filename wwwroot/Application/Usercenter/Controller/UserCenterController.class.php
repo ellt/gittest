@@ -260,7 +260,8 @@ class UserCenterController extends CommonBaseController {
             if($current){
                 $nav = D('Menu')->getPath($current['id']);
                 $nav_first_title = $nav[0]['title'];
-
+                
+                
                 foreach ($menus['main'] as $key => $item) {
                     if (!is_array($item) || empty($item['title']) || empty($item['url']) ) {
                         $this->error('控制器基类$menus属性元素配置有误');
@@ -329,9 +330,26 @@ class UserCenterController extends CommonBaseController {
                         if($menus['child'] === array()){
                             //$this->error('主菜单下缺少子菜单，请去系统=》后台菜单管理里添加');
                         }
+//                         dump($menus['child']);
+                        
+                        $CurrentUrl = U(MODULE_NAME.'/'.CONTROLLER_NAME .'/'.ACTION_NAME);
+                        foreach ($menus['child'] as $gkey => $g){
+                            foreach ($g as $k=> $v){
+                                if(U($v['url']) == $CurrentUrl){
+                                    $menus['child'][$gkey]['current'] = true;
+                                    $menus['child'][$gkey][$k]['current'] = true;
+                                    break;
+                                }
+                            }
+                            if(isset($menus['child'][$gkey]['current'])){
+                                break;
+                            }
+                        }
                     }
                 }
             }
+//             dump($menus['child']);
+//             dump(U(MODULE_NAME.'/'.CONTROLLER_NAME .'/'.ACTION_NAME)); DIE();
             // session('ADMIN_MENU_LIST'.$controller,$menus);
         }
         return $menus;

@@ -3,7 +3,7 @@
     <volist name="__MENU__.child" id="menu" key="menu_key">
     <!-- 导航 -->
     <notempty name="menu">
-        <li class="">
+        <li <eq name="menu['current']" value="true">class="active"</eq>>
             <a href="javascript:;" data-toggle="collapse" data-target="#menu{$menu_key}">
                 <i class="fa fa-cog"></i>
                 {$key}
@@ -13,7 +13,7 @@
             <!-- 第二级菜单 -->
             <ul class="sub-menu">
                 <volist name="menu" id="two_menu" key="two_menu_key">
-                <li>
+                <li  <eq name="two_menu['current']" value="true">class="active"</eq>>
                     <notpresent name="two_menu['_child']">
                     <a href="{$two_menu.url|U}">{$two_menu.title}</a>
                     </notpresent>
