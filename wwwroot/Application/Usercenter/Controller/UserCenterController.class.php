@@ -331,15 +331,22 @@ class UserCenterController extends CommonBaseController {
                             //$this->error('主菜单下缺少子菜单，请去系统=》后台菜单管理里添加');
                         }
 //                         dump($menus['child']); die();
+
+                        // TODO 特殊的选项需做特殊的处理，本部分特殊处理后续考虑通过配置项配置
                         foreach ($menus['child'] as $gkey => $g){
                             foreach ($g as $k=> $v){
                                 if($v['url'] == 'student/index'){
                                     $t = get_grade_class_tree();
-                                    $menus['child'][$gkey][$k]['child'] = $t;
+//                                     unset($menus['child'][$gkey][$k]['url']);
+                                    $menus['child'][$gkey][$k]['_child'] = $t;
                                 }
+                                else if($v['url'] == 'GradeClass/classManager'){
+                                    $t = get_grade_tree();
+                                    $menus['child'][$gkey][$k]['_child'] = $t;
+                                }
+                                
                             }
                         }
-                        
                         
                         $CurrentUrl = U(MODULE_NAME.'/'.CONTROLLER_NAME .'/'.ACTION_NAME);
                         foreach ($menus['child'] as $gkey => $g){

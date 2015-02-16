@@ -330,4 +330,14 @@ class GradeClassController extends UserCenterController {
         }
     }
     
+    public function classManager(){
+        if (IS_AJAX) {
+            $data['status']  = 1;
+            $data['info'] = "保存成功！";
+            $data['url'] = "refresh";
+            $this->ajaxReturn($data);
+        }
+        $this->display('tuser/classManager');
+    }
+    
 }

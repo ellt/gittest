@@ -77,38 +77,63 @@ CREATE TABLE `onethink_category` (
 INSERT INTO `onethink_category` VALUES ('1', 'blog', '博客', '0', '0', '0', '10', '', '', '', '', '', '', '', '2', '2,1', '0', '0', '1', '0', '0', '1', '', '1379474947', '1382701539', '1', '0');
 INSERT INTO `onethink_category` VALUES ('2', 'default_blog', '默认分类', '0', '1', '1', '10', '', '', '', '', '', '', '', '2', '2,1,3', '0', '1', '1', '0', '1', '1', '', '1379475028', '1386839751', '1', '31');
 INSERT INTO `onethink_category` VALUES ('3', 'school@grade_class_tree_info', '年级班级拓扑树状结构', '1', '0', '0', '10', '', '', '', '', '', '', '', '9', '2', '0', '0', '1', '1', '0', '', '', '1422194242', '1422198456', '1', '0');
-INSERT INTO `onethink_category` VALUES ('39', 'school@grade:2012', '2012级', '1', '3', '2012', '10', '', '', '', '', '', '', '', '', '', '0', '0', '0', '0', '0', '', '', '0', '0', '0', '0');
-INSERT INTO `onethink_category` VALUES ('40', 'school@grade:2012,class:1', '1班', '1', '39', '1', '10', '', '', '', '', '', '', '', '', '', '0', '0', '0', '0', '0', '', '', '0', '0', '0', '0');
-INSERT INTO `onethink_category` VALUES ('41', 'school@grade:2012,class:2', '2班', '1', '39', '2', '10', '', '', '', '', '', '', '', '', '', '0', '0', '0', '0', '0', '', '', '0', '0', '0', '0');
-INSERT INTO `onethink_category` VALUES ('42', 'school@grade:2012,class:3', '3班', '1', '39', '3', '10', '', '', '', '', '', '', '', '', '', '0', '0', '0', '0', '0', '', '', '0', '0', '0', '0');
-INSERT INTO `onethink_category` VALUES ('43', 'school@grade:2012,class:4', '4班', '1', '39', '4', '10', '', '', '', '', '', '', '', '', '', '0', '0', '0', '0', '0', '', '', '0', '0', '0', '0');
-INSERT INTO `onethink_category` VALUES ('44', 'school@grade:2013', '2013级', '1', '3', '2013', '10', '', '', '', '', '', '', '', '', '', '0', '0', '0', '0', '0', '', '', '0', '0', '0', '0');
-INSERT INTO `onethink_category` VALUES ('45', 'school@grade:2013,class:1', '1班', '1', '44', '1', '10', '', '', '', '', '', '', '', '', '', '0', '0', '0', '0', '0', '', '', '0', '0', '0', '0');
-INSERT INTO `onethink_category` VALUES ('46', 'school@grade:2013,class:2', '2班', '1', '44', '2', '10', '', '', '', '', '', '', '', '', '', '0', '0', '0', '0', '0', '', '', '0', '0', '0', '0');
-INSERT INTO `onethink_category` VALUES ('47', 'school@grade:2013,class:3', '3班', '1', '44', '3', '10', '', '', '', '', '', '', '', '', '', '0', '0', '0', '0', '0', '', '', '0', '0', '0', '0');
-INSERT INTO `onethink_category` VALUES ('48', 'school@grade:2013,class:4', '4班', '1', '44', '4', '10', '', '', '', '', '', '', '', '', '', '0', '0', '0', '0', '0', '', '', '0', '0', '0', '0');
-INSERT INTO `onethink_category` VALUES ('49', 'school@grade:2014', '2014级', '1', '3', '2014', '10', '', '', '', '', '', '', '', '', '', '0', '0', '0', '0', '0', '', '', '0', '0', '0', '0');
-INSERT INTO `onethink_category` VALUES ('50', 'school@grade:2014,class:1', '1班', '1', '49', '1', '10', '', '', '', '', '', '', '', '', '', '0', '0', '0', '0', '0', '', '', '0', '0', '0', '0');
-INSERT INTO `onethink_category` VALUES ('51', 'school@grade:2014,class:2', '2班', '1', '49', '2', '10', '', '', '', '', '', '', '', '', '', '0', '0', '0', '0', '0', '', '', '0', '0', '0', '0');
-INSERT INTO `onethink_category` VALUES ('52', 'school@grade:2014,class:3', '3班', '1', '49', '3', '10', '', '', '', '', '', '', '', '', '', '0', '0', '0', '0', '0', '', '', '0', '0', '0', '0');
-INSERT INTO `onethink_category` VALUES ('53', 'school@grade:2014,class:4', '4班', '1', '49', '4', '10', '', '', '', '', '', '', '', '', '', '0', '0', '0', '0', '0', '', '', '0', '0', '0', '0');
-INSERT INTO `onethink_category` VALUES ('54', 'school@grade:2015', '2015级', '1', '3', '2015', '10', '', '', '', '', '', '', '', '', '', '0', '0', '0', '0', '0', '', '', '0', '0', '0', '0');
-INSERT INTO `onethink_category` VALUES ('55', 'school@grade:2015,class:1', '1班', '1', '54', '1', '10', '', '', '', '', '', '', '', '', '', '0', '0', '0', '0', '0', '', '', '0', '0', '0', '0');
-INSERT INTO `onethink_category` VALUES ('56', 'school@grade:2015,class:2', '2班', '1', '54', '2', '10', '', '', '', '', '', '', '', '', '', '0', '0', '0', '0', '0', '', '', '0', '0', '0', '0');
-INSERT INTO `onethink_category` VALUES ('57', 'school@grade:2015,class:3', '3班', '1', '54', '3', '10', '', '', '', '', '', '', '', '', '', '0', '0', '0', '0', '0', '', '', '0', '0', '0', '0');
-INSERT INTO `onethink_category` VALUES ('58', 'school@grade:2015,class:4', '4班', '1', '54', '4', '10', '', '', '', '', '', '', '', '', '', '0', '0', '0', '0', '0', '', '', '0', '0', '0', '0');
-INSERT INTO `onethink_category` VALUES ('59', 'school@grade:2016', '2016级', '1', '3', '2016', '10', '', '', '', '', '', '', '', '', '', '0', '0', '0', '0', '0', '', '', '0', '0', '0', '0');
-INSERT INTO `onethink_category` VALUES ('60', 'school@grade:2016,class:1', '1班', '1', '59', '1', '10', '', '', '', '', '', '', '', '', '', '0', '0', '0', '0', '0', '', '', '0', '0', '0', '0');
-INSERT INTO `onethink_category` VALUES ('61', 'school@grade:2016,class:2', '2班', '1', '59', '2', '10', '', '', '', '', '', '', '', '', '', '0', '0', '0', '0', '0', '', '', '0', '0', '0', '0');
-INSERT INTO `onethink_category` VALUES ('62', 'school@grade:2016,class:3', '3班', '1', '59', '3', '10', '', '', '', '', '', '', '', '', '', '0', '0', '0', '0', '0', '', '', '0', '0', '0', '0');
-INSERT INTO `onethink_category` VALUES ('63', 'school@grade:2016,class:4', '4班', '1', '59', '4', '10', '', '', '', '', '', '', '', '', '', '0', '0', '0', '0', '0', '', '', '0', '0', '0', '0');
-INSERT INTO `onethink_category` VALUES ('64', 'school@grade:2017', '2017级', '1', '3', '2017', '10', '', '', '', '', '', '', '', '', '', '0', '0', '0', '0', '0', '', '', '0', '0', '0', '0');
-INSERT INTO `onethink_category` VALUES ('65', 'school@grade:2017,class:1', '1班', '1', '64', '1', '10', '', '', '', '', '', '', '', '', '', '0', '0', '0', '0', '0', '', '', '0', '0', '0', '0');
-INSERT INTO `onethink_category` VALUES ('66', 'school@grade:2017,class:2', '2班', '1', '64', '2', '10', '', '', '', '', '', '', '', '', '', '0', '0', '0', '0', '0', '', '', '0', '0', '0', '0');
-INSERT INTO `onethink_category` VALUES ('67', 'school@grade:2017,class:3', '3班', '1', '64', '3', '10', '', '', '', '', '', '', '', '', '', '0', '0', '0', '0', '0', '', '', '0', '0', '0', '0');
-INSERT INTO `onethink_category` VALUES ('68', 'school@grade:2017,class:4', '4班', '1', '64', '4', '10', '', '', '', '', '', '', '', '', '', '0', '0', '0', '0', '0', '', '', '0', '0', '0', '0');
+INSERT INTO `onethink_category` VALUES ('69', 'school@grade:2007', '2007级', '1', '3', '2007', '10', '', '', '', '', '', '', '', '', '', '0', '0', '0', '0', '0', '', '', '0', '0', '0', '0');
+INSERT INTO `onethink_category` VALUES ('70', 'school@grade:2007,class:1', '1班', '1', '69', '1', '10', '', '', '', '', '', '', '', '', '', '0', '0', '0', '0', '0', '', '', '0', '0', '0', '0');
+INSERT INTO `onethink_category` VALUES ('71', 'school@grade:2007,class:2', '2班', '1', '69', '2', '10', '', '', '', '', '', '', '', '', '', '0', '0', '0', '0', '0', '', '', '0', '0', '0', '0');
+INSERT INTO `onethink_category` VALUES ('72', 'school@grade:2007,class:3', '3班', '1', '69', '3', '10', '', '', '', '', '', '', '', '', '', '0', '0', '0', '0', '0', '', '', '0', '0', '0', '0');
+INSERT INTO `onethink_category` VALUES ('73', 'school@grade:2007,class:4', '4班', '1', '69', '4', '10', '', '', '', '', '', '', '', '', '', '0', '0', '0', '0', '0', '', '', '0', '0', '0', '0');
+INSERT INTO `onethink_category` VALUES ('74', 'school@grade:2008', '2008级', '1', '3', '2008', '10', '', '', '', '', '', '', '', '', '', '0', '0', '0', '0', '0', '', '', '0', '0', '0', '0');
+INSERT INTO `onethink_category` VALUES ('75', 'school@grade:2008,class:1', '1班', '1', '74', '1', '10', '', '', '', '', '', '', '', '', '', '0', '0', '0', '0', '0', '', '', '0', '0', '0', '0');
+INSERT INTO `onethink_category` VALUES ('76', 'school@grade:2008,class:2', '2班', '1', '74', '2', '10', '', '', '', '', '', '', '', '', '', '0', '0', '0', '0', '0', '', '', '0', '0', '0', '0');
+INSERT INTO `onethink_category` VALUES ('77', 'school@grade:2008,class:3', '3班', '1', '74', '3', '10', '', '', '', '', '', '', '', '', '', '0', '0', '0', '0', '0', '', '', '0', '0', '0', '0');
+INSERT INTO `onethink_category` VALUES ('78', 'school@grade:2008,class:4', '4班', '1', '74', '4', '10', '', '', '', '', '', '', '', '', '', '0', '0', '0', '0', '0', '', '', '0', '0', '0', '0');
+INSERT INTO `onethink_category` VALUES ('79', 'school@grade:2009', '2009级', '1', '3', '2009', '10', '', '', '', '', '', '', '', '', '', '0', '0', '0', '0', '0', '', '', '0', '0', '0', '0');
+INSERT INTO `onethink_category` VALUES ('80', 'school@grade:2009,class:1', '1班', '1', '79', '1', '10', '', '', '', '', '', '', '', '', '', '0', '0', '0', '0', '0', '', '', '0', '0', '0', '0');
+INSERT INTO `onethink_category` VALUES ('81', 'school@grade:2009,class:2', '2班', '1', '79', '2', '10', '', '', '', '', '', '', '', '', '', '0', '0', '0', '0', '0', '', '', '0', '0', '0', '0');
+INSERT INTO `onethink_category` VALUES ('82', 'school@grade:2009,class:3', '3班', '1', '79', '3', '10', '', '', '', '', '', '', '', '', '', '0', '0', '0', '0', '0', '', '', '0', '0', '0', '0');
+INSERT INTO `onethink_category` VALUES ('83', 'school@grade:2009,class:4', '4班', '1', '79', '4', '10', '', '', '', '', '', '', '', '', '', '0', '0', '0', '0', '0', '', '', '0', '0', '0', '0');
+INSERT INTO `onethink_category` VALUES ('84', 'school@grade:2010', '2010级', '1', '3', '2010', '10', '', '', '', '', '', '', '', '', '', '0', '0', '0', '0', '0', '', '', '0', '0', '0', '0');
+INSERT INTO `onethink_category` VALUES ('85', 'school@grade:2010,class:1', '1班', '1', '84', '1', '10', '', '', '', '', '', '', '', '', '', '0', '0', '0', '0', '0', '', '', '0', '0', '0', '0');
+INSERT INTO `onethink_category` VALUES ('86', 'school@grade:2010,class:2', '2班', '1', '84', '2', '10', '', '', '', '', '', '', '', '', '', '0', '0', '0', '0', '0', '', '', '0', '0', '0', '0');
+INSERT INTO `onethink_category` VALUES ('87', 'school@grade:2010,class:3', '3班', '1', '84', '3', '10', '', '', '', '', '', '', '', '', '', '0', '0', '0', '0', '0', '', '', '0', '0', '0', '0');
+INSERT INTO `onethink_category` VALUES ('88', 'school@grade:2010,class:4', '4班', '1', '84', '4', '10', '', '', '', '', '', '', '', '', '', '0', '0', '0', '0', '0', '', '', '0', '0', '0', '0');
+INSERT INTO `onethink_category` VALUES ('89', 'school@grade:2011', '2011级', '1', '3', '2011', '10', '', '', '', '', '', '', '', '', '', '0', '0', '0', '0', '0', '', '', '0', '0', '0', '0');
+INSERT INTO `onethink_category` VALUES ('90', 'school@grade:2011,class:1', '1班', '1', '89', '1', '10', '', '', '', '', '', '', '', '', '', '0', '0', '0', '0', '0', '', '', '0', '0', '0', '0');
+INSERT INTO `onethink_category` VALUES ('91', 'school@grade:2011,class:2', '2班', '1', '89', '2', '10', '', '', '', '', '', '', '', '', '', '0', '0', '0', '0', '0', '', '', '0', '0', '0', '0');
+INSERT INTO `onethink_category` VALUES ('92', 'school@grade:2011,class:3', '3班', '1', '89', '3', '10', '', '', '', '', '', '', '', '', '', '0', '0', '0', '0', '0', '', '', '0', '0', '0', '0');
+INSERT INTO `onethink_category` VALUES ('93', 'school@grade:2011,class:4', '4班', '1', '89', '4', '10', '', '', '', '', '', '', '', '', '', '0', '0', '0', '0', '0', '', '', '0', '0', '0', '0');
+INSERT INTO `onethink_category` VALUES ('94', 'school@grade:2012', '2012级', '1', '3', '2012', '10', '', '', '', '', '', '', '', '', '', '0', '0', '0', '0', '0', '', '', '0', '0', '0', '0');
+INSERT INTO `onethink_category` VALUES ('95', 'school@grade:2012,class:1', '1班', '1', '94', '1', '10', '', '', '', '', '', '', '', '', '', '0', '0', '0', '0', '0', '', '', '0', '0', '0', '0');
+INSERT INTO `onethink_category` VALUES ('96', 'school@grade:2012,class:2', '2班', '1', '94', '2', '10', '', '', '', '', '', '', '', '', '', '0', '0', '0', '0', '0', '', '', '0', '0', '0', '0');
+INSERT INTO `onethink_category` VALUES ('97', 'school@grade:2012,class:3', '3班', '1', '94', '3', '10', '', '', '', '', '', '', '', '', '', '0', '0', '0', '0', '0', '', '', '0', '0', '0', '0');
+INSERT INTO `onethink_category` VALUES ('98', 'school@grade:2012,class:4', '4班', '1', '94', '4', '10', '', '', '', '', '', '', '', '', '', '0', '0', '0', '0', '0', '', '', '0', '0', '0', '0');
+INSERT INTO `onethink_category` VALUES ('99', 'school@grade:2013', '2013级', '1', '3', '2013', '10', '', '', '', '', '', '', '', '', '', '0', '0', '0', '0', '0', '', '', '0', '0', '0', '0');
+INSERT INTO `onethink_category` VALUES ('100', 'school@grade:2013,class:1', '1班', '1', '99', '1', '10', '', '', '', '', '', '', '', '', '', '0', '0', '0', '0', '0', '', '', '0', '0', '0', '0');
+INSERT INTO `onethink_category` VALUES ('101', 'school@grade:2013,class:2', '2班', '1', '99', '2', '10', '', '', '', '', '', '', '', '', '', '0', '0', '0', '0', '0', '', '', '0', '0', '0', '0');
+INSERT INTO `onethink_category` VALUES ('102', 'school@grade:2013,class:3', '3班', '1', '99', '3', '10', '', '', '', '', '', '', '', '', '', '0', '0', '0', '0', '0', '', '', '0', '0', '0', '0');
+INSERT INTO `onethink_category` VALUES ('103', 'school@grade:2013,class:4', '4班', '1', '99', '4', '10', '', '', '', '', '', '', '', '', '', '0', '0', '0', '0', '0', '', '', '0', '0', '0', '0');
+INSERT INTO `onethink_category` VALUES ('104', 'school@grade:2014', '2014级', '1', '3', '2014', '10', '', '', '', '', '', '', '', '', '', '0', '0', '0', '0', '0', '', '', '0', '0', '0', '0');
+INSERT INTO `onethink_category` VALUES ('105', 'school@grade:2014,class:1', '1班', '1', '104', '1', '10', '', '', '', '', '', '', '', '', '', '0', '0', '0', '0', '0', '', '', '0', '0', '0', '0');
+INSERT INTO `onethink_category` VALUES ('106', 'school@grade:2014,class:2', '2班', '1', '104', '2', '10', '', '', '', '', '', '', '', '', '', '0', '0', '0', '0', '0', '', '', '0', '0', '0', '0');
+INSERT INTO `onethink_category` VALUES ('107', 'school@grade:2014,class:3', '3班', '1', '104', '3', '10', '', '', '', '', '', '', '', '', '', '0', '0', '0', '0', '0', '', '', '0', '0', '0', '0');
+INSERT INTO `onethink_category` VALUES ('108', 'school@grade:2014,class:4', '4班', '1', '104', '4', '10', '', '', '', '', '', '', '', '', '', '0', '0', '0', '0', '0', '', '', '0', '0', '0', '0');
 
+/*
+Navicat MySQL Data Transfer
 
+Source Server         : 本地数据库
+Source Server Version : 50621
+Source Host           : localhost:3306
+Source Database       : ell-develop
+
+Target Server Type    : MYSQL
+Target Server Version : 50621
+File Encoding         : 65001
+
+Date: 2015-02-16 19:25:15
+*/
+
+SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------
 -- Table structure for `school_class_info`
@@ -122,36 +147,41 @@ CREATE TABLE `school_class_info` (
   `class_name` char(32) NOT NULL COMMENT '班级名称',
   `remark` char(128) DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=29 DEFAULT CHARSET=utf8 COMMENT='班级信息表';
+) ENGINE=MyISAM AUTO_INCREMENT=33 DEFAULT CHARSET=utf8 COMMENT='班级信息表';
 
 -- ----------------------------
 -- Records of school_class_info
 -- ----------------------------
-INSERT INTO `school_class_info` VALUES ('1', '40', '2015', '1', '2015级1班', null);
-INSERT INTO `school_class_info` VALUES ('2', '41', '2015', '2', '2015级2班', null);
-INSERT INTO `school_class_info` VALUES ('3', '42', '2015', '3', '2015级3班', null);
-INSERT INTO `school_class_info` VALUES ('4', '43', '2015', '4', '2015级4班', null);
-INSERT INTO `school_class_info` VALUES ('5', '40', '2012', '1', '2012级1班', null);
-INSERT INTO `school_class_info` VALUES ('6', '41', '2012', '2', '2012级2班', null);
-INSERT INTO `school_class_info` VALUES ('7', '42', '2012', '3', '2012级3班', null);
-INSERT INTO `school_class_info` VALUES ('8', '43', '2012', '4', '2012级4班', null);
-INSERT INTO `school_class_info` VALUES ('9', '45', '2013', '1', '2013级1班', null);
-INSERT INTO `school_class_info` VALUES ('10', '46', '2013', '2', '2013级2班', null);
-INSERT INTO `school_class_info` VALUES ('11', '47', '2013', '3', '2013级3班', null);
-INSERT INTO `school_class_info` VALUES ('12', '48', '2013', '4', '2013级4班', null);
-INSERT INTO `school_class_info` VALUES ('13', '50', '2014', '1', '2014级1班', null);
-INSERT INTO `school_class_info` VALUES ('14', '51', '2014', '2', '2014级2班', null);
-INSERT INTO `school_class_info` VALUES ('15', '52', '2014', '3', '2014级3班', null);
-INSERT INTO `school_class_info` VALUES ('16', '53', '2014', '4', '2014级4班', null);
-INSERT INTO `school_class_info` VALUES ('17', '55', '2015', '1', '2015级1班', null);
-INSERT INTO `school_class_info` VALUES ('18', '56', '2015', '2', '2015级2班', null);
-INSERT INTO `school_class_info` VALUES ('19', '57', '2015', '3', '2015级3班', null);
-INSERT INTO `school_class_info` VALUES ('20', '58', '2015', '4', '2015级4班', null);
-INSERT INTO `school_class_info` VALUES ('21', '60', '2016', '1', '2016级1班', null);
-INSERT INTO `school_class_info` VALUES ('22', '61', '2016', '2', '2016级2班', null);
-INSERT INTO `school_class_info` VALUES ('23', '62', '2016', '3', '2016级3班', null);
-INSERT INTO `school_class_info` VALUES ('24', '63', '2016', '4', '2016级4班', null);
-INSERT INTO `school_class_info` VALUES ('25', '65', '2017', '1', '2017级1班', null);
-INSERT INTO `school_class_info` VALUES ('26', '66', '2017', '2', '2017级2班', null);
-INSERT INTO `school_class_info` VALUES ('27', '67', '2017', '3', '2017级3班', null);
-INSERT INTO `school_class_info` VALUES ('28', '68', '2017', '4', '2017级4班', null);
+INSERT INTO `school_class_info` VALUES ('1', '70', '2007', '1', '2007级1班', null);
+INSERT INTO `school_class_info` VALUES ('2', '71', '2007', '2', '2007级2班', null);
+INSERT INTO `school_class_info` VALUES ('3', '72', '2007', '3', '2007级3班', null);
+INSERT INTO `school_class_info` VALUES ('4', '73', '2007', '4', '2007级4班', null);
+INSERT INTO `school_class_info` VALUES ('5', '75', '2008', '1', '2008级1班', null);
+INSERT INTO `school_class_info` VALUES ('6', '76', '2008', '2', '2008级2班', null);
+INSERT INTO `school_class_info` VALUES ('7', '77', '2008', '3', '2008级3班', null);
+INSERT INTO `school_class_info` VALUES ('8', '78', '2008', '4', '2008级4班', null);
+INSERT INTO `school_class_info` VALUES ('9', '80', '2009', '1', '2009级1班', null);
+INSERT INTO `school_class_info` VALUES ('10', '81', '2009', '2', '2009级2班', null);
+INSERT INTO `school_class_info` VALUES ('11', '82', '2009', '3', '2009级3班', null);
+INSERT INTO `school_class_info` VALUES ('12', '83', '2009', '4', '2009级4班', null);
+INSERT INTO `school_class_info` VALUES ('13', '85', '2010', '1', '2010级1班', null);
+INSERT INTO `school_class_info` VALUES ('14', '86', '2010', '2', '2010级2班', null);
+INSERT INTO `school_class_info` VALUES ('15', '87', '2010', '3', '2010级3班', null);
+INSERT INTO `school_class_info` VALUES ('16', '88', '2010', '4', '2010级4班', null);
+INSERT INTO `school_class_info` VALUES ('17', '90', '2011', '1', '2011级1班', null);
+INSERT INTO `school_class_info` VALUES ('18', '91', '2011', '2', '2011级2班', null);
+INSERT INTO `school_class_info` VALUES ('19', '92', '2011', '3', '2011级3班', null);
+INSERT INTO `school_class_info` VALUES ('20', '93', '2011', '4', '2011级4班', null);
+INSERT INTO `school_class_info` VALUES ('21', '95', '2012', '1', '2012级1班', null);
+INSERT INTO `school_class_info` VALUES ('22', '96', '2012', '2', '2012级2班', null);
+INSERT INTO `school_class_info` VALUES ('23', '97', '2012', '3', '2012级3班', null);
+INSERT INTO `school_class_info` VALUES ('24', '98', '2012', '4', '2012级4班', null);
+INSERT INTO `school_class_info` VALUES ('25', '100', '2013', '1', '2013级1班', null);
+INSERT INTO `school_class_info` VALUES ('26', '101', '2013', '2', '2013级2班', null);
+INSERT INTO `school_class_info` VALUES ('27', '102', '2013', '3', '2013级3班', null);
+INSERT INTO `school_class_info` VALUES ('28', '103', '2013', '4', '2013级4班', null);
+INSERT INTO `school_class_info` VALUES ('29', '105', '2014', '1', '2014级1班', null);
+INSERT INTO `school_class_info` VALUES ('30', '106', '2014', '2', '2014级2班', null);
+INSERT INTO `school_class_info` VALUES ('31', '107', '2014', '3', '2014级3班', null);
+INSERT INTO `school_class_info` VALUES ('32', '108', '2014', '4', '2014级4班', null);
+

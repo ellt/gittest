@@ -31,13 +31,13 @@ CREATE TABLE `onethink_menu` (
   `is_dev` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否仅开发者模式可见',
   PRIMARY KEY (`id`),
   KEY `pid` (`pid`)
-) ENGINE=MyISAM AUTO_INCREMENT=129 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=200 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of onethink_menu
 -- ----------------------------
 INSERT INTO `onethink_menu` VALUES ('1', '首页', '0', '1', 'Index/index', '0', '', '', '0');
-INSERT INTO `onethink_menu` VALUES ('2', '内容', '0', '2', 'Article/mydocument', '0', '', '', '0');
+INSERT INTO `onethink_menu` VALUES ('2', '内容', '0', '11', 'Article/mydocument', '0', '', '', '0');
 INSERT INTO `onethink_menu` VALUES ('3', '文档列表', '2', '0', 'article/index', '1', '', '内容', '0');
 INSERT INTO `onethink_menu` VALUES ('4', '新增', '3', '0', 'article/add', '0', '', '', '0');
 INSERT INTO `onethink_menu` VALUES ('5', '编辑', '3', '0', 'article/edit', '0', '', '', '0');
@@ -51,7 +51,7 @@ INSERT INTO `onethink_menu` VALUES ('12', '导入', '3', '0', 'article/batchOper
 INSERT INTO `onethink_menu` VALUES ('13', '回收站', '2', '0', 'article/recycle', '1', '', '内容', '0');
 INSERT INTO `onethink_menu` VALUES ('14', '还原', '13', '0', 'article/permit', '0', '', '', '0');
 INSERT INTO `onethink_menu` VALUES ('15', '清空', '13', '0', 'article/clear', '0', '', '', '0');
-INSERT INTO `onethink_menu` VALUES ('16', '用户', '0', '3', 'User/index', '0', '', '', '0');
+INSERT INTO `onethink_menu` VALUES ('16', '用户', '0', '12', 'User/index', '0', '', '', '0');
 INSERT INTO `onethink_menu` VALUES ('17', '用户信息', '16', '0', 'User/index', '0', '', '用户管理', '0');
 INSERT INTO `onethink_menu` VALUES ('18', '新增用户', '17', '0', 'User/add', '0', '添加新用户', '', '0');
 INSERT INTO `onethink_menu` VALUES ('19', '用户行为', '16', '0', 'User/action', '0', '', '行为管理', '0');
@@ -78,7 +78,7 @@ INSERT INTO `onethink_menu` VALUES ('39', '分类授权', '27', '0', 'AuthManage
 INSERT INTO `onethink_menu` VALUES ('40', '保存分类授权', '27', '0', 'AuthManager/addToCategory', '0', '\"分类授权\"页面的\"保存\"按钮', '', '0');
 INSERT INTO `onethink_menu` VALUES ('41', '模型授权', '27', '0', 'AuthManager/modelauth', '0', '\"后台 \\ 用户 \\ 权限管理\"列表页的\"模型授权\"操作按钮', '', '0');
 INSERT INTO `onethink_menu` VALUES ('42', '保存模型授权', '27', '0', 'AuthManager/addToModel', '0', '\"分类授权\"页面的\"保存\"按钮', '', '0');
-INSERT INTO `onethink_menu` VALUES ('43', '扩展', '0', '7', 'Addons/index', '0', '', '', '0');
+INSERT INTO `onethink_menu` VALUES ('43', '扩展', '0', '17', 'Addons/index', '0', '', '', '0');
 INSERT INTO `onethink_menu` VALUES ('44', '插件管理', '43', '1', 'Addons/index', '0', '', '扩展', '0');
 INSERT INTO `onethink_menu` VALUES ('45', '创建', '44', '0', 'Addons/create', '0', '服务器上创建插件结构向导', '', '0');
 INSERT INTO `onethink_menu` VALUES ('46', '检测创建', '44', '0', 'Addons/checkForm', '0', '检测插件是否可以创建', '', '0');
@@ -103,7 +103,7 @@ INSERT INTO `onethink_menu` VALUES ('64', '新增', '63', '0', 'Attribute/add', 
 INSERT INTO `onethink_menu` VALUES ('65', '编辑', '63', '0', 'Attribute/edit', '0', '', '', '0');
 INSERT INTO `onethink_menu` VALUES ('66', '改变状态', '63', '0', 'Attribute/setStatus', '0', '', '', '0');
 INSERT INTO `onethink_menu` VALUES ('67', '保存数据', '63', '0', 'Attribute/update', '0', '', '', '0');
-INSERT INTO `onethink_menu` VALUES ('68', '系统', '0', '4', 'Config/group', '0', '', '', '0');
+INSERT INTO `onethink_menu` VALUES ('68', '系统', '0', '14', 'Config/group', '0', '', '', '0');
 INSERT INTO `onethink_menu` VALUES ('69', '网站设置', '68', '1', 'Config/group', '0', '', '系统设置', '0');
 INSERT INTO `onethink_menu` VALUES ('70', '配置管理', '68', '4', 'Config/index', '0', '', '系统设置', '0');
 INSERT INTO `onethink_menu` VALUES ('71', '编辑', '70', '0', 'Config/edit', '0', '新增编辑和保存配置', '', '0');
@@ -149,14 +149,19 @@ INSERT INTO `onethink_menu` VALUES ('120', '排序', '75', '0', 'Menu/sort', '1'
 INSERT INTO `onethink_menu` VALUES ('121', '排序', '76', '0', 'Channel/sort', '1', '', '', '0');
 
 
+-- 学校业务
+INSERT INTO `onethink_menu` VALUES ('1001', '管理', '0', '2', 'subject/index', '0', '', '', '0');
+INSERT INTO `onethink_menu` VALUES ('1002', '科目设置', '1001', '0', 'subject/index', '0', '', '基础信息设置', '0');
+INSERT INTO `onethink_menu` VALUES ('1003', '学期设置', '1001', '0', 'term/index', '0', '', '基础信息设置', '0');
 
-INSERT INTO `onethink_menu` VALUES ('122', '管理', '0', '9', 'subject/index', '0', '', '', '0');
-INSERT INTO `onethink_menu` VALUES ('127', '科目设置', '122', '0', 'subject/index', '0', '', '基础信息设置', '0');
-INSERT INTO `onethink_menu` VALUES ('128', '学期设置', '122', '0', 'term/index', '0', '', '基础信息设置', '0');
+INSERT INTO `onethink_menu` VALUES ('1004', '年级信息管理', '1001', '0', 'GradeClass/index', '0', '', '', '0');
+INSERT INTO `onethink_menu` VALUES ('1005', '班级信息管理', '1001', '0', 'GradeClass/classManager', '0', '', '', '0');
 
-INSERT INTO `onethink_menu` VALUES ('129', '年级信息管理', '122', '0', 'GradeClass/index', '0', '', '', '0');
-INSERT INTO `onethink_menu` VALUES ('130', '班级信息管理', '122', '0', 'GradeClass/index', '0', '', '', '0');
+INSERT INTO `onethink_menu` VALUES ('1006', '教师信息管理', '1001', '0', 'teacher/index', '0', '', '人员管理', '0');
+INSERT INTO `onethink_menu` VALUES ('1007', '学生信息管理', '1001', '0', 'student/index', '0', '', '人员管理', '0');
+INSERT INTO `onethink_menu` VALUES ('1008', '权限信息管理', '1001', '0', 'auth_manager/index', '0', '', '人员管理', '0');
 
-INSERT INTO `onethink_menu` VALUES ('131', '教师信息管理', '122', '0', 'teacher/index', '0', '', '人员管理', '0');
-INSERT INTO `onethink_menu` VALUES ('132', '学生信息管理', '122', '0', 'student/index', '0', '', '人员管理', '0');
-INSERT INTO `onethink_menu` VALUES ('133', '权限信息管理', '122', '0', 'auth_manager/index', '0', '', '人员管理', '0');
+
+INSERT INTO `onethink_menu` VALUES ('1101', '成绩', '0', '3', 'subject/index', '0', '', '', '0');
+
+INSERT INTO `onethink_menu` VALUES ('1201', '作业', '0', '4', 'subject/index', '0', '', '', '0');
