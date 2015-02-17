@@ -63,7 +63,7 @@ $(function(){
         var temp, tempObj, tempArr = Array();
 
         $('#teacherName').html(data.teacherName);
-        $('#teacherId').html(data.teacherId);
+        $('#teacherId').html(data.teacherId).data("teacherId", data.teacherId);
 
         $('#hasSubjects').html("");
         for (var i in hasSubjects) {
@@ -114,7 +114,7 @@ $(function(){
     // 科目设置提交
     $("[data-submit='custom']").click(function(e) { 
         var url = $(this).attr('data-url');
-        var gradeId = $('#gradeId').data("gradeId");
+        var teacherId = $('#teacherId').data("teacherId");
         var subjects = Array();
         $("button","#hasSubjects").each(function(index, el) {
             subjects.push($(this).data("subject-id"));
@@ -132,7 +132,7 @@ $(function(){
         var btn = $(this);
         btn.button('loading');
         //发送到服务器
-        $.post(url, {gradeId: gradeId, subjects: subjects}).success(function(data){
+        $.post(url, {teacherId: teacherId, subjects: subjects}).success(function(data){
             btn.button('reset');
             $('#myModal').modal('hide');
             handleAjax(data);

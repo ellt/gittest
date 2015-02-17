@@ -1,8 +1,8 @@
 <extend name="Public/base"/>
 
 <block name="header">
-    <include file="tuser/terchermodal"/>
-    <include file="tuser/teachersubject"/>
+    <include file="modal"/>
+    <include file="editsubject"/>
 </block>
 
 <!-- 子导航 -->
@@ -13,7 +13,7 @@
 <block name="content">
     <!-- 标题 -->
     <div class="ell-main-title">
-        <h2>教师信息管理 [{$calss_name}]
+        <h2>教师信息管理
         </h2>
     </div>
 
@@ -23,7 +23,7 @@
             <div class="pull-left">
                 <button class="btn btn-success" data-toggle="modal" data-target="#myModal" data-get-param="id=0">新 增</button>
                 <button class="btn btn-success ajax-post" data-target="[data-check='ids']" data-confirm="确认要删除吗?" data-url="">删 除</button>
-                <a class="btn btn-success" href="{:U('listEdit')}">批量编辑</a>
+                <a class="btn btn-success" href="{:U('batchEdit')}">批量编辑</a>
             </div>
         </div>
         <div class="col-md-6">
@@ -54,7 +54,7 @@
                 </tr>
             </thead>
             <tbody>
-           	 <foreach name="tercher_lists" item="vo">
+           	    <foreach name="tercher_lists" item="vo">
                 <tr>
                     <td><input type="checkbox" data-check="ids" name="ids[]" value="{$vo.id}"></td>
                     <td>{$vo.teacher_id}</td>
@@ -67,8 +67,7 @@
                         <button class="btn btn-success btn-xs" data-toggle="modal" data-target="#myModal" data-get-param="id={$vo.teacher_id}">编 辑</button>
                     </td>
                 </tr>
-              </foreach>
-              
+                </foreach>
             </tbody>
         </table>
     </div>

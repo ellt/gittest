@@ -35,7 +35,7 @@ class TeacherController extends UserCenterController {
         $this->assign('calss_name', D('Class','Logic')->getClassNameById($class_id));
         $this->assign('tercher_lists',$tercher_lists);
         $this->assign('sidemenu', $sidemenu);
-        $this->display('tuser/tercherManager');
+        $this->display();
     }
 
     public function add() {
@@ -105,7 +105,7 @@ class TeacherController extends UserCenterController {
         return $errorInfo;
     }
     
-    public function listEdit(){
+    public function batchEdit(){
         if (IS_AJAX) {
             $mode = I("mode");
             
@@ -126,7 +126,7 @@ class TeacherController extends UserCenterController {
 //             dump($data);die();
             $this->ajaxReturn($data);
         }
-        $this->display('Tuser/tercheredit');
+        $this->display();
     }
     
     public function update() {
