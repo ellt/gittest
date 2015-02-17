@@ -27,13 +27,10 @@ class TeacherController extends UserCenterController {
     public function index(){
         $sidemenu['title'] = "基础信息设置";
         
-        $class_id = I('class_id'); # 这里获取班级ID
-        
         
 //         dump($this->model->lists());die();
         # 获取学生列表
-        $tercher_lists = $this->relationLists($this->model, array('class_id' => $class_id));
-        
+        $tercher_lists = $this->relationLists($this->model);
 //         dump($tercher_lists);die();
         $this->assign('calss_name', D('Class','Logic')->getClassNameById($class_id));
         $this->assign('tercher_lists',$tercher_lists);
@@ -232,6 +229,10 @@ class TeacherController extends UserCenterController {
             }
         }
         dump(count($arr));
+        
+        M()->execute('delete from  onethink_user where user_extern_model_id = 11');
+        M()->execute('delete from  onethink_user_teacher where id > 0');
+//         die();
 //         dump($arr);
         foreach ($arr as $key => $oneuser) {
             $_POST = $oneuser;

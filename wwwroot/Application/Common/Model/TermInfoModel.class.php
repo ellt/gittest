@@ -31,6 +31,33 @@ class TermInfoModel  extends Model{
     protected $_auto = array(
     );
     
+
+    public function getCurrrntTermInfoByTimeStamp($stamp=NOW_TIME){
+//         return ;
+        $debug = false;
+        if($debug) dump(date('Y-m-d',$stamp));
+        $termList = $this->order('term_start desc') ->where($map)->select();
+        if($debug)  dump($termList);
+        foreach ($termList as $v){
+            if($debug)  dump($v['term_end'].'<' .$stamp);
+            if((int)$v['term_end'] < $stamp) {
+              if($debug)    dump($v['term_end'].'<' .$stamp .'  yes');
+                continue;
+            }
+            if($debug)  dump($v);
+            $nextTerm = $v;
+           if($debug)   dump($v['term_start'].'>' .$stamp);
+            if((int)$v['term_start'] > $stamp){
+             if($debug)     dump($v['term_start'].'>' .$stamp .'  yes');
+                continue;
+            }
+        }
+//         return
+        if($debug) dump($nextTerm);
+        if($debug) die(); 
+    }
+        
+    
     /**
      * 获取新增或编辑学期的初始化数据
      * @param unknown $data
@@ -101,6 +128,7 @@ class TermInfoModel  extends Model{
     
     public function saveData($data){
         
+        $update_success_id = null;
         if(false == $this->checkData(&$data)){ // 检查数据的有效性，并对data数据进行配置
             return false;
         }
@@ -110,11 +138,13 @@ class TermInfoModel  extends Model{
         $data['term_end'] = strtotime($data['term_end']); 
         
         if(empty($data['id'])){
-            $this->add($data);
+            $update_success_id =  $this->add($data);
         }else{
             $this->save($data);
+            $update_success_id = $data['id'];
         }
-        return $data;
+//         dump($this->getLastSql());
+        return $update_success_id;
     }
 
     /**

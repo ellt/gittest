@@ -404,21 +404,16 @@ function get_grade_class_tree()
 
     //获取分类id
     $cate_id        =   I('param.cate_id');
-//     $this->cate_id  =   $cate_id;
+//     dump($cate_id); die();
 
     //是否展开分类
     $hide_cate = false;
-    if(ACTION_NAME != 'recycle' && ACTION_NAME != 'draftbox' && ACTION_NAME != 'mydocument'){
-        $hide_cate  =   true;
-    }
+//     if(ACTION_NAME != 'recycle' && ACTION_NAME != 'draftbox' && ACTION_NAME != 'mydocument'){
+//         $hide_cate  =   true;
+//     }
     //生成每个分类的url
     foreach ($cate as $key=>&$value){
         //$value['url']   =   'student/index?class_id='.$value['id'];
-        if($cate_id == $value['id'] && $hide_cate){
-            $value['current'] = true;
-        }else{
-            $value['current'] = false;
-        }
 
         if(!empty($value['_child'])){
             $is_child = false;
@@ -429,27 +424,66 @@ function get_grade_class_tree()
                     foreach ($va['_child'] as $k=>&$v){
                         $class_info = D('Common/Class', 'Logic')->getClassInfoByCategoryId($v['id']);
 
-                        $v['url']   =   'student/index?class_id='. $class_info['id'];
+                        $v['url']   =   'student/index?class_id='. $class_info['id'] . '&cate_id=' . $v['id'];
                         $v['pid']   =   $va['id'];
                         $is_child = $v['id'] == $cate_id ? true : false;
+                        
+                        if($v['id'] == $cate_id ){
+                            $va['current'] = true;
+                            $v['current'] = true;
+                        }
                     }
-                }
-                //展开子分类的父分类
-                if($va['id'] == $cate_id || $is_child){
-                    $is_child = false;
-                    if($hide_cate){
-                        $value['current']   =   true;
-                        $va['current']      =   true;
-                    }else{
-                        $value['current'] 	= 	false;
-                        $va['current']      =   false;
-                    }
-                }else{
-                    $va['current']      =   false;
                 }
             }
         }
     }
+    
+    
     //         dump($cate);die();
-    return $cate;
+    return $cate[0]['_child'];
+}
+
+function get_grade_tree()
+{
+    //获取动态分类
+    $cate_auth  =   AuthGroupModel::getAuthCategories(UID);	//获取当前用户所有的内容权限节点
+    $cate_auth  =   $cate_auth == null ? array() : $cate_auth;
+    $cate       =   D("Common/Grade","Logic")->getGradeClassList();
+
+    //没有权限的分类则不显示
+    if(!IS_ROOT){
+        foreach ($cate as $key=>$value){
+            if(!in_array($value['id'], $cate_auth)){
+                unset($cate[$key]);
+            }
+        }
+    }
+    
+    $cate           =   list_to_tree($cate);	//生成分类树
+
+    //获取分类id
+    $cate_id        =   I('param.cate_id');
+
+    //生成每个分类的url
+    foreach ($cate as $key=>&$value){
+        
+        //TODO  仅列出当前所有正在上课的年级
+//        $term_model =  D("Common/TermInfo");
+//        $term_model->getCurrrntTermInfoByTimeStamp(NOW_TIME);
+        if(!empty($value['_child'])){
+            $is_child = false;
+            foreach ($value['_child'] as $ka=>&$va){
+                $va['url']      =   'GradeClass/classManager?grade_id='. (int)$va['title'] . '&cate_id=' . $va['id'];
+                if(!empty($va['_child'])){
+                    unset($va['_child']);
+                }
+                if($va['id'] == $cate_id ){
+                    $va['current'] = true;
+                }
+            }
+        }
+    }
+
+    //         dump($cate);die();
+    return $cate[0]['_child'];
 }
