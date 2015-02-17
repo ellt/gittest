@@ -1,4 +1,4 @@
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="myModal" data-url="{:U('tuser/termInit')}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -6,10 +6,10 @@
                     <span aria-hidden="true">&times;</span>
                     <span class="sr-only">关闭</span>
                 </button>
-                <h4 class="modal-title" id="myModalLabel">新增学期</h4>
+                <h4 class="modal-title" id="myModalLabel">编辑学期</h4>
             </div>
             <div class="modal-body">
-                <form id="addTermForm" role="form">
+                <form id="myModalForm" role="form">
                     <div class="row">
                         <div class="col-sm-3">
                             <h4 class="pull-right">学年：</h4>
@@ -75,7 +75,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-primary" data-submit="form" data-target="#addTermForm" data-url="{:U('Term/update')}" data-loading-text="提交中..." autocomplete="off">确定</button>
+                <button type="submit" class="btn btn-primary" data-submit="form" data-target="#myModalForm" data-url="{:U('update')}" data-loading-text="提交中..." autocomplete="off">确定</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
             </div>
         </div>
@@ -102,16 +102,14 @@ $(function(){
         if(e.relatedTarget === undefined) {
             return false;
         }
-        var url = U("usercenter/Term/termInit");
-        var name;
-        var content = $(e.relatedTarget).attr("data-content");
-        $.post(url, {content : content}).success(function(data){
+        var url = $(this).attr('data-url');
+        var param = $(e.relatedTarget).data("get-param");
+
+        $.get(url+"&"+param).success(function(data){
             if (data.status) {
                 var initData = data.data;
-                var form = $("#addTermForm");
-                var inputs = $("input", form);
-                inputs.each(function(index, el) {
-                    name = $(this).attr('name');
+                $("input", "#myModalForm").each(function(index, el) {
+                    var name = $(this).attr('name');
                     $(this).val(initData[name]);
                 });
             } else {
@@ -136,7 +134,6 @@ $(function(){
         $.post(url, formContent).success(function(data){
             btn.button('reset');
             if (data.status) {
-                //todo 刷新年级列表
                 showFormTip(form);
                 $('#myModal').modal('hide');
             } else {

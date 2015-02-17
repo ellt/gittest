@@ -586,13 +586,21 @@ class TuserController extends UserCenterController {
     public function termInit(){
         if (IS_AJAX) {
             $data['status']  = 1;
-            $data['info'] = "保存成功！";
-            $data['url'] = "refresh";
-            $content = I("content");
-            if($content == "add") {
-                $data['data'] = array("2014-2015","下学期","2015-3-1","2015-7-1");
+            $id = I("id");
+            if($id == 0) {
+                $data['data'] = array(
+                    'term_year' => "2014-2015",
+                    'term_order' =>"下学期",
+                    'term_start'=> "2015-3-1",
+                    'term_end' => ""
+                );
             } else {
-                $data['data'] = array("2014-2015","下学期","2015-3-1","555");    
+                $data['data'] = array(
+                    'term_year' => "2014-2015",
+                    'term_order' =>"下学期",
+                    'term_start'=> "2015-3-1",
+                    'term_end' => "2015-3-1"
+                );
             }
             $this->ajaxReturn($data);
         }
