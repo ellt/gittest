@@ -502,6 +502,49 @@ class TuserController extends UserCenterController {
         }
     }
 
+    public function teacherInit() {
+        $id = I("id");
+        if($id==0){
+            $data['status']  = 1;
+            $data['data'] = array(
+                'username'=>'',
+                'teacher_id'=>''
+            );
+        }else {
+            $data['status']  = 1;
+            $data['data'] = array(
+                'username'=>$id,
+                'teacher_id'=>$id
+            ); 
+        }
+        $this->ajaxReturn($data);
+    }
+
+    public function teacherSubjectInit() {
+        $id = I('id'); //打开编辑模态框时会接收到教师工号
+        $data['status']  = 1;
+
+        $data['data'] = array(
+            'teacherName' => '张三',
+            'teacherId' => $id,
+            'hasSubjects' => array(
+                '0002' => array('英语', false), // true代表科目在使用
+                '0003' => array('数学', false),
+                '0004' => array('科学', true),
+            ),
+            'allSubjects' => array(
+                '0001' => '语文',
+                '0002' => '英语',
+                '0003' => '数学', 
+                '0004' => '科学',
+                '0005' => '德育',
+            ),
+        );
+        
+
+        $this->ajaxReturn($data);
+    }
+
     public function termSetting(){
         $this->display("Term/index");
     }

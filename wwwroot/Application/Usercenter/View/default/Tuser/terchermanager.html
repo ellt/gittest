@@ -2,6 +2,7 @@
 
 <block name="header">
     <include file="tuser/terchermodal"/>
+    <include file="tuser/teachersubject"/>
 </block>
 
 <!-- 子导航 -->
@@ -20,14 +21,14 @@
     <div class="row">
         <div class="col-md-6">
             <div class="pull-left">
-                <button class="btn btn-success" data-toggle="modal" data-target="#myModal">新 增</button>
+                <button class="btn btn-success" data-toggle="modal" data-target="#myModal" data-get-param="id=0">新 增</button>
                 <button class="btn btn-success ajax-post" data-target="[data-check='ids']" data-confirm="确认要删除吗?" data-url="">删 除</button>
                 <a class="btn btn-success" href="{:U('listEdit')}">批量编辑</a>
             </div>
         </div>
         <div class="col-md-6">
             <div class="col-md-6 input-group pull-right">
-                <input type="text" class="form-control" id="search" name="nickname" value="{:I('nickname')}" placeholder="请输入学生昵称或者ID">
+                <input type="text" class="form-control" id="search" name="nickname" value="{:I('nickname')}" placeholder="请输入教师工号或姓名">
                 <span class="input-group-btn">
                     <button type="button" class="btn btn-primary" data-submit="search" data-target="#search" data-url="{:U('index')}">
                         <span class="glyphicon glyphicon-search"></span>
@@ -37,29 +38,34 @@
         </div>
     </div>
     
-
     <!-- 数据表格 -->
     <div class="data-table">
         <table class="table table-condensed table-striped table-hover">
             <thead>
                 <tr>
                     <th class="row-selected"><input type="checkbox" data-toggle="checkall" data-target="ids"/></th>
-                    <th>用户名</th>
                     <th>工号</th>
                     <th>姓名</th>
+                    <th>用户名</th>
                     <th>性别</th>
                     <th>手机</th>
+                    <th>任教科目</th>
+                    <th>操作</th>
                 </tr>
             </thead>
             <tbody>
            	 <foreach name="tercher_lists" item="vo">
                 <tr>
                     <td><input type="checkbox" data-check="ids" name="ids[]" value="{$vo.id}"></td>
-                    <td>{$vo.username}</td>
                     <td>{$vo.teacher_id}</td>
                     <td>{$vo.true_name}</td>
-                    <td>{$vo.sex}</td>
+                    <td>{$vo.username}</td>
+                    <td><eq name="vo['sex']" value="0">男<else/>女</eq></td>
                     <td>{$vo.mobile}</td>
+                    <td><span class="btn btn-link btn-xs" data-toggle="modal" data-target="#subjectModal" data-get-param="id={$vo.teacher_id}" title="点击编辑">语文</span></td>
+                    <td>
+                        <button class="btn btn-success btn-xs" data-toggle="modal" data-target="#myModal" data-get-param="id={$vo.teacher_id}">编 辑</button>
+                    </td>
                 </tr>
               </foreach>
               
