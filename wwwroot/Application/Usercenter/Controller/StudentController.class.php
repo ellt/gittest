@@ -36,7 +36,7 @@ class StudentController extends UserCenterController {
         $this->assign('calss_name', D('Class','Logic')->getClassNameById($class_id));
         $this->assign('student_lists',$student_lists);
         $this->assign('sidemenu', $sidemenu);
-        $this->display('tuser/studentManager');
+        $this->display();
     }
 
     public function add() {
@@ -50,7 +50,7 @@ class StudentController extends UserCenterController {
         }
     }
     
-    public function listEdit(){
+    public function batchEdit(){
         if (IS_AJAX) {
             $mode = I("mode");
             if($mode == 'check') {
@@ -95,7 +95,7 @@ class StudentController extends UserCenterController {
             $data['data'] = $this->getModelTableData('student');
             $this->ajaxReturn($data);
         }
-        $this->display('Tuser/studentedit');
+        $this->display();
     }
     
     public function update() {

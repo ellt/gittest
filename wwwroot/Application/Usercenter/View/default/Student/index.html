@@ -1,7 +1,7 @@
 <extend name="Public/base"/>
 
 <block name="header">
-    <include file="tuser/modal"/>
+    <include file="modal"/>
 </block>
 
 <!-- 子导航 -->
@@ -27,17 +27,16 @@
                         <span class="sr-only">下拉菜单</span>
                     </button>
                     <ul class="dropdown-menu" role="menu">
-                    <li><a href="{:U('listEdit')}">批量新增</a></li>
+                    <li><a href="{:U('batchEdit')}">批量新增</a></li>
                     </ul>
                 </div>
                 <button class="btn btn-success ajax-post" data-target="[data-check='ids']" data-confirm="确认要删除吗?" data-url="">删 除</button>
-                
-                <a class="btn btn-success" href="{:U('listEdit')}">批量编辑</a>
+                <a class="btn btn-success" href="{:U('batchEdit')}">批量编辑</a>
             </div>
         </div>
         <div class="col-md-6">
             <div class="col-md-6 input-group pull-right">
-                <input type="text" class="form-control" id="search" name="nickname" value="{:I('nickname')}" placeholder="请输入学生昵称或者ID">
+                <input type="text" class="form-control" id="search" name="nickname" value="{:I('nickname')}" placeholder="请输入学生学号或姓名">
                 <span class="input-group-btn">
                     <button type="button" class="btn btn-primary" data-submit="search" data-target="#search" data-url="{:U('index')}">
                         <span class="glyphicon glyphicon-search"></span>
@@ -54,27 +53,26 @@
             <thead>
                 <tr>
                     <th class="row-selected"><input type="checkbox" data-toggle="checkall" data-target="ids"/></th>
-                    <th>用户名</th>
                     <th>学号</th>
                     <th>姓名</th>
                     <th>性别</th>
-                    <th>班级</th>
                     <th>手机</th>
+                    <th>操作</th>
                 </tr>
             </thead>
             <tbody>
-           	 <foreach name="student_lists" item="vo">
+           	    <foreach name="student_lists" item="vo">
                 <tr>
                     <td><input type="checkbox" data-check="ids" name="ids[]" value="{$vo.id}"></td>
-                    <td>{$vo.username}</td>
                     <td>{$vo.student_id}</td>
                     <td>{$vo.true_name}</td>
                     <td>{$vo.sex}</td>
-                    <td>{$vo.class_name}</td>
                     <td>{$vo.mobile}</td>
+                    <td>
+                        <button class="btn btn-success btn-xs" data-toggle="modal" data-target="#myModal" data-get-param="id={$vo.student_id}">编 辑</button>
+                    </td>
                 </tr>
-              </foreach>
-              
+                </foreach>
             </tbody>
         </table>
     </div>

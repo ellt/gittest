@@ -501,20 +501,36 @@ class TuserController extends UserCenterController {
             $this->success("正确提示", U("studentManager"));
         }
     }
-
+    public function studentInit(){
+        $id = I("id");
+        if($id==0){
+            $data['status']  = 1;
+            $data['data'] = array(
+                'username'=>'',
+                'id'=>''
+            );
+        }else {
+            $data['status']  = 1;
+            $data['data'] = array(
+                'username'=>$id,
+                'id'=>$id
+            ); 
+        }
+        $this->ajaxReturn($data);
+    }
     public function teacherInit() {
         $id = I("id");
         if($id==0){
             $data['status']  = 1;
             $data['data'] = array(
                 'username'=>'',
-                'teacher_id'=>''
+                'id'=>''
             );
         }else {
             $data['status']  = 1;
             $data['data'] = array(
                 'username'=>$id,
-                'teacher_id'=>$id
+                'id'=>$id
             ); 
         }
         $this->ajaxReturn($data);
