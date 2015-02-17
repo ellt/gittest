@@ -19,16 +19,14 @@
                     <li class="active"><a href="javascript:;">访问授权</a></li>
                     <li><a href="{:U('AuthManager/category',array('group_name'=>I('group_name') ,'group_id'=> I('group_id')))}">分类授权</a></li>
                     <li><a href="{:U('AuthManager/user',array('group_name'=>I('group_name') ,'group_id'=> I('group_id')))}">成员授权</a></li>
-                    <li class="pull-right">
-                    </li>
                 </ul>
             </div>
             <div class="col-md-3">
                 <select class="form-control" name="group">
                     <volist name="auth_group" id="vo">
-                        <option value="{:U('AuthManager/access',array('group_id'=>$vo['id'],'group_name'=>$vo['title']))}" <eq name="vo['id']" value="$this_group['id']">selected</eq>>
-                            {$vo.title}
-                        </option>
+                    <option value="{:U('AuthManager/access',array('group_id'=>$vo['id'],'group_name'=>$vo['title']))}" <eq name="vo['id']" value="$this_group['id']">selected</eq>>
+                        {$vo.title}
+                    </option>
                     </volist>
                 </select>
             </div>
@@ -71,15 +69,15 @@
                     </volist>
 
                     <input type="hidden" name="id" value="{$this_group.id}" />
-                    <button type="submit" class="col-md-2 btn btn-success ajax-post" target-form="auth-form">确 定</button>
-                    <button class="col-md-2 btn btn-danger" onclick="javascript:history.back(-1);return false;">返 回</button>
+                    <button type="submit" class="btn btn-success ajax-post" target-form="auth-form">确 定</button>
+                    <button class="btn btn-danger" onclick="javascript:history.back(-1);return false;">返 回</button>
                 </form>
             </div>
 
-            <!-- 成员授权 -->
-            <div class="tab-pane"></div>
-
             <!-- 分类 -->
+            <div class="tab-pane"></div>
+            
+            <!-- 成员授权 -->
             <div class="tab-pane"></div>
         </div>
     </div>
