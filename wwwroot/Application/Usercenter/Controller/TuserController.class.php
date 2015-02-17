@@ -712,6 +712,25 @@ class TuserController extends UserCenterController {
         return $data;
         //dump($data);
     }
+
+    public function authInit() {
+        $id = I("id");
+        if($id==0){
+            $data['status']  = 1;
+            $data['data'] = array(
+                'title'=>'',
+                'description'=>''
+            );
+        }else {
+            $data['status']  = 1;
+            $data['data'] = array(
+                'title'=>$id,
+                'description'=>$id
+            ); 
+        }
+        $this->ajaxReturn($data);
+    }
+
 ////////////////////////新学期设置 NewTerm////////////////////////////////
 
     public function newIndex() {
