@@ -1,4 +1,4 @@
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="myModal" data-url="{:U('tuser/teacherInit')}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -6,16 +6,16 @@
                     <span aria-hidden="true">&times;</span>
                     <span class="sr-only">关闭</span>
                 </button>
-                <h4 class="modal-title" id="myModalLabel">新增科目</h4>
+                <h4 class="modal-title" id="myModalLabel"><span></span>科目</h4>
             </div>
             <div class="modal-body">
-                <form id="addSubjectForm" role="form">
+                <form id="myModalForm" role="form">
                     <div class="row">
                         <div class="col-sm-3">
                             <h4 class="pull-right">科目编号：</h4>
                         </div>
                         <div class="col-sm-4">
-                            <input type="text" class="form-control" name="number" value="">
+                            <input type="text" class="form-control" name="id" value="">
                         </div>
                         <div class="col-sm-5">
                             <div class="help-block hidden">
@@ -41,7 +41,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-primary" data-submit="form" data-target="#addSubjectForm" data-url="{:U('add')}" data-loading-text="提交中..." autocomplete="off">确定</button>
+                <button type="submit" class="btn btn-primary" data-submit="form" data-target="#myModalForm" data-url="{:U('add')}" data-loading-text="提交中..." autocomplete="off">确定</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
             </div>
         </div>
@@ -50,6 +50,18 @@
 
 <script>
 $(function(){
+
+    $('#myModal').on('show.bs.modal', function (e) {
+        var url = $(this).attr('data-url');
+        var param = $(e.relatedTarget).data("get-param");
+        $.get(url+"&"+param).success(function(data){
+            if (data.status) {
+                initModal(data.data);
+            } else {
+                return e.preventDefault(); // 阻止模态框的展示
+            }
+        });
+    });
 
     // 新增科目表单提交
     $("[data-submit='form']").click(function(e) { 
@@ -67,7 +79,6 @@ $(function(){
         $.post(url, formContent).success(function(data){
             btn.button('reset');
             if (data.status) {
-                //todo 刷新年级列表
                 showFormTip(form);
                 $('#myModal').modal('hide');
             } else {
@@ -76,6 +87,16 @@ $(function(){
         });
     });
 });
+
+function initModal(data) {
+
+    $("span", "#myModalLabel").html(data.id===""?"新增":"编辑");
+    $("[name='id']", "#myModalForm").prop('disabled', data.id===""?false:true);
+
+    for (var i in data) {
+        $("[name=" + i + "]", "#myModalForm").val(data[i]);
+    }
+}
 
 function showFormTip(form, data) {
     var row, tip, tipContent;

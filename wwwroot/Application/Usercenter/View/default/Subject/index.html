@@ -12,7 +12,7 @@
 <block name="content">
     <!-- 标题 -->
     <div class="ell-main-title">
-        <h2>基础信息设置 [学科设置]
+        <h2>基础信息设置 [科目设置]
         </h2>
     </div>
 
@@ -20,30 +20,33 @@
     <div class="row">
         <div class="col-md-6">
             <div class="pull-left">
-                <button class="btn btn-success" data-toggle="modal" data-target="#myModal">新 增</button>
+                <button class="btn btn-success" data-toggle="modal" data-target="#myModal" data-get-param="id=0">新 增</button>
                 <button class="btn btn-success ajax-post" data-target="[data-check='ids']" data-confirm="确认要删除吗?" data-url="">删 除</button>
-                <button class="btn btn-success ajax-post" data-target="[data-form='table']" data-url="{:U('saveSubject')}">保 存</button>
             </div>
         </div>
     </div>
 
     <!-- 数据表格 -->
     <div class="data-table">
-        <table class="table table-striped table-hover">
+        <table class="table table-condensed table-striped table-hover">
             <thead>
                 <tr>
                     <th class="row-selected"><input type="checkbox" data-toggle="checkall" data-target="ids"/></th>
                     <th>科目编号</th>
                     <th>科目名称</th>
+                    <th>操作</th>
                 </tr>
             </thead>
             <tbody>
                 <foreach name="subject_lists" item="vo">
                 <tr>
                     <td><input type="checkbox" data-check="ids" name="ids[]" value="{$vo.id}"></td>
-                    <td><input type="text" name="number_1" data-form="table" value="{$vo.subject_number}">
+                    <td>{$vo.subject_number}</td>
+                    <td>{$vo.subject_name}</td>
+                    <td>
+                        <button class="btn btn-success btn-xs" data-toggle="modal" data-target="#myModal" data-get-param="id={$vo.subject_number}">编 辑</button>
+                        <a class="btn btn-danger btn-xs" href="">删 除</a>
                     </td>
-                    <td><input type="text" name="subject_1" data-form="table" value="{$vo.subject_name}"></td>
                 </tr>
                 </foreach>
             </tbody>

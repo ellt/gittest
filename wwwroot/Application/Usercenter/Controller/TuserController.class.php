@@ -304,6 +304,24 @@ class TuserController extends UserCenterController {
         $this->display();
     }
 
+    public function subjectInit(){
+        $id = I("id");
+        if($id==0){
+            $data['status']  = 1;
+            $data['data'] = array(
+                'id'=>'',
+                'name'=>''
+            );
+        }else {
+            $data['status']  = 1;
+            $data['data'] = array(
+                'id'=>$id,
+                'name'=>$id
+            ); 
+        }
+        $this->ajaxReturn($data);
+    }
+
     public function addSubject() {
 
         if (IS_AJAX) {            
