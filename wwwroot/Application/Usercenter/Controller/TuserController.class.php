@@ -15,241 +15,13 @@ class TuserController extends UserCenterController {
      * @author 麦当苗儿 <zuojiazi@vip.qq.com>
      */
     public function index(){
-        
         $this->redirect('homework');
-        
-        $nickname       =   I('nickname');
-        $map['status']  =   array('egt',0);
-        if(is_numeric($nickname)){
-            $map['uid|nickname']=   array(intval($nickname),array('like','%'.$nickname.'%'),'_multi'=>true);
-        }else{
-            $map['nickname']    =   array('like', '%'.(string)$nickname.'%');
-        }
-
-        $list   = $this->lists('User', $map);
-        int_to_string($list);
-        $this->assign('_list', $list);
-        $this->meta_title = '用户信息';
-        $this->display();
-    }
-
-    /**
-     * 修改昵称初始化
-     * @author huajie <banhuajie@163.com>
-     */
-    public function updateNickname(){
-        $nickname = M('Member')->getFieldByUid(UID, 'nickname');
-        $this->assign('nickname', $nickname);
-        $this->meta_title = '修改昵称';
-        $this->display();
-    }
-
-    /**
-     * 修改昵称提交
-     * @author huajie <banhuajie@163.com>
-     */
-    public function submitNickname(){
-        //获取参数
-        $nickname = I('post.nickname');
-        $password = I('post.password');
-        empty($nickname) && $this->error('请输入昵称');
-        empty($password) && $this->error('请输入密码');
-
-        //密码验证
-        $User   =   new UserApi();
-        $uid    =   $User->login(UID, $password, 4);
-        ($uid == -2) && $this->error('密码不正确');
-
-        $Member =   D('Member');
-        $data   =   $Member->create(array('nickname'=>$nickname));
-        if(!$data){
-            $this->error($Member->getError());
-        }
-
-        $res = $Member->where(array('uid'=>$uid))->save($data);
-
-        if($res){
-            $user               =   session('user_auth');
-            $user['username']   =   $data['nickname'];
-            session('user_auth', $user);
-            session('user_auth_sign', data_auth_sign($user));
-            $this->success('修改昵称成功！');
-        }else{
-            $this->error('修改昵称失败！');
-        }
-    }
-
-    /**
-     * 修改密码初始化
-     * @author huajie <banhuajie@163.com>
-     */
-    public function updatePassword(){
-        $this->meta_title = '修改密码';
-        $this->display();
-    }
-
-    /**
-     * 修改密码提交
-     * @author huajie <banhuajie@163.com>
-     */
-    public function submitPassword(){
-        //获取参数
-        $password   =   I('post.old');
-        empty($password) && $this->error('请输入原密码');
-        $data['password'] = I('post.password');
-        empty($data['password']) && $this->error('请输入新密码');
-        $repassword = I('post.repassword');
-        empty($repassword) && $this->error('请输入确认密码');
-
-        if($data['password'] !== $repassword){
-            $this->error('您输入的新密码与确认密码不一致');
-        }
-
-        $Api    =   new UserApi();
-        $res    =   $Api->updateInfo(UID, $password, $data);
-        if($res['status']){
-            $this->success('修改密码成功！');
-        }else{
-            $this->error($res['info']);
-        }
-    }
-
-    /**
-     * 用户行为列表
-     * @author huajie <banhuajie@163.com>
-     */
-    public function action(){
-        //获取列表数据
-        $Action =   M('Action')->where(array('status'=>array('gt',-1)));
-        $list   =   $this->lists($Action);
-        int_to_string($list);
-        // 记录当前列表页的cookie
-        Cookie('__forward__',$_SERVER['REQUEST_URI']);
-
-        $this->assign('_list', $list);
-        $this->meta_title = '用户行为';
-        $this->display();
-    }
-
-    /**
-     * 新增行为
-     * @author huajie <banhuajie@163.com>
-     */
-    public function addAction(){
-        $this->meta_title = '新增行为';
-        $this->assign('data',null);
-        $this->display('editaction');
-    }
-
-    /**
-     * 编辑行为
-     * @author huajie <banhuajie@163.com>
-     */
-    public function editAction(){
-        $id = I('get.id');
-        empty($id) && $this->error('参数不能为空！');
-        $data = M('Action')->field(true)->find($id);
-
-        $this->assign('data',$data);
-        $this->meta_title = '编辑行为';
-        $this->display();
-    }
-
-    /**
-     * 更新行为
-     * @author huajie <banhuajie@163.com>
-     */
-    public function saveAction(){
-        $res = D('Action')->update();
-        if(!$res){
-            $this->error(D('Action')->getError());
-        }else{
-            $this->success($res['id']?'更新成功！':'新增成功！', Cookie('__forward__'));
-        }
-    }
-
-    /**
-     * 会员状态修改
-     * @author 朱亚杰 <zhuyajie@topthink.net>
-     */
-    public function changeStatus($method=null){
-        $id = array_unique((array)I('id',0));
-        if( in_array(C('USER_ADMINISTRATOR'), $id)){
-            $this->error("不允许对超级管理员执行该操作!");
-        }
-        $id = is_array($id) ? implode(',',$id) : $id;
-        if ( empty($id) ) {
-            $this->error('请选择要操作的数据!');
-        }
-        $map['uid'] =   array('in',$id);
-        switch ( strtolower($method) ){
-            case 'forbiduser':
-                $this->forbid('Member', $map );
-                break;
-            case 'resumeuser':
-                $this->resume('Member', $map );
-                break;
-            case 'deleteuser':
-                $this->delete('Member', $map );
-                break;
-            default:
-                $this->error('参数非法');
-        }
-    }
-
-    public function add($username = '', $password = '', $repassword = '', $email = ''){
-        if(IS_POST){
-            /* 检测密码 */
-            if($password != $repassword){
-                $this->error('密码和重复密码不一致！');
-            }
-
-            /* 调用注册接口注册用户 */
-            $User   =   new UserApi;
-            $uid    =   $User->register($username, $password, $email);
-            if(0 < $uid){ //注册成功
-                $user = array('uid' => $uid, 'nickname' => $username, 'status' => 1);
-                if(!M('Member')->add($user)){
-                    $this->error('用户添加失败！');
-                } else {
-                    $this->success('用户添加成功！',U('index'));
-                }
-            } else { //注册失败，显示错误信息
-                $this->error($this->showRegError($uid));
-            }
-        } else {
-            $this->meta_title = '新增用户';
-            $this->display();
-        }
-    }
-
-    /**
-     * 获取用户注册错误信息
-     * @param  integer $code 错误编码
-     * @return string        错误信息
-     */
-    private function showRegError($code = 0){
-        switch ($code) {
-            case -1:  $error = '用户名长度必须在16个字符以内！'; break;
-            case -2:  $error = '用户名被禁止注册！'; break;
-            case -3:  $error = '用户名被占用！'; break;
-            case -4:  $error = '密码长度必须在6-30个字符之间！'; break;
-            case -5:  $error = '邮箱格式不正确！'; break;
-            case -6:  $error = '邮箱长度必须在1-32个字符之间！'; break;
-            case -7:  $error = '邮箱被禁止注册！'; break;
-            case -8:  $error = '邮箱被占用！'; break;
-            case -9:  $error = '手机格式不正确！'; break;
-            case -10: $error = '手机被禁止注册！'; break;
-            case -11: $error = '手机号被占用！'; break;
-            default:  $error = '未知错误';
-        }
-        return $error;
     }
 
 // --------------年级信息管理 --------------------------
 
     public function gradeManager(){
-
+        // 科目设置
         for ($j=0; $j < 5; $j++) { 
             $sub['subject_number'] = ''.$j;
             $sub['subject_name'] = '科目'.$j;
@@ -270,6 +42,16 @@ class TuserController extends UserCenterController {
 
         $this->assign('static_grade_info_list', $grade);
         // dump($grade);die();
+
+        // 班级设置
+        for ($i=0; $i < 6; $i++) { 
+            $class_tree[$i]['title'] = (2009+$i)."级";
+            $class_tree[$i]['id'] = 1+$i;
+            $class_tree[$i]['class_cnt'] = 4;
+        }    
+        $this->assign('class_tree', $class_tree);
+        // dump($class_tree);die();
+
         $this->display('Grade/index');
     }
 
@@ -280,7 +62,7 @@ class TuserController extends UserCenterController {
         if($id == '0') {
             $data['data'] = array(
                 'id' => $id,
-                'title' => '一年级',
+                'grade_title' => '一年级',
                 'hasSubjects' => array(
                     '0002' => array('英语', false), // true代表科目在使用
                     '0003' => array('数学', false),
@@ -297,7 +79,7 @@ class TuserController extends UserCenterController {
         } else {
             $data['data'] = array(
                 'id' => $id,
-                'title' => '二年级',
+                'grade_title' => '二年级',
                 'hasSubjects' => array(
                     '0001' => array('语文', true), // true代表科目在使用
                     '0003' => array('数学', false),
@@ -316,97 +98,44 @@ class TuserController extends UserCenterController {
         $this->ajaxReturn($data);
     }
 
-    public function gradeSetting(){
-
-        if (IS_AJAX) {
-            static $classes = 2;
-            $grade = I('grade');
-            $status = I('status');
-
-            if ($result = $classes + $status) {
-                $classes = $result;
-                $data['status']  = 1;
-                $data['info'] = "班级数量设置成功";
-                $data['url'] = "no-refresh";
-                $data['grade'] = $grade;
-                $data['classes'] = $classes;
-            } else {
-                $data['status']  = 0;
-                $data['info'] = "增加失败";
-            }
-
-            $this->ajaxReturn($data);
-        }
-
-        $sidemenu['title'] = "基础信息设置";
-        $this->assign('sidemenu', $sidemenu);
-        $this->display();
-    }
-
-    public function addGrade() {
+    public function editGradeSubject() {
 
         if (IS_AJAX) {            
-            $grade = I('grade');
-            $gradename = I('gradename');
-            $classes = I('classes');
+            $gradeId = I('gradeId');
+            $subjects = I('subjects');
 
-            if ($result = $classes + $status) {
-                $classes = $result;
-                $data['status']  = 1;
-                $data['grade'] = $grade;
-                $data['classes'] = $classes;
-            } else {//例子 当班级数量设置为0以下的时候
-                $data['status']  = 0;
-                $err[0] = "错误1"; 
-                $err[1] = "错误2"; 
-                $err[2] = "错误3333";
-                $data['error_info'] = $err;
-            }
-            //$this->success("成功". " grade=".grade." gradename=".gradename." classes=".classes, 'refresh');
-            $this->ajaxReturn($data);
+            $this->success("设置成功", 'refresh');
         }
     }
 
-    public function subjectSetting(){
+    public function gradeClassInit() {
+        $id = I('id'); //打开编辑模态框时会接收到年级编号
+        $data['status']  = 1;
 
-        $sidemenu['title'] = "基础信息设置";
-        $this->assign('sidemenu', $sidemenu);
-        $this->display();
-    }
-
-    public function subjectInit(){
-        $id = I("id");
-        if($id==0){
-            $data['status']  = 1;
-            $data['data'] = array(
-                'id'=>'',
-                'name'=>''
-            );
-        }else {
-            $data['status']  = 1;
-            $data['data'] = array(
-                'id'=>$id,
-                'name'=>$id
-            ); 
-        }
+        $data['data'] = array(
+            'id' => $id,
+            'grade_title' => (2008+$id)."级",
+            'class_count' => 5,
+        );
+        
         $this->ajaxReturn($data);
     }
 
-    public function addSubject() {
+    public function editGradeClass() {
 
         if (IS_AJAX) {            
-            $number = I('number');
-            $subject = I('subject');
+            $id = I('id');
+            $grade_title = I('grade_title');
+            $class_count = I('class_count');
 
-            if ($number) {
+            if ($class_count) {
                 $classes = $result;
                 $data['status']  = 1;
-                $data['number'] = $number;
-                $data['subject'] = $subject;
-            } else {//例子 当编号设置为0的时候
+                $data['data']['grade_title'] = $grade_title;
+                $data['data']['class_count'] = $class_count;
+            } else {//例子 当班级数量设置为0以下的时候
                 $data['status']  = 0;
-                $err[0] = "错误1"; 
-                $err[1] = "错误2"; 
+                $err['class_count'] = "不能为0"; 
                 $data['error_info'] = $err;
             }
             //$this->success("成功". " grade=".grade." gradename=".gradename." classes=".classes, 'refresh');
@@ -438,7 +167,7 @@ class TuserController extends UserCenterController {
         $this->display('Subject/gradesubject');
     }
 
-    
+// --------------班级信息管理 --------------------------
 
     public function classManager(){
         if (IS_AJAX) {

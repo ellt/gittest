@@ -2,6 +2,7 @@
 
 <block name="header">
     <include file="Grade/subjectmodal"/>
+    <include file="Grade/classmodal"/>
 </block>
 
 <!-- 子导航 -->
@@ -48,7 +49,7 @@
                                     </foreach>
                                 </td>
                                 <td>
-                                    <button class="btn btn-success btn-xs" data-toggle="modal" data-target="#myModal" data-get-param="id={$vo.id}">编 辑</button>
+                                    <button class="btn btn-success btn-xs" data-toggle="modal" data-target="#subjectModal" data-get-param="id={$vo.id}">编 辑</button>
                                 </td>
                             </tr>
                             </foreach>
@@ -63,31 +64,18 @@
                     <table class="table table-condensed table-striped table-hover">
                         <thead>
                             <tr>
-                                <th class="row-selected"><input type="checkbox" data-toggle="checkall" data-target="ids"/></th>
                                 <th>年级</th>
-                                <th>备注名</th>
-                                <th>班级</th>
+                                <th>班级数量</th>
                                 <th>操作</th>
                             </tr>
                         </thead>
                         <tbody>
                             <foreach name="class_tree" item="vo" key="k">
-                            <tr id="{$k}" data-info-grade="{$vo.grade_number}" data-info-classes="2">
-                                <td><input type="checkbox" data-check="ids" name="ids[]" value="{$vo.grade_number}"></td>
-                                <td>{$vo.grade_number}</td>
-                                <td><a>{$vo.name}<i class="fa fa-edit fa-lg text-primary"></i></a></td>
+                            <tr>
+                                <td>{$vo.title}</td>
+                                <td>{$vo.class_cnt}</td>
                                 <td>
-                                    <foreach name="vo._" item="class">
-                                    <span class="label label-primary">{$class.name}</span>
-                                    </foreach>
-                                </td>
-                                <td>
-                                    <button class="btn btn-primary btn-xs" data-table-btn="inc" data-target="#{$k}">
-                                        <span class="glyphicon glyphicon-plus"></span>
-                                    </button>
-                                    <button class="btn btn-danger btn-xs" data-table-btn="dec" data-target="#{$k}">
-                                        <span class="glyphicon glyphicon-minus"></span>
-                                    </button>
+                                    <button class="btn btn-success btn-xs" data-toggle="modal" data-target="#classModal" data-get-param="id={$vo.id}">编 辑</button>
                                 </td>
                             </tr>
                             </foreach>

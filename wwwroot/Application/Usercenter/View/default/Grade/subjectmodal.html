@@ -1,4 +1,4 @@
-<div class="modal fade" id="myModal" data-url="{:U('gradeSubjectInit')}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="subjectModal" data-url="{:U('gradeSubjectInit')}" tabindex="-1" role="dialog" aria-labelledby="subjectModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -6,26 +6,36 @@
                     <span aria-hidden="true">&times;</span>
                     <span class="sr-only">关闭</span>
                 </button>
-                <h4 class="modal-title" id="myModalLabel"><span></span>科目设置</h4>
+                <h4 class="modal-title" id="subjectModalLabel">年级科目设置</h4>
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-sm-12">
-                        <h4>科目<span class="small">（点击移除科目）</span></h4>
+                    <div class="col-sm-3">
+                        <h4 class="pull-right">年级：</h4>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-12" id="hasSubjects"></div>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" name="grade_title" readonly>
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-3">
-                        <h4>点击添加科目</h4>
+                        <h4 class="pull-right">科目：</h4>
                     </div>
-                    <div class="col-sm-12" id="allSubjects"></div>
+                    <div class="col-sm-9">
+                        <div id="hasSubjects"></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <h4 class="pull-right">点击添加：</h4>
+                    </div>
+                    <div class="col-sm-9">
+                        <div id="allSubjects"></div>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-primary" data-submit="custom" data-url="{:U('staticGradeList')}" data-loading-text="提交中..." autocomplete="off">确定</button>
+                <button type="submit" class="btn btn-primary" data-submit="custom" data-url="{:U('editGradeSubject')}" data-loading-text="提交中..." autocomplete="off">确定</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
             </div>
         </div>
@@ -35,7 +45,7 @@
 <script>
 $(function(){
 
-    $('#myModal').on('show.bs.modal', function (e) {
+    $('#subjectModal').on('show.bs.modal', function (e) {
         var url = $(this).attr('data-url');
         var param = $(e.relatedTarget).data("get-param");
         $.get(url+"&"+param).success(function(data){
@@ -52,8 +62,9 @@ $(function(){
         var allSubjects = data.allSubjects;
         var temp, tempObj, tempArr = Array();
 
-        $("#myModal").data('gradeId', data.id);
-        $("span", "#myModalLabel").html(data.title);
+        $("#subjectModal").data('gradeId', data.id);
+
+        $("[name='grade_title']").val(data.grade_title);
 
         $('#hasSubjects').html("");
         for (var i in hasSubjects) {
@@ -104,7 +115,7 @@ $(function(){
     // 科目设置提交
     $("[data-submit='custom']").click(function(e) { 
         var url = $(this).attr('data-url');
-        var gradeId = $("#myModal").data('gradeId');
+        var gradeId = $("#subjectModal").data('gradeId');
         var subjects = Array();
         $("button","#hasSubjects").each(function(index, el) {
             subjects.push($(this).data("subject-id"));
@@ -115,7 +126,7 @@ $(function(){
         var oldSubjects = hasSubjects.sort().toString();
         var newSubjects = subjects.sort().toString();
         if (oldSubjects === newSubjects) {
-            $('#myModal').modal('hide');
+            $('#subjectModal').modal('hide');
             return false; // 没有修改不进行提交
         }
         
@@ -124,7 +135,7 @@ $(function(){
         //发送到服务器
         $.post(url, {gradeId: gradeId, subjects: subjects}).success(function(data){
             btn.button('reset');
-            $('#myModal').modal('hide');
+            $('#subjectModal').modal('hide');
             handleAjax(data);
         });
     });
