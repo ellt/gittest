@@ -1,4 +1,4 @@
-<div class="modal fade" id="myModal" data-url="{:U('getClassManagerInfo')}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="myModal" data-url="{:U('classInit')}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -9,7 +9,7 @@
                 <h4 class="modal-title" id="myModalLabel">编辑<span></span></h4>
             </div>
             <div class="modal-body">
-                <form class="form-horizontal" id="changeTeacherForm" role="form">
+                <form class="form-horizontal" id="myModalForm" role="form">
                     <div class="form-group">
                         <label for="original" class="col-sm-2 control-label">原来的</label>
                         <div class="col-sm-5">
@@ -39,7 +39,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-primary" data-submit="custom" data-target="#changeTeacherForm" data-url="{:U('Term/update')}" data-loading-text="提交中..." autocomplete="off">确定</button>
+                <button type="submit" class="btn btn-primary" data-submit="custom" data-target="#myModalForm" data-url="{:U('Term/update')}" data-loading-text="提交中..." autocomplete="off">确定</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
             </div>
         </div>
@@ -48,10 +48,11 @@
 
 <script>
 $(function(){
+    
     $('#myModal').on('show.bs.modal', function (e) {
         var url = $(this).attr('data-url');
         var param = $(e.relatedTarget).data("get-param");
-        $.get(url+param).success(function(data){
+        $.get(url+"&"+param).success(function(data){
             if (data.status) {
                 initModal(data.data);
             } else {
@@ -75,7 +76,6 @@ $(function(){
         $.post(url, formContent).success(function(data){
             btn.button('reset');
             if (data.status) {
-                //todo 刷新年级列表
                 showFormTip(form);
                 $('#myModal').modal('hide');
             } else {

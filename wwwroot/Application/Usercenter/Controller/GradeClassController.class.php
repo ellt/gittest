@@ -337,7 +337,7 @@ class GradeClassController extends UserCenterController {
             $data['url'] = "refresh";
             $this->ajaxReturn($data);
         }
-        $this->display('tuser/classManager');
+        $this->display('Class/index');
     }
     
 }

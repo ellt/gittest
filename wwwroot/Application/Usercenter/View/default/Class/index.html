@@ -1,7 +1,7 @@
 <extend name="Public/base"/>
 
 <block name="header">
-    <include file="Tuser/classmanagermodal"/>
+    <include file="Class/modal"/>
 </block>
 
 <!-- 子导航 -->
@@ -12,7 +12,7 @@
 <block name="content">
     <!-- 标题 -->
     <div class="ell-main-title">
-        <h2>班级信息设置 [2013 级]
+        <h2>班级信息管理 [2013 级]
         </h2>
     </div>
 
@@ -20,8 +20,8 @@
     <div class="panel panel-primary">
         <div class="panel-heading">2013 级 1 班</div>
         <div class="panel-body">
-            <h4>班主任: <strong>李芳</strong>
-                <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#myModal" data-get-param="&class=1&role=master">编 辑</button>
+            <h4>班主任: <strong title="工号：100016">李芳</strong>
+                <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#myModal" data-get-param="class=1&role=master">编 辑</button>
             </h4>
         </div>
         <div>
@@ -36,16 +36,16 @@
                 <tbody  id="content">
                     <tr>
                         <td><span title="科目编号：0001">语文</span></td>
-                        <td>李梅</td>
+                        <td><span title="工号：100012">李梅</span></td>
                         <td>
-                            <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#myModal" data-get-param="&class=1&role=teacher&subject=0001">编 辑</button>
+                            <button class="btn btn-success btn-xs" data-toggle="modal" data-target="#myModal" data-get-param="class=1&role=teacher&subject=0001">编 辑</button>
                         </td>
                     </tr>
                     <tr>
                         <td><span title="科目编号：0002">数学</span></td>
-                        <td>大山</td>
+                        <td><span title="工号：100013">大山</span></td>
                         <td>
-                            <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#myModal" data-get-param="&class=1&role=teacher&subject=0002">编 辑</button>
+                            <button class="btn btn-success btn-xs" data-toggle="modal" data-target="#myModal" data-get-param="class=1&role=teacher&subject=0002">编 辑</button>
                         </td>
                     </tr>
                 </tbody>

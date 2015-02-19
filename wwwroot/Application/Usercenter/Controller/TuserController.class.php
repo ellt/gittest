@@ -176,10 +176,10 @@ class TuserController extends UserCenterController {
             $data['url'] = "refresh";
             $this->ajaxReturn($data);
         }
-        $this->display();
+        $this->display('Class/index');
     }
 
-    public function getClassManagerInfo() {
+    public function classInit() {
        $class = I("class"); //班级
        $role = I("role");  
        $teacherList = $this->getTeacherList();//dump($teacherList);
@@ -239,6 +239,8 @@ class TuserController extends UserCenterController {
         return $teacherList;
     }
 
+// --------------学生信息管理 --------------------------
+
     public function studentManager(){
         $this->display();
     }
@@ -296,6 +298,9 @@ class TuserController extends UserCenterController {
         }
         $this->ajaxReturn($data);
     }
+
+// --------------教师信息管理 --------------------------
+
     public function teacherInit() {
         $id = I("id");
         if($id==0){
@@ -338,6 +343,8 @@ class TuserController extends UserCenterController {
 
         $this->ajaxReturn($data);
     }
+
+// --------------学期设置 --------------------------
 
     public function termSetting(){
         $this->display("Term/index");
