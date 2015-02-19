@@ -246,6 +246,76 @@ class TuserController extends UserCenterController {
         return $error;
     }
 
+// --------------年级信息管理 --------------------------
+
+    public function gradeManager(){
+
+        for ($j=0; $j < 5; $j++) { 
+            $sub['subject_number'] = ''.$j;
+            $sub['subject_name'] = '科目'.$j;
+            $row['subject_info'][] = $sub;
+        }
+
+        for ($i=0; $i < 6; $i++) { 
+            $grade[$i] = $row;
+            $grade[$i]['id'] = 1+$i;
+        }
+
+        $grade[0]['grade_name'] = '一年级';
+        $grade[1]['grade_name'] = '二年级';
+        $grade[2]['grade_name'] = '三年级';
+        $grade[3]['grade_name'] = '四年级';
+        $grade[4]['grade_name'] = '五年级';
+        $grade[5]['grade_name'] = '六年级';
+
+        $this->assign('static_grade_info_list', $grade);
+        // dump($grade);die();
+        $this->display('Grade/index');
+    }
+
+    public function gradeSubjectInit() {
+        $id = I('id'); //打开编辑模态框时会接收到年级编号
+        $data['status']  = 1;
+
+        if($id == '0') {
+            $data['data'] = array(
+                'id' => $id,
+                'title' => '一年级',
+                'hasSubjects' => array(
+                    '0002' => array('英语', false), // true代表科目在使用
+                    '0003' => array('数学', false),
+                    '0004' => array('科学', true),
+                ),
+                'allSubjects' => array(
+                    '0001' => '语文',
+                    '0002' => '英语',
+                    '0003' => '数学', 
+                    '0004' => '科学',
+                    '0005' => '德育',
+                ),
+            );
+        } else {
+            $data['data'] = array(
+                'id' => $id,
+                'title' => '二年级',
+                'hasSubjects' => array(
+                    '0001' => array('语文', true), // true代表科目在使用
+                    '0003' => array('数学', false),
+                    '0004' => array('科学', true),
+                ),
+                'allSubjects' => array(
+                    '0001' => '语文',
+                    '0002' => '英语',
+                    '0003' => '数学', 
+                    '0004' => '科学',
+                    '0005' => '德育',
+                ),
+            );
+        }
+
+        $this->ajaxReturn($data);
+    }
+
     public function gradeSetting(){
 
         if (IS_AJAX) {
@@ -368,46 +438,7 @@ class TuserController extends UserCenterController {
         $this->display('Subject/gradesubject');
     }
 
-    public function getGradeSubjectInfo() {
-        $gradeNum = I('content'); //打开编辑模态框时会接收到年级编号
-        $data['status']  = 1;
-
-        if($gradeNum == 'grade1') {
-            $data['data'] = array(
-                'grade' => '一年级',
-                'hasSubjects' => array(
-                    '0002' => array('英语', false), // true代表科目在使用
-                    '0003' => array('数学', false),
-                    '0004' => array('科学', true),
-                ),
-                'allSubjects' => array(
-                    '0001' => '语文',
-                    '0002' => '英语',
-                    '0003' => '数学', 
-                    '0004' => '科学',
-                    '0005' => '德育',
-                ),
-            );
-        } elseif ($gradeNum == 'grade2') {
-            $data['data'] = array(
-                'grade' => '二年级',
-                'hasSubjects' => array(
-                    '0001' => array('语文', true), // true代表科目在使用
-                    '0003' => array('数学', false),
-                    '0004' => array('科学', true),
-                ),
-                'allSubjects' => array(
-                    '0001' => '语文',
-                    '0002' => '英语',
-                    '0003' => '数学', 
-                    '0004' => '科学',
-                    '0005' => '德育',
-                ),
-            );
-        }
-
-        $this->ajaxReturn($data);
-    }
+    
 
     public function classManager(){
         if (IS_AJAX) {
