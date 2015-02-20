@@ -152,11 +152,11 @@ $(function(){
 
 });
 
-function initModal(data) {
+function initModal($modal, data) {
     $("span", "#myModalLabel").html(data.id===""?"新增":"编辑");
 
     for (var i in data) {
-        $("[name=" + i + "]").val(data[i]);
+        $("[name=" + i + "]", $modal).val(data[i]);
     }
 }
 
