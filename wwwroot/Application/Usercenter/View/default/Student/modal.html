@@ -9,53 +9,45 @@
                 <h4 class="modal-title" id="myModalLabel"><span></span>学生</h4>
             </div>
             <div class="modal-body">
-                <form id="addStudentForm" role="form">
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <h4 class="pull-right">学号：</h4>
-                        </div>
+                <form class="form-horizontal" id="myModalForm" role="form">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="studentId">学号</label>
                         <div class="col-sm-4">
-                            <input type="text" class="form-control" name="id" value="">
+                            <input type="text" class="form-control" id="studentId" name="student_id" readonly>
                         </div>
                         <div class="col-sm-5">
                             <div class="help-block hidden">
                                 <span class="glyphicon glyphicon-remove"></span>
-                                <span>格式错误</span>
+                                <span></span>
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <h4 class="pull-right">姓名：</h4>
-                        </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="name">姓名</label>
                         <div class="col-sm-4">
-                            <input type="text" class="form-control" name="true_name" value="">
+                            <input type="text" class="form-control" id="name" name="true_name">
                         </div>
                         <div class="col-sm-5">
                             <div class="help-block hidden">
                                 <span class="glyphicon glyphicon-remove"></span>
-                                <span>格式错误</span>
+                                <span></span>
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <h4 class="pull-right">密码：</h4>
-                        </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="password">密码</label>
                         <div class="col-sm-4">
-                            <input type="text" class="form-control" name="password" value="">
+                            <input type="text" class="form-control" id="password" name="password">
                         </div>
                         <div class="col-sm-5">
                             <div class="help-block hidden">
                                 <span class="glyphicon glyphicon-remove"></span>
-                                <span>格式错误</span>
+                                <span></span>
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <h4 class="pull-right">性别：</h4>
-                        </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">性别</label>
                         <div class="col-sm-4">
                             <label class="radio-inline">
                               <input type="radio" name="sex" value="male" checked> 男
@@ -67,98 +59,86 @@
                         <div class="col-sm-5">
                             <div class="help-block hidden">
                                 <span class="glyphicon glyphicon-remove"></span>
-                                <span>格式错误</span>
+                                <span></span>
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <h4 class="pull-right">邮箱：</h4>
-                        </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="email">邮箱</label>
                         <div class="col-sm-4">
-                            <input type="text" class="form-control" name="email" value="">
+                            <input type="text" class="form-control" id="email" name="email">
                         </div>
                         <div class="col-sm-5">
                             <div class="help-block hidden">
                                 <span class="glyphicon glyphicon-remove"></span>
-                                <span>格式错误</span>
-                            </div>
-                        </div>
-                    </div>  
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <h4 class="pull-right">联系方式：</h4>
-                        </div>
-                        <div class="col-sm-4">
-                            <input type="text" class="form-control" name="mobile" value="">
-                        </div>
-                        <div class="col-sm-5">
-                            <div class="help-block hidden">
-                                <span class="glyphicon glyphicon-remove"></span>
-                                <span>格式错误</span>
+                                <span></span>
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <h4 class="pull-right">父亲：</h4>
-                        </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="mobile">联系方式</label>
                         <div class="col-sm-4">
-                            <input type="text" class="form-control" name="dad_name" value="">
+                            <input type="text" class="form-control" id="mobile" name="mobile">
                         </div>
                         <div class="col-sm-5">
                             <div class="help-block hidden">
                                 <span class="glyphicon glyphicon-remove"></span>
-                                <span>格式错误</span>
+                                <span></span>
                             </div>
                         </div>
                     </div>
-                     <div class="row">
-                        <div class="col-sm-3">
-                            <h4 class="pull-right">父亲手机：</h4>
-                        </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="dadName">父亲</label>
                         <div class="col-sm-4">
-                            <input type="text" class="form-control" name="dad_mobile" value="">
+                            <input type="text" class="form-control" id="dadName" name="dad_name">
                         </div>
                         <div class="col-sm-5">
                             <div class="help-block hidden">
                                 <span class="glyphicon glyphicon-remove"></span>
-                                <span>格式错误</span>
+                                <span></span>
                             </div>
                         </div>
                     </div>
-                     <div class="row">
-                        <div class="col-sm-3">
-                            <h4 class="pull-right">母亲：</h4>
-                        </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="dadMobile">父亲手机</label>
                         <div class="col-sm-4">
-                            <input type="text" class="form-control" name="mom_name" value="">
+                            <input type="text" class="form-control" id="dadMobile" name="dad_mobile">
                         </div>
                         <div class="col-sm-5">
                             <div class="help-block hidden">
                                 <span class="glyphicon glyphicon-remove"></span>
-                                <span>格式错误</span>
+                                <span></span>
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <h4 class="pull-right">母亲手机：</h4>
-                        </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="momName">母亲</label>
                         <div class="col-sm-4">
-                            <input type="text" class="form-control" name="mom_mobile" value="">
+                            <input type="text" class="form-control" id="momName" name="mom_name">
                         </div>
                         <div class="col-sm-5">
                             <div class="help-block hidden">
                                 <span class="glyphicon glyphicon-remove"></span>
-                                <span>格式错误</span>
+                                <span></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="momMobile">母亲手机</label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" id="momMobile" name="mom_mobile">
+                        </div>
+                        <div class="col-sm-5">
+                            <div class="help-block hidden">
+                                <span class="glyphicon glyphicon-remove"></span>
+                                <span></span>
                             </div>
                         </div>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-primary" data-submit="form" data-target="#addStudentForm" data-url="{:U('add')}" data-loading-text="提交中..." autocomplete="off">确定</button>
+                <button type="submit" class="btn btn-primary" data-submit="form" data-target="#myModalForm" data-url="{:U('add')}" data-loading-text="提交中..." autocomplete="off">确定</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
             </div>
         </div>
@@ -168,68 +148,16 @@
 <script>
 $(function(){
 
-    $('#myModal').on('show.bs.modal', function (e) {
-        var url = $(this).attr('data-url');
-        var param = $(e.relatedTarget).data("get-param");
-        $.get(url+"&"+param).success(function(data){
-            if (data.status) {
-                initModal(data.data);
-            } else {
-                return e.preventDefault(); // 阻止模态框的展示
-            }
-        });
-    });
+    initModalEvent('#myModal', initModal);
 
-    // 新增表单提交
-    $("[data-submit='form']").click(function(e) { 
-        //取消默认动作，防止表单两次提交
-        e.preventDefault();
-
-        var url = $(this).attr('data-url');
-        var targetForm = $(this).attr('data-target');
-        var form = $(targetForm);
-        var formContent = form.serialize();
-
-        var btn = $(this);
-        btn.button('loading');
-        //发送到服务器
-        $.post(url, formContent).success(function(data){
-            btn.button('reset');
-            if (data.status) {
-                showFormTip(form);
-                $('#myModal').modal('hide');
-            } else {
-                showFormTip(form, data.error_info);
-            }
-        });
-    });
 });
 
-function initModal(data) {
+function initModal($modal, data) {
     $("span", "#myModalLabel").html(data.id===""?"新增":"编辑");
 
     for (var i in data) {
-        $("[name=" + i + "]").val(data[i]);
+        $("[name=" + i + "]", $modal).val(data[i]);
     }
 }
 
-function showFormTip(form, data) {
-    var row, tip, tipContent;
-    data = data || []; // 给定默认值为空数组
-    $("input", form).each(function(index){
-        row = $(this).parentsUntil("form").filter(".row");
-        tip = row.find(".help-block");
-        tipContent = tip.find("span").next();
-
-        if (data[index]) {
-            row.addClass("has-error");
-            tipContent.html(data[index]);
-            tip.removeClass("hidden").addClass("show");
-        } else {
-            row.removeClass("has-error");
-            tipContent.html();
-            tip.removeClass("show").addClass("hidden");
-        }
-    });
-}
 </script>
