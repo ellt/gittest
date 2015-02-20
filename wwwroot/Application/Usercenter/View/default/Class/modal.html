@@ -49,17 +49,7 @@
 <script>
 $(function(){
     
-    $('#myModal').on('show.bs.modal', function (e) {
-        var url = $(this).attr('data-url');
-        var param = $(e.relatedTarget).data("get-param");
-        $.get(url+"&"+param).success(function(data){
-            if (data.status) {
-                initModal(data.data);
-            } else {
-                return e.preventDefault(); // 阻止模态框的展示
-            }
-        });
-    });
+    initModalEvent('#myModal', initModal);
 
     $("[data-submit='custom']").click(function(e) { 
         //取消默认动作，防止表单两次提交
@@ -85,7 +75,7 @@ $(function(){
     });
 });
 
-function initModal(data) {
+function initModal($modal, data) {
     var title = data.title;
     var old = data.old;
     $("span", "#myModalLabel").html(title);

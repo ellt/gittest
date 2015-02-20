@@ -45,26 +45,16 @@
 <script>
 $(function(){
 
-    $('#subjectModal').on('show.bs.modal', function (e) {
-        var url = $(this).attr('data-url');
-        var param = $(e.relatedTarget).data("get-param");
-        $.get(url+"&"+param).success(function(data){
-            if (data.status) {
-                initModal(data.data);
-            } else {
-                return e.preventDefault(); // 阻止模态框的展示
-            }
-        });
-    });
+    initModalEvent('#subjectModal', initModal);
 
-    function initModal(data) {
+    function initModal($modal, data) {
         var hasSubjects = data.hasSubjects;
         var allSubjects = data.allSubjects;
         var temp, tempObj, tempArr = Array();
 
         $("#subjectModal").data('gradeId', data.id);
 
-        $("[name='grade_title']").val(data.grade_title);
+        $("[name='grade_title']", $modal).val(data.grade_title);
 
         $('#hasSubjects').html("");
         for (var i in hasSubjects) {
@@ -99,7 +89,7 @@ $(function(){
             }
         }
 
-        $('[data-toggle="tooltip"]').tooltip();
+        $('[data-toggle="tooltip"]', $modal).tooltip();
 
         $('#hasSubjects').on('click', 'button', function(event) {
             if(!$(this).hasClass('active')) {
