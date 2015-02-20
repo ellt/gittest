@@ -360,6 +360,8 @@ function initModalEvent(modalSelector, initModalFun) {
             }
         });
     });
+
+    return $modal;
 }
 
 function defaultInitModalFun($modal, data) {

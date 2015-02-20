@@ -23,13 +23,11 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-3 control-label" title="点击移除科目">任教科目
-                        </label>
+                        <label class="col-sm-3 control-label" title="点击移除科目">任教科目</label>
                         <div class="col-sm-9" id="hasSubjects"></div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-3 control-label" title="点击移除科目">点击添加科目
-                        </label>
+                        <label class="col-sm-3 control-label">点击添加科目</label>
                         <div class="col-sm-9" id="allSubjects"></div>
                     </div>
                 </form>
@@ -45,15 +43,16 @@
 <script>
 $(function(){
 
-    initModalEvent('#editSubjectModal', initModal);
+    var $modal = initModalEvent('#editSubjectModal', initModal);
 
     function initModal($modal, data) {
         var hasSubjects = data.hasSubjects;
         var allSubjects = data.allSubjects;
         var temp, tempObj, tempArr = Array();
 
+        $modal.data("id", data.id);
         $("[data-id='teacherName']", $modal).html(data.teacherName);
-        $("[data-id='teacherId']", $modal).html(data.teacherId).data("teacherId", data.teacherId);
+        $("[data-id='teacherId']", $modal).html(data.teacherId);
 
         $('#hasSubjects').html("");
         for (var i in hasSubjects) {
@@ -100,11 +99,10 @@ $(function(){
             $('#hasSubjects').append(this).append(' ');
         });
     }
-
-    // 科目设置提交
+    
     $("[data-submit='custom']").click(function(e) { 
         var url = $(this).attr('data-url');
-        var teacherId = $('#teacherId').data("teacherId");
+        var id = $modal.data("id");
         var subjects = Array();
         $("button","#hasSubjects").each(function(index, el) {
             subjects.push($(this).data("subject-id"));
@@ -115,16 +113,16 @@ $(function(){
         var oldSubjects = hasSubjects.sort().toString();
         var newSubjects = subjects.sort().toString();
         if (oldSubjects === newSubjects) {
-            $('#myModal').modal('hide');
+            $modal.modal('hide');
             return false; // 没有修改不进行提交
         }
-        
+
         var btn = $(this);
         btn.button('loading');
         //发送到服务器
-        $.post(url, {teacherId: teacherId, subjects: subjects}).success(function(data){
+        $.post(url, {id: id, subjects: subjects}).success(function(data){
             btn.button('reset');
-            $('#myModal').modal('hide');
+            $modal.modal('hide');
             handleAjax(data);
         });
     });

@@ -102,13 +102,14 @@ $(function(){
 
     initModalEvent('#myModal', initModal);
 
-});
+    function initModal($modal, data) {
+        $("span", "#myModalLabel").html(data.id===""?"新增":"编辑");
+        
+        $("#teacherId").prop('readonly', data.id===""?false:true);
 
-function initModal($modal, data) {
-    $("span", "#myModalLabel").html(data.id===""?"新增":"编辑");
-
-    for (var i in data) {
-        $("[name=" + i + "]", $modal).val(data[i]);
+        for (var i in data) {
+            $("[name=" + i + "]", $modal).val(data[i]);
+        }
     }
-}
+});
 </script>
