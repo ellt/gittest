@@ -228,10 +228,6 @@ $(function() {
         return false;
     });
 
-
-    //Modal 提交 及错误提示
-
-
     //按钮组
     (function() {
         $(".btn-group-click .btn").click(function(e) {
@@ -322,6 +318,74 @@ function isInt(obj) {
     reg = /^-?\d+$/;
     result = reg.test(obj) ? true : false;
     return result;
+}
+
+// 初始化 Modal 事件
+function initModalEvent(modalSelector, initModalFun) {
+    var $modal = $(modalSelector);
+    initModalFun = initModalFun || defaultInitModalFun;
+    
+    // 初始化
+    $modal.on('show.bs.modal', function (e) {
+        var url = $modal.attr('data-url');
+        var param = $(e.relatedTarget).data("get-param");
+        $.get(url+"&"+param).success(function(data){
+            if (data.status) {
+                initModalFun($modal, data.data);
+            } else {
+                return e.preventDefault(); // 阻止模态框的展示
+            }
+        });
+    });
+
+    $("[data-submit='form']", $modal).click(function(e) { 
+        //取消默认动作，防止表单两次提交
+        e.preventDefault();
+
+        var url = $(this).attr('data-url');
+        var targetForm = $(this).attr('data-target');
+        var form = $(targetForm);
+        var formContent = form.serialize();
+
+        var btn = $(this);
+        btn.button('loading');
+        //发送到服务器
+        $.post(url, formContent).success(function(data){
+            btn.button('reset');
+            if (data.status) {
+                showFormTip(form);
+                $modal.modal('hide');
+            } else {
+                showFormTip(form, data.error_info);
+            }
+        });
+    });
+}
+
+function defaultInitModalFun($modal, data) {
+    for (var i in data) {
+        $("[name=" + i + "]", $modal).val(data[i]);
+    }
+}
+
+function showFormTip(form, data) {
+    var row, tip, tipContent;
+
+    $("input", form).each(function(index){
+        row = $(this).parentsUntil("form").filter(".row");
+        tip = row.find(".help-block");
+        tipContent = tip.find("span").next();
+
+        if (data && data[$(this).attr("name")]) {
+            row.addClass("has-error");
+            tipContent.html(data[$(this).attr("name")]);
+            tip.removeClass("hidden").addClass("show");
+        } else {
+            row.removeClass("has-error");
+            tipContent.html();
+            tip.removeClass("show").addClass("hidden");
+        }
+    });
 }
 
 // 工具函数

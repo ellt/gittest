@@ -51,44 +51,11 @@
 <script>
 $(function(){
 
-    $('#myModal').on('show.bs.modal', function (e) {
-        var url = $(this).attr('data-url');
-        var param = $(e.relatedTarget).data("get-param");
-        $.get(url+"&"+param).success(function(data){
-            if (data.status) {
-                initModal(data.data);
-            } else {
-                return e.preventDefault(); // 阻止模态框的展示
-            }
-        });
-    });
+    initModalEvent('#myModal', initModal);
 
-    // 新增科目表单提交
-    $("[data-submit='form']").click(function(e) { 
-        //取消默认动作，防止表单两次提交
-        e.preventDefault();
-
-        var url = $(this).attr('data-url');
-        var targetForm = $(this).attr('data-target');
-        var form = $(targetForm);
-        var formContent = form.serialize();
-
-        var btn = $(this);
-        btn.button('loading');
-        //发送到服务器
-        $.post(url, formContent).success(function(data){
-            btn.button('reset');
-            if (data.status) {
-                showFormTip(form);
-                $('#myModal').modal('hide');
-            } else {
-                showFormTip(form, data.error_info);
-            }
-        });
-    });
 });
 
-function initModal(data) {
+function initModal($modal, data) {
 
     $("span", "#myModalLabel").html(data.id===""?"新增":"编辑");
     $("[name='id']", "#myModalForm").prop('disabled', data.id===""?false:true);
@@ -98,23 +65,4 @@ function initModal(data) {
     }
 }
 
-function showFormTip(form, data) {
-    var row, tip, tipContent;
-    data = data || []; // 给定默认值为空数组
-    $("input", form).each(function(index){
-        row = $(this).parentsUntil("form").filter(".row");
-        tip = row.find(".help-block");
-        tipContent = tip.find("span").next();
-
-        if (data[index]) {
-            row.addClass("has-error");
-            tipContent.html(data[index]);
-            tip.removeClass("hidden").addClass("show");
-        } else {
-            row.removeClass("has-error");
-            tipContent.html();
-            tip.removeClass("show").addClass("hidden");
-        }
-    });
-}
 </script>

@@ -58,23 +58,7 @@
 <script>
 $(function(){
 
-    $('#classModal').on('show.bs.modal', function (e) {
-        var url = $(this).attr('data-url');
-        var param = $(e.relatedTarget).data("get-param");
-        $.get(url+"&"+param).success(function(data){
-            if (data.status) {
-                initModal(data.data);
-            } else {
-                return e.preventDefault(); // 阻止模态框的展示
-            }
-        });
-    });
-
-    function initModal(data) {
-        for (var i in data) {
-            $("[name=" + i + "]").val(data[i]);
-        }
-    }
+    initModalEvent('#classModal');
 
     // 表单合法性校验 
     // 班级数量合法性校验
@@ -99,48 +83,6 @@ $(function(){
         value = isNaN(value) ? parseInt(input.attr("value")) : value;
         input.val(value + method);
     });
-
-    $("[data-submit='form']").click(function(e) { 
-        //取消默认动作，防止表单两次提交
-        e.preventDefault();
-
-        var url = $(this).attr('data-url');
-        var targetForm = $(this).attr('data-target');
-        var form = $(targetForm);
-        var formContent = form.serialize();
-
-        var btn = $(this);
-        btn.button('loading');
-        //发送到服务器
-        $.post(url, formContent).success(function(data){
-            btn.button('reset');
-            if (data.status) {
-                showFormTip(form);
-                $('#classModal').modal('hide');
-            } else {
-                showFormTip(form, data.error_info);
-            }
-        });
-    });
 });
 
-function showFormTip(form, data) {
-    var row, tip, tipContent;
-
-    $("input", form).each(function(index){
-        row = $(this).parentsUntil("form").filter(".row");
-        tip = row.find(".help-block");
-        tipContent = tip.find("span").next();
-
-        if (data && data[$(this).attr("name")]) {
-            row.addClass("has-error");
-            tipContent.html(data[index]);
-            tip.removeClass("hidden").addClass("show");
-        } else {
-            row.removeClass("has-error");
-            tipContent.html();
-            tip.removeClass("show").addClass("hidden");
-        }
-    });
-}
 </script>
