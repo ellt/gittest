@@ -154,8 +154,8 @@ INSERT INTO `onethink_menu` VALUES ('1001', '管理', '0', '2', 'subject/index',
 INSERT INTO `onethink_menu` VALUES ('1002', '科目设置', '1001', '0', 'subject/index', '0', '', '基础信息设置', '0');
 INSERT INTO `onethink_menu` VALUES ('1003', '学期设置', '1001', '0', 'term/index', '0', '', '基础信息设置', '0');
 
-INSERT INTO `onethink_menu` VALUES ('1004', '年级信息管理', '1001', '0', 'GradeClass/index', '0', '', '', '0');
-INSERT INTO `onethink_menu` VALUES ('1005', '班级信息管理', '1001', '0', 'GradeClass/classManager', '0', '', '', '0');
+INSERT INTO `onethink_menu` VALUES ('1004', '年级信息管理', '1001', '0', 'Grade/index', '0', '', '年级班级管理', '0');
+INSERT INTO `onethink_menu` VALUES ('1005', '班级信息管理', '1001', '0', 'Grade/classManager', '0', '', '年级班级管理', '0');
 
 INSERT INTO `onethink_menu` VALUES ('1006', '教师信息管理', '1001', '0', 'teacher/index', '0', '', '人员管理', '0');
 INSERT INTO `onethink_menu` VALUES ('1007', '学生信息管理', '1001', '0', 'student/index', '0', '', '人员管理', '0');

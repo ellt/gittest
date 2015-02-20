@@ -442,19 +442,17 @@ class TeacherController extends UserCenterController {
     public function subjectInit() {
         $id = (int)I('id'); //打开编辑模态框时会接收到教师工号
         $data['status']  = 1;
-    
-//         dump($id);
         
         $teacherInfo = $this->model->getTeacherInfoById($id);
-//         dump($teacherInfo);die();
+//         dump($teacherInfo['support_subject']);die();
         
         $hasSubjects = array();
         $allSubjects = array();
         
-        foreach ($teacherInfo['support_subject'] as $v){
-            $support = array($v['subject_number'] . ' ' . $v['subject_name'], false );
-            $hasSubjects[$v['subject_id']] = $support;
-            //                 array_push($hasSubjects, $support);
+        foreach ($teacherInfo['support_subject'] as $key => $v){
+            unset($teacherInfo['support_subject'][$key]['id']);
+            unset($teacherInfo['support_subject'][$key]['tid']);
+            $teacherInfo['support_subject'][$key]['usedFlag'] = false; // 此标志位标志是学科是否正在使用
         }
         
         $subject_list = D('Common/SubjectInfo')->select();
@@ -463,16 +461,17 @@ class TeacherController extends UserCenterController {
             $allSubjects[$v['id']]= $sub;
         }
         
+//         dump($hasSubjects);die();
         
         $data['data'] = array(
                 'id' => $teacherInfo['id'],
                 'teacherName' => $teacherInfo['true_name'],
                 'teacherId' => $teacherInfo['teacher_id'],
-                'hasSubjects' => $hasSubjects,
+                'hasSubjects' => $teacherInfo['support_subject'],
                 'allSubjects' => $allSubjects,
         );
     
-    
+//         dump($data);die();
         $this->ajaxReturn($data);
     }
 }
