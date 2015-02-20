@@ -52,7 +52,20 @@ class TeacherLogic extends RelationModel
     
                     'as_fields' => 'username,email,mobile,true_name',
             ),
-          
+            
+          'support_subject' => array(
+                  'mapping_type' => self::HAS_MANY ,
+                  
+                  'class_name' => 'TeacherSupportSubject',
+                  
+                  'mapping_key' => 'id',
+                  
+                  'foreign_key' => 'tid',
+                  
+                  'mapping_name' => 'support_subject',
+                  
+//                   'as_fields' => 'username,email,mobile,true_name',
+          )
     );
     
     
@@ -106,6 +119,10 @@ class TeacherLogic extends RelationModel
         }
     
         return $ret;
+    }
+    
+    public function getTeacherInfoById($id){
+        return $this->where("id=$id")->relation(true)->find();
     }
     
 }
