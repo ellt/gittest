@@ -49,7 +49,7 @@ class TeacherController extends UserCenterController {
         }
     }
     
-    public function getUiErrorMsg_new($inData){
+    public function getUiErrorMsg($inData){
         $girdsInfo = $this->getModelGirdInfo('teacher');
         $insertData = $this->converInDataToInserData($inData);
     
@@ -75,35 +75,7 @@ class TeacherController extends UserCenterController {
         return $errorInfo;
     }
     
-    public function getUiErrorMsg($inData){
-        $girdsInfo = $this->getModelGirdInfo('teacher');
-        $insertData = $this->converInDataToInserData($inData);
-        
-        $errorInfo = array();
-        foreach ($insertData as $oneTeacherData){
-            $data = $oneTeacherData['data'];
-            if ($this->model->checkData($data)) {
-                //                     $this->success('添加教师信息成功！', U('index'));
-            } else {
-                $oneRowerrorHint = array();
-                $cellErrorHint = array();
-                $dbErrorMsg = $this->model->getError();
-                $rowNumber = $oneTeacherData['rowNumber'];
-                //                         dump($dbErrorMsg);
-                foreach ($girdsInfo as $colNumber => $v){
-                    if( array_key_exists($v['field'], $dbErrorMsg)){
-                        //                                 $cellErrorHint[0] = array($rowNumber +1, $colNumber) ;
-                        $cellErrorHint[0] =$rowNumber +1;
-                        $cellErrorHint[1] =$colNumber;
-                        $cellErrorHint[2] = $dbErrorMsg[$v['field']];
-                        array_push($errorInfo, $cellErrorHint);
-                    }
-                }
-                //                 $this->error('添加学生信息错误！');
-            }
-        }
-        return $errorInfo;
-    }
+   
     
     public function batchEdit(){
         if (IS_AJAX) {
@@ -113,8 +85,7 @@ class TeacherController extends UserCenterController {
 //                 dump($inData);
                 $inData = I("data");
                
-                $data['error_info'] = $this->getUiErrorMsg_new($inData); //新的错误的数据格式
-                //$data['error_info'] = $this->getUiErrorMsg($inData); //旧的错误的数据格式
+                $data['error_info'] = $this->getUiErrorMsg($inData); 
                 $this->ajaxReturn($data);
             }
             $tableData = $this->getModelTableData('teacher');
@@ -141,7 +112,7 @@ class TeacherController extends UserCenterController {
                 
                 $data = $oneTeacherData['data'];
                 if ($this->model->update($data)) {
-//                     $this->success('添加学生信息成功！', U('index'));
+//                     $this->success('添加教师信息成功！', U('index'));
                 } else {
                     $oneRowerrorHint = array();
                     $cellErrorHint = array();
@@ -229,7 +200,7 @@ class TeacherController extends UserCenterController {
             }
         }
         dump(count($arr));
-        
+        // TODO 修改成非id 关联
         M()->execute('delete from  onethink_user where user_extern_model_id = 11');
         M()->execute('delete from  onethink_user_teacher where id > 0');
 //         die();
@@ -248,7 +219,7 @@ class TeacherController extends UserCenterController {
         die();
     }
     
-    public function converGirdsDataToTable_new($girds, $input_data) {
+    public function converGirdsDataToTable($girds, $input_data) {
         $output_table = array();
         $one_row = array();
         
@@ -279,34 +250,6 @@ class TeacherController extends UserCenterController {
                 $one_row[$k]['title'] =  $cell;
             }
 
-            array_push($output_table, $one_row);
-        }
-        return $output_table;
-    }
-    
-public function converGirdsDataToTable($girds, $input_data) {
-        $output_table = array();
-        $one_row = array();
-        
-        $this->table_header_info = $girds;
-        
-        // 第一行数据是表头需要特殊处理
-        foreach ($girds as $key=>$one_col) {
-            array_push($one_row, $one_col['title']);
-            
-            unset($this->table_header_info[$key]['field']);
-            $this->table_header_info[$key]['field'] = $one_col['field'][0];
-//             dump($one_col['field'][0]);
-           
-        }
-//         dump($this->table_header_info);
-        array_push($output_table, $one_row);
-        
-        foreach ($input_data as $one_data) {
-            $one_row = array();
-            foreach ($this->table_header_info as $one_col) {
-                array_push($one_row, $one_data[$one_col['field']]);
-            }
             array_push($output_table, $one_row);
         }
         return $output_table;
@@ -458,12 +401,83 @@ public function converGirdsDataToTable($girds, $input_data) {
             //         $this->assign('_page', $page->show());
         }
         
-        $data = $this->converGirdsDataToTable_new($grids, $data);
-        //$data = $this->converGirdsDataToTable($grids, $data);
+        $data = $this->converGirdsDataToTable($grids, $data);
         //dump($data);die();
         return $data;
     }
+
+    public function setSubject() {
+        if (IS_POST) {
+            //             dump(I('post.'));
+            $teacherId = I('teacherId');
+            $supportSubjects = I('subjects');
+            $tid = I('id');
+            
+            $map['teacher_id'] = array('eq', $teacherId );
+            
+            if(!$tid){ // TODO 后台需要POST教师的用户id号，则可不需要获取用户信息直接对id进行成操作
+                $teacher = $this->model->where($map)->find();
+            }
+            $insertData = array();
+            foreach ($supportSubjects as $v) {
+                array_push($insertData, array('tid' => $teacher['id'], 'subject_id' => $v ));
+            }
+            //             dump($insertData);
+
+            $m = D('TeacherSupportSubject');
+            
+            $map['tid'] = array('eq', $teacher['id'] );
+            $m->where($map)->delete();
+            $ret = $m->addAll($insertData);
+            
+            if ($ret != false) {
+                $data['status'] = 1;
+                $data['info'] = "保存成功！";
+                $data['url'] = "refresh";
+            }
+            $this->ajaxReturn($data);
+        }
+    }
+    
+    public function subjectInit() {
+        $id = (int)I('id'); //打开编辑模态框时会接收到教师工号
+        $data['status']  = 1;
+    
+//         dump($id);
+        
+        $teacherInfo = $this->model->getTeacherInfoById($id);
+//         dump($teacherInfo);die();
+        
+        $hasSubjects = array();
+        $allSubjects = array();
+        
+        foreach ($teacherInfo['support_subject'] as $v){
+            $support = array($v['subject_number'] . ' ' . $v['subject_name'], false );
+            $hasSubjects[$v['subject_id']] = $support;
+            //                 array_push($hasSubjects, $support);
+        }
+        
+        $subject_list = D('Common/SubjectInfo')->select();
+        foreach ($subject_list as $v) {
+            $sub = $v['subject_number'] . ' ' . $v['subject_name'];
+            $allSubjects[$v['id']]= $sub;
+        }
+        
+        
+        $data['data'] = array(
+                'id' => $teacherInfo['id'],
+                'teacherName' => $teacherInfo['true_name'],
+                'teacherId' => $teacherInfo['teacher_id'],
+                'hasSubjects' => $hasSubjects,
+                'allSubjects' => $allSubjects,
+        );
+    
+    
+        $this->ajaxReturn($data);
+    }
 }
+
+
 
 
     

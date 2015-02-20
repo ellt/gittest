@@ -69,7 +69,15 @@
                     <td>{$vo.true_name}</td>
                     <td><eq name="vo['sex']" value="0">男<else/>女</eq></td>
                     <td>{$vo.mobile}</td>
-                    <td><span class="btn btn-link btn-xs" data-toggle="modal" data-target="#subjectModal" data-get-param="id={$vo.teacher_id}" title="点击编辑">语文</span></td>
+                    <td>
+                    	<span class="btn btn-link btn-xs" data-toggle="modal" data-target="#subjectModal" data-get-param="id={$vo.id}" title="点击编辑">
+                    	[
+                    	<foreach name="vo['support_subject']" item="subject">
+                    		{$subject.subject_name} 
+                    	</foreach>
+                    	]
+						</span>
+					</td>
                     <td>
                         <button class="btn btn-success btn-xs" data-toggle="modal" data-target="#myModal" data-get-param="id={$vo.teacher_id}">编 辑</button>
                     </td>
