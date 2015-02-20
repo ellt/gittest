@@ -106,6 +106,19 @@ class CategoryModel extends Model{
         
         return $info;
     }
+    
+    public function getTitleByID($id){
+    
+        /* 获取所有分类 */
+        $map['cate_type'] = array('eq', 1);
+        $map['name'] =  array('like', 'school@grade%');
+        $map['id'] = array('eq', $id);
+    
+        $info = $this->field($field)->where($map)->order('sort')->find();
+
+    
+        return $info['title'];
+    }
 
     /**
      * 获取指定分类的同级分类

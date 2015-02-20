@@ -72,8 +72,8 @@
                         <tbody>
                             <foreach name="class_tree" item="vo" key="k">
                             <tr>
-                                <td>{$vo.title}</td>
-                                <td>{$vo.class_cnt}</td>
+                                <td>{$vo.name}</td>
+                                <td>{$vo._|count}</td>
                                 <td>
                                     <button class="btn btn-success btn-xs" data-toggle="modal" data-target="#classModal" data-get-param="id={$vo.id}">编 辑</button>
                                 </td>
