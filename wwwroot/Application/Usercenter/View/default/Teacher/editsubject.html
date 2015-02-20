@@ -1,4 +1,4 @@
-<div class="modal fade" id="subjectModal" data-url="{:U('teacher/subjectInit')}" tabindex="-1" role="dialog" aria-labelledby="subjectModalLabel" aria-hidden="true">
+<div class="modal fade" id="editSubjectModal" data-url="{:U('teacher/subjectInit')}" tabindex="-1" role="dialog" aria-labelledby="editSubjectModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -6,30 +6,28 @@
                     <span aria-hidden="true">&times;</span>
                     <span class="sr-only">关闭</span>
                 </button>
-                <h4 class="modal-title" id="subjectModalLabel">任教科目设置</h4>
+                <h4 class="modal-title" id="editSubjectModalLabel">任教科目设置</h4>
             </div>
             <div class="modal-body">
                 <form class="form-horizontal">
                     <div class="form-group">
                         <label class="col-sm-3 control-label">姓名</label>
                         <div class="col-sm-9">
-                            <p class="form-control-static" id="teacherName"></p>
+                            <p class="form-control-static" data-id="teacherName"></p>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">工号</label>
                         <div class="col-sm-9">
-                            <p class="form-control-static" id="teacherId"></p>
+                            <p class="form-control-static" data-id="teacherId"></p>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-3 control-label" title="点击移除科目">任教科目
-                        </label>
+                        <label class="col-sm-3 control-label" title="点击移除科目">任教科目</label>
                         <div class="col-sm-9" id="hasSubjects"></div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-3 control-label" title="点击移除科目">点击添加科目
-                        </label>
+                        <label class="col-sm-3 control-label">点击添加科目</label>
                         <div class="col-sm-9" id="allSubjects"></div>
                     </div>
                 </form>
@@ -45,25 +43,16 @@
 <script>
 $(function(){
 
-    $('#subjectModal').on('show.bs.modal', function (e) {
-        var url = $(this).attr('data-url');
-        var param = $(e.relatedTarget).data("get-param");
-        $.get(url+"&"+param).success(function(data){
-            if (data.status) {
-                initModal(data.data);
-            } else {
-                return e.preventDefault(); // 阻止模态框的展示
-            }
-        });
-    });
+    var $modal = initModalEvent('#editSubjectModal', initModal);
 
-    function initModal(data) {
+    function initModal($modal, data) {
         var hasSubjects = data.hasSubjects;
         var allSubjects = data.allSubjects;
         var temp, tempObj, tempArr = Array();
 
-        $('#teacherName').html(data.teacherName);
-        $('#teacherId').html(data.teacherId).data("teacherId", data.teacherId);
+        $modal.data("id", data.id);
+        $("[data-id='teacherName']", $modal).html(data.teacherName);
+        $("[data-id='teacherId']", $modal).html(data.teacherId);
 
         $('#hasSubjects').html("");
         for (var i in hasSubjects) {
@@ -98,7 +87,7 @@ $(function(){
             }
         }
 
-        $('[data-toggle="tooltip"]').tooltip();
+        $('[data-toggle="tooltip"]', $modal).tooltip();
 
         $('#hasSubjects').on('click', 'button', function(event) {
             if(!$(this).hasClass('active')) {
@@ -110,11 +99,10 @@ $(function(){
             $('#hasSubjects').append(this).append(' ');
         });
     }
-
-    // 科目设置提交
+    
     $("[data-submit='custom']").click(function(e) { 
         var url = $(this).attr('data-url');
-        var teacherId = $('#teacherId').data("teacherId");
+        var id = $modal.data("id");
         var subjects = Array();
         $("button","#hasSubjects").each(function(index, el) {
             subjects.push($(this).data("subject-id"));
@@ -125,16 +113,16 @@ $(function(){
         var oldSubjects = hasSubjects.sort().toString();
         var newSubjects = subjects.sort().toString();
         if (oldSubjects === newSubjects) {
-            $('#myModal').modal('hide');
+            $modal.modal('hide');
             return false; // 没有修改不进行提交
         }
-        
+
         var btn = $(this);
         btn.button('loading');
         //发送到服务器
-        $.post(url, {teacherId: teacherId, subjects: subjects}).success(function(data){
+        $.post(url, {id: id, subjects: subjects}).success(function(data){
             btn.button('reset');
-            $('#myModal').modal('hide');
+            $modal.modal('hide');
             handleAjax(data);
         });
     });

@@ -18,6 +18,55 @@ class TuserController extends UserCenterController {
         $this->redirect('homework');
     }
 
+// --------------学期设置 --------------------------
+
+    public function termSetting(){
+        $this->display("Term/index");
+    }
+
+    public function termInit(){
+        if (IS_AJAX) {
+            $data['status']  = 1;
+            $id = I("id");
+            if($id == 0) {
+                $data['data'] = array(
+                    'term_year' => "2014-2015",
+                    'term_order' =>"下学期",
+                    'term_start'=> "2015-3-1",
+                    'term_end' => ""
+                );
+            } else {
+                $data['data'] = array(
+                    'term_year' => "2014-2015",
+                    'term_order' =>"下学期",
+                    'term_start'=> "2015-3-1",
+                    'term_end' => "2015-3-1"
+                );
+            }
+            $this->ajaxReturn($data);
+        }
+    }
+
+// --------------科目设置 --------------------------
+    public function subjectInit(){
+        $data['status']  = 1;
+        $id = I("id");
+        if($id == 0) {
+            $data['data'] = array(
+                'id' => $id,
+                'subjectNumber' =>"",
+                'subjectName'=> "",
+            );
+        } else {
+            $data['data'] = array(
+                'id' => $id,
+                'subjectNumber' =>"0001",
+                'subjectName'=> "语文",
+            );
+        }
+        $this->ajaxReturn($data);
+    }
+
 // --------------年级信息管理 --------------------------
 
     public function gradeManager(){
@@ -55,14 +104,14 @@ class TuserController extends UserCenterController {
         $this->display('Grade/index');
     }
 
-    public function gradeSubjectInit() {
+    public function getGradeSubjectInfo() {
         $id = I('id'); //打开编辑模态框时会接收到年级编号
         $data['status']  = 1;
 
         if($id == '0') {
             $data['data'] = array(
                 'id' => $id,
-                'grade_title' => '一年级',
+                'gradeTitle' => '一年级',
                 'hasSubjects' => array(
                     '0002' => array('英语', false), // true代表科目在使用
                     '0003' => array('数学', false),
@@ -79,7 +128,7 @@ class TuserController extends UserCenterController {
         } else {
             $data['data'] = array(
                 'id' => $id,
-                'grade_title' => '二年级',
+                'gradeTitle' => '二年级',
                 'hasSubjects' => array(
                     '0001' => array('语文', true), // true代表科目在使用
                     '0003' => array('数学', false),
@@ -114,7 +163,7 @@ class TuserController extends UserCenterController {
 
         $data['data'] = array(
             'id' => $id,
-            'grade_title' => (2008+$id)."级",
+            'gradeTitle' => (2008+$id)." 级",
             'class_count' => 5,
         );
         
@@ -141,30 +190,6 @@ class TuserController extends UserCenterController {
             //$this->success("成功". " grade=".grade." gradename=".gradename." classes=".classes, 'refresh');
             $this->ajaxReturn($data);
         }
-    }
-
-    public function saveSubject() {
-        if (IS_AJAX) {
-            $data['status']  = 1;
-            $data['info'] = "保存成功！";
-            $data['url'] = "no-refresh";
-            $this->ajaxReturn($data);
-        }
-    }
-
-    public function gradeSubject() {
-        if (IS_AJAX) {
-            $data['status']  = 1;
-            $data['info'] = "保存成功！";
-            $data['url'] = "refresh";
-            $data['data'] = array(
-                I('gradeId'),  
-                I('subjects'), //subjects为收到的科目列表 数组格式
-            ); 
-            $this->ajaxReturn($data);
-        }
-
-        $this->display('Subject/gradesubject');
     }
 
 // --------------班级信息管理 --------------------------
@@ -342,35 +367,6 @@ class TuserController extends UserCenterController {
         
 
         $this->ajaxReturn($data);
-    }
-
-// --------------学期设置 --------------------------
-
-    public function termSetting(){
-        $this->display("Term/index");
-    }
-
-    public function termInit(){
-        if (IS_AJAX) {
-            $data['status']  = 1;
-            $id = I("id");
-            if($id == 0) {
-                $data['data'] = array(
-                    'term_year' => "2014-2015",
-                    'term_order' =>"下学期",
-                    'term_start'=> "2015-3-1",
-                    'term_end' => ""
-                );
-            } else {
-                $data['data'] = array(
-                    'term_year' => "2014-2015",
-                    'term_order' =>"下学期",
-                    'term_start'=> "2015-3-1",
-                    'term_end' => "2015-3-1"
-                );
-            }
-            $this->ajaxReturn($data);
-        }
     }
 
     public function homework(){

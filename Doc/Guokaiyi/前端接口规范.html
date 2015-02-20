@@ -14,6 +14,18 @@
 <input type="checkbox" data-check="sql" name="ids[]" value="{$key}" />
 
 <!-- 表单 -->
+<!-- 表单纯文本 -->
+<div class="form-group">
+    <label class="col-sm-3 control-label">姓名</label>
+    <div class="col-sm-9">
+        <p class="form-control-static" data-id="teacherName"></p>
+    </div>
+</div>
+<script>
+$(function(){
+    $("[data-id='teacherId']", $modal).html(data.teacherId);
+});
+</script>
 <!-- 表单命名 -->
 <!-- id名以set开头 -->
 <input type="text" id="setClasses" class="form-control" name="classes" value="4" form="addGradeForm">

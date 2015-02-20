@@ -1,4 +1,4 @@
-<div class="modal fade" id="myModal" data-url="{:U('tuser/teacherInit')}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="myModal" data-url="{:U('tuser/subjectInit')}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -9,35 +9,32 @@
                 <h4 class="modal-title" id="myModalLabel"><span></span>科目</h4>
             </div>
             <div class="modal-body">
-                <form id="myModalForm" role="form">
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <h4 class="pull-right">科目编号：</h4>
-                        </div>
+                <form class="form-horizontal" id="myModalForm" role="form">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="subjectNumber">科目编号</label>
                         <div class="col-sm-4">
-                            <input type="text" class="form-control" name="id" value="">
+                            <input type="text" class="form-control" id="subjectNumber" name="subjectNumber">
                         </div>
                         <div class="col-sm-5">
                             <div class="help-block hidden">
                                 <span class="glyphicon glyphicon-remove"></span>
-                                <span>格式错误</span>
+                                <span></span>
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <h4 class="pull-right">科目名称：</h4>
-                        </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="subjectName">科目名称</label>
                         <div class="col-sm-4">
-                            <input type="text" class="form-control" name="name" value="">
+                            <input type="text" class="form-control" id="subjectName" name="subjectName">
                         </div>
                         <div class="col-sm-5">
                             <div class="help-block hidden">
                                 <span class="glyphicon glyphicon-remove"></span>
-                                <span>格式错误</span>
+                                <span></span>
                             </div>
                         </div>
                     </div>
+                    <input type="hidden" name="id">
                 </form>
             </div>
             <div class="modal-footer">
@@ -56,12 +53,12 @@ $(function(){
 });
 
 function initModal($modal, data) {
-
-    $("span", "#myModalLabel").html(data.id===""?"新增":"编辑");
-    $("[name='id']", "#myModalForm").prop('disabled', data.id===""?false:true);
+    
+    $("span", "#myModalLabel").html(data.subjectNumber===""?"新增":"编辑");
+    $("[name='subjectNumber']", "#myModalForm").prop('disabled', data.subjectNumber===""?false:true);
 
     for (var i in data) {
-        $("[name=" + i + "]", "#myModalForm").val(data[i]);
+        $("[name=" + i + "]", $modal).val(data[i]);
     }
 }
 

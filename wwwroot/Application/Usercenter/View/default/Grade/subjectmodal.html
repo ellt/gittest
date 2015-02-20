@@ -9,30 +9,22 @@
                 <h4 class="modal-title" id="subjectModalLabel">年级科目设置</h4>
             </div>
             <div class="modal-body">
-                <div class="row">
-                    <div class="col-sm-3">
-                        <h4 class="pull-right">年级：</h4>
+                <form class="form-horizontal" id="subjectModalForm" role="form">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">年级</label>
+                        <div class="col-sm-4">
+                            <p class="form-control-static" data-id="gradeTitle"></p>
+                        </div>
                     </div>
-                    <div class="col-sm-4">
-                        <input type="text" class="form-control" name="grade_title" readonly>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" title="点击移除科目">科目</label>
+                        <div class="col-sm-9" id="hasSubjects"></div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-3">
-                        <h4 class="pull-right">科目：</h4>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">点击添加科目</label>
+                        <div class="col-sm-9" id="allSubjects"></div>
                     </div>
-                    <div class="col-sm-9">
-                        <div id="hasSubjects"></div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-3">
-                        <h4 class="pull-right">点击添加：</h4>
-                    </div>
-                    <div class="col-sm-9">
-                        <div id="allSubjects"></div>
-                    </div>
-                </div>
+                </form>
             </div>
             <div class="modal-footer">
                 <button type="submit" class="btn btn-primary" data-submit="custom" data-url="{:U('setGradeSubjectInfo')}" data-loading-text="提交中..." autocomplete="off">确定</button>
@@ -45,16 +37,15 @@
 <script>
 $(function(){
 
-    initModalEvent('#subjectModal', initModal);
+    var $modal = initModalEvent('#subjectModal', initModal);
 
     function initModal($modal, data) {
         var hasSubjects = data.hasSubjects;
         var allSubjects = data.allSubjects;
         var temp, tempObj, tempArr = Array();
 
-        $("#subjectModal").data('gradeId', data.id);
-
-        $("[name='grade_title']", $modal).val(data.grade_title);
+        $modal.data("id", data.id);
+        $("[data-id='gradeTitle']", $modal).html(data.gradeTitle);
 
         $('#hasSubjects').html("");
         for (var i in hasSubjects) {
@@ -105,7 +96,7 @@ $(function(){
     // 科目设置提交
     $("[data-submit='custom']").click(function(e) { 
         var url = $(this).attr('data-url');
-        var gradeId = $("#subjectModal").data('gradeId');
+        var id = $modal.data("id");
         var subjects = Array();
         $("button","#hasSubjects").each(function(index, el) {
             subjects.push($(this).data("subject-id"));
@@ -116,16 +107,16 @@ $(function(){
         var oldSubjects = hasSubjects.sort().toString();
         var newSubjects = subjects.sort().toString();
         if (oldSubjects === newSubjects) {
-            $('#subjectModal').modal('hide');
+            $modal.modal('hide');
             return false; // 没有修改不进行提交
         }
-        
+
         var btn = $(this);
         btn.button('loading');
         //发送到服务器
-        $.post(url, {gradeId: gradeId, subjects: subjects}).success(function(data){
+        $.post(url, {id: id, subjects: subjects}).success(function(data){
             btn.button('reset');
-            $('#subjectModal').modal('hide');
+            $modal.modal('hide');
             handleAjax(data);
         });
     });
