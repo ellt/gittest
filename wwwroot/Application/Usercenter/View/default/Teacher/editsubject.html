@@ -87,7 +87,7 @@ $(function(){
             }
         }
 
-        $('[data-toggle="tooltip"]').tooltip();
+        $('[data-toggle="tooltip"]', $modal).tooltip();
 
         $('#hasSubjects').on('click', 'button', function(event) {
             if(!$(this).hasClass('active')) {

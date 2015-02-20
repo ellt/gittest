@@ -104,14 +104,14 @@ class TuserController extends UserCenterController {
         $this->display('Grade/index');
     }
 
-    public function gradeSubjectInit() {
+    public function getGradeSubjectInfo() {
         $id = I('id'); //打开编辑模态框时会接收到年级编号
         $data['status']  = 1;
 
         if($id == '0') {
             $data['data'] = array(
                 'id' => $id,
-                'grade_title' => '一年级',
+                'gradeTitle' => '一年级',
                 'hasSubjects' => array(
                     '0002' => array('英语', false), // true代表科目在使用
                     '0003' => array('数学', false),
@@ -128,7 +128,7 @@ class TuserController extends UserCenterController {
         } else {
             $data['data'] = array(
                 'id' => $id,
-                'grade_title' => '二年级',
+                'gradeTitle' => '二年级',
                 'hasSubjects' => array(
                     '0001' => array('语文', true), // true代表科目在使用
                     '0003' => array('数学', false),
@@ -163,7 +163,7 @@ class TuserController extends UserCenterController {
 
         $data['data'] = array(
             'id' => $id,
-            'grade_title' => (2008+$id)."级",
+            'gradeTitle' => (2008+$id)." 级",
             'class_count' => 5,
         );
         

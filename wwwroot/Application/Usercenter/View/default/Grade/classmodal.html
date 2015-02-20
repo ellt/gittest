@@ -9,19 +9,15 @@
                 <h4 class="modal-title" id="classModalLabel">年级班级设置</h4>
             </div>
             <div class="modal-body">
-                <form id="classModalForm" role="form">
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <h4 class="pull-right">年级：</h4>
-                        </div>
+                <form class="form-horizontal" id="classModalForm" role="form">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">年级</label>
                         <div class="col-sm-4">
-                            <input type="text" class="form-control" name="grade_title" readonly>
+                            <p class="form-control-static" data-id="gradeTitle"></p>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <h4 class="pull-right">班级数量：</h4>
-                        </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">班级数量</label>
                         <div class="col-sm-4">
                             <div class="input-group">
                                 <span class="input-group-btn">
@@ -40,7 +36,7 @@
                         <div class="col-sm-5">
                             <div class="help-block hidden">
                                 <span class="glyphicon glyphicon-remove"></span>
-                                <span>格式错误</span>
+                                <span></span>
                             </div>
                         </div>
                     </div>
@@ -58,7 +54,15 @@
 <script>
 $(function(){
 
-    initModalEvent('#classModal');
+    initModalEvent('#classModal', initModal);
+
+    function initModal($modal, data) {
+        $("[data-id='gradeTitle']", $modal).html(data.gradeTitle);
+
+        for (var i in data) {
+            $("[name=" + i + "]", $modal).val(data[i]);
+        }
+    }
 
     // 表单合法性校验 
     // 班级数量合法性校验
