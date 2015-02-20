@@ -378,7 +378,7 @@ function showFormTip(form, data) {
 
         if (data && data[$(this).attr("name")]) {
             row.addClass("has-error");
-            tipContent.html(data[index]);
+            tipContent.html(data[$(this).attr("name")]);
             tip.removeClass("hidden").addClass("show");
         } else {
             row.removeClass("has-error");
