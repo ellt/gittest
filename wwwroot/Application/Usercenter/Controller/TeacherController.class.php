@@ -455,13 +455,9 @@ class TeacherController extends UserCenterController {
             $teacherInfo['support_subject'][$key]['usedFlag'] = false; // 此标志位标志是学科是否正在使用
         }
         
-        $subject_list = D('Common/SubjectInfo')->select();
-        foreach ($subject_list as $v) {
-            $sub = $v['subject_number'] . ' ' . $v['subject_name'];
-            $allSubjects[$v['id']]= $sub;
-        }
+        $allSubjects = D('Common/SubjectInfo')->select();
         
-//         dump($hasSubjects);die();
+//         dump($allSubjects);die();
         
         $data['data'] = array(
                 'id' => $teacherInfo['id'],
@@ -471,7 +467,7 @@ class TeacherController extends UserCenterController {
                 'allSubjects' => $allSubjects,
         );
     
-//         dump($data);die();
+        dump($data);die();
         $this->ajaxReturn($data);
     }
 }
