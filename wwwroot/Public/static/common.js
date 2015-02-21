@@ -338,7 +338,7 @@ function initModalEvent(modalSelector, initModalFun) {
         });
     });
 
-    $("[data-submit='form']", $modal).click(function(e) { 
+    $("[data-submit='modal']", $modal).click(function(e) { 
         //取消默认动作，防止表单两次提交
         e.preventDefault();
 
