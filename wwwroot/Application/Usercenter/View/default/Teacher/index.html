@@ -71,15 +71,17 @@
                     <td>{$vo.mobile}</td>
                     <td>
                     	<span class="btn btn-link btn-xs" data-toggle="modal" data-target="#editSubjectModal" data-get-param="id={$vo.id}" title="点击编辑">
-                    	[
-                    	<foreach name="vo['support_subject']" item="subject">
-                    		{$subject.subject_name} 
-                    	</foreach>
-                    	]
+                    	<present name="vo['support_subject']">
+                        	<foreach name="vo['support_subject']" item="subject">
+                        	[ {$subject.subject_name} ]&nbsp;
+                        	</foreach>
+                    	<else/>
+                            无
+                        </present>
 						</span>
 					</td>
                     <td>
-                        <button class="btn btn-success btn-xs" data-toggle="modal" data-target="#myModal" data-get-param="id={$vo.teacher_id}">编 辑</button>
+                        <button class="btn btn-success btn-xs" data-toggle="modal" data-target="#myModal" data-get-param="id={$vo.id}">编 辑</button>
                     </td>
                 </tr>
                 </foreach>

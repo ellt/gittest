@@ -408,25 +408,22 @@ class TeacherController extends UserCenterController {
 
     public function setSubject() {
         if (IS_POST) {
-            //             dump(I('post.'));
-            $teacherId = I('teacherId');
+            
             $supportSubjects = I('subjects');
             $tid = I('id');
             
             $map['teacher_id'] = array('eq', $teacherId );
             
-            if(!$tid){ // TODO 后台需要POST教师的用户id号，则可不需要获取用户信息直接对id进行成操作
-                $teacher = $this->model->where($map)->find();
-            }
             $insertData = array();
             foreach ($supportSubjects as $v) {
-                array_push($insertData, array('tid' => $teacher['id'], 'subject_id' => $v ));
+                array_push($insertData, array('tid' => $tid, 'subject_id' => $v ));
             }
+            
             //             dump($insertData);
 
             $m = D('TeacherSupportSubject');
             
-            $map['tid'] = array('eq', $teacher['id'] );
+            $map['tid'] = array('eq', $tid );
             $m->where($map)->delete();
             $ret = $m->addAll($insertData);
             
@@ -438,6 +435,7 @@ class TeacherController extends UserCenterController {
             $this->ajaxReturn($data);
         }
     }
+
     
     public function subjectInit() {
         $id = (int)I('id'); //打开编辑模态框时会接收到教师工号
@@ -467,9 +465,10 @@ class TeacherController extends UserCenterController {
                 'allSubjects' => $allSubjects,
         );
     
-        dump($data);die();
+        // dump($data);die();
         $this->ajaxReturn($data);
     }
+
 }
 
 
