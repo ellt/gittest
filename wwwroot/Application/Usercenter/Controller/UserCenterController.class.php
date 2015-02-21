@@ -340,7 +340,7 @@ class UserCenterController extends CommonBaseController {
 //                                     unset($menus['child'][$gkey][$k]['url']);
                                     $menus['child'][$gkey][$k]['_child'] = $t;
                                 }
-                                else if($v['url'] == 'GradeClass/classManager'){
+                                else if($v['url'] == 'Class/index'){
                                     $t = get_grade_tree();
                                     $menus['child'][$gkey][$k]['_child'] = $t;
                                 }

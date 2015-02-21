@@ -38,16 +38,6 @@ class TeacherController extends UserCenterController {
         $this->display();
     }
 
-    public function add() {
-        if (IS_AJAX) {
-            if ($this->model->register()) {
-                $this->success('添加学生信息成功！', U('index'));
-            } else {
-                dump($this->model->getError());
-//                 $this->error('添加学生信息错误！');
-            }
-        }
-    }
     
     public function getUiErrorMsg($inData){
         $girdsInfo = $this->getModelGirdInfo('teacher');
@@ -408,25 +398,22 @@ class TeacherController extends UserCenterController {
 
     public function setSubject() {
         if (IS_POST) {
-            //             dump(I('post.'));
-            $teacherId = I('teacherId');
+            
             $supportSubjects = I('subjects');
             $tid = I('id');
             
             $map['teacher_id'] = array('eq', $teacherId );
             
-            if(!$tid){ // TODO 后台需要POST教师的用户id号，则可不需要获取用户信息直接对id进行成操作
-                $teacher = $this->model->where($map)->find();
-            }
             $insertData = array();
             foreach ($supportSubjects as $v) {
-                array_push($insertData, array('tid' => $teacher['id'], 'subject_id' => $v ));
+                array_push($insertData, array('tid' => $tid, 'subject_id' => $v ));
             }
+            
             //             dump($insertData);
 
             $m = D('TeacherSupportSubject');
             
-            $map['tid'] = array('eq', $teacher['id'] );
+            $map['tid'] = array('eq', $tid );
             $m->where($map)->delete();
             $ret = $m->addAll($insertData);
             
@@ -469,6 +456,48 @@ class TeacherController extends UserCenterController {
     
         dump($data);die();
         $this->ajaxReturn($data);
+    }
+    
+    
+    public function getTeacherInitInfo(){
+        
+        $id = I("id");
+        if($id==0){
+            $data['status']  = 1;
+            $data['data'] = array(
+                    'username'=>'',
+                    'id'=>''
+            );
+        }else {
+            $teacherInfo = $this->model->getTeacherInfoById((int)$id);
+            
+            $data['status']  = 1;
+            $data['data'] = $teacherInfo;
+        }
+        $this->ajaxReturn($data);
+    
+    }
+
+    public function setTeacherInfo() {
+        if (IS_POST) {
+            $data = I('post.');
+            if ($this->model->update($data)) {
+                //                     $this->success('添加教师信息成功！', U('index'));
+                $data['status'] = 1;
+                $data['info'] = "保存成功！";
+                $data['url'] = "refresh";
+            } else {
+                $dbErrorMsg = $this->model->getError();
+                foreach ($dbErrorMsg as $k => $v) {
+                    $uiErrorMsg[$k]['errorInfo'] = $v;
+                }
+                
+                $data['status'] = 0;
+                $data['hint'] = $uiErrorMsg;
+            }
+            
+            $this->ajaxReturn($data);
+        }
     }
 }
 

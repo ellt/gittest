@@ -1,4 +1,4 @@
-<div class="modal fade" id="myModal" data-url="{:U('tuser/teacherInit')}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="myModal" data-url="{:U('getTeacherInitInfo')}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -13,7 +13,7 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label" for="teacherId">工号</label>
                         <div class="col-sm-4">
-                            <input type="text" class="form-control" id="teacherId" name="teacherId" readonly>
+                            <input type="text" class="form-control" id="teacherId" name="teacher_id" readonly>
                         </div>
                         <div class="col-sm-5">
                             <div class="help-block hidden">
@@ -25,7 +25,7 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label" for="teacherName">姓名</label>
                         <div class="col-sm-4">
-                            <input type="text" class="form-control" id="teacherName" name="teacherName">
+                            <input type="text" class="form-control" id="trueName" name="true_name">
                         </div>
                         <div class="col-sm-5">
                             <div class="help-block hidden">
@@ -34,18 +34,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label" for="password">密码</label>
-                        <div class="col-sm-4">
-                            <input type="text" class="form-control" id="password" name="password">
-                        </div>
-                        <div class="col-sm-5">
-                            <div class="help-block hidden">
-                                <span class="glyphicon glyphicon-remove"></span>
-                                <span></span>
-                            </div>
-                        </div>
-                    </div>
+
                     <div class="form-group">
                         <label class="col-sm-3 control-label">性别</label>
                         <div class="col-sm-4">
@@ -86,11 +75,12 @@
                                 <span></span>
                             </div>
                         </div>
+                        <input type="hidden" name="id">
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-primary" data-submit="form" data-target="#myModalForm" data-url="{:U('add')}" data-loading-text="提交中..." autocomplete="off">确定</button>
+                <button type="submit" class="btn btn-primary" data-submit="form" data-target="#myModalForm" data-url="{:U('setTeacherInfo')}" data-loading-text="提交中..." autocomplete="off">确定</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
             </div>
         </div>

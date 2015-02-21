@@ -19,19 +19,19 @@ class TermController extends UserCenterController {
         parent::_initialize();
         $this->model =  D('Common/TermInfo');
     }
-    
-    public function termInit(){
+
+    public function termInit() {
         if (IS_AJAX) {
-            $data['status']  = 1;
+            $data['status'] = 1;
             $data['info'] = "保存成功！";
             $data['url'] = "refresh";
             $content = I("content");
-            if($content == "add") {
+            if ($content == "add") {
                 $termdata['term_start'] = date('Y-m-d');
                 // TODO 与前端协议数据交互的方式
                 $data['data'] = $this->model->getInitData($termdata);
             } else {
-                $data['data'] = array("2014-2015","下学期","2015-3-1","555");
+                $data['data'] = array("2014-2015", "下学期", "2015-3-1", "555" );
             }
             $this->ajaxReturn($data);
         }

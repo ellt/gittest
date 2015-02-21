@@ -120,4 +120,9 @@ class StudentLogic extends RelationModel
         return $ret;
     }
     
+    public function getStudentInfoById($id){
+        return $this->where("id=$id")->relation(true)->find();
+    }
+    
+    
 }
