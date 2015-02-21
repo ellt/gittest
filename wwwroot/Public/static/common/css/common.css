@@ -154,6 +154,9 @@ a.ell-sidebar-title:focus {
   float: left;
   font-weight: 400;
 }
+.ell-main-title > h2 > .label {
+  font-size: 100%;
+}
 .ell-tab-wrap > ul {
   margin-bottom: 10px;
 }

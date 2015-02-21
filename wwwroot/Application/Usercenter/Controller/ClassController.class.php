@@ -20,7 +20,8 @@ class ClassController extends UserCenterController {
     
     public function index(){
         
-        theme(); 
+        theme();
+        $this->assign('sidebar_file', 'Public/sidemenu');
         $this->display();
     }
     

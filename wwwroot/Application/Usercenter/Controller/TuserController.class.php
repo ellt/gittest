@@ -585,8 +585,21 @@ class TuserController extends UserCenterController {
         $this->display('NewTerm/index');
     }
 
+    // 新学期时间设置
     public function setNewTerm() {
         $this->display('NewTerm/term');
+    }
+
+    // 新学期班级信息管理
+    public function setNewClassManager() {
+        $this->assign('sidebar_file', 'NewTerm/sidemenu');
+        $this->display('Class/index');
+    }
+
+    // 新学期学生信息管理
+    public function setNewStudentManager() {
+        $this->assign('sidebar_file', 'NewTerm/sidemenu');
+        $this->display('Student/index');
     }
 
     public function setNewGradeClass() {

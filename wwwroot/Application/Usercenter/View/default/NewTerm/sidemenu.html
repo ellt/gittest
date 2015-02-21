@@ -1,0 +1,127 @@
+<ul class="nav nav-blocks nav-stacked" id="sideMenu" role="tablist">
+
+    <volist name="__MENU__.child" id="menu" key="menu_key">
+    <!-- 导航 -->
+    <notempty name="menu">
+        <li <eq name="menu['current']" value="true">class="active"</eq>>
+            <a href="javascript:;" data-toggle="collapse" data-target="#menu{$menu_key}">
+                <i class="fa fa-cog"></i>
+                {$key}
+                <span class="pull-right"><i class="fa fa-caret-left fa-lg"></i></span>
+            </a>
+            <div class="collapse" id="menu{$menu_key}"><!-- 消除bootstrap折叠sidebar时，因间距产生的跳跃 -->
+            <!-- 第二级菜单 -->
+            <ul class="sub-menu">
+                <volist name="menu" id="two_menu" key="two_menu_key">
+                <li <eq name="two_menu['current']" value="true">class="active"</eq>>
+                    <notpresent name="two_menu['_child']">
+                    <a href="{$two_menu.url|U}">{$two_menu.title}</a>
+                    </notpresent>
+
+                    <present name="two_menu['_child']">
+                    <a href="javascript:;" data-toggle="collapse" data-target="#twoMenu{$menu_key}{$two_menu_key}">
+                        {$two_menu.title}
+                        <span class="pull-right"><i class="fa fa-caret-left fa-lg"></i></span>
+                    </a>
+                    <!-- 第三级菜单 -->
+                    <ul class="sub-menu collapse" id="twoMenu{$menu_key}{$two_menu_key}">
+                        <volist name="two_menu['_child']" id="three_menu" key="three_menu_key">
+                        <li <eq name="three_menu['current']" value="true">class="active"</eq>>
+                            <notpresent name="three_menu['_child']">
+                            <a href="{$three_menu.url|U}">{$three_menu.title}</a>
+                            </notpresent>
+
+                            <present name="three_menu['_child']">
+                            <a href="javascript:;" data-toggle="collapse" data-target="#threeMenu{$menu_key}{$two_menu_key}{$three_menu_key}">
+                                {$three_menu.title}
+                                <span class="pull-right"><i class="fa fa-caret-left fa-lg"></i></span>
+                            </a>
+                            <!-- 第四级菜单 -->
+                            <ul class="sub-menu collapse" id="threeMenu{$menu_key}{$two_menu_key}{$three_menu_key}">
+                                <!-- OT volist标签四层嵌套有bug 改用foreach标签 add by Guoky -->
+                                <foreach name="three_menu['_child']" item="four_menu">
+                                <li <eq name="four_menu['current']" value="true">class="active"</eq>>
+                                    <a href="{$four_menu.url|U}">{$four_menu.title}</a>
+                                </li>
+                                </foreach>
+                            </ul>
+                            </present>
+                        </li>
+                        </volist>
+                    </ul>
+                    </present>
+                </li>
+                </volist>
+            </ul>
+            </div>
+        </li>
+    </notempty>
+    <!-- /导航 -->
+    </volist>
+</ul>
+<hr><!-- 新旧分界线，下面为临时 add by guoky -->
+<ul class="nav nav-blocks nav-stacked" role="tablist">
+    <li>
+        <a href="{:U('newIndex')}">
+            <i class="fa fa-home"></i>
+            数据管理主页
+        </a>
+    </li>
+    <li>
+        <a href="{:U('setNewTerm')}">
+            <i class="fa fa-user"></i>
+            学期设置
+        </a>
+    </li>
+    <li>
+        <a href="{:U('Tuser/setNewClassManager')}"> 
+            <i class="fa fa-child"></i>
+            班级信息管理
+        </a>
+    </li>
+    <li>
+        <a href="{:U('Tuser/setNewStudentManager')}"> 
+            <i class="fa fa-child"></i>
+            学生信息管理
+        </a>
+    </li>
+</ul>
+
+<script>
+    $(function(){
+        var targetId, id;
+
+        var activeChild = $("li.active", '#sideMenu').children();
+        activeChild.filter(".collapse").addClass('in');
+        activeChild.filter("a").find('.fa-caret-left')
+                   .removeClass('fa-caret-left').addClass('fa-caret-down');
+
+        $("[data-toggle='collapse']").click(function() {
+            targetId = $(this).attr("data-target");
+        });
+
+        $(".collapse").on('show.bs.collapse', function () {
+            id = $(this).attr("id");
+
+            // 确认被点击的目标
+            if("#"+id == targetId) {
+                changeIcon(targetId, "show");
+            }
+        });
+        $(".collapse").on('hide.bs.collapse', function () {
+            id = $(this).attr("id");
+            if("#"+id == targetId) {
+                changeIcon(targetId, "hide");
+            }
+        });
+    });
+
+    function changeIcon(targetId, status) {
+        var a = $("[data-target=" + targetId + "]");
+        if (status == "show") {
+            a.find("span i").removeClass("fa-caret-left").addClass("fa-caret-down");
+        } else {
+            a.find("span i").removeClass("fa-caret-down").addClass("fa-caret-left");
+        }
+    }
+</script>

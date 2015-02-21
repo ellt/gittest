@@ -36,6 +36,7 @@ class StudentController extends UserCenterController {
         $this->assign('calss_name', D('Class','Logic')->getClassNameById($class_id));
         $this->assign('student_lists',$student_lists);
         $this->assign('sidemenu', $sidemenu);
+        $this->assign('sidebar_file', 'Public/sidemenu');
         $this->display();
     }
 
