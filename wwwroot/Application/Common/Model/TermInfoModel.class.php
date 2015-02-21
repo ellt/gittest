@@ -16,6 +16,9 @@ class TermInfoModel  extends Model{
     /* 数据表前缀 */ 
     protected $tablePrefix      =   'school_';
     
+    const  ONE_TERM_MAX_SECONE     =  10368000; // 一学期最长秒数（120 *86400）4个月
+    const  ADJUST_LIMIT     =  0; // 矫正值
+    
     /* 开启批处理验证 */
     protected $patchValidate    =   true;
     
@@ -30,33 +33,82 @@ class TermInfoModel  extends Model{
     /* 学期模型自动完成 */
     protected $_auto = array(
     );
-    
 
-    public function getCurrrntTermInfoByTimeStamp($stamp=NOW_TIME){
-//         return ;
-        $debug = false;
-        if($debug) dump(date('Y-m-d',$stamp));
-        $termList = $this->order('term_start desc') ->where($map)->select();
-        if($debug)  dump($termList);
-        foreach ($termList as $v){
-            if($debug)  dump($v['term_end'].'<' .$stamp);
-            if((int)$v['term_end'] < $stamp) {
-              if($debug)    dump($v['term_end'].'<' .$stamp .'  yes');
-                continue;
+    /**
+     * 通过时间戳获取当前学期
+     * @param string $stamp
+     * @return 返回获取到的学期，如果传入的时间匹配不到相应的学期则返回null
+     * @author jigc <mrji1990@gmail.com>
+     */
+    public function getTermInfoByTimeStamp($stamp = NOW_TIME) {
+        
+        //         $map['term_start']  = array('elt', $stamp + $this::ADJUST_LIMIT);
+        $termList = $this->order('term_start')->where($map)->select();
+        $termCnt = count($termList);
+        
+        if (empty($termList)) {
+            $result = null;
+        } else if ($termCnt == 1) {
+            $term = $termList[0];
+            //
+            if ($term['term_start'] - $this::ADJUST_LIMIT <= $stamp &&
+                     $stamp <= $term['term_end'] + $this::ADJUST_LIMIT) {
+                $result = $term;
+            } else { // 仅有一个学期，但是当前时间并未在该学期内，则返回空
+                $result = null;
             }
-            if($debug)  dump($v);
-            $nextTerm = $v;
-           if($debug)   dump($v['term_start'].'>' .$stamp);
-            if((int)$v['term_start'] > $stamp){
-             if($debug)     dump($v['term_start'].'>' .$stamp .'  yes');
-                continue;
+        } else if ($termCnt > 1) {
+            
+            for ($i = 1; $i < $termCnt; $i++) {
+                
+                $currentTerm = $termList[$i];
+                
+                if ($i + 1 < $termCnt) { // 还有下一个学期
+                    $nextTerm = $termList[$i + 1];
+                } else {
+                    $nextTerm = null;
+                }
+                
+                // 假如$nextTerm开始时间比当前时间早，则可以判断$currentTerm和$stamp不匹配
+                if ($nextTerm['term_start'] - $this::ADJUST_LIMIT < $stamp) {
+                    continue;
+                }
+                
+                if ($currentTerm['term_end'] + $this::ADJUST_LIMIT > $stamp) {
+                    $result = $currentTerm;
+                    break;
+                } else {
+                    $result = $nextTerm;
+                    break;
+                }
             }
         }
-//         return
-        if($debug) dump($nextTerm);
-        if($debug) die(); 
+//                 dump($result);//die();
+        return $result;
     }
+
+    /**
+     * @param string $stamp
+     * @author jigc <mrji1990@gmail.com>
+     */
+    public function getStartGradeYearByStamp($stamp = NOW_TIME) {
         
+        $startGradrYear = null;
+        $termInfo = $this->getTermInfoByTimeStamp($stamp);
+        
+        if($termInfo == null){
+            return null;
+        }
+        
+        $years = explode('-', $termInfo['term_year']);// term_year 的格式为 2009-2010
+        $yearsStart = $years[0];
+        
+        $startGradrYear = $yearsStart - 5;
+//         dump($startGradrYear); die();
+        return $startGradrYear;
+    }
+    
+    
     
     /**
      * 获取新增或编辑学期的初始化数据

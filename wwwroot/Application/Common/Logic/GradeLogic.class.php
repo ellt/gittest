@@ -35,7 +35,7 @@ class GradeLogic extends RelationModel
     {
         $modele = D('category');
         $map['name'] = array('like', 'school@%');
-        $info=$modele->where($map)->field('id,title,pid,allow_publish,status')->select();
+        $info=$modele->where($map)->field('id,title,pid,allow_publish,status,sort')->select();
         return $info;
     }
 }

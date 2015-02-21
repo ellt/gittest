@@ -399,7 +399,12 @@ function get_grade_class_tree()
             }
         }
     }
-
+    
+    $startGradeYear = D('Common/TermInfo')->getStartGradeYearByStamp();
+    if($startGradeYear == null){
+        return null; //TODO 出错处理
+    }
+    
     $cate           =   list_to_tree($cate);	//生成分类树
 
     //获取分类id
@@ -420,6 +425,15 @@ function get_grade_class_tree()
             foreach ($value['_child'] as $ka=>&$va){
                 //                     $va['url']      =   'student/index?class_id='.$va['id'];
 
+                if ($startGradeYear > $va['sort'] || $va['sort'] > $startGradeYear+5){
+                    if($startGradeYear > $va['sort']){
+                        $va['title'] = $va['title'] . '(已毕业)';
+                    }else{
+                        $va['title'] = $va['title'] . '(新年级)';
+                    }
+                    continue;
+                }
+                
                 if(!empty($va['_child'])){
                     foreach ($va['_child'] as $k=>&$v){
                         $class_info = D('Common/Class', 'Logic')->getClassInfoByCategoryId($v['id']);
@@ -449,7 +463,7 @@ function get_grade_tree()
     $cate_auth  =   AuthGroupModel::getAuthCategories(UID);	//获取当前用户所有的内容权限节点
     $cate_auth  =   $cate_auth == null ? array() : $cate_auth;
     $cate       =   D("Common/Grade","Logic")->getGradeClassList();
-
+    
     //没有权限的分类则不显示
     if(!IS_ROOT){
         foreach ($cate as $key=>$value){
@@ -458,6 +472,12 @@ function get_grade_tree()
             }
         }
     }
+    
+    $startGradeYear = D('Common/TermInfo')->getStartGradeYearByStamp();
+    if($startGradeYear == null){
+        return null; //TODO 出错处理
+    }
+    
     
     $cate           =   list_to_tree($cate);	//生成分类树
 
@@ -469,21 +489,32 @@ function get_grade_tree()
         
         //TODO  仅列出当前所有正在上课的年级
 //        $term_model =  D("Common/TermInfo");
-//        $term_model->getCurrrntTermInfoByTimeStamp(NOW_TIME);
         if(!empty($value['_child'])){
             $is_child = false;
             foreach ($value['_child'] as $ka=>&$va){
-                $va['url']      =   'GradeClass/classManager?grade_id='. (int)$va['title'] . '&cate_id=' . $va['id'];
+
                 if(!empty($va['_child'])){
                     unset($va['_child']);
                 }
+                
+                $va['url']      =   'Class/index?grade_id='. (int)$va['title'] . '&cate_id=' . $va['id'];
+               
+
+                if ($startGradeYear > $va['sort'] || $va['sort'] > $startGradeYear+5){
+                    if($startGradeYear > $va['sort']){
+                        $va['title'] = $va['title'] . '(已毕业)';
+                    }else{
+                        $va['title'] = $va['title'] . '(新年级)';
+                    }
+                    continue;
+                }
+                
                 if($va['id'] == $cate_id ){
                     $va['current'] = true;
                 }
             }
         }
     }
-
-    //         dump($cate);die();
+//             dump($cate);die();
     return $cate[0]['_child'];
 }
