@@ -13,7 +13,7 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">年级</label>
                         <div class="col-sm-4">
-                            <p class="form-control-static" data-id="gradeTitle"></p>
+                            <p class="form-control-static" data-id="grade_title"></p>
                         </div>
                     </div>
                     <div class="form-group">
@@ -40,11 +40,12 @@
                             </div>
                         </div>
                     </div>
+                    <input type="hidden" name="grade_number">
                     <input type="hidden" name="id">
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-primary" data-submit="modal" data-target="#classModalForm" data-url="{:U('editGradeClass')}" data-loading-text="提交中..." autocomplete="off">确定</button>
+                <button type="submit" class="btn btn-primary" data-submit="modal" data-target="#classModalForm" data-url="{:U('setGradeClassNumber')}" data-loading-text="提交中..." autocomplete="off">确定</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
             </div>
         </div>
@@ -57,7 +58,7 @@ $(function(){
     initModalEvent('#classModal', initModal);
 
     function initModal($modal, data) {
-        $("[data-id='gradeTitle']", $modal).html(data.gradeTitle);
+        $("[data-id='grade_title']", $modal).html(data.grade_title);
 
         for (var i in data) {
             $("[name=" + i + "]", $modal).val(data[i]);

@@ -33,6 +33,7 @@ class StudentController extends UserCenterController {
         $student_lists = $this->relationLists($this->model, array('class_id' => $class_id));
         
 //         dump($student_lists);die();
+        $this->assign('class_id', $class_id);
         $this->assign('calss_name', D('Class','Logic')->getClassNameById($class_id));
         $this->assign('student_lists',$student_lists);
         $this->assign('sidemenu', $sidemenu);
@@ -94,9 +95,50 @@ class StudentController extends UserCenterController {
             $data['info'] = "保存成功！";
             $data['url'] = "refresh";
             $data['data'] = $this->getModelTableData('student');
+//             dump( $data['data']);die();
             $this->ajaxReturn($data);
         }
         $this->display();
+    }
+    
+    public function getStudentInitInfo(){
+        $id = I("id");
+        if($id==0){
+            $data['status']  = 1;
+            $data['data'] = array(
+                    'username'=>'',
+                    'id'=>'',
+                    'email'=>''
+            );
+        }else {
+            $teacherInfo = $this->model->getStudentInfoById((int)$id);
+        
+            $data['status']  = 1;
+            $data['data'] = $teacherInfo;
+        }
+        $this->ajaxReturn($data);
+    }
+    
+    public function setStudentInfo(){
+        if (IS_POST) {
+            $data = I('post.');
+            if ($this->model->update($data)) {
+                //                     $this->success('添加学生信息成功！', U('index'));
+                $data['status'] = 1;
+                $data['info'] = "保存成功！";
+                $data['url'] = "refresh";
+            } else {
+                $dbErrorMsg = $this->model->getError();
+                foreach ($dbErrorMsg as $k => $v) {
+                    $uiErrorMsg[$k]['errorInfo'] = $v;
+                }
+        
+                $data['status'] = 0;
+                $data['hint'] = $uiErrorMsg;
+            }
+        
+            $this->ajaxReturn($data);
+        }
     }
     
     public function update() {
@@ -203,6 +245,37 @@ class StudentController extends UserCenterController {
             }
         }
         die();
+    }
+    public function converGirdsDataToTable_new($girds, $input_data) {
+        $output_table = array();
+        $one_row = array();
+    
+        $this->table_header_info = $girds;
+    
+        $firstRow = array();
+        // 第一行数据是表头需要特殊处理
+        foreach ($girds as $key => $one_col) {
+            //             array_push($one_row, $one_col['title']);
+            $one_row['value'] = $one_col['field'][0];
+            $one_row['title'] = $one_col['title'];
+            array_push($firstRow, $one_row);
+        }
+        //         dump($this->table_header_info);
+        array_push($output_table, $firstRow);
+    
+        foreach ($input_data as $one_data) {
+            $one_row = array();
+            //             foreach ($this->table_header_info as $one_col) {
+            //                 array_push($one_row, $one_data[$one_col['field']]);
+            //             }
+            foreach ($one_data as $k => $cell) {
+                $one_row[$k]['value'] = $cell;
+                $one_row[$k]['title'] = $cell;
+            }
+    
+            array_push($output_table, $one_row);
+        }
+        return $output_table;
     }
     public function converGirdsDataToTable($girds, $input_data) {
         $output_table = array();
@@ -374,6 +447,7 @@ class StudentController extends UserCenterController {
             $page->setConfig('theme', '%FIRST% %UP_PAGE% %LINK_PAGE% %DOWN_PAGE% %END% %HEADER%');
             //         $this->assign('_page', $page->show());
         }
+//         return $this->converGirdsDataToTable_new($grids, $data); //新的数据格式
         return $this->converGirdsDataToTable($grids, $data);
     }
 }

@@ -38,16 +38,6 @@ class TeacherController extends UserCenterController {
         $this->display();
     }
 
-    public function add() {
-        if (IS_AJAX) {
-            if ($this->model->register()) {
-                $this->success('添加学生信息成功！', U('index'));
-            } else {
-                dump($this->model->getError());
-//                 $this->error('添加学生信息错误！');
-            }
-        }
-    }
     
     public function getUiErrorMsg($inData){
         $girdsInfo = $this->getModelGirdInfo('teacher');
@@ -435,7 +425,6 @@ class TeacherController extends UserCenterController {
             $this->ajaxReturn($data);
         }
     }
-
     
     public function subjectInit() {
         $id = (int)I('id'); //打开编辑模态框时会接收到教师工号
@@ -468,7 +457,48 @@ class TeacherController extends UserCenterController {
         // dump($data);die();
         $this->ajaxReturn($data);
     }
+    
+    
+    public function getTeacherInitInfo(){
+        
+        $id = I("id");
+        if($id==0){
+            $data['status']  = 1;
+            $data['data'] = array(
+                    'username'=>'',
+                    'id'=>''
+            );
+        }else {
+            $teacherInfo = $this->model->getTeacherInfoById((int)$id);
+            
+            $data['status']  = 1;
+            $data['data'] = $teacherInfo;
+        }
+        $this->ajaxReturn($data);
+    
+    }
 
+    public function setTeacherInfo() {
+        if (IS_POST) {
+            $data = I('post.');
+            if ($this->model->update($data)) {
+                //                     $this->success('添加教师信息成功！', U('index'));
+                $data['status'] = 1;
+                $data['info'] = "保存成功！";
+                $data['url'] = "refresh";
+            } else {
+                $dbErrorMsg = $this->model->getError();
+                foreach ($dbErrorMsg as $k => $v) {
+                    $uiErrorMsg[$k]['errorInfo'] = $v;
+                }
+                
+                $data['status'] = 0;
+                $data['hint'] = $uiErrorMsg;
+            }
+            
+            $this->ajaxReturn($data);
+        }
+    }
 }
 
 

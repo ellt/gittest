@@ -1,4 +1,4 @@
-<div class="modal fade" id="myModal" data-url="{:U('tuser/studentInit')}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="myModal" data-url="{:U('getStudentInitInfo')}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -34,6 +34,7 @@
                             </div>
                         </div>
                     </div>
+                    <!--  屏蔽密码
                     <div class="form-group">
                         <label class="col-sm-3 control-label" for="password">密码</label>
                         <div class="col-sm-4">
@@ -46,6 +47,7 @@
                             </div>
                         </div>
                     </div>
+                     -->
                     <div class="form-group">
                         <label class="col-sm-3 control-label">性别</label>
                         <div class="col-sm-4">
@@ -135,10 +137,12 @@
                             </div>
                         </div>
                     </div>
+                    <input type="hidden" name="id">
+                    <input type="hidden" name="class_id" value="{$class_id}" >
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-primary" data-submit="modal" data-target="#myModalForm" data-url="{:U('add')}" data-loading-text="提交中..." autocomplete="off">确定</button>
+                <button type="submit" class="btn btn-primary" data-submit="modal" data-target="#myModalForm" data-url="{:U('setStudentInfo')}" data-loading-text="提交中..." autocomplete="off">确定</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
             </div>
         </div>

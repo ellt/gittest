@@ -72,7 +72,7 @@ class GradeController extends UserCenterController {
             if (in_array($v['id'], $supportIds)) {// 已经支持的科目ID
                 $support = array($v['subject_number'] . ' ' . $v['subject_name'], false );
                 $hasSubjects[$v['id']] = $support;
-                //                 array_push($hasSubjects, $support);
+//                                 array_push($hasSubjects, $support);
             }
             $sub = $v['subject_number'] . ' ' . $v['subject_name'];
             //             array_push($allSubjects, $sub);
@@ -130,7 +130,28 @@ class GradeController extends UserCenterController {
             }
     }
     public function getGradeClassNumber(){
-        $title = getTitleByID(I('id'));
+        
+        $id = I('id'); //打开编辑模态框时会接收到年级编号
+        $data['status']  = 1;
+        
+        $class_tree = D('Category')->getClassTree('id, title as name,sort,pid,status');
+        
+        foreach ($class_tree as $grade){
+           if( $grade['id'] == $id){
+               $gradeTitle = $grade['name'];
+               $gradeNumber = $grade['sort'];
+               $classCount = count($grade['_']);
+           }
+        }
+        
+        $data['data'] = array(
+                'id' => $id,
+                'grade_number' => $gradeNumber, // 年级编号
+                'grade_title' => $gradeTitle, //年级名称
+                'class_count' => $classCount, // 年级所对应的班级数量
+        );
+        
+        $this->ajaxReturn($data);
     }
    
     public function setGradeClassNumber(){
