@@ -355,8 +355,9 @@ function initModalEvent(modalSelector, initModalFun) {
             if (data.status) {
                 showFormTip(form);
                 $modal.modal('hide');
+                handleAjax(data);
             } else {
-                showFormTip(form, data.error_info);
+                showFormTip(form, data.hint);
             }
         });
     });
@@ -371,21 +372,40 @@ function defaultInitModalFun($modal, data) {
 }
 
 function showFormTip(form, data) {
-    var row, tip, tipContent;
+    var row, tip, tipContent, content;
 
     $("input", form).each(function(index){
-        row = $(this).parentsUntil("form").filter(".row");
-        tip = row.find(".help-block");
-        tipContent = tip.find("span").next();
+        inputName = $(this).attr("name");
+        row = $(this).parents(".form-group");
+        tipContent = row.find(".help-block");
+        tipIcon = row.find('.form-control-feedback');
 
-        if (data && data[$(this).attr("name")]) {
-            row.addClass("has-error");
-            tipContent.html(data[$(this).attr("name")]);
-            tip.removeClass("hidden").addClass("show");
+        if (data && data[inputName]) {
+            // 有提示
+            content = data[inputName];
+            
+            if (content.errorInfo) {
+                row.addClass("has-error");
+                tipContent.html(content.errorInfo);
+                tipIcon.addClass('glyphicon glyphicon-remove');
+            } else if (content.warningInfo) {
+                row.addClass("has-warning");
+                tipContent.html(content.warningInfo);
+                tipIcon.addClass('glyphicon glyphicon-warning-sign');
+            } else {
+                row.addClass("has-success");
+                tipContent.html(content.successInfo);
+                tipIcon.addClass('glyphicon glyphicon-ok');
+            }
+            tipContent.removeClass("hidden").addClass("show");
+            tipIcon.removeClass("hidden").addClass("show");
         } else {
-            row.removeClass("has-error");
+            // 无提示
+            row.removeClass("has-error has-warning has-success");
             tipContent.html();
-            tip.removeClass("show").addClass("hidden");
+            tipIcon.removeClass('glyphicon-*');
+            tipContent.removeClass("show").addClass("hidden");
+            tipIcon.removeClass("show").addClass("hidden");
         }
     });
 }
