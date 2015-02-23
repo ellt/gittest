@@ -116,3 +116,20 @@ CREATE TABLE `school_static_grade_info` (
   `valid_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '生效时间',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='静态年级科目表';
+
+
+-- -----------------------------
+-- 班级任课教师表
+-- -----------------------------
+DROP TABLE IF EXISTS `school_class_teach_info`;
+CREATE TABLE `school_class_teach_info` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `class_id` char(32)  NOT NULL COMMENT '年级编号',
+  `subject_id` char(32)  NOT NULL COMMENT '年级名称',
+  `teacher_id` char(32)  NOT NULL COMMENT '教师的工号',
+  `start_term_id` char(128) NOT NULL COMMENT '起始任课学期id',
+  `teach_start` int(10) unsigned NOT NULL COMMENT '起始任课时间',
+  `teach_end` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '截止任课时间',
+  `master_flag` int(2) unsigned NOT NULL DEFAULT '0' COMMENT '是否班主任标志',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='班级任课教师表';

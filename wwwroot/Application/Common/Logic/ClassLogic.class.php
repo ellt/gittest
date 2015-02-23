@@ -9,37 +9,42 @@
 // +----------------------------------------------------------------------
 
 namespace Common\Logic;
-use Think\Model\RelationModel;
+use Think\Model;
 
 /**
  * 学校班级逻辑定义
  * Class ClassLogic
  * @package Common\Logic
  */
-class ClassLogic extends RelationModel
+class ClassLogic extends Model
 {
 
-    protected $modle = NULL;
+    protected $model = NULL;
     
     /**
      * 构造方法
      */
     public function _initialize(){
         parent::_initialize();
-        $this->modle = D('ClassInfo');
+        $this->model = D('ClassInfo');
     }
     
     public function getClassInfoById($id){
-        return $this->modle->where("id=$id")->relation(true)->find();
+        return $this->model->where("id=$id")->relation(true)->find();
     }
     
     public function getClassInfoByCategoryId($cate_id){
-        return $this->modle->where("cate_id=$cate_id")->relation(true)->find();
+        return $this->model->where("cate_id=$cate_id")->relation(true)->find();
     }
     
     public function getClassNameById($id){
          
-        $info = $this->modle->where("id=$id")->relation(true)->find();
+        $info = $this->model->where("id=$id")->relation(true)->find();
         return $info['grade_name'] . $info['class_name'];
+    }
+    
+    public function getClassListByGradeYear($gradYear, $stamp = NOW_TIME){
+        $rawInfo = $this->model->where("grade_id=$gradYear")->relation(true)->select();
+        return $rawInfo;
     }
 }

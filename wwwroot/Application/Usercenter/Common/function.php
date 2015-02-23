@@ -400,7 +400,7 @@ function get_grade_class_tree()
         }
     }
     
-    $startGradeYear = D('Common/TermInfo')->getStartGradeYearByStamp();
+    $startGradeYear = get_start_grade_year_by_stamp();
     if($startGradeYear == null){
         return null; //TODO 出错处理
     }
@@ -425,15 +425,6 @@ function get_grade_class_tree()
             foreach ($value['_child'] as $ka=>&$va){
                 //                     $va['url']      =   'student/index?class_id='.$va['id'];
 
-                if ($startGradeYear > $va['sort'] || $va['sort'] > $startGradeYear+5){
-                    if($startGradeYear > $va['sort']){
-                        $va['title'] = $va['title'] . '(已毕业)';
-                    }else{
-                        $va['title'] = $va['title'] . '(新年级)';
-                    }
-                    continue;
-                }
-                
                 if(!empty($va['_child'])){
                     foreach ($va['_child'] as $k=>&$v){
                         $class_info = D('Common/Class', 'Logic')->getClassInfoByCategoryId($v['id']);
@@ -448,6 +439,16 @@ function get_grade_class_tree()
                         }
                     }
                 }
+                
+                if ($startGradeYear > $va['sort'] || $va['sort'] > $startGradeYear+5){
+                    if($startGradeYear > $va['sort']){
+                        $va['title'] = $va['title'] . '(已毕业)';
+                    }else{
+                        $va['title'] = $va['title'] . '(新年级)';
+                    }
+                    continue;
+                }
+                
             }
         }
     }
@@ -473,7 +474,7 @@ function get_grade_tree()
         }
     }
     
-    $startGradeYear = D('Common/TermInfo')->getStartGradeYearByStamp();
+    $startGradeYear = get_start_grade_year_by_stamp();
     if($startGradeYear == null){
         return null; //TODO 出错处理
     }
@@ -497,7 +498,7 @@ function get_grade_tree()
                     unset($va['_child']);
                 }
                 
-                $va['url']      =   'Class/index?grade_id='. (int)$va['title'] . '&cate_id=' . $va['id'];
+                $va['url']      =   'Class/index?grade_id='. (int)$va['sort'] . '&cate_id=' . $va['id'];
                
 
                 if ($startGradeYear > $va['sort'] || $va['sort'] > $startGradeYear+5){
@@ -517,4 +518,17 @@ function get_grade_tree()
     }
 //             dump($cate);die();
     return $cate[0]['_child'];
+}
+
+function get_term_info_by_time_stamp($stamp = NOW_TIME){
+   return  D('Common/TermInfo')->getTermInfoByTimeStamp($stamp);
+}
+
+function get_start_grade_year_by_stamp($stamp = NOW_TIME){
+    return D('Common/TermInfo')->getStartGradeYearByStamp($stamp);
+}
+
+
+function get_static_grade_info_by_grade_number($GradeNumber, $termStartStamp){
+    return D('StaticGradeInfo')->getStaticGradeInfoByGradeNumber($GradeNumber, $termStartStamp);
 }
