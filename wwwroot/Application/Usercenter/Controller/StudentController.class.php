@@ -447,8 +447,8 @@ class StudentController extends UserCenterController {
             $page->setConfig('theme', '%FIRST% %UP_PAGE% %LINK_PAGE% %DOWN_PAGE% %END% %HEADER%');
             //         $this->assign('_page', $page->show());
         }
-//         return $this->converGirdsDataToTable_new($grids, $data); //新的数据格式
-        return $this->converGirdsDataToTable($grids, $data);
+         return $this->converGirdsDataToTable_new($grids, $data); //新的数据格式
+//        return $this->converGirdsDataToTable($grids, $data);
     }
 }
 
