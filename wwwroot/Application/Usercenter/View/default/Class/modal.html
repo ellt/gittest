@@ -11,30 +11,24 @@
             <div class="modal-body">
                 <form class="form-horizontal" id="myModalForm" role="form">
                     <div class="form-group">
-                        <label for="original" class="col-sm-2 control-label">原来的</label>
+                        <label class="col-sm-2 control-label">原来的</label>
                         <div class="col-sm-5">
-                            <input type="text" class="form-control" id="original" readonly>
+                            <p class="form-control-static"></p>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label for="new" class="col-sm-2 control-label">新的</label>
+
+                    <div class="form-group has-feedback">
+                        <label class="col-sm-2 control-label" for="new">新的</label>
                         <div class="col-sm-5 typeahead">
-                            <input type="text" class="form-control" id="new" name="teacher_2" data-provide="typeahead" placeholder="请输入教师工号或姓名" autocomplete="off">
+                            <input type="text" class="form-control" id="new" name="new" data-provide="typeahead" placeholder="请输入教师工号或姓名" autocomplete="off">
+                            <span class="form-control-feedback"></span>
                         </div>
-                        <div class="col-sm-5">
-                            <div class="help-block hidden">
-                                <span class="glyphicon glyphicon-remove text-danger"></span>
-                                <span>教师不存在，前往<a href="">教师信息管理</a></span>
-                            </div>
-                            <div class="help-block hidden">
-                                <span class="glyphicon glyphicon-info-sign text-info"></span>
-                                <span>请在下方提示框中点击选取</span>
-                            </div>
-                            <div class="help-block">
-                                <span class="glyphicon glyphicon-info-sign text-info"></span>
-                                <span>该教师原不属于数学科组，点击确定后将自动加入数学科组</span>
-                            </div>
-                        </div>
+                        <div class="col-sm-4 help-block hidden"></div>
+                        <!-- 
+                            <span>教师不存在，前往<a href="">教师信息管理</a></span>
+                            <span>请在下方提示框中点击选取</span>
+                            <span>该教师原不属于数学科组，点击确定后将自动加入数学科组</span>
+                         -->
                     </div>
                 </form>
             </div>
