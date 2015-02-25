@@ -1,4 +1,4 @@
-<div class="modal fade" id="myModal" data-url="{:U('tuser/subjectInit')}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="myModal" data-url="{:U('getSubjectInfo')}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -13,7 +13,7 @@
                     <div class="form-group has-feedback">
                         <label class="col-sm-3 control-label" for="subjectNumber">科目编号</label>
                         <div class="col-sm-5">
-                            <input type="text" class="form-control" id="subjectNumber" name="subjectNumber">
+                            <input type="text" class="form-control" id="subject_number" name="subject_number">
                             <span class="form-control-feedback"></span>
                         </div>
                         <div class="col-sm-4 help-block hidden"></div>
@@ -22,7 +22,7 @@
                     <div class="form-group has-feedback">
                         <label class="col-sm-3 control-label" for="subjectName">科目名称</label>
                         <div class="col-sm-5">
-                            <input type="text" class="form-control" id="subjectName" name="subjectName">
+                            <input type="text" class="form-control" id="subject_name" name="subject_name">
                             <span class="form-control-feedback"></span>
                         </div>
                         <div class="col-sm-4 help-block hidden"></div>
@@ -32,7 +32,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-primary" data-submit="modal" data-target="#myModalForm" data-url="{:U('add')}" data-loading-text="提交中..." autocomplete="off">确定</button>
+                <button type="submit" class="btn btn-primary" data-submit="modal" data-target="#myModalForm" data-url="{:U('setSubjectInfo')}" data-loading-text="提交中..." autocomplete="off">确定</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
             </div>
         </div>
