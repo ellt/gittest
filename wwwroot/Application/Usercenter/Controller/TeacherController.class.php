@@ -454,7 +454,7 @@ class TeacherController extends UserCenterController {
                 'allSubjects' => $allSubjects,
         );
     
-        dump($data);die();
+        // dump($data);die();
         $this->ajaxReturn($data);
     }
     

@@ -10,35 +10,29 @@
             </div>
             <div class="modal-body">
                 <form class="form-horizontal" id="myModalForm" role="form">
-                    <div class="form-group">
+                    <div class="form-group has-feedback">
                         <label class="col-sm-3 control-label" for="subjectNumber">科目编号</label>
-                        <div class="col-sm-4">
+                        <div class="col-sm-5">
                             <input type="text" class="form-control" id="subjectNumber" name="subjectNumber">
+                            <span class="form-control-feedback"></span>
                         </div>
-                        <div class="col-sm-5">
-                            <div class="help-block hidden">
-                                <span class="glyphicon glyphicon-remove"></span>
-                                <span></span>
-                            </div>
-                        </div>
+                        <div class="col-sm-4 help-block hidden"></div>
                     </div>
-                    <div class="form-group">
+
+                    <div class="form-group has-feedback">
                         <label class="col-sm-3 control-label" for="subjectName">科目名称</label>
-                        <div class="col-sm-4">
-                            <input type="text" class="form-control" id="subjectName" name="subjectName">
-                        </div>
                         <div class="col-sm-5">
-                            <div class="help-block hidden">
-                                <span class="glyphicon glyphicon-remove"></span>
-                                <span></span>
-                            </div>
+                            <input type="text" class="form-control" id="subjectName" name="subjectName">
+                            <span class="form-control-feedback"></span>
                         </div>
+                        <div class="col-sm-4 help-block hidden"></div>
                     </div>
+
                     <input type="hidden" name="id">
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-primary" data-submit="form" data-target="#myModalForm" data-url="{:U('add')}" data-loading-text="提交中..." autocomplete="off">确定</button>
+                <button type="submit" class="btn btn-primary" data-submit="modal" data-target="#myModalForm" data-url="{:U('add')}" data-loading-text="提交中..." autocomplete="off">确定</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
             </div>
         </div>
@@ -55,7 +49,7 @@ $(function(){
 function initModal($modal, data) {
     
     $("span", "#myModalLabel").html(data.subjectNumber===""?"新增":"编辑");
-    $("[name='subjectNumber']", "#myModalForm").prop('disabled', data.subjectNumber===""?false:true);
+    $("[name='subjectNumber']", "#myModalForm").prop('readonly', data.subjectNumber===""?false:true);
 
     for (var i in data) {
         $("[name=" + i + "]", $modal).val(data[i]);

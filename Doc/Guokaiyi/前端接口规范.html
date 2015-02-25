@@ -71,11 +71,11 @@ $(function(){
 <input type="checkbox" data-check="sql" name="ids[]" value="{$key}"/>
 
 <!-- 自定义方式 -->
-<!-- 提交按钮 添加 data-submit="类型"(edit-table 可编辑表格提交、form 表单、search 搜索条提交、custom自定义提交方式) 
+<!-- 提交按钮 添加 data-submit="类型"(edit-table 可编辑表格提交、modal 模态表单提交、form 表单、search 搜索条提交、custom自定义提交方式) 
                    data-target="标识" data-url="提交地址" 
     自定义提交JS
 -->
-<button type="submit" class="btn btn-primary" data-submit="form" data-target="#addGradeForm" data-url="{:U('Tuser/addGrade')}" data-loading-text="提交中..." autocomplete="off">确定</button>
+<button type="submit" class="btn btn-primary" data-submit="modal" data-target="#myModalForm" data-url="{:U('Tuser/addGrade')}" data-loading-text="提交中..." autocomplete="off">确定</button>
 <script>
 $(function(){
     // 新增年级表单提交

@@ -19,7 +19,7 @@ class ClassController extends UserCenterController {
     }
     
     public function index(){
-        
+
         theme(); 
         $gradeYear = I('grade_id');
         $nowTermInfo = get_term_info_by_time_stamp(); //取得当前的学期
@@ -80,6 +80,7 @@ class ClassController extends UserCenterController {
         $this->assign('subject_list',$subjectIndexById);
         $this->assign('grade_id', $gradeYear);
         $this->assign('class_list', $classList);
+        $this->assign('sidebar_file', 'Public/sidemenu');
         $this->display();
     }
     

@@ -4,69 +4,71 @@
 
 <!-- 子导航 -->
 <block name="sidebar">
-    <include file="Public/sidemenu"/>
+    <include file="NewTerm/sidemenu"/>
 </block>
 
 <block name="content">
     <!-- 标题 -->
     <div class="ell-main-title">
-        <h2>学期设置 [2014-2015学年 下学期]
+        <h2><span class="label label-info">新学期</span> 学期设置 [2014-2015学年 下学期]
         </h2>
     </div>
 
-    <div>
-        <form class="form-horizontal" id="setTermForm" role="form">
-            <div class="form-group">
-                <label for="termYear" class="col-sm-2 control-label">学年：</label>
-                <div class="col-sm-3">
-                    <input type="text" class="form-control" id="termYear" name="term_year" value="2014-2015" readonly>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="termOrder" class="col-sm-2 control-label">学期：</label>
-                <div class="col-sm-3">
-                    <input type="text" class="form-control" id="termOrder" name="term_order" value="下学期" readonly>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="termStart" class="col-sm-2 control-label">开始时间：</label>
-                <div class="col-sm-3 input-group date">
-                    <input type="text" class="form-control" id="termStart" name="term_start" value="2015-10-12" readonly>
-                    <span class="input-group-addon">
-                        <span class="glyphicon glyphicon-calendar"></span>
-                    </span>
-                </div>
-                <div class="col-sm-5">
-                    <div class="help-block hidden">
-                        <span class="glyphicon glyphicon-remove"></span>
-                        <span>格式错误</span>
+    <div class="col-lg-7">    
+        <div class="panel panel-primary">
+            <div class="panel-heading">学期设置</div>
+            <div class="panel-body">
+                <form class="form-horizontal" id="setTermForm" role="form">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">学年</label>
+                        <div class="col-sm-4">
+                            <p class="form-control-static">2014-2015</p>
+                        </div>
                     </div>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="termEnd" class="col-sm-2 control-label">结束时间：</label>
-                <div class="col-sm-3 input-group date">
-                    <input type="text" class="form-control" id="termEnd" name="term_end" value="2015-10-13" readonly>
-                    <span class="input-group-addon">
-                        <span class="glyphicon glyphicon-calendar"></span>
-                    </span>
-                </div>
-                <div class="col-sm-5">
-                    <div class="help-block hidden">
-                        <span class="glyphicon glyphicon-remove"></span>
-                        <span>格式错误</span>
+                    
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">学期</label>
+                        <div class="col-sm-4">
+                            <p class="form-control-static">下学期</p>
+                        </div>
                     </div>
+
+                    <div class="form-group has-feedback">
+                        <label class="col-sm-3 control-label" for="termStart" >开始时间</label>
+                        <div class="col-sm-4">
+                            <div class="input-group date">
+                                <input type="text" class="form-control" id="termStart" name="term_start" value="2015-10-12" readonly>
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                            <span class="form-control-feedback has-addon"></span>
+                        </div>
+                        <div class="col-sm-5 help-block hidden"></div>
+                    </div>
+
+                    <div class="form-group has-feedback">
+                        <label class="col-sm-3 control-label" for="termEnd">结束时间</label>
+                        <div class="col-sm-4">
+                            <div class="input-group date">
+                                <input type="text" class="form-control" id="termEnd" name="term_end" value="2015-10-13" readonly>
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                            <span class="form-control-feedback has-addon"></span>
+                        </div>
+                        <div class="col-sm-5 help-block hidden"></div>
+                    </div>
+                </form>
+            </div>
+            <div class="panel-footer clearfix">
+                <div class="pull-right">
+                    <button type="button" class="btn btn-primary" data-submit="form" data-target="#setTermForm" data-url="{:U('Term/update')}" data-loading-text="提交中..." autocomplete="off">确定，下一步</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">返回</button>
                 </div>
             </div>
-            <div class="form-group">
-                <div class="col-xs-6 col-sm-offset-1 col-sm-2">
-                    <button type="button" class="btn btn-primary form-control" data-submit="form" data-target="#setTermForm" data-url="{:U('Term/update')}" data-loading-text="提交中..." autocomplete="off">确定，下一步</button>
-                </div>
-                <div class="col-xs-6 col-sm-2">
-                    <button type="button" class="btn btn-danger form-control" data-dismiss="modal">返回</button>
-                </div>
-            </div>
-        </form>
+        </div>
     </div>
 </block>
 
@@ -108,25 +110,5 @@
             });
         });
     });
-
-    function showFormTip(form, data) {
-        var row, tip, tipContent;
-        data = data || []; // 给定默认值为空数组
-        $("input", form).each(function(index){
-            row = $(this).parentsUntil("form").filter(".row");
-            tip = row.find(".help-block");
-            tipContent = tip.find("span").next();
-
-            if (data[index]) {
-                row.addClass("has-error");
-                tipContent.html(data[index]);
-                tip.removeClass("hidden").addClass("show");
-            } else {
-                row.removeClass("has-error");
-                tipContent.html();
-                tip.removeClass("show").addClass("hidden");
-            }
-        });
-    }
     </script>
 </block>

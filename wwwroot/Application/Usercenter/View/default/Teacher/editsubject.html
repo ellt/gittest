@@ -59,11 +59,11 @@ $(function(){
             tempArr.push(i);
 
             tempObj = $('<button type="button"></button>')
-                    .html(hasSubjects[i][0])
+                    .html(hasSubjects[i].subject_name)
                     .addClass('btn btn-default btn-sm')
                     .data("subject-id",i);
             
-            if (hasSubjects[i][1]) {
+            if (hasSubjects[i].usedFlag) {
                 tempObj.addClass('active')
                        .attr('data-toggle', 'tooltip')
                        .attr('data-placement', 'bottom')
@@ -79,7 +79,7 @@ $(function(){
             temp = $.inArray(j, tempArr);
             if (temp === -1) {
                 tempObj = $('<button type="button"></button>')
-                        .html(allSubjects[j])
+                        .html(allSubjects[j].subject_name)
                         .addClass('btn btn-default btn-sm')
                         .data("subject-id",j);
 

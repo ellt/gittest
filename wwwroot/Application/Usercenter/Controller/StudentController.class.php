@@ -37,6 +37,7 @@ class StudentController extends UserCenterController {
         $this->assign('calss_name', D('Class','Logic')->getClassNameById($class_id));
         $this->assign('student_lists',$student_lists);
         $this->assign('sidemenu', $sidemenu);
+        $this->assign('sidebar_file', 'Public/sidemenu');
         $this->display();
     }
 
@@ -446,8 +447,8 @@ class StudentController extends UserCenterController {
             $page->setConfig('theme', '%FIRST% %UP_PAGE% %LINK_PAGE% %DOWN_PAGE% %END% %HEADER%');
             //         $this->assign('_page', $page->show());
         }
-//         return $this->converGirdsDataToTable_new($grids, $data); //新的数据格式
-        return $this->converGirdsDataToTable($grids, $data);
+         return $this->converGirdsDataToTable_new($grids, $data); //新的数据格式
+//        return $this->converGirdsDataToTable($grids, $data);
     }
 }
 

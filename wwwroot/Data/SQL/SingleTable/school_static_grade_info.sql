@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50621
 File Encoding         : 65001
 
-Date: 2015-02-12 18:09:34
+Date: 2015-02-21 09:30:44
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -26,13 +26,13 @@ CREATE TABLE `school_static_grade_info` (
   `support_subject` char(128) NOT NULL COMMENT '支持的科目列表',
   `valid_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '生效时间',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='静态年级科目表';
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='静态年级科目表';
 
 -- ----------------------------
 -- Records of school_static_grade_info
 -- ----------------------------
-INSERT INTO `school_static_grade_info` VALUES ('1', '1', '一年级', '1,2', '0');
-INSERT INTO `school_static_grade_info` VALUES ('2', '2', '二年级', '1,2', '0');
+INSERT INTO `school_static_grade_info` VALUES ('1', '1', '一年级', '1,4,6', '0');
+INSERT INTO `school_static_grade_info` VALUES ('2', '2', '二年级', '1,2,3,4,6,7', '0');
 INSERT INTO `school_static_grade_info` VALUES ('3', '3', '三年级', '1,2', '0');
 INSERT INTO `school_static_grade_info` VALUES ('4', '4', '四年级', '1,2', '0');
 INSERT INTO `school_static_grade_info` VALUES ('5', '5', '五年级', '1,2,3', '0');

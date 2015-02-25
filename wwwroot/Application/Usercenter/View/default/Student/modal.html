@@ -10,139 +10,94 @@
             </div>
             <div class="modal-body">
                 <form class="form-horizontal" id="myModalForm" role="form">
-                    <div class="form-group">
+                    <div class="form-group has-feedback">
                         <label class="col-sm-3 control-label" for="studentId">学号</label>
-                        <div class="col-sm-4">
+                        <div class="col-sm-5">
                             <input type="text" class="form-control" id="studentId" name="student_id" readonly>
+                            <span class="form-control-feedback"></span>
                         </div>
-                        <div class="col-sm-5">
-                            <div class="help-block hidden">
-                                <span class="glyphicon glyphicon-remove"></span>
-                                <span></span>
-                            </div>
-                        </div>
+                        <div class="col-sm-4 help-block hidden"></div>
                     </div>
-                    <div class="form-group">
+
+                    <div class="form-group has-feedback">
                         <label class="col-sm-3 control-label" for="name">姓名</label>
-                        <div class="col-sm-4">
+                        <div class="col-sm-5">
                             <input type="text" class="form-control" id="name" name="true_name">
+                            <span class="form-control-feedback"></span>
                         </div>
-                        <div class="col-sm-5">
-                            <div class="help-block hidden">
-                                <span class="glyphicon glyphicon-remove"></span>
-                                <span></span>
-                            </div>
-                        </div>
+                        <div class="col-sm-4 help-block hidden"></div>
                     </div>
-                    <!--  屏蔽密码
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label" for="password">密码</label>
-                        <div class="col-sm-4">
-                            <input type="text" class="form-control" id="password" name="password">
-                        </div>
-                        <div class="col-sm-5">
-                            <div class="help-block hidden">
-                                <span class="glyphicon glyphicon-remove"></span>
-                                <span></span>
-                            </div>
-                        </div>
-                    </div>
-                     -->
+
                     <div class="form-group">
                         <label class="col-sm-3 control-label">性别</label>
-                        <div class="col-sm-4">
-                            <label class="radio-inline">
-                              <input type="radio" name="sex" value="male" checked> 男
-                            </label>
-                            <label class="radio-inline">
-                              <input type="radio" name="sex" value="female"> 女
-                            </label>
-                        </div>
                         <div class="col-sm-5">
-                            <div class="help-block hidden">
-                                <span class="glyphicon glyphicon-remove"></span>
-                                <span></span>
-                            </div>
+                            <label class="radio-inline">
+                                <input type="radio" name="sex" value="male" checked> 男
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="sex" value="female"> 女
+                            </label>
                         </div>
                     </div>
-                    <div class="form-group">
+
+                    <div class="form-group has-feedback">
                         <label class="col-sm-3 control-label" for="email">邮箱</label>
-                        <div class="col-sm-4">
+                        <div class="col-sm-5">
                             <input type="text" class="form-control" id="email" name="email">
+                            <span class="form-control-feedback"></span>
                         </div>
-                        <div class="col-sm-5">
-                            <div class="help-block hidden">
-                                <span class="glyphicon glyphicon-remove"></span>
-                                <span></span>
-                            </div>
-                        </div>
+                        <div class="col-sm-4 help-block hidden"></div>
                     </div>
-                    <div class="form-group">
+
+                    <div class="form-group has-feedback">
                         <label class="col-sm-3 control-label" for="mobile">联系方式</label>
-                        <div class="col-sm-4">
+                        <div class="col-sm-5">
                             <input type="text" class="form-control" id="mobile" name="mobile">
+                            <span class="form-control-feedback"></span>
                         </div>
-                        <div class="col-sm-5">
-                            <div class="help-block hidden">
-                                <span class="glyphicon glyphicon-remove"></span>
-                                <span></span>
-                            </div>
-                        </div>
+                        <div class="col-sm-4 help-block hidden"></div>
                     </div>
-                    <div class="form-group">
+
+                    <div class="form-group has-feedback">
                         <label class="col-sm-3 control-label" for="dadName">父亲</label>
-                        <div class="col-sm-4">
+                        <div class="col-sm-5">
                             <input type="text" class="form-control" id="dadName" name="dad_name">
+                            <span class="form-control-feedback"></span>
                         </div>
-                        <div class="col-sm-5">
-                            <div class="help-block hidden">
-                                <span class="glyphicon glyphicon-remove"></span>
-                                <span></span>
-                            </div>
-                        </div>
+                        <div class="col-sm-4 help-block hidden"></div>
                     </div>
-                    <div class="form-group">
+
+                    <div class="form-group has-feedback">
                         <label class="col-sm-3 control-label" for="dadMobile">父亲手机</label>
-                        <div class="col-sm-4">
+                        <div class="col-sm-5">
                             <input type="text" class="form-control" id="dadMobile" name="dad_mobile">
+                            <span class="form-control-feedback"></span>
                         </div>
-                        <div class="col-sm-5">
-                            <div class="help-block hidden">
-                                <span class="glyphicon glyphicon-remove"></span>
-                                <span></span>
-                            </div>
-                        </div>
+                        <div class="col-sm-4 help-block hidden"></div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group has-feedback">
                         <label class="col-sm-3 control-label" for="momName">母亲</label>
-                        <div class="col-sm-4">
+                        <div class="col-sm-5">
                             <input type="text" class="form-control" id="momName" name="mom_name">
+                            <span class="form-control-feedback"></span>
                         </div>
-                        <div class="col-sm-5">
-                            <div class="help-block hidden">
-                                <span class="glyphicon glyphicon-remove"></span>
-                                <span></span>
-                            </div>
-                        </div>
+                        <div class="col-sm-4 help-block hidden"></div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group has-feedback">
                         <label class="col-sm-3 control-label" for="momMobile">母亲手机</label>
-                        <div class="col-sm-4">
-                            <input type="text" class="form-control" id="momMobile" name="mom_mobile">
-                        </div>
                         <div class="col-sm-5">
-                            <div class="help-block hidden">
-                                <span class="glyphicon glyphicon-remove"></span>
-                                <span></span>
-                            </div>
+                            <input type="text" class="form-control" id="momMobile" name="mom_mobile">
+                            <span class="form-control-feedback"></span>
                         </div>
+                        <div class="col-sm-4 help-block hidden"></div>
                     </div>
+
                     <input type="hidden" name="id">
                     <input type="hidden" name="class_id" value="{$class_id}" >
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-primary" data-submit="form" data-target="#myModalForm" data-url="{:U('setStudentInfo')}" data-loading-text="提交中..." autocomplete="off">确定</button>
+                <button type="submit" class="btn btn-primary" data-submit="modal" data-target="#myModalForm" data-url="{:U('setStudentInfo')}" data-loading-text="提交中..." autocomplete="off">确定</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
             </div>
         </div>
