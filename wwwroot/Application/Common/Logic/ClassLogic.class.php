@@ -44,7 +44,7 @@ class ClassLogic extends Model
     }
     
     public function getClassListByGradeYear($gradYear, $stamp = NOW_TIME){
-        $rawInfo = $this->model->where("grade_id=$gradYear")->relation(true)->select();
+        $rawInfo = $this->model->where("grade_id=$gradYear")->relation(false)->select();
         return $rawInfo;
     }
 }

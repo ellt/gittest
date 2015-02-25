@@ -12,13 +12,14 @@
 <block name="content">
     <!-- 标题 -->
     <div class="ell-main-title">
-        <h2>班级信息管理 [2013 级]
+        <h2>班级信息管理 [{$grade_id}级]
         </h2>
     </div>
 
     <!-- 数据表格 -->
+    <foreach name='class_list' item='vo'>
     <div class="panel panel-primary">
-        <div class="panel-heading">2013 级 1 班</div>
+        <div class="panel-heading">{$vo.class_name}</div>
         <div class="panel-body">
             <h4>班主任: <strong title="工号：100016">李芳</strong>
                 <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#myModal" data-get-param="class=1&role=master">编 辑</button>
@@ -33,21 +34,18 @@
                         <th>操作</th>
                     </tr>
                 </thead>
+               
+                
                 <tbody  id="content">
+                	<foreach name="vo['support_subject']" item='sub'>
                     <tr>
-                        <td><span title="科目编号：0001">语文</span></td>
-                        <td><span title="工号：100012">李梅</span></td>
+                        <td><span title="科目编号:{$sub.subject_id}">{$sub.subject_name}</span></td>
+                        <td><span title="教师用户ID:{$sub.teacher_id}">{$sub.teacher_name}</span></td>
                         <td>
-                            <button class="btn btn-success btn-xs" data-toggle="modal" data-target="#myModal" data-get-param="class=1&role=teacher&subject=0001">编 辑</button>
+                            <button class="btn btn-success btn-xs" data-toggle="modal" data-target="#myModal" data-get-param="class={$vo.id}&role=teacher&subject_id={$sub.subject_id}&teacher_id={$sub.teacher_id}">编 辑</button>
                         </td>
                     </tr>
-                    <tr>
-                        <td><span title="科目编号：0002">数学</span></td>
-                        <td><span title="工号：100013">大山</span></td>
-                        <td>
-                            <button class="btn btn-success btn-xs" data-toggle="modal" data-target="#myModal" data-get-param="class=1&role=teacher&subject=0002">编 辑</button>
-                        </td>
-                    </tr>
+                    </foreach>
                 </tbody>
             </table>
             <div class="panel-footer">
@@ -55,4 +53,5 @@
             </div>
         </div>
     </div>
+    </foreach>
 </block>

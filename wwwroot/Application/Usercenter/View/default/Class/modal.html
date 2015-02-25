@@ -79,7 +79,7 @@ function initModal($modal, data) {
     var title = data.title;
     var old = data.old;
     $("span", "#myModalLabel").html(title);
-    $("#original").val("("+old[0]+")   "+old[1]);
+    $("#original").val(old.true_name);
     initTypeahead(data.list);
 }
 

@@ -532,3 +532,8 @@ function get_start_grade_year_by_stamp($stamp = NOW_TIME){
 function get_static_grade_info_by_grade_number($GradeNumber, $termStartStamp){
     return D('StaticGradeInfo')->getStaticGradeInfoByGradeNumber($GradeNumber, $termStartStamp);
 }
+
+function get_teacher_info_by_id($id){
+    return D('Common/Teacher','Logic')->getTeacherInfoById($id);
+}
+
