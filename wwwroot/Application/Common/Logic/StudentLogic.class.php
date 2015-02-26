@@ -26,7 +26,7 @@ class StudentLogic extends RelationModel
     
     /* 学生扩展模型自动验证 */
     protected $_validate = array(
-            array('student_id', '8,14', '学号长度不合法', self::EXISTS_VALIDATE, 'length'),
+//             array('student_id', '8,14', '学号长度不合法', self::EXISTS_VALIDATE, 'length'),
     );
     
     
@@ -50,7 +50,7 @@ class StudentLogic extends RelationModel
     
                     'mapping_name' => 'user',
                     
-                    'as_fields' => 'username,email,mobile,true_name',
+                    'as_fields' => 'username,email,mobile,true_name,pin2',
             ),
             
             'class' => array(

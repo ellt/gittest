@@ -193,8 +193,8 @@ class TeacherController extends UserCenterController {
         // TODO 修改成非id 关联
         M()->execute('delete from  onethink_user where user_extern_model_id = 11');
         M()->execute('delete from  onethink_user_teacher where id > 0');
-//         die();
-//         dump($arr);
+            //         die();
+            //         dump($arr);
         foreach ($arr as $key => $oneuser) {
             $_POST = $oneuser;
             $ret = $this->model->register();
@@ -203,7 +203,9 @@ class TeacherController extends UserCenterController {
             } else {
                 
                 dump($this->model->getError());
-                //                 dump($key);die();
+                dump($oneuser);
+                dump($key);
+                die();
             }
         }
         die();
@@ -401,8 +403,6 @@ class TeacherController extends UserCenterController {
             
             $supportSubjects = I('subjects');
             $tid = I('id');
-            
-            $map['teacher_id'] = array('eq', $teacherId );
             
             $insertData = array();
             foreach ($supportSubjects as $v) {

@@ -26,7 +26,11 @@ class TeacherLogic extends RelationModel
     
     /* 教师扩展模型自动验证 */
     protected $_validate = array(
-            array('teacher_id', '4,14', '工号长度不合法', self::EXISTS_VALIDATE, 'length'),
+//             array('teacher_id', '4,14', '工号长度不合法', self::EXISTS_VALIDATE, 'length'),
+    );
+    
+    protected $_auto = array(
+                array('education', '未知'),
     );
     
     
@@ -50,7 +54,7 @@ class TeacherLogic extends RelationModel
     
                     'mapping_name' => 'user',
     
-                    'as_fields' => 'username,email,mobile,true_name',
+                    'as_fields' => 'username,email,mobile,true_name,pin2',
             ),
             
           'support_subject' => array(
@@ -123,6 +127,10 @@ class TeacherLogic extends RelationModel
     
     public function getTeacherInfoById($id){
         return $this->where("id=$id")->relation(true)->find();
+    }
+    
+    public function deleteOneTeacher($id){
+        return $this->where("id=$id")->relation(true)->delete();
     }
     
 }
