@@ -193,8 +193,8 @@ class TeacherController extends UserCenterController {
         // TODO 修改成非id 关联
         M()->execute('delete from  onethink_user where user_extern_model_id = 11');
         M()->execute('delete from  onethink_user_teacher where id > 0');
-//         die();
-//         dump($arr);
+            //         die();
+            //         dump($arr);
         foreach ($arr as $key => $oneuser) {
             $_POST = $oneuser;
             $ret = $this->model->register();
@@ -203,7 +203,9 @@ class TeacherController extends UserCenterController {
             } else {
                 
                 dump($this->model->getError());
-                //                 dump($key);die();
+                dump($oneuser);
+                dump($key);
+                die();
             }
         }
         die();
@@ -237,7 +239,7 @@ class TeacherController extends UserCenterController {
 //             }
             foreach ($one_data as $k => $cell) {
                 $one_row[$k]['value'] =  $cell;
-                $one_row[$k]['title'] =  $cell;
+//                 $one_row[$k]['title'] =  $cell;
             }
 
             array_push($output_table, $one_row);
@@ -402,8 +404,6 @@ class TeacherController extends UserCenterController {
             $supportSubjects = I('subjects');
             $tid = I('id');
             
-            $map['teacher_id'] = array('eq', $teacherId );
-            
             $insertData = array();
             foreach ($supportSubjects as $v) {
                 array_push($insertData, array('tid' => $tid, 'subject_id' => $v ));
@@ -449,12 +449,12 @@ class TeacherController extends UserCenterController {
         $data['data'] = array(
                 'id' => $teacherInfo['id'],
                 'teacherName' => $teacherInfo['true_name'],
-                'teacherId' => $teacherInfo['teacher_id'],
+                'teacherId' => $teacherInfo['pin2'],
                 'hasSubjects' => $teacherInfo['support_subject'],
                 'allSubjects' => $allSubjects,
         );
     
-        // dump($data);die();
+//         dump($data);die();
         $this->ajaxReturn($data);
     }
     
@@ -480,8 +480,7 @@ class TeacherController extends UserCenterController {
 
     public function setTeacherInfo() {
         if (IS_POST) {
-            $data = I('post.');
-            if ($this->model->update($data)) {
+            if ($this->model->update()) {
                 //                     $this->success('添加教师信息成功！', U('index'));
                 $data['status'] = 1;
                 $data['info'] = "保存成功！";
@@ -499,6 +498,24 @@ class TeacherController extends UserCenterController {
             $this->ajaxReturn($data);
         }
     }
+    
+    public function delete(){
+        if (IS_AJAX) {
+            $id = I('id');
+            $ret = $this->model->deleteOneTeacher($id);
+            if ($ret == false) {
+                $data['status'] = 0;
+                $data['info'] = '删除教师信息失败';
+            } else {
+                $data['status'] = 1;
+                $data['info'] = '删除教师信息成功';
+            }
+    
+            $data['url'] = "refresh";
+            $this->ajaxReturn($data);
+        }
+    }
+    
 }
 
 

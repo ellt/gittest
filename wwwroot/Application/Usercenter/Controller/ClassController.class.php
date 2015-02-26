@@ -32,16 +32,6 @@ class ClassController extends UserCenterController {
             $CurrentGrade = $CurrentGrade + 1;
         }
         
-        // 将科目字典值转换为由ID索引
-        $allSubjects = D('Common/SubjectInfo')->select(); // 获取科目
-        $subjectIndexById = array();
-        foreach ($allSubjects as $k => $v){
-            if($k == 'id'){
-                continue;
-            }
-            $subjectIndexById[$v['id']] = $v;
-        }
-        
         
         $StaticGradeInfo = get_static_grade_info_by_grade_number($CurrentGrade, $nowTermInfo['term_start']);
         
@@ -57,25 +47,21 @@ class ClassController extends UserCenterController {
             
             $oneClass['support_subject'] = array();
             foreach ($supportSubjectIds as $subjectId) {
-                $oneClassteachInfo = $teachInfoModel->getTeachInfoByTermInfo($nowTermInfo, $oneClass['id'], $subjectId);
-                if ($oneClassteachInfo == false) {
-                    $oneClassteachInfo['subject_id'] = $subjectId;
+                $oneClassTeachInfo = $teachInfoModel->getTeachInfoByTermInfo($nowTermInfo, $oneClass['id'], $subjectId);
+                if ($oneClassTeachInfo == false) {
+                    $oneClassTeachInfo['subject_id'] = $subjectId;
                     
                 }else{
-                    $teacherInfo = get_teacher_info_by_id($oneClassteachInfo['teacher_id']);
-//                     dump($oneClassteachInfo);
-                    $oneClassteachInfo['teacher_name'] = $teacherInfo['true_name'];
+                    $teacherInfo = get_teacher_info_by_id($oneClassTeachInfo['teacher_id']);
+//                     dump($oneClassTeachInfo);
+                    $oneClassTeachInfo['teacher_name'] = $teacherInfo['true_name'];
                 }
-                
-                $oneClassteachInfo['subject_name'] = $subjectIndexById[$subjectId]['subject_name'];
-                
-                array_push($oneClass['support_subject'], $oneClassteachInfo);
+                array_push($oneClass['support_subject'], $oneClassTeachInfo);
             }
         }
         
        
         
-//         dump($subjectIndexById);
 //         dump($classList);die();
         $this->assign('subject_list',$subjectIndexById);
         $this->assign('grade_id', $gradeYear);
@@ -94,8 +80,8 @@ class ClassController extends UserCenterController {
             $oldTeacherInfo = get_teacher_info_by_id($teacherId);
         }
         
-        $teacherList = $this->getTeacherList_new($subjectId);
-        dump($teacherList);die();
+        $teacherList = $this->getTeacherList_new($subjectId, $teacherId);
+//         dump($teacherList);die();
         if ($role == "master") {
             $data['data'] = array(
                     "title" => "班主任",
@@ -152,25 +138,40 @@ class ClassController extends UserCenterController {
         return $teacherList;
     }
 
-    public function getTeacherList_new($subjectId) {
+    public function getTeacherList_new($subjectId, $oldTeacherID) {
         
         // 获取教师列表
         $m = D('Common/Teacher', 'Logic');
-        $teacherList = $m->lists();
+        $teacherList = $m->relation(true)->select();
+        
+        $fields = array('id','true_name','pin2','support_subject');
         
         // 将所任科目比配的教师信息保存到 $matchSubjectTeacheList 数组中
         $matchSubjectTeacheList = array();
-        foreach ($teacherList as $k => $oneTeacher) {
+        foreach ($teacherList as $k => &$oneTeacher) {
+            
+            if($oneTeacher['id'] == $oldTeacherID){ // 剔除原本的已在任课的老师
+                unset($teacherList[$k]);
+                continue;
+            }
+            
+            foreach ($oneTeacher as $field => $v){
+                
+                if(!in_array($field, $fields)){
+                    unset($oneTeacher[$field]);
+                }
+            }
+            
             foreach ($oneTeacher['support_subject'] as $teachInfo) {
                 if ($teachInfo['subject_id'] == $subjectId) {
                     $oneTeacher['match_subject_flag'] = true;
                     array_push($matchSubjectTeacheList, $oneTeacher);
-                    unset($teacherList['k']);
+                    unset($teacherList[$k]);
                     break;
                 }
             }
         }
-        dump('###');
+//         dump('###');
        
         foreach ($teacherList as $v) {
            array_push($matchSubjectTeacheList, $v);
@@ -180,6 +181,23 @@ class ClassController extends UserCenterController {
         return $matchSubjectTeacheList;
     }
     
+    
+    public function setSubjectTeachInfo(){
+        $_POST['class_id'] = 14;
+        $_POST['subject_id'] = 2;
+        $_POST['teacher_id'] = 1646;
+        $classId = I('class_id');
+        $tid = I('teacher_id');
+        $subjectId = I('subject_id');
+        
+        
+        $teachInfoModel = D('Common/ClassTeachInfo');
+        $data = $teachInfoModel->create();
+//         dump($data);die();
+        if($data != false){
+            $teachInfoModel->add($data);
+        }
+    }
   
     
 }

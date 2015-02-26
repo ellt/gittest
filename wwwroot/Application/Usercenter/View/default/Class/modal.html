@@ -33,7 +33,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-primary" data-submit="custom" data-target="#myModalForm" data-url="{:U('Term/update')}" data-loading-text="提交中..." autocomplete="off">确定</button>
+                <button type="submit" class="btn btn-primary" data-submit="custom" data-target="#myModalForm" data-url="{:U('setSubjectTeachInfo')}" data-loading-text="提交中..." autocomplete="off">确定</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
             </div>
         </div>
@@ -71,16 +71,16 @@ $(function(){
 
 function initModal($modal, data) {
     var title = data.title;
-    var old = data.old;
-    $("span", "#myModalLabel").html(title);
-    $("#original").val(old.true_name);
+   // var old = data.old;
+   // $("span", "#myModalLabel").html(title);
+  //  $("#original").val(old.true_name);
     initTypeahead(data.list);
 }
 
 function initTypeahead(list) {
     var tempArr = Array();
     for (var i in list) {
-        tempArr.push("("+i+")  "+list[i]);
+        tempArr.push("("+list[i].pin2+")  "+list[i].true_name);
     }
 
     $("#new").typeahead({

@@ -11,9 +11,9 @@
             <div class="modal-body">
                 <form class="form-horizontal" id="myModalForm" role="form">
                     <div class="form-group has-feedback">
-                        <label class="col-sm-3 control-label" for="studentId">学号</label>
+                        <label class="col-sm-3 control-label" for="pin2">学号</label>
                         <div class="col-sm-5">
-                            <input type="text" class="form-control" id="studentId" name="student_id" readonly>
+                            <input type="text" class="form-control" id="pin2" name="pin2" readonly>
                             <span class="form-control-feedback"></span>
                         </div>
                         <div class="col-sm-4 help-block hidden"></div>
@@ -112,16 +112,17 @@ $(function(){
     function initModal($modal, data) {
         $("span", "#myModalLabel").html(data.id===""?"新增":"编辑");
 
-        $("#studentId").prop('readonly', data.id===""?false:true);
+        $("#pin2").prop('readonly', data.id===""?false:true);
         
         for (var i in data) {
             var $input = $("[name=" + i + "]", $modal);
             var type = $input.attr('type');
             
-            if (type === "text") {
-                $input.val(data[i]);
-            } else if (type === "radio") {
+            if (type === "radio") {
                 $input.filter("[value="+ data[i] +"]").prop('checked', true);
+            } else {
+                // type === "text" || type === "hidden"
+                $input.val(data[i]);
             }
         }
     }

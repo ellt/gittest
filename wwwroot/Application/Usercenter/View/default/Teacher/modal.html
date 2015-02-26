@@ -13,7 +13,7 @@
                     <div class="form-group has-feedback">
                         <label class="col-sm-3 control-label" for="teacherId">工号</label>
                         <div class="col-sm-5">
-                            <input type="text" class="form-control" id="teacherId" name="teacher_id" readonly>
+                            <input type="text" class="form-control" id="pin2" name="pin2" readonly>
                             <span class="form-control-feedback"></span>
                         </div>
                         <div class="col-sm-4 help-block hidden"></div>
@@ -57,6 +57,7 @@
                         </div>
                         <div class="col-sm-4 help-block hidden"></div>
                     </div>
+                    <input type="hidden" name="id">
                 </form>
             </div>
             <div class="modal-footer">
@@ -81,10 +82,11 @@ $(function(){
             var $input = $("[name=" + i + "]", $modal);
             var type = $input.attr('type');
             
-            if (type === "text") {
-                $input.val(data[i]);
-            } else if (type === "radio") {
+            if (type === "radio") {
                 $input.filter("[value="+ data[i] +"]").prop('checked', true);
+            } else {
+                // type === "text" || type === "hidden"
+                $input.val(data[i]);
             }
         }
     }

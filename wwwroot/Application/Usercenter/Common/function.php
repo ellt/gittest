@@ -537,3 +537,18 @@ function get_teacher_info_by_id($id){
     return D('Common/Teacher','Logic')->getTeacherInfoById($id);
 }
 
+function conver_subjectId_to_name($id){
+    static $subjectIndexById = null;
+    if($subjectIndexById == null){
+        // 将科目字典值转换为由ID索引
+        $allSubjects = D('Common/SubjectInfo')->select(); // 获取科目
+        $subjectIndexById = array();
+        foreach ($allSubjects as $k => $v){
+            if($k == 'id'){
+                continue;
+            }
+            $subjectIndexById[$v['id']] = $v;
+        }
+    }
+    return $subjectIndexById[$id]['subject_name'];
+}

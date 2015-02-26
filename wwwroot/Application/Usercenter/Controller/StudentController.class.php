@@ -124,8 +124,7 @@ class StudentController extends UserCenterController {
     
     public function setStudentInfo(){
         if (IS_POST) {
-            $data = I('post.');
-            if ($this->model->update($data)) {
+            if ($this->model->update()) {
                 //                     $this->success('添加学生信息成功！', U('index'));
                 $data['status'] = 1;
                 $data['info'] = "保存成功！";
@@ -273,7 +272,7 @@ class StudentController extends UserCenterController {
             //             }
             foreach ($one_data as $k => $cell) {
                 $one_row[$k]['value'] = $cell;
-                $one_row[$k]['title'] = $cell;
+               // $one_row[$k]['title'] = $cell;
             }
     
             array_push($output_table, $one_row);

@@ -67,5 +67,14 @@ class SubjectController extends UserCenterController {
             $this->ajaxReturn($data);
         }
     }
+
+    public function delete($id) {
+        $ret = $this->model->delete($id);
+        if ($ret == false) {
+            $this->error('科目删除失败！', U('index'));
+        } else {
+            $this->success('科目删除成功！', U('index'));
+        }
+    }
     
 }
