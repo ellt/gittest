@@ -273,7 +273,7 @@ class StudentController extends UserCenterController {
             //             }
             foreach ($one_data as $k => $cell) {
                 $one_row[$k]['value'] = $cell;
-                $one_row[$k]['title'] = $cell;
+               // $one_row[$k]['title'] = $cell;
             }
     
             array_push($output_table, $one_row);

@@ -237,7 +237,7 @@ class TeacherController extends UserCenterController {
 //             }
             foreach ($one_data as $k => $cell) {
                 $one_row[$k]['value'] =  $cell;
-                $one_row[$k]['title'] =  $cell;
+//                 $one_row[$k]['title'] =  $cell;
             }
 
             array_push($output_table, $one_row);
@@ -499,6 +499,24 @@ class TeacherController extends UserCenterController {
             $this->ajaxReturn($data);
         }
     }
+    
+    public function delete(){
+        if (IS_AJAX) {
+            $id = I('id');
+            $ret = $this->model->deleteOneTeacher($id);
+            if ($ret == false) {
+                $data['status'] = 0;
+                $data['info'] = '删除教师信息失败';
+            } else {
+                $data['status'] = 1;
+                $data['info'] = '删除教师信息成功';
+            }
+    
+            $data['url'] = "refresh";
+            $this->ajaxReturn($data);
+        }
+    }
+    
 }
 
 
