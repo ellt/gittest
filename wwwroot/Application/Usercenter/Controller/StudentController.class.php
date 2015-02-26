@@ -94,7 +94,10 @@ class StudentController extends UserCenterController {
             $data['status']  = 1;
             $data['info'] = "保存成功！";
             $data['url'] = "refresh";
-            $data['data'] = $this->getModelTableData('student');
+            $tableData = $this->getModelTableData('student');
+            
+            $data['data']['head'] = array_shift($tableData);
+            $data['data']['body'] = $tableData;
 //             dump( $data['data']);die();
             $this->ajaxReturn($data);
         }
