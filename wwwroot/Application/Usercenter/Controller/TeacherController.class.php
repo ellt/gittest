@@ -436,10 +436,12 @@ class TeacherController extends UserCenterController {
         $hasSubjects = array();
         $allSubjects = array();
         
-        foreach ($teacherInfo['support_subject'] as $key => $v){
-            unset($teacherInfo['support_subject'][$key]['id']);
-            unset($teacherInfo['support_subject'][$key]['tid']);
-            $teacherInfo['support_subject'][$key]['usedFlag'] = false; // 此标志位标志是学科是否正在使用
+        foreach ($teacherInfo['support_subject'] as $key => &$value){
+            $value['id'] =  $value['subject_id'];
+            unset($value['subject_id']);
+            unset($value['tid']);
+            $value['usedFlag'] = false; // 此标志位标志是学科是否正在使用
+
         }
         
         $allSubjects = D('Common/SubjectInfo')->select();
