@@ -449,12 +449,12 @@ class TeacherController extends UserCenterController {
         $data['data'] = array(
                 'id' => $teacherInfo['id'],
                 'teacherName' => $teacherInfo['true_name'],
-                'teacherId' => $teacherInfo['teacher_id'],
+                'teacherId' => $teacherInfo['pin2'],
                 'hasSubjects' => $teacherInfo['support_subject'],
                 'allSubjects' => $allSubjects,
         );
     
-        // dump($data);die();
+//         dump($data);die();
         $this->ajaxReturn($data);
     }
     
