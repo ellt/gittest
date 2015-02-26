@@ -67,7 +67,7 @@
                     <td><input type="checkbox" data-check="ids" name="ids[]" value="{$vo.id}"></td>
                     <td>{$vo.pin2}</td>
                     <td>{$vo.true_name}</td>
-                    <td><eq name="vo['sex']" value="0">男<else/>女</eq></td>
+                    <td><eq name="vo['sex']" value="male">男<else/>女</eq></td>
                     <td>{$vo.mobile}</td>
                     <td>
                     	<span class="btn btn-link btn-xs" data-toggle="modal" data-target="#editSubjectModal" data-get-param="id={$vo.id}" title="点击编辑">

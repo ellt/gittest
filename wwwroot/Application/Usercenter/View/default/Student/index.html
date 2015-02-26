@@ -65,7 +65,7 @@
                     <td><input type="checkbox" data-check="ids" name="ids[]" value="{$vo.id}"></td>
                     <td>{$vo.pin2}</td>
                     <td>{$vo.true_name}</td>
-                    <td>{$vo.sex}</td>
+                    <td><eq name="vo['sex']" value="male">男<else/>女</eq></td>
                     <td>{$vo.mobile}</td>
                     <td>
                         <button class="btn btn-success btn-xs" data-toggle="modal" data-target="#myModal" data-get-param="id={$vo.id}">编 辑</button>

@@ -78,7 +78,14 @@ $(function(){
         $("#teacherId").prop('readonly', data.id===""?false:true);
 
         for (var i in data) {
-            $("[name=" + i + "]", $modal).val(data[i]);
+            var $input = $("[name=" + i + "]", $modal);
+            var type = $input.attr('type');
+            
+            if (type === "text") {
+                $input.val(data[i]);
+            } else if (type === "radio") {
+                $input.filter("[value="+ data[i] +"]").prop('checked', true);
+            }
         }
     }
 });
