@@ -380,8 +380,15 @@ function showFormTip(form, data) {
         tipContent = row.find(".help-block");
         tipIcon = row.find('.form-control-feedback');
 
+        // 清空提示
+        row.removeClass("has-error has-warning has-success");
+        tipContent.html();
+        tipIcon.removeClass('glyphicon-remove glyphicon-warning-sign glyphicon-ok');
+        tipContent.removeClass("show").addClass("hidden");
+        tipIcon.removeClass("show").addClass("hidden");
+
+        // 显示提示
         if (data && data[inputName]) {
-            // 有提示
             content = data[inputName];
             
             if (content.errorInfo) {
@@ -399,13 +406,6 @@ function showFormTip(form, data) {
             }
             tipContent.removeClass("hidden").addClass("show");
             tipIcon.removeClass("hidden").addClass("show");
-        } else {
-            // 无提示
-            row.removeClass("has-error has-warning has-success");
-            tipContent.html();
-            tipIcon.removeClass('glyphicon-*');
-            tipContent.removeClass("show").addClass("hidden");
-            tipIcon.removeClass("show").addClass("hidden");
         }
     });
 }
