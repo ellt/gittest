@@ -61,7 +61,7 @@ $(function(){
             tempObj = $('<button type="button"></button>')
                     .html(hasSubjects[i].subject_name)
                     .addClass('btn btn-default btn-sm')
-                    .data("subject-id",i);
+                    .data("subject-id",hasSubjects[i].id);
             
             if (hasSubjects[i].usedFlag) {
                 tempObj.addClass('active')
@@ -81,7 +81,7 @@ $(function(){
                 tempObj = $('<button type="button"></button>')
                         .html(allSubjects[j].subject_name)
                         .addClass('btn btn-default btn-sm')
-                        .data("subject-id",j);
+                        .data("subject-id",allSubjects[j].id);
 
                 $('#allSubjects').append(tempObj).append(' ');
             }
