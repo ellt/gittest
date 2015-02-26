@@ -480,8 +480,7 @@ class TeacherController extends UserCenterController {
 
     public function setTeacherInfo() {
         if (IS_POST) {
-            $data = I('post.');
-            if ($this->model->update($data)) {
+            if ($this->model->update()) {
                 //                     $this->success('添加教师信息成功！', U('index'));
                 $data['status'] = 1;
                 $data['info'] = "保存成功！";

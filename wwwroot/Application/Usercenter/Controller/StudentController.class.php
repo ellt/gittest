@@ -124,8 +124,7 @@ class StudentController extends UserCenterController {
     
     public function setStudentInfo(){
         if (IS_POST) {
-            $data = I('post.');
-            if ($this->model->update($data)) {
+            if ($this->model->update()) {
                 //                     $this->success('添加学生信息成功！', U('index'));
                 $data['status'] = 1;
                 $data['info'] = "保存成功！";

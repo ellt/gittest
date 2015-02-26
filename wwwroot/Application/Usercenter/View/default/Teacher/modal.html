@@ -57,6 +57,7 @@
                         </div>
                         <div class="col-sm-4 help-block hidden"></div>
                     </div>
+                    <input type="hidden" name="id">
                 </form>
             </div>
             <div class="modal-footer">
@@ -81,10 +82,11 @@ $(function(){
             var $input = $("[name=" + i + "]", $modal);
             var type = $input.attr('type');
             
-            if (type === "text") {
-                $input.val(data[i]);
-            } else if (type === "radio") {
+            if (type === "radio") {
                 $input.filter("[value="+ data[i] +"]").prop('checked', true);
+            } else {
+                // type === "text" || type === "hidden"
+                $input.val(data[i]);
             }
         }
     }
