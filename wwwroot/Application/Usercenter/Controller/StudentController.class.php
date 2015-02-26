@@ -52,42 +52,35 @@ class StudentController extends UserCenterController {
         }
     }
     
+    public function getUiErrorMsg($inData){
+        $insertData = $this->converInDataToInserData($inData);
+    
+        $errorInfo = array();
+        foreach ($insertData as $rowNumber => $oneTeacherData) {
+            if ($this->model->checkData($oneTeacherData)) {
+                //                     $this->success('添加教师信息成功！', U('index'));
+            } else {
+                $oneRowerrorHint = array();
+                $cellErrorHint = array();
+                $dbErrorMsg = $this->model->getError();
+    
+                foreach ($dbErrorMsg as $k => $v) {
+                    $uiErrorMsg[$k]['errorInfo'] = $v;
+                }
+                $errorInfo[$rowNumber] = $uiErrorMsg;
+                $uiErrorMsg = null;
+            }
+        }
+        //         dump($errorInfo);die();
+        return $errorInfo;
+    }
+    
     public function batchEdit(){
         if (IS_AJAX) {
             $mode = I("mode");
             if($mode == 'check') {
                 $inData = I("data");
-                $girdsInfo = $this->getModelGirdInfo('student');
-                $insertData = $this->converInDataToInserData($inData);
-                
-                $errorInfo = array();
-                foreach ($insertData as $oneStudentData){
-                    $data = $oneStudentData['data'];
-                    if ($this->model->checkData($data)) {
-                        //                     $this->success('添加学生信息成功！', U('index'));
-                    } else {
-                        $oneRowerrorHint = array();
-                        $cellErrorHint = array();
-                        $dbErrorMsg = $this->model->getError();
-                        $rowNumber = $oneStudentData['rowNumber'];
-                        foreach ($girdsInfo as $colNumber => $v){
-                            if( array_key_exists($v['field'], $dbErrorMsg)){
-//                                 $cellErrorHint[0] = array($rowNumber +1, $colNumber) ;
-                                $cellErrorHint[0] =$rowNumber +1;
-                                $cellErrorHint[1] =$colNumber;
-                                $cellErrorHint[2] = $dbErrorMsg[$v['field']];
-                                array_push($errorInfo, $cellErrorHint);
-                            }
-                        }
-                        //                 $this->error('添加学生信息错误！');
-                    }
-                }
-                $data = null;
-//                 dump($errorInfo);
-                $data['error_info'] = array(); //当没有错误时返回一个空的数组
-    
-                $data['error_info'] = $errorInfo;
-    
+                $data['hint'] = $this->getUiErrorMsg($inData);
                 $this->ajaxReturn($data);
             }
     
@@ -142,56 +135,49 @@ class StudentController extends UserCenterController {
             $this->ajaxReturn($data);
         }
     }
-    
+
     public function update() {
         if (IS_AJAX) {
-//             dump(I("data"));die();
             $inData = I("data");
-            $girdsInfo = $this->getModelGirdInfo('student');
             $insertData = $this->converInDataToInserData($inData);
             
             $errorInfo = array();
-            foreach ($insertData as $oneStudentData){
-                $data = $oneStudentData['data'];
+            foreach ($insertData as $rowNumber => $oneRowData) {
+                
+                $data = $oneRowData;
                 if ($this->model->update($data)) {
-//                     $this->success('添加学生信息成功！', U('index'));
+                    //                     $this->success('添加学生信息成功！', U('index'));
                 } else {
-                    $oneRowerrorHint = array();
-                    $cellErrorHint = array();
                     $dbErrorMsg = $this->model->getError();
-                    $rowNumber = $oneStudentData['rowNumber'];
-                    foreach ($girdsInfo as $colNumber => $v){
-                        if( array_key_exists($v['field'], $dbErrorMsg)){
-                            $cellErrorHint[0] = array($rowNumber +1, $colNumber) ; 
-                            $cellErrorHint[1] = $dbErrorMsg[$v['field']];
-                            array_push($errorInfo, $cellErrorHint);
-                        }
+                    
+                    foreach ($dbErrorMsg as $k => $v) {
+                        $uiErrorMsg[$k]['errorInfo'] = $v;
                     }
-                    //                 $this->error('添加学生信息错误！');
+                    $errorInfo[$rowNumber] = $uiErrorMsg;
                 }
             }
-           
-//             dump($errorInfo);
-
+            
+            if (!empty($errorInfo)) { // 保存失败
+                $data['hint'] = $this->getUiErrorMsg($inData);
+                $this->ajaxReturn($data);
+            } else {
+                $data['status'] = 1;
+                $data['info'] = "检查格式";
+                $data['url'] = "refresh";
+                $this->jsonReturn(1, '保存成功', U('batchEdit'));
+            }
         }
     }
 
     public function converInDataToInserData($inData) {
-        array_pop($inData);
-        $hsTableHead = array_shift($inData);
-        $girdsInfo = $this->getModelGirdInfo('student');
         $insertData = array();
-        foreach ($inData as $rowNumber => $oneRow) {
-            $oneStudentData = array();
-            foreach ($oneRow as $colNumber => $oncCell) {
-                $oneStudentData['rowNumber'] = $rowNumber;
-                $field = $girdsInfo[$colNumber]['field'];
-                //                     dump('number '. $k. 'value' .$field );
-                $oneStudentData['data'][$field] = $oncCell;
+        foreach ($inData as $oneTeacherData) {
+            foreach ($oneTeacherData as $k => &$v) {
+                $v = $v['value'];
             }
-//             dump($oneStudentData);
-            array_push($insertData, $oneStudentData);
+            array_push($insertData, $oneTeacherData);
         }
+        
         return $insertData;
     }
 
