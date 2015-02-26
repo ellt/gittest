@@ -56,7 +56,7 @@ $(function(){
 
         $('#hasSubjects').html("");
         for (var i in hasSubjects) {
-            tempArr.push(i);
+            tempArr.push(hasSubjects[i].id);
 
             tempObj = $('<button type="button"></button>')
                     .html(hasSubjects[i].subject_name)

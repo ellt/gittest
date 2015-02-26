@@ -414,8 +414,10 @@ class TeacherController extends UserCenterController {
             $m = D('TeacherSupportSubject');
             
             $map['tid'] = array('eq', $tid );
-            $m->where($map)->delete();
-            $ret = $m->addAll($insertData);
+            $ret = $m->where($map)->delete();
+            if(!empty($insertData)){
+                $ret = $m->addAll($insertData);
+            }
             
             if ($ret != false) {
                 $data['status'] = 1;
