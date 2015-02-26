@@ -39,7 +39,7 @@
                 <tbody  id="content">
                 	<foreach name="vo['support_subject']" item='sub'>
                     <tr>
-                        <td><span title="科目编号:{$sub.subject_id}">{$sub.subject_name}</span></td>
+                        <td><span title="科目编号:{$sub.subject_id}">{$sub.subject_id|conver_subjectId_to_name}</span></td>
                         <td><span title="教师用户ID:{$sub.teacher_id}">{$sub.teacher_name}</span></td>
                         <td>
                             <button class="btn btn-success btn-xs" data-toggle="modal" data-target="#myModal" data-get-param="class={$vo.id}&role=teacher&subject_id={$sub.subject_id}&teacher_id={$sub.teacher_id}">编 辑</button>
