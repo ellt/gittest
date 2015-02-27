@@ -57,12 +57,12 @@ $(function(){
         $('#hasSubjects').html("");
         if (hasSubjects !== null) {
             for (var i = 0; i < hasSubjects.length; i++) {
-                tempArr.push(hasSubjects[i].subject_id);  // todo 改成 id
+                tempArr.push(hasSubjects[i].id);
 
                 tempObj = $('<button type="button"></button>')
                         .html(hasSubjects[i].subject_name)
                         .addClass('btn btn-default btn-sm')
-                        .data("subject-id",hasSubjects[i].subject_id); // todo 改成 id
+                        .data("subject-id",hasSubjects[i].id);
                 
                 if (hasSubjects[i].usedFlag) {
                     tempObj.addClass('active')

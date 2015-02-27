@@ -46,6 +46,10 @@ class UserModel extends RelationModel
             array('username', '1,30', '用户名长度不合法', self::EXISTS_VALIDATE, 'length'), //用户名长度不合法
             array('username', 'checkDenyMember', '用户名禁止注册', self::EXISTS_VALIDATE, 'callback'), //用户名禁止注册
             array('username', '', '用户名被占用', self::EXISTS_VALIDATE, 'unique'), //用户名被占用
+            
+            /* 工号和学籍号 */
+            array('pin2', '', '工号或学籍号冲突', self::EXISTS_VALIDATE, 'unique'), 
+            array('pin2', '4,20', '号或学籍号不合法', self::EXISTS_VALIDATE, 'length'),
     
             /* 验证密码 */
             array('password', '0,30', '密码长度不合法', self::EXISTS_VALIDATE, 'length'), //密码长度不合法
@@ -361,6 +365,7 @@ class UserModel extends RelationModel
     public function checkData($data) {
     
         $relation_data = false;
+        $check_success_flag = false;
         $this->error = null;
         if (empty($data)) {
             $data = I('post.');
@@ -372,8 +377,12 @@ class UserModel extends RelationModel
     
             $extern_model = $this->logic($this->user_type);
             $extern_data = $extern_model->create($data);
-            if (empty($base_data) || empty($extern_data)) {
-                $this->error = array_merge($this->getError(), $extern_model->getError()); // 合并错误信息
+            if ($base_data === false || $extern_data === false) {
+                if($base_data === false && $extern_data === false){ //如果2个表中都有数据格式错误，则合并错误提示
+                    $this->error = array_merge($this->getError(), $extern_model->getError()); // 合并错误信息
+                }else if($extern_data === false){
+                    $this->error =  $extern_model->getError();
+                }
                 $check_success_flag = false;
                 
             } else { // 数据有效
@@ -410,7 +419,6 @@ class UserModel extends RelationModel
         if (!empty($this->user_extern_model_name)) {
             
             $relation_data =  $this->checkData($data);
-//             dump($relation_data);
             if($relation_data === false){ // 数据检查失败
                 return false;
             }
