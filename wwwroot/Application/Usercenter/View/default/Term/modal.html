@@ -17,18 +17,11 @@
                         </div>
                     </div>
                     
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">学期</label>
-                        <div class="col-sm-4">
-                            <p class="form-control-static" data-id="term_order"></p>
-                        </div>
-                    </div>
-
                     <div class="form-group has-feedback">
-                        <label class="col-sm-3 control-label" for="termStart" >开始时间</label>
+                        <label class="col-sm-3 control-label" for="lastTermStart" >上学期 开始时间</label>
                         <div class="col-sm-4">
                             <div class="input-group date">
-                                <input type="text" class="form-control" id="termStart" name="term_start" readonly>
+                                <input type="text" class="form-control" id="lastTermStart" name="last_term_start" readonly>
                                 <span class="input-group-addon">
                                     <span class="glyphicon glyphicon-calendar"></span>
                                 </span>
@@ -39,10 +32,38 @@
                     </div>
 
                     <div class="form-group has-feedback">
-                        <label class="col-sm-3 control-label" for="termEnd">结束时间</label>
+                        <label class="col-sm-3 control-label" for="lastTermEnd">上学期 结束时间</label>
                         <div class="col-sm-4">
                             <div class="input-group date">
-                                <input type="text" class="form-control" id="termEnd" name="term_end" readonly>
+                                <input type="text" class="form-control" id="lastTermEnd" name="last_term_end" readonly>
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                            <span class="form-control-feedback has-addon"></span>
+                        </div>
+                        <div class="col-sm-5 help-block hidden"></div>
+                    </div>
+
+                    <div class="form-group has-feedback">
+                        <label class="col-sm-3 control-label" for="lastTermStart" >下学期 开始时间</label>
+                        <div class="col-sm-4">
+                            <div class="input-group date">
+                                <input type="text" class="form-control" id="lastTermStart" name="last_term_start" readonly>
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                            <span class="form-control-feedback has-addon"></span>
+                        </div>
+                        <div class="col-sm-5 help-block hidden"></div>
+                    </div>
+
+                    <div class="form-group has-feedback">
+                        <label class="col-sm-3 control-label" for="lastTermEnd">下学期 结束时间</label>
+                        <div class="col-sm-4">
+                            <div class="input-group date">
+                                <input type="text" class="form-control" id="lastTermEnd" name="last_term_end" readonly>
                                 <span class="input-group-addon">
                                     <span class="glyphicon glyphicon-calendar"></span>
                                 </span>
@@ -70,10 +91,9 @@ $(function(){
 
         $("span", "#myModalLabel").html(data.title);
         $("[data-id='term_year']", $modal).html(data.term_year);
-        $("[data-id='term_order']", $modal).html(data.term_order);
 
         for (var i in data) {
-            $("[name=" + i + "]", $modal).val(data[i]);
+            $("[name=" + i + "]", $modal).val(data[i].value);
         }
     }
 
