@@ -6,72 +6,52 @@
                     <span aria-hidden="true">&times;</span>
                     <span class="sr-only">关闭</span>
                 </button>
-                <h4 class="modal-title" id="myModalLabel">编辑学期</h4>
+                <h4 class="modal-title" id="myModalLabel"><span></span></h4>
             </div>
             <div class="modal-body">
-                <form id="myModalForm" role="form">
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <h4 class="pull-right">学年：</h4>
-                        </div>
+                <form class="form-horizontal" id="myModalForm" role="form">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">学年</label>
                         <div class="col-sm-4">
-                            <input type="text" class="form-control" name="term_year" value="" readonly>
-                        </div>
-                        <div class="col-sm-5">
-                            <div class="help-block hidden">
-                                <span class="glyphicon glyphicon-remove"></span>
-                                <span>格式错误</span>
-                            </div>
+                            <p class="form-control-static" data-id="term_year"></p>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <h4 class="pull-right">学期：</h4>
-                        </div>
+                    
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">学期</label>
                         <div class="col-sm-4">
-                            <input type="text" class="form-control" name="term_order" value="" readonly>
-                        </div>
-                        <div class="col-sm-5">
-                            <div class="help-block hidden">
-                                <span class="glyphicon glyphicon-remove"></span>
-                                <span>格式错误</span>
-                            </div>
+                            <p class="form-control-static" data-id="term_order"></p>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <h4 class="pull-right">开始时间：</h4>
-                        </div>
-                        <div class="col-sm-4 input-group date">
-                            <input type="text" class="form-control" name="term_start" value="" readonly>
-                            <span class="input-group-addon">
-                                <span class="glyphicon glyphicon-calendar"></span>
-                            </span>
-                        </div>
-                        <div class="col-sm-5">
-                            <div class="help-block hidden">
-                                <span class="glyphicon glyphicon-remove"></span>
-                                <span>格式错误</span>
+
+                    <div class="form-group has-feedback">
+                        <label class="col-sm-3 control-label" for="termStart" >开始时间</label>
+                        <div class="col-sm-4">
+                            <div class="input-group date">
+                                <input type="text" class="form-control" id="termStart" name="term_start" readonly>
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
                             </div>
+                            <span class="form-control-feedback has-addon"></span>
                         </div>
+                        <div class="col-sm-5 help-block hidden"></div>
                     </div>
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <h4 class="pull-right">结束时间：</h4>
-                        </div>
-                        <div class="col-sm-4 input-group date">
-                            <input type="text" class="form-control" name="term_end" value="" readonly>
-                            <span class="input-group-addon">
-                                <span class="glyphicon glyphicon-calendar"></span>
-                            </span>
-                        </div>
-                        <div class="col-sm-5">
-                            <div class="help-block hidden">
-                                <span class="glyphicon glyphicon-remove"></span>
-                                <span>格式错误</span>
+
+                    <div class="form-group has-feedback">
+                        <label class="col-sm-3 control-label" for="termEnd">结束时间</label>
+                        <div class="col-sm-4">
+                            <div class="input-group date">
+                                <input type="text" class="form-control" id="termEnd" name="term_end" readonly>
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
                             </div>
+                            <span class="form-control-feedback has-addon"></span>
                         </div>
+                        <div class="col-sm-5 help-block hidden"></div>
                     </div>
+                    <input type="hidden" name="term_id">
                 </form>
             </div>
             <div class="modal-footer">
@@ -84,6 +64,19 @@
 
 <script>
 $(function(){
+    initModalEvent('#myModal', initModal);
+
+    function initModal($modal, data) {
+
+        $("span", "#myModalLabel").html(data.title);
+        $("[data-id='term_year']", $modal).html(data.term_year);
+        $("[data-id='term_order']", $modal).html(data.term_order);
+
+        for (var i in data) {
+            $("[name=" + i + "]", $modal).val(data[i]);
+        }
+    }
+
     $('.date').datetimepicker({
         language:  'zh-CN',
         weekStart: 1,
@@ -96,70 +89,6 @@ $(function(){
         format: "yyyy-mm-dd",
         pickerPosition: "bottom-left"
     });
-
-    $('#myModal').on('show.bs.modal', function (e) {
-        // 过滤datatimepicker产生的事件
-        if(e.relatedTarget === undefined) {
-            return false;
-        }
-        var url = $(this).attr('data-url');
-        var param = $(e.relatedTarget).data("get-param");
-
-        $.get(url+"&"+param).success(function(data){
-            if (data.status) {
-                var initData = data.data;
-                $("input", "#myModalForm").each(function(index, el) {
-                    var name = $(this).attr('name');
-                    $(this).val(initData[name]);
-                });
-            } else {
-                return e.preventDefault(); // 阻止模态框的展示
-            }
-        });
-    });
-
-    // 新增表单提交
-    $("[data-submit='form']").click(function(e) { 
-        //取消默认动作，防止表单两次提交
-        e.preventDefault();
-
-        var url = $(this).attr('data-url');
-        var targetForm = $(this).attr('data-target');
-        var form = $(targetForm);
-        var formContent = form.serialize();
-
-        var btn = $(this);
-        btn.button('loading');
-        //发送到服务器
-        $.post(url, formContent).success(function(data){
-            btn.button('reset');
-            if (data.status) {
-                showFormTip(form);
-                $('#myModal').modal('hide');
-            } else {
-                showFormTip(form, data.error_info);
-            }
-        });
-    });
 });
 
-function showFormTip(form, data) {
-    var row, tip, tipContent;
-    data = data || []; // 给定默认值为空数组
-    $("input", form).each(function(index){
-        row = $(this).parentsUntil("form").filter(".row");
-        tip = row.find(".help-block");
-        tipContent = tip.find("span").next();
-
-        if (data[index]) {
-            row.addClass("has-error");
-            tipContent.html(data[index]);
-            tip.removeClass("hidden").addClass("show");
-        } else {
-            row.removeClass("has-error");
-            tipContent.html();
-            tip.removeClass("show").addClass("hidden");
-        }
-    });
-}
 </script>

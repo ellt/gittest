@@ -327,6 +327,10 @@ function initModalEvent(modalSelector, initModalFun) {
     
     // 初始化
     $modal.on('show.bs.modal', function (e) {
+        // 过滤非modal触发的事件，如datatimepicker产生的事件
+        if(e.relatedTarget === undefined) {
+            return false;
+        }
         var url = $modal.attr('data-url');
         var param = $(e.relatedTarget).data("get-param");
         $.get(url+"&"+param).success(function(data){
