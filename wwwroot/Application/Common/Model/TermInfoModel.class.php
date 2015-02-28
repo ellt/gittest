@@ -128,12 +128,12 @@ class TermInfoModel  extends Model{
         }
 
         if($t3 < $t2){
-            $this->error['t2'] = '下学期结束开始必须大于上学期开学时间';
+            $this->error['t3'] = '下学期结束开始必须大于上学期开学时间';
             $successFlag = false;
         }
         
         if($t4 < $t3){
-            $this->error['t2'] = '下学期结束时间必须大于下学期开学时间';
+            $this->error['t4'] = '下学期结束时间必须大于下学期开学时间';
             $successFlag = false;
         }
         
