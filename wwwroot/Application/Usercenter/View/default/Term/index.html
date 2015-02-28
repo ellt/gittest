@@ -12,33 +12,77 @@
 <block name="content">
     <!-- 标题 -->
     <div class="ell-main-title">
-        <h2>基础信息设置 [学期设置]
+        <h2>基础信息设置 [学年设置]
         </h2>
     </div>
 
     <!-- 数据表格 -->
     <div class="data-table">
-        <table class="table table-condensed table-striped table-hover">
+        <table class="table table-bordered table-condensed table-hover">
             <thead>
                 <tr>
                     <th>学年</th>
-                    <th>学期</th>
-                    <th>开始时间</th>
-                    <th>结束时间</th>
+                    <th>上学期 开始时间</th>
+                    <th>上学期 结束时间</th>
+                    <th>下学期 开始时间</th>
+                    <th>下学期 结束时间</th>
                     <th>操作</th>
                 </tr>
             </thead>
             <tbody>
-                <foreach name="term_list" item="vo">
                 <tr>
+                    <td>2010-2011</td>
+                    <td>2010-09-01</td>
+                    <td>2010-09-01</td>
+                    <td>2010-09-01</td>
+                    <td>2010-09-01</td>
+                    <td><button class="btn btn-primary btn-xs" data-toggle="modal" data-target="#myModal" data-get-param="id=new">切换至新学年</button></td>
+                </tr>                
+
+                <tr>
+                    <td>2010-2011</td>
+                    <td>2010-09-01</td>
+                    <td>2010-09-01</td>
+                    <td>2010-09-01</td>
+                    <td>2010-09-01</td>
+                    <td><button class="btn btn-success btn-xs" data-toggle="modal" data-target="#myModal" data-get-param="id=current">编 辑</button></td>
+                </tr>
+                
+                <foreach name="term_list" item="vo">
+                <tr class="collapse" data-id="history">
                     <td>{$vo.term_year}</td>
-                    <td>{$vo.term_order}</td>
                     <td>{$vo.term_start|date='Y-m-d',###}</td>
                     <td>{$vo.term_end|date='Y-m-d',###}</td>
-                    <td><button class="btn btn-success btn-xs" data-toggle="modal" data-target="#myModal" data-get-param="id={$vo.id}">编 辑</button></td>
+                    <td>{$vo.term_start|date='Y-m-d',###}</td>
+                    <td>{$vo.term_end|date='Y-m-d',###}</td>
+                    <td></td>
                 </tr>
                 </foreach>
+
+                <td class="text-center cursor-pointer" id="showHistory" data-toggle="collapse" data-target="[data-id='history']" data-state="hidden" colspan="6"> 
+                    <span>显示学期历史记录</span> <i class="fa fa-chevron-down"></i> 
+                </td>
             </tbody>
         </table>
     </div>
+</block>
+
+<block name="script">
+    <script>
+    $(function(){
+        $('#showHistory').click(function(event) {
+            var $this = $(this);
+            var state = $this.data("state");
+            if (state === "hidden") {
+                $this.find('span').html("收起学期历史记录");
+                $this.find('i').removeClass('fa-chevron-down').addClass('fa-chevron-up');
+                $this.data("state", "shown");
+            } else {
+                $this.find('span').html("显示学期历史记录");
+                $this.find('i').removeClass('fa-chevron-up').addClass('fa-chevron-down');
+                $this.data("state", "hidden");
+            }
+        });
+    });
+    </script>
 </block>
