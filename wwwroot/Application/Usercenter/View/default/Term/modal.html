@@ -1,4 +1,4 @@
-<div class="modal fade" id="myModal" data-url="{:U('tuser/termInit')}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="myModal" data-url="{:U('getTermInfo')}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -21,7 +21,7 @@
                         <label class="col-sm-3 control-label" for="lastTermStart" >上学期 开始时间</label>
                         <div class="col-sm-4">
                             <div class="input-group date">
-                                <input type="text" class="form-control" id="lastTermStart" name="last_term_start" readonly>
+                                <input type="text" class="form-control" id="lastTermStart" name="t1" readonly>
                                 <span class="input-group-addon">
                                     <span class="glyphicon glyphicon-calendar"></span>
                                 </span>
@@ -35,7 +35,7 @@
                         <label class="col-sm-3 control-label" for="lastTermEnd">上学期 结束时间</label>
                         <div class="col-sm-4">
                             <div class="input-group date">
-                                <input type="text" class="form-control" id="lastTermEnd" name="last_term_end" readonly>
+                                <input type="text" class="form-control" id="lastTermEnd" name="t2" readonly>
                                 <span class="input-group-addon">
                                     <span class="glyphicon glyphicon-calendar"></span>
                                 </span>
@@ -49,7 +49,7 @@
                         <label class="col-sm-3 control-label" for="lastTermStart" >下学期 开始时间</label>
                         <div class="col-sm-4">
                             <div class="input-group date">
-                                <input type="text" class="form-control" id="lastTermStart" name="last_term_start" readonly>
+                                <input type="text" class="form-control" id="lastTermStart" name="t3" readonly>
                                 <span class="input-group-addon">
                                     <span class="glyphicon glyphicon-calendar"></span>
                                 </span>
@@ -63,7 +63,7 @@
                         <label class="col-sm-3 control-label" for="lastTermEnd">下学期 结束时间</label>
                         <div class="col-sm-4">
                             <div class="input-group date">
-                                <input type="text" class="form-control" id="lastTermEnd" name="last_term_end" readonly>
+                                <input type="text" class="form-control" id="lastTermEnd" name="t4" readonly>
                                 <span class="input-group-addon">
                                     <span class="glyphicon glyphicon-calendar"></span>
                                 </span>
@@ -72,11 +72,11 @@
                         </div>
                         <div class="col-sm-5 help-block hidden"></div>
                     </div>
-                    <input type="hidden" name="term_id">
+                    <input type="hidden" name="id">
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-primary" data-submit="modal" data-target="#myModalForm" data-url="{:U('update')}" data-loading-text="提交中..." autocomplete="off">确定</button>
+                <button type="submit" class="btn btn-primary" data-submit="modal" data-target="#myModalForm" data-url="{:U('setTermInfo')}" data-loading-text="提交中..." autocomplete="off">确定</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
             </div>
         </div>
@@ -90,8 +90,8 @@ $(function(){
     function initModal($modal, data) {
 
         $("span", "#myModalLabel").html(data.title);
-        $("[data-id='term_year']", $modal).html(data.term_year);
-
+        $("[data-id='term_year']", $modal).html(data.term_year.value);
+		
         for (var i in data) {
             $("[name=" + i + "]", $modal).val(data[i].value);
         }
