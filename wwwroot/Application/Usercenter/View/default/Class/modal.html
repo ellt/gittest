@@ -34,6 +34,7 @@
                     <input type="hidden" name="class_id">
                     <input type="hidden" name="subject_id">
                     <input type="hidden" name="teacher_id">
+                    <input type="hidden" name="master_flag">
                 </form>
             </div>
             <div class="modal-footer">
@@ -58,6 +59,7 @@ function initModal($modal, data) {
     $("[name='new_teacher']", $modal).val("");
     $("[name='class_id']", $modal).val(data.class_id);
     $("[name='subject_id']", $modal).val(data.subject_id);
+    $("[name='master_flag']", $modal).val(data.master_flag);
     $("[data-submit='modal']", $modal).prop('disabled', true);
     showFormTip($modal);
     initTypeahead($modal, data.list);

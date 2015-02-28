@@ -34,8 +34,10 @@ class TermInfoModel  extends Model{
      * @author jigc <mrji1990@gmail.com>
      */
     public function getTermInfoByTimeStamp($stamp = NOW_TIME) {
-        $map['active'] = array('egt', $stamp);
-        return $info = $this->where($map)->order('t1 desc')->find();
+        $map['active'] = array('elt', $stamp);
+        $info = $this->where($map)->order('t1 desc')->find();
+//         dump($this->getLastSql());
+        return $info;
     }
 
     /**
@@ -85,15 +87,15 @@ class TermInfoModel  extends Model{
         if(false == $this->checkData(&$data)){ // 检查数据的有效性，并对data数据进行配置
             return false;
         }
-        
         //将其实结束时间转换成时间戳再保存到数据库中
         
         $data['t1'] = strtotime($data['t1']);
         $data['t2'] = strtotime($data['t2']);
         $data['t3'] = strtotime($data['t3']);
         $data['t4'] = strtotime($data['t4']);
-        $data['active'] = strtotime($data['active']);
         
+        if(isset($data['active']))  $data['active'] = strtotime($data['active']);
+       
         if(empty($data['id'])){
             $update_success_id =  $this->add($data);
         }else{

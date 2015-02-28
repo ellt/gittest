@@ -228,7 +228,7 @@ class UserModel extends RelationModel
             $map['id'] = $uid;
         }
     
-        $user = $this->where($map)->field('id,username,email,mobile,status')->find();
+        $user = $this->where($map)->field('id,username,email,mobile,status,true_name')->find();
         if(is_array($user) && $user['status'] = 1){
             return array($user['id'], $user['username'], $user['email'], $user['mobile']);
         } else {

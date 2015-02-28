@@ -22,18 +22,13 @@ class ClassController extends UserCenterController {
 
         theme(); 
         $gradeYear = I('grade_id');
-        $nowTermInfo = get_term_info_by_time_stamp(); //取得当前的学期
         $startGradeYear = get_start_grade_year_by_stamp(); // 获取当前最低年级年号
         
         
         // 计算 $gradeYear年号当前时间所处的年级
         $CurrentGrade = 5 - ($gradeYear - $startGradeYear);
-        if ($nowTermInfo['term_order'] == '下学期') {
-            $CurrentGrade = $CurrentGrade + 1;
-        }
         
-        
-        $StaticGradeInfo = get_static_grade_info_by_grade_number($CurrentGrade, $nowTermInfo['term_start']);
+        $StaticGradeInfo = get_static_grade_info_by_grade_number($CurrentGrade);
         
 //         $this->assign('grade_name')
         $classModel = D('Common/Class', 'Logic');
@@ -45,23 +40,23 @@ class ClassController extends UserCenterController {
         $supportSubjectIds = explode(',', $StaticGradeInfo['support_subject']);
         foreach ($classList as &$oneClass) {
             
+            
+            $masterInfo  = $teachInfoModel->getTeachInfoByTermInfo(NOW_TIME, $oneClass['id']);
+            if($masterInfo != false){
+                $oneClass['master_teacher_id'] = $masterInfo['teacher_id'];
+            }
+            
             $oneClass['support_subject'] = array();
             foreach ($supportSubjectIds as $subjectId) {
-                $oneClassTeachInfo = $teachInfoModel->getTeachInfoByTermInfo($nowTermInfo, $oneClass['id'], $subjectId);
+                $oneClassTeachInfo = $teachInfoModel->getTeachInfoByTermInfo(NOW_TIME, $oneClass['id'], $subjectId);
                 if ($oneClassTeachInfo == false) {
                     $oneClassTeachInfo['subject_id'] = $subjectId;
                     
-                }else{
-                    $teacherInfo = get_teacher_info_by_id($oneClassTeachInfo['teacher_id']);
-//                     dump($oneClassTeachInfo);
-                    $oneClassTeachInfo['teacher_name'] = $teacherInfo['true_name'];
                 }
                 array_push($oneClass['support_subject'], $oneClassTeachInfo);
             }
         }
-        
-       
-        
+//         conver_userId_to_name(null);
 //         dump($classList);die();
         $this->assign('subject_list',$subjectIndexById);
         $this->assign('grade_id', $gradeYear);
@@ -74,38 +69,31 @@ class ClassController extends UserCenterController {
         $class = I("class"); //班级
         $role = I("role");
         $teacherId = I("teacher_id");
-        $subjectId = I('subject_id');
         
-        if($teacherId > 0 ){
+        if ($teacherId > 0) {
             $oldTeacherInfo = get_teacher_info_by_id($teacherId);
         }
         
-        $teacherList = $this->getTeacherList_new($subjectId, $teacherId);
-//         dump($teacherList);die();
         if ($role == "master") {
-            $data['data'] = array(
-                    "title" => "班主任",
-                    "old" => array("201512130752", "李芳"), //20154是教师编号
-                    "list" => $teacherList,
-            );
+            $teacherList = $this->getTeacherList_new(0, $teacherId);
+            $data['data'] = array("class_id" => $class, 
+                    "master_flag" => 1, 
+                    "title" => $subjectTitle . "班主任", 
+                    "old" => $oldTeacherInfo, 
+                    "list" => $teacherList )
+
+            ;
         } elseif ($role == "teacher") {
-            $subject = I("subject");
-            if ($subject=="0001") {
-                $subjectTitle = "语文";
-                $teacher = array("201512130752", "李梅");
-            }elseif ($subject=="0002") {
-                $subjectTitle = "数学";
-                $teacher = array("201512130752", "大山");
-            }
-    
-            $data['data'] = array(
-                    "class_id" => $class,
-                    "subject_id" => $subjectId,
-                    "title" => $subjectTitle."任课教师",
-                    "old" => $oldTeacherInfo,
-                    "list" => $teacherList,
-                    
-            );
+            
+            $subjectId = I('subject_id');
+            $teacherList = $this->getTeacherList_new($subjectId, $teacherId);
+            $data['data'] = array("class_id" => $class, 
+                    "subject_id" => $subjectId, 
+                    "title" => $subjectTitle . "任课教师", 
+                    "old" => $oldTeacherInfo, 
+                    "list" => $teacherList )
+
+            ;
         }
         $data['status']=1;
         $this->ajaxReturn($data);
@@ -165,6 +153,9 @@ class ClassController extends UserCenterController {
                 }
             }
             
+            if($subjectId == 0){
+                continue;
+            }
             foreach ($oneTeacher['support_subject'] as $teachInfo) {
                 if ($teachInfo['subject_id'] == $subjectId) {
                     $oneTeacher['match_subject_flag'] = true;
@@ -186,12 +177,13 @@ class ClassController extends UserCenterController {
 
     public function setSubjectTeachInfo() {
         if (IS_AJAX) {
-            $_POST['teacher_start'] = NOW_TIME;
+            $_POST['teach_start'] = NOW_TIME;
             $successFlag = false;
             
-            dump($_POST);die();
+//             dump($_POST);
             $teachInfoModel = D('Common/ClassTeachInfo');
             $data = $teachInfoModel->create();
+//             dump($data);die();
             if ($data != false) {
                 $successFlag = $teachInfoModel->add($data);
             }
