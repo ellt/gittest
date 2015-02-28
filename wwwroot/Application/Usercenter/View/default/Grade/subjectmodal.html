@@ -48,35 +48,39 @@ $(function(){
         $("[data-id='gradeTitle']", $modal).html(data.gradeTitle);
 
         $('#hasSubjects').html("");
-        for (var i in hasSubjects) {
-            tempArr.push(i);
+        if (hasSubjects !== null) {
+            for (var i = 0; i < hasSubjects.length; i++) {
+                tempArr.push(hasSubjects[i].id);
 
-            tempObj = $('<button type="button"></button>')
-                    .html(hasSubjects[i][0])
-                    .addClass('btn btn-default btn-sm')
-                    .data("subject-id",i);
-            
-            if (hasSubjects[i][1]) {
-                tempObj.addClass('active')
-                       .attr('data-toggle', 'tooltip')
-                       .attr('data-placement', 'bottom')
-                       .attr('title', '科目在使用，不可直接移除！');
+                tempObj = $('<button type="button"></button>')
+                        .html(hasSubjects[i].subject_name)
+                        .addClass('btn btn-default btn-sm')
+                        .data("subject-id",hasSubjects[i].id);
+                
+                if (hasSubjects[i].usedFlag) {
+                    tempObj.addClass('active')
+                           .attr('data-toggle', 'tooltip')
+                           .attr('data-placement', 'bottom')
+                           .attr('title', '科目在使用，不可直接移除！');
+                }
+
+                $('#hasSubjects').append(tempObj).append(' ');
             }
-
-            $('#hasSubjects').append(tempObj).append(' ');
         }
         $('#hasSubjects').data("hasSubjects", tempArr);
 
         $('#allSubjects').html("");
-        for (var j in allSubjects) {
-            temp = $.inArray(j, tempArr);
-            if (temp === -1) {
-                tempObj = $('<button type="button"></button>')
-                        .html(allSubjects[j])
-                        .addClass('btn btn-default btn-sm')
-                        .data("subject-id",j);
+        if (allSubjects !== null) {
+            for (var j = 0; j < allSubjects.length; j++) {
+                temp = $.inArray(allSubjects[j].id, tempArr);
+                if (temp === -1) {
+                    tempObj = $('<button type="button"></button>')
+                            .html(allSubjects[j].subject_name)
+                            .addClass('btn btn-default btn-sm')
+                            .data("subject-id",allSubjects[j].id);
 
-                $('#allSubjects').append(tempObj).append(' ');
+                    $('#allSubjects').append(tempObj).append(' ');
+                }
             }
         }
 
@@ -92,8 +96,7 @@ $(function(){
             $('#hasSubjects').append(this).append(' ');
         });
     }
-
-    // 科目设置提交
+    
     $("[data-submit='custom']").click(function(e) { 
         var url = $(this).attr('data-url');
         var id = $modal.data("id");
