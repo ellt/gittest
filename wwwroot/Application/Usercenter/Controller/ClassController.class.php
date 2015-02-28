@@ -99,9 +99,12 @@ class ClassController extends UserCenterController {
             }
     
             $data['data'] = array(
+                    "class_id" => $class,
+                    "subject_id" => $subjectId,
                     "title" => $subjectTitle."任课教师",
                     "old" => $oldTeacherInfo,
                     "list" => $teacherList,
+                    
             );
         }
         $data['status']=1;
@@ -180,22 +183,23 @@ class ClassController extends UserCenterController {
         
         return $matchSubjectTeacheList;
     }
-    
-    
-    public function setSubjectTeachInfo(){
-        $_POST['class_id'] = 14;
-        $_POST['subject_id'] = 2;
-        $_POST['teacher_id'] = 1646;
-        $classId = I('class_id');
-        $tid = I('teacher_id');
-        $subjectId = I('subject_id');
-        
-        
-        $teachInfoModel = D('Common/ClassTeachInfo');
-        $data = $teachInfoModel->create();
-//         dump($data);die();
-        if($data != false){
-            $teachInfoModel->add($data);
+
+    public function setSubjectTeachInfo() {
+        if (IS_AJAX) {
+            $_POST['teacher_start'] = NOW_TIME;
+            $successFlag = false;
+            
+            dump($_POST);die();
+            $teachInfoModel = D('Common/ClassTeachInfo');
+            $data = $teachInfoModel->create();
+            if ($data != false) {
+                $successFlag = $teachInfoModel->add($data);
+            }
+            if ($successFlag != false) {
+                $this->success( '科任老师设置成功', 'refresh',true);
+            } else {
+                $this->error(0, '科任老师设置失败', 'refresh',true);
+            }
         }
     }
   
