@@ -32,7 +32,7 @@ class ClassTeachInfoModel  extends Model{
         $map['teach_start'] = array('elt', $endtimeStamp); // 有效的教师数据
         $map['class_id'] = array('eq', $classId);
         if ($Subjects == null) { //查询班主任
-            $map['master'] = array('eq',1);
+            $map['master_flag'] = array('eq',1);
         } else {
             $map['subject_id'] = array('in',$Subjects);
         }
