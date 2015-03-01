@@ -33,7 +33,7 @@
                             <tr>
                                 <th>科目名称</th>
                                 <th>任课教师</th>
-                                <th>操作</th>
+                                <th class="operator-xs-4"></th>
                             </tr>
                         </thead>
                        
@@ -43,7 +43,7 @@
                                 <td><span title="科目编号:{$sub.subject_id}">{$sub.subject_id|conver_subjectId_to_name}</span></td>
                                 <td><span title="教师用户ID:{$sub.teacher_id}">{$sub.teacher_id|conver_userId_to_name}</span></td>
                                 <td>
-                                    <button class="btn btn-success btn-xs" data-toggle="modal" data-target="#myModal" data-get-param="class={$vo.id}&role=teacher&subject_id={$sub.subject_id}&teacher_id={$sub.teacher_id}">编 辑</button>
+                                    <button class="btn btn-success btn-xs operator" data-toggle="modal" data-target="#myModal" data-get-param="class={$vo.id}&role=teacher&subject_id={$sub.subject_id}&teacher_id={$sub.teacher_id}">编 辑</button>
                                 </td>
                             </tr>
                             </foreach>
