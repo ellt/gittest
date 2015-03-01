@@ -329,7 +329,7 @@ function initModalEvent(modalSelector, initModalFun, initOtherEvent) {
     $modal.on('show.bs.modal', function (e) {
         // 过滤非modal触发的事件，如datatimepicker产生的事件
         if(e.relatedTarget === undefined) {
-            return false;
+            return e.preventDefault(); // 阻止模态框的展示
         }
         var url = $modal.attr('data-url');
         var param = $(e.relatedTarget).data("get-param");
