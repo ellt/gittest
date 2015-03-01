@@ -91,42 +91,37 @@ class GradeController extends UserCenterController {
     
     public function setGradeSubjectInfo() {
         $staticGradeInfoModel = D('Common/StaticGradeInfo');
+        
+        if (IS_AJAX) {
+            //                             dump(I('post.'));die();
+            $subjects = I('subjects');
             
-            if (IS_AJAX) {
-//                             dump(I('post.'));die();
-                $subjects =  I('subjects');
-            
-                foreach ($subjects as $id){
-                    if(!empty($supportIds)){
-                        $supportIds = $supportIds . ',' . $id;
-                    }
-                    else{
-                        $supportIds = $id;
-                    }
-            
+            foreach ($subjects as $id) {
+                if (!empty($supportIds)) {
+                    $supportIds = $supportIds . ',' . $id;
+                } else {
+                    $supportIds = $id;
                 }
-                $_POST['support_subject'] = $supportIds;
-                $_POST['valid_time'] = NOW_TIME;
-                $ret = $staticGradeInfoModel->create();
-                if(!empty($ret)){
-                    $ret = $staticGradeInfoModel->add($ret);
-                }
-            
-                if(!empty($ret)){
-                    $data['status']  = 1;
-                    $data['info'] = "保存成功！";
-                    $data['url'] = "refresh";
-                    $data['data'] = array(
-                            I('gradeId'),
-                            I('subjects'), //subjects为收到的科目列表 数组格式
-                    );
-                }
-                else{
-                    $data['status']  = 0;
-                    $data['info'] = "保存失败！";
-                }
-                $this->ajaxReturn($data);
             }
+            $_POST['support_subject'] = $supportIds;
+            $_POST['valid_time'] = NOW_TIME;
+            $ret = $staticGradeInfoModel->create();
+            if (!empty($ret)) {
+                $ret = $staticGradeInfoModel->add($ret);
+            }
+            
+            if (!empty($ret)) {
+                $data['status'] = 1;
+                $data['info'] = "保存成功！";
+                $data['url'] = "refresh";
+                $data['data'] = array(I('gradeId'), I('subjects') ); //subjects为收到的科目列表 数组格式
+                
+                $this->success('操作成功！', null, $data);
+
+            } else {
+                $this->error('操作失败！', null, IS_AJAX);
+            }
+        }
     }
     public function getGradeClassNumber(){
         

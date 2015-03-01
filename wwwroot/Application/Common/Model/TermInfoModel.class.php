@@ -122,8 +122,6 @@ class TermInfoModel  extends Model{
         $activeTime = strtotime($data['active']);
         //TODO 学期数据有效性的检查
         
-        
-        
         if($t2 < $t1){
             $this->error['t2'] = '上学期结束时间必须大于上学期开学时间';
             $successFlag = false;
@@ -148,8 +146,8 @@ class TermInfoModel  extends Model{
         $info['id'] = null;
         $info['term_year'] = $info['term_year']+1;
         $info['t1'] = strtotime($info['term_year'] . '-9-1');
-        $info['t2'] = null;
-        $info['t3'] = null;
+        $info['t2'] = strtotime(($info['term_year']+1) . '-2-1');
+        $info['t3'] = strtotime(($info['term_year']+1) . '-3-1');
         $info['t4'] = strtotime(($info['term_year']+1) . '-7-10');
         return $info;
     }

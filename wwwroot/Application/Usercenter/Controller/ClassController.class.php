@@ -75,7 +75,7 @@ class ClassController extends UserCenterController {
         }
         
         if ($role == "master") {
-            $teacherList = $this->getTeacherList_new(0, $teacherId);
+            $teacherList = $this->getTeacherList(0, $teacherId);
             $data['data'] = array("class_id" => $class, 
                     "master_flag" => 1, 
                     "title" => $subjectTitle . "班主任", 
@@ -86,7 +86,7 @@ class ClassController extends UserCenterController {
         } elseif ($role == "teacher") {
             
             $subjectId = I('subject_id');
-            $teacherList = $this->getTeacherList_new($subjectId, $teacherId);
+            $teacherList = $this->getTeacherList($subjectId, $teacherId);
             $data['data'] = array("class_id" => $class, 
                     "subject_id" => $subjectId, 
                     "title" => $subjectTitle . "任课教师", 
@@ -98,38 +98,8 @@ class ClassController extends UserCenterController {
         $data['status']=1;
         $this->ajaxReturn($data);
     }
-    
-    public function getTeacherList() {
-        $teacherList = array(
-                "201512130751" => "种大山",
-                "201512130752" => "王大山",
-                "201512130753" => "陈大山",
-                "201512130754" => "荔大山",
-                "201512130755" => "元大山",
-                "201512130756" => "方大山",
-                "201512130741" => "种大山",
-                "201512130742" => "猪大山",
-                "201512130743" => "小大山",
-                "201512130744" => "飞大山",
-                "201512130745" => "罗大山",
-                "201512130746" => "明大山",
-                "201512130731" => "号大山",
-                "201512130732" => "以大山",
-                "201512130733" => "而大山",
-                "201512130734" => "四大山",
-                "201512130735" => "五大山",
-                "201512130736" => "六大山",
-                "201512130721" => "亲大山",
-                "201512130722" => "弄大山",
-                "201512130723" => "农大山",
-                "201512130724" => "开大山",
-                "201512130725" => "觉大山",
-                "201512130726" => "得大山",
-        );
-        return $teacherList;
-    }
 
-    public function getTeacherList_new($subjectId, $oldTeacherID) {
+    public function getTeacherList($subjectId, $oldTeacherID) {
         
         // 获取教师列表
         $m = D('Common/Teacher', 'Logic');
@@ -146,14 +116,13 @@ class ClassController extends UserCenterController {
                 continue;
             }
             
-            foreach ($oneTeacher as $field => $v){
-                
-                if(!in_array($field, $fields)){
+            foreach ($oneTeacher as $field => $v) {
+                if (!in_array($field, $fields)) {
                     unset($oneTeacher[$field]);
                 }
             }
             
-            if($subjectId == 0){
+            if($subjectId == 0){ //subjectId==0意味着是安排班主任，暂不进行排序
                 continue;
             }
             foreach ($oneTeacher['support_subject'] as $teachInfo) {
@@ -180,17 +149,17 @@ class ClassController extends UserCenterController {
             $_POST['teach_start'] = NOW_TIME;
             $successFlag = false;
             
-//             dump($_POST);
+            //             dump($_POST);
             $teachInfoModel = D('Common/ClassTeachInfo');
             $data = $teachInfoModel->create();
-//             dump($data);die();
+            //             dump($data);die();
             if ($data != false) {
                 $successFlag = $teachInfoModel->add($data);
             }
             if ($successFlag != false) {
-                $this->success( '科任老师设置成功', 'refresh',true);
+                $this->success('科任老师设置成功', 'refresh', true);
             } else {
-                $this->error(0, '科任老师设置失败', 'refresh',true);
+                $this->error(0, '科任老师设置失败', 'refresh', true);
             }
         }
     }
