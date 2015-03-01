@@ -255,25 +255,28 @@ a.ell-sidebar-title:focus {
   border: 1px solid #ddd;
   border-radius: 4px;
 }
-.data-table .table > thead > tr > .operator-xs-1 {
+.data-table .table > thead > tr .operator-xs-1 {
   width: 50px;
 }
-.data-table .table > thead > tr > .operator-xs-2 {
+.data-table .table > thead > tr .operator-xs-2 {
   width: 100px;
 }
-.data-table .table > thead > tr > .operator-xs-3 {
+.data-table .table > thead > tr .operator-xs-3 {
   width: 150px;
 }
-.data-table .table > thead > tr > .operator-xs-4 {
+.data-table .table > thead > tr .operator-xs-4 {
   width: 200px;
 }
-.data-table .table > thead > tr > .operator-xs-5 {
+.data-table .table > thead > tr .operator-xs-5 {
   width: 250px;
 }
-.data-table tr .operator {
+.data-table .table > tbody > tr > td {
+  height: 33px;
+}
+.data-table .table > tbody > tr .operator {
   display: none;
 }
-.data-table tr:hover .operator {
+.data-table .table > tbody > tr:hover .operator {
   display: inline-block;
 }
 ::-webkit-scrollbar {
