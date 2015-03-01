@@ -42,10 +42,9 @@ class StaticGradeInfoModel  extends Model{
      * @return unknown
      * @author jigc <mrji1990@gmail.com>
      */
-    public function getStaticGradeInfoByGradeNumber($GradeNumber, $termStartStamp){
+    public function getStaticGradeInfoByGradeNumber($GradeNumber){
         
         $map['grade_number'] = array('eq', $GradeNumber); // 匹配当前年级号
-        $map['valid_time'] = array('elt', $termStartStamp); // 有效时间要小于学期起始时间
         $info = $this->where($map)->order('valid_time desc')->find();
         return $info;
     }

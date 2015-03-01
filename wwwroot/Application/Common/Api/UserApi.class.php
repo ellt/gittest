@@ -110,4 +110,44 @@ class UserApi {
         }
         return $name;
     }
+    
+    /**
+     * 根据用户ID获取用户名称
+     * @param  integer $uid 用户ID
+     * @return string       用户昵称
+     */
+    public static function get_truename($uid = 0){
+        static $list;
+        if(!($uid && is_numeric($uid))){ //获取当前登录用户名
+            return session('user_auth.username');
+        }
+    
+        /* 获取缓存数据 */
+        if(empty($list)){
+            $list = S('sys_user_truename_list');
+        }
+    
+        /* 查找用户信息 */
+        $key = "u{$uid}";
+        if(isset($list[$key])){ //已缓存，直接使用
+            $name = $list[$key];
+        } else { //调用接口获取用户信息
+            $info = M('user')->field('true_name')->find($uid);
+            if($info !== false && $info['true_name'] ){
+                $trueName = $info['true_name'];
+                $name = $list[$key] = $trueName;
+                /* 缓存用户 */
+                $count = count($list);
+                $max   = C('USER_MAX_CACHE');
+                while ($count-- > $max) {
+                    array_shift($list);
+                }
+                S('sys_user_truename_list', $list);
+            } else {
+                $name = '';
+            }
+        }
+       
+        return $name;
+    }
 }

@@ -20,48 +20,54 @@ class TermController extends UserCenterController {
         $this->model =  D('Common/TermInfo');
     }
 
-    public function termInit() {
+    
+    
+    public function index(){
+
+        $termList = $this->model->order('term_year desc')->select();
+        
+        
+        $nowTermYearInfo = array_shift($termList);
+        $nextTermYearInfo = $this->model->getNextTermInfo();
+
+        $this->assign('next',$nextTermYearInfo);
+        $this->assign('now',$nowTermYearInfo); // 当前学期
+        $this->assign('term_histoty_list', $termList);
+        $this->display();
+    }
+
+
+    public function getTermInfo($id) {
         if (IS_AJAX) {
             $data['status'] = 1;
-            $data['info'] = "保存成功！";
-            $data['url'] = "refresh";
-            $content = I("content");
-            if ($content == "add") {
-                $termdata['term_start'] = date('Y-m-d');
-                // TODO 与前端协议数据交互的方式
-                $data['data'] = $this->model->getInitData($termdata);
-            } else {
-                $data['data'] = array("2014-2015", "下学期", "2015-3-1", "555" );
+            $id = I("id");
+            if ($id >= 0) {
+                $showInfo = $this->model->getTermShowInfoById($id);
+                $data['data'] = $showInfo;
             }
             $this->ajaxReturn($data);
         }
     }
-    
-    public function index(){
 
-        $termList = $this->model->select();
-
-        $this->assign('term_list', $termList);
-        $this->display();
-    }
-
-    public function update() {
+    public function setTermInfo() {
         if ($_POST) {
             $ret = $this->model->saveData($_POST);
-            if(false === $ret){
-               dump($this->model->getError());
-            }
-            else{
-                $data['status']  = 1;
-                $data['info'] = "保存成功！";
-                $data['url'] = "refresh";
-                $content = I("content");
+            if (false === $ret) {
+                $dbErrorMsg = $this->model->getError();
+
+                foreach ($dbErrorMsg as $k => $v) {
+                    $uiErrorMsg[$k]['errorInfo'] = $v;
+                }
+                $data['status']  = 0;
+                $data['info'] = "数据有误！";
+                $data['hint'] = $uiErrorMsg;
                 $this->ajaxReturn($data);
+            } else {
+                $this->success('操作成功', 'refresh', IS_AJAX);
             }
-           
         }
     }
-
+    
     
     public function loadTermFormExcelObjiec() {
         //         Vendor('Classes.PHPExcel');
@@ -102,30 +108,37 @@ class TermController extends UserCenterController {
                 }
             }
         }
-        dump(count($arr));
+//         dump($arr);
     
 //         M()->execute('delete from  onethink_user where user_extern_model_id = 11');
-//         M()->execute('delete from  onethink_user_teacher where id > 0');
+        M()->execute('delete from  school_term_info where id > 0');
         //         
 //                 dump($arr);die();
         foreach ($arr as $key => $oneterm) {
             
-            if($oneterm['excel_time_start'] == null || $oneterm['excel_time_end'] == null){
+            if($oneterm["excel_t1"] == null || $oneterm["excel_t2"] == null||
+               $oneterm["excel_t2"] == null || $oneterm["excel_t3"] == null){
                 continue;
             }
             
-            $oneterm["term_start_stamp"] = ($oneterm['excel_time_start']-70*365-19)*86400-8*3600;
-            $oneterm["term_end_stamp"] = ($oneterm['excel_time_end']-70*365-19)*86400-8*3600;
+            $oneterm["t1"] = ($oneterm['excel_t1']-70*365-19)*86400-8*3600;
+            $oneterm["t2"] = ($oneterm['excel_t2']-70*365-19)*86400-8*3600;
+            $oneterm["t3"] = ($oneterm['excel_t3']-70*365-19)*86400-8*3600;
+            $oneterm["t4"] = ($oneterm['excel_t4']-70*365-19)*86400-8*3600;
+            $oneterm["active"] = ($oneterm['active_time']-70*365-19)*86400-8*3600;
             
 //             unset($oneterm['excel_time_start']);
 //             unset($oneterm['excel_time_end']);
-            
-            $oneterm["term_start"] = date('Y-m-d', $oneterm["term_start_stamp"]);
-            $oneterm["term_end"] = date('Y-m-d', $oneterm["term_end_stamp"]);
+           
+            $oneterm["t1"] = date('Y-m-d', $oneterm["t1"]);
+            $oneterm["t2"] = date('Y-m-d', $oneterm["t2"]);
+            $oneterm["t3"] = date('Y-m-d', $oneterm["t3"]);
+            $oneterm["t4"] = date('Y-m-d', $oneterm["t4"]);
+            $oneterm["active"] = date('Y-m-d', $oneterm["active"]);
             
             
             $_POST = $oneterm;
-            
+//             dump($oneterm); continue;
             $ret = $this->model->saveData($_POST);
             if(false === $ret){
                 dump($_POST);

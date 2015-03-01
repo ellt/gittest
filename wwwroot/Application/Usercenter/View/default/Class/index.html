@@ -21,8 +21,8 @@
     <div class="panel panel-primary">
         <div class="panel-heading">{$vo.class_name}</div>
         <div class="panel-body">
-            <h4>班主任: <strong title="工号：100016">李芳</strong>
-                <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#myModal" data-get-param="class=1&role=master">编 辑</button>
+            <h4>班主任: <strong title="工号：{$vo.master_teacher_id}">{$vo.master_teacher_id|conver_userId_to_name}</strong>
+                <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#myModal" data-get-param="class={$vo.id}&role=master&teacher_id={$sub.teacher_id}">编 辑</button>
             </h4>
         </div>
         <div>
@@ -40,7 +40,7 @@
                 	<foreach name="vo['support_subject']" item='sub'>
                     <tr>
                         <td><span title="科目编号:{$sub.subject_id}">{$sub.subject_id|conver_subjectId_to_name}</span></td>
-                        <td><span title="教师用户ID:{$sub.teacher_id}">{$sub.teacher_name}</span></td>
+                        <td><span title="教师用户ID:{$sub.teacher_id}">{$sub.teacher_id|conver_userId_to_name}</span></td>
                         <td>
                             <button class="btn btn-success btn-xs" data-toggle="modal" data-target="#myModal" data-get-param="class={$vo.id}&role=teacher&subject_id={$sub.subject_id}&teacher_id={$sub.teacher_id}">编 辑</button>
                         </td>

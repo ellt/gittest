@@ -31,30 +31,30 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>2010-2011</td>
-                    <td>2010-09-01</td>
-                    <td>2010-09-01</td>
-                    <td>2010-09-01</td>
-                    <td>2010-09-01</td>
-                    <td><button class="btn btn-primary btn-xs" data-toggle="modal" data-target="#myModal" data-get-param="id=new">切换至新学年</button></td>
+                     <td>{$next['term_year']}-{$now['term_year']++}</td>
+                    <td>{$next.t1|date='Y-m-d',###}</td>
+                    <td>{$next.t2|date='Y-m-d',###}</td>
+                    <td>{$next.t3|date='Y-m-d',###}</td>
+                    <td>{$next.t4|date='Y-m-d',###}</td>
+                    <td><button class="btn btn-primary btn-xs" data-toggle="modal" data-target="#myModal" data-get-param="id=0">切换至新学年</button></td>
                 </tr>                
 
                 <tr>
-                    <td>2010-2011</td>
-                    <td>2010-09-01</td>
-                    <td>2010-09-01</td>
-                    <td>2010-09-01</td>
-                    <td>2010-09-01</td>
-                    <td><button class="btn btn-success btn-xs" data-toggle="modal" data-target="#myModal" data-get-param="id=current">编 辑</button></td>
+                    <td>{$now['term_year']}-{$now['term_year']++}</td>
+                    <td>{$now.t1|date='Y-m-d',###}</td>
+                    <td>{$now.t2|date='Y-m-d',###}</td>
+                    <td>{$now.t3|date='Y-m-d',###}</td>
+                    <td>{$now.t4|date='Y-m-d',###}</td>
+                    <td><button class="btn btn-success btn-xs" data-toggle="modal" data-target="#myModal" data-get-param="id={$now.id}">编 辑</button></td>
                 </tr>
                 
-                <foreach name="term_list" item="vo">
+                <foreach name="term_histoty_list" item="vo">
                 <tr class="collapse" data-id="history">
-                    <td>{$vo.term_year}</td>
-                    <td>{$vo.term_start|date='Y-m-d',###}</td>
-                    <td>{$vo.term_end|date='Y-m-d',###}</td>
-                    <td>{$vo.term_start|date='Y-m-d',###}</td>
-                    <td>{$vo.term_end|date='Y-m-d',###}</td>
+                    <td>{$vo['term_year']}-{$vo['term_year']++}</td>
+                    <td>{$vo.t1|date='Y-m-d',###}</td>
+                    <td>{$vo.t2|date='Y-m-d',###}</td>
+                    <td>{$vo.t3|date='Y-m-d',###}</td>
+                    <td>{$vo.t4|date='Y-m-d',###}</td>
                     <td></td>
                 </tr>
                 </foreach>

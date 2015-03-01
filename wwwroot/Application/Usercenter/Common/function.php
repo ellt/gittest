@@ -8,6 +8,7 @@
 // +----------------------------------------------------------------------
 
 use Usercenter\Model\AuthGroupModel;
+use Common\Api\UserApi;
 
 /**
  * 后台公共文件
@@ -529,12 +530,22 @@ function get_start_grade_year_by_stamp($stamp = NOW_TIME){
 }
 
 
-function get_static_grade_info_by_grade_number($GradeNumber, $termStartStamp){
-    return D('StaticGradeInfo')->getStaticGradeInfoByGradeNumber($GradeNumber, $termStartStamp);
+function get_static_grade_info_by_grade_number($GradeNumber){
+    return D('StaticGradeInfo')->getStaticGradeInfoByGradeNumber($GradeNumber);
 }
 
 function get_teacher_info_by_id($id){
     return D('Common/Teacher','Logic')->getTeacherInfoById($id);
+}
+
+
+function conver_userId_to_name($id){
+    
+    
+    if($id > 0){
+        $name = UserApi::get_truename($id);
+    }
+    return $name;
 }
 
 function conver_subjectId_to_name($id){
