@@ -70,19 +70,17 @@ class GradeController extends UserCenterController {
         foreach ($subject_list as $v) {
     
             if (in_array($v['id'], $supportIds)) {// 已经支持的科目ID
-                $support = array($v['subject_number'] . ' ' . $v['subject_name'], false );
-                $hasSubjects[$v['id']] = $support;
-//                                 array_push($hasSubjects, $support);
+                array_push($hasSubjects, $v);
             }
-            $sub = $v['subject_number'] . ' ' . $v['subject_name'];
-            //             array_push($allSubjects, $sub);
-            $allSubjects[$v['id']]= $sub;
+            array_push($allSubjects, $v);
         }
+        
+        
     
         $data['status'] = 1;
         $data['data'] = array(
                 'id' => $gradeId,
-                'grade_title' => $info['grade_name'],
+                'gradeTitle' => $info['grade_name'],
                 'hasSubjects' => $hasSubjects,
                 'allSubjects' => $allSubjects );
     
@@ -94,7 +92,7 @@ class GradeController extends UserCenterController {
         $staticGradeInfoModel = D('Common/StaticGradeInfo');
             
             if (IS_AJAX) {
-                //             dump(I('post.'));die();
+//                             dump(I('post.'));die();
                 $subjects =  I('subjects');
             
                 foreach ($subjects as $id){
@@ -106,7 +104,7 @@ class GradeController extends UserCenterController {
                     }
             
                 }
-                $info['id'] =  I('gradeId');
+                $info['id'] =  I('id');
                 $info['support_subject'] = $supportIds;
                 $ret = $staticGradeInfoModel->create($info);
                 if(!empty($ret)){
