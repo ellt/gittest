@@ -550,16 +550,15 @@ function conver_userId_to_name($id){
 
 function conver_subjectId_to_name($id){
     static $subjectIndexById = null;
-    if($subjectIndexById == null){
+    if($allSubjects == null){
         // 将科目字典值转换为由ID索引
-        $allSubjects = D('Common/SubjectInfo')->select(); // 获取科目
-        $subjectIndexById = array();
-        foreach ($allSubjects as $k => $v){
-            if($k == 'id'){
-                continue;
-            }
-            $subjectIndexById[$v['id']] = $v;
+        $allSubjects = D('Common/SubjectInfo')->order('id')->select(); // 获取科目
+    }
+    foreach ($allSubjects as $v){
+        if($v['id'] == $id){
+            return $v['subject_name'];
         }
     }
-    return $subjectIndexById[$id]['subject_name'];
+//     dump($subjectIndexById);die();
+    return '未知';
 }

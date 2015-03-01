@@ -26,7 +26,7 @@ class ClassController extends UserCenterController {
         
         
         // 计算 $gradeYear年号当前时间所处的年级
-        $CurrentGrade = 5 - ($gradeYear - $startGradeYear);
+        $CurrentGrade = 6 - ($gradeYear - $startGradeYear);
         
         $StaticGradeInfo = get_static_grade_info_by_grade_number($CurrentGrade);
         

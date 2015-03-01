@@ -24,6 +24,7 @@ class GradeController extends UserCenterController {
         $sidemenu['title'] = "基础信息设置";
         $class_tree = D('Category')->getClassTree('id, title as name,sort,pid,status');
         
+        
 //         dump($class_tree);die(); # 打印查看树状信息
 
         $this->assign('static_grade_info_list', $this->getStaticGradeInfoList());
@@ -36,7 +37,7 @@ class GradeController extends UserCenterController {
     public function getStaticGradeInfoList(){
         $staticGradeInfoModel = D('Common/StaticGradeInfo');
         
-        $data = $staticGradeInfoModel->select();
+        $data = $staticGradeInfoModel->getStaticGradeList();
         //         dump($data);
         
         $staticGradeInfoList = array();
@@ -79,8 +80,8 @@ class GradeController extends UserCenterController {
     
         $data['status'] = 1;
         $data['data'] = array(
-                'id' => $gradeId,
-                'gradeTitle' => $info['grade_name'],
+                'grade_number' => $info['grade_number'],
+                'grade_name' => $info['grade_name'],
                 'hasSubjects' => $hasSubjects,
                 'allSubjects' => $allSubjects );
     
@@ -104,11 +105,11 @@ class GradeController extends UserCenterController {
                     }
             
                 }
-                $info['id'] =  I('id');
-                $info['support_subject'] = $supportIds;
-                $ret = $staticGradeInfoModel->create($info);
+                $_POST['support_subject'] = $supportIds;
+                $_POST['valid_time'] = NOW_TIME;
+                $ret = $staticGradeInfoModel->create();
                 if(!empty($ret)){
-                    $ret = $staticGradeInfoModel->save($info);
+                    $ret = $staticGradeInfoModel->add($ret);
                 }
             
                 if(!empty($ret)){
