@@ -27,29 +27,31 @@
     </div>
 
     <!-- 数据表格 -->
-    <div class="data-table">
-        <table class="table table-condensed table-hover">
-            <thead>
-                <tr>
-                    <th class="row-selected"><input type="checkbox" data-toggle="checkall" data-target="ids"/></th>
-                    <th>科目编号</th>
-                    <th>科目名称</th>
-                    <th>操作</th>
-                </tr>
-            </thead>
-            <tbody>
-                <foreach name="subject_lists" item="vo">
-                <tr>
-                    <td><input type="checkbox" data-check="ids" name="ids[]" value="{$vo.id}"></td>
-                    <td>{$vo.subject_number}</td>
-                    <td>{$vo.subject_name}</td>
-                    <td>
-                        <button class="btn btn-success btn-xs" data-toggle="modal" data-target="#myModal" data-get-param="id={$vo.id}">编 辑</button>
-                        <a class="btn btn-danger btn-xs" href="{:U('delete','id='.$vo[id])}">删 除</a>
-                    </td>
-                </tr>
-                </foreach>
-            </tbody>
-        </table>
+    <div class="row">
+        <div class="col-lg-6 data-table">
+            <table class="table table-condensed table-hover">
+                <thead>
+                    <tr>
+                        <th class="row-selected"><input type="checkbox" data-toggle="checkall" data-target="ids"/></th>
+                        <th>科目编号</th>
+                        <th>科目名称</th>
+                        <th class="operator-xs-2"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <foreach name="subject_lists" item="vo">
+                    <tr>
+                        <td><input type="checkbox" data-check="ids" name="ids[]" value="{$vo.id}"></td>
+                        <td>{$vo.subject_number}</td>
+                        <td>{$vo.subject_name}</td>
+                        <td class="operator-xs-2">
+                            <button class="btn btn-success btn-xs operator" data-toggle="modal" data-target="#myModal" data-get-param="id={$vo.id}">编 辑</button>
+                            <a class="btn btn-danger btn-xs operator" href="{:U('delete','id='.$vo[id])}">删 除</a>
+                        </td>
+                    </tr>
+                    </foreach>
+                </tbody>
+            </table>
+        </div>
     </div>
 </block>

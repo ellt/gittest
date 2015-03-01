@@ -343,6 +343,28 @@ a.ell-sidebar-title:focus {
   cursor: pointer;
 }
 
+.data-table {
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+
+  .table > thead > tr > .operator-xs-1 {width: 1*50px;}
+  .table > thead > tr > .operator-xs-2 {width: 2*50px;}
+  .table > thead > tr > .operator-xs-3 {width: 3*50px;}
+  .table > thead > tr > .operator-xs-4 {width: 4*50px;}
+  .table > thead > tr > .operator-xs-5 {width: 5*50px;}
+
+  tr {
+    .operator {
+      display: none;
+    }
+
+    &:hover .operator {
+      display: inline-block;
+    }
+  }
+}
+
 ::-webkit-scrollbar {
   width: 9px;
   height: 9px;
