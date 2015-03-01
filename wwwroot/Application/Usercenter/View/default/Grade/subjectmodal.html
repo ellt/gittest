@@ -27,8 +27,8 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-primary" data-submit="custom" data-url="{:U('setGradeSubjectInfo')}" data-loading-text="提交中..." autocomplete="off">确定</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="submit" class="btn btn-primary" data-submit="custom" data-url="{:U('setGradeSubjectInfo')}" data-loading-text="提交中..." autocomplete="off">确 定</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
             </div>
         </div>
     </div>
@@ -37,9 +37,16 @@
 <script>
 $(function(){
 
-    var $modal = initModalEvent('#subjectModal', initModal);
+    var $modal = initModalEvent('#subjectModal', initModal, initOtherEvent);
 
-    function initModal($modal, data) {
+    function initModal($modal, data, isClear) {
+
+        if (isClear) {
+            $('#hasSubjects').html("");
+            $('#allSubjects').html("");
+            return true;
+        }
+
         var hasSubjects = data.hasSubjects;
         var allSubjects = data.allSubjects;
         var temp, tempObj, tempArr = Array();
@@ -48,7 +55,6 @@ $(function(){
         $modal.data("grade_name", data.grade_name);
         $("[data-id='grade_name']", $modal).html(data.grade_name);
 
-        $('#hasSubjects').html("");
         if (hasSubjects !== null) {
             for (var i = 0; i < hasSubjects.length; i++) {
                 tempArr.push(hasSubjects[i].id);
@@ -70,7 +76,6 @@ $(function(){
         }
         $('#hasSubjects').data("hasSubjects", tempArr);
 
-        $('#allSubjects').html("");
         if (allSubjects !== null) {
             for (var j = 0; j < allSubjects.length; j++) {
                 temp = $.inArray(allSubjects[j].id, tempArr);
@@ -86,18 +91,20 @@ $(function(){
         }
 
         $('[data-toggle="tooltip"]', $modal).tooltip();
-
-        $('#hasSubjects').on('click', 'button', function(event) {
-            if(!$(this).hasClass('active')) {
-                $('#allSubjects').append(this).append(' ');
-            }
-        });
-
-        $('#allSubjects').on('click', 'button', function(event) {
-            $('#hasSubjects').append(this).append(' ');
-        });
     }
-    
+});
+
+function initOtherEvent($modal) {
+    $('#hasSubjects').on('click', 'button', function(event) {
+        if(!$(this).hasClass('active')) {
+            $('#allSubjects').append(this).append(' ');
+        }
+    });
+
+    $('#allSubjects').on('click', 'button', function(event) {
+        $('#hasSubjects').append(this).append(' ');
+    });
+
     $("[data-submit='custom']").click(function(e) { 
         var url = $(this).attr('data-url');
         var grade_number = $modal.data("grade_number");
@@ -125,5 +132,5 @@ $(function(){
             handleAjax(data);
         });
     });
-});
+}
 </script>
