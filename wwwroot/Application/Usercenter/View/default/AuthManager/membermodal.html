@@ -1,0 +1,116 @@
+<div class="modal fade" id="myModal" data-url="{:U('class/classInit')}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">关闭</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">添加成员</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-5">
+                        <ul class="select-list-group" id="teacherList"></ul>
+                    </div>
+                    <div class="col-sm-1 icon-arrow-join">
+                        <i class="fa fa-chevron-right"></i>
+                    </div>
+                    <div class="col-sm-6">
+                        <ul class="select-list-group" id="seletedList"></ul>
+                    </div> 
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary" data-submit="custom" data-target="#myModalForm" data-url="{:U('tuser/setMemberAuth')}" data-loading-text="提交中..." autocomplete="off">确定</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+$(function(){
+
+    initModalEvent('#myModal', initModal, initOtherEvent);
+
+});
+
+function initModal($modal, data) {
+    var list = data.list;
+    var $teacherList = $("#teacherList");
+    
+    $modal.data("id", data.id);
+
+    $('#seletedList').html("");
+    $teacherList.html("");
+
+    if (list !== null) {
+        var tempObj;
+        for (var i = 0; i < list.length; i++) {
+            tempObj = $("<li></li>")
+                    .html(list[i].true_name + " (" + list[i].pin2 + ")")
+                    .data("id",list[i].id)
+                    .appendTo($teacherList);
+        }
+    }
+}
+
+function initOtherEvent($modal) {
+    var $seletedList = $('#seletedList');
+
+    $("#teacherList").on('click', 'li', function(event) {
+        var id = $(this).data("id");
+        var isExist = false;
+        $("li", $seletedList).each(function(index, el) {
+            if ($(this).data('id') === id) {
+                isExist = true;
+                return false;
+            }
+        });
+
+        if (isExist === false) {
+            var $li = $(this).clone(true);
+            $li.append("<span class='close hidden'>&times;</span>")
+               .appendTo($seletedList);
+        }
+    });
+
+    $seletedList.on('click', 'li', function(event) {
+        $(this).remove();
+    });
+
+    $seletedList.on('mouseover', 'li', function(event) {
+        $(this).find('.close').removeClass('hidden');
+    });
+
+    $seletedList.on('mouseout', 'li', function(event) {
+        $(this).find('.close').addClass('hidden');
+    });
+
+    $("[data-submit='custom']").click(function(e) {
+        var url = $(this).attr('data-url');
+        var id = $modal.data("id");
+        var seletedIds = Array();
+        $("li", $seletedList).each(function(index, el) {
+            seletedIds.push($(this).data("id"));
+        });
+
+        // 检查被选列表是否为空
+        if(seletedIds.length === 0) {
+            $modal.modal('hide');
+            return false; // 空则不进行提交
+        }
+
+        var btn = $(this);
+        btn.button('loading');
+        //发送到服务器
+        $.post(url, {id: id, seletedIds: seletedIds}).success(function(data){
+            btn.button('reset');
+            $modal.modal('hide');
+            handleAjax(data);
+        });
+    });
+}
+
+</script>

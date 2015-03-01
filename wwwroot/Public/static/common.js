@@ -321,7 +321,7 @@ function isInt(obj) {
 }
 
 // 初始化 Modal 事件
-function initModalEvent(modalSelector, initModalFun) {
+function initModalEvent(modalSelector, initModalFun, initOtherEvent) {
     var $modal = $(modalSelector);
     initModalFun = initModalFun || defaultInitModalFun;
     
@@ -341,6 +341,10 @@ function initModalEvent(modalSelector, initModalFun) {
             }
         });
     });
+
+    if (initOtherEvent) {
+        initOtherEvent($modal);
+    }
 
     $("[data-submit='modal']", $modal).click(function(e) { 
         //取消默认动作，防止表单两次提交

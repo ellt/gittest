@@ -579,6 +579,16 @@ class TuserController extends UserCenterController {
         $this->ajaxReturn($data);
     }
 
+// --------------权限 --------------------------
+    public function setMemberAuth() {
+        $seletedIds = I("seletedIds");
+        $data['status']  = 1;
+        $data['url']  = "no-refresh";
+        $data['data'] = $seletedIds;
+        $this->ajaxReturn($data);
+    }
+
+
 ////////////////////////新学期设置 NewTerm////////////////////////////////
 
     public function newIndex() {

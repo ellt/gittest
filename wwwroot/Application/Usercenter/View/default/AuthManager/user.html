@@ -1,6 +1,10 @@
 <!-- 成员授权编辑页面 -->
 <extend name="Public/base" />
 
+<block name="header">
+    <include file="membermodal"/>
+</block>
+
 <!-- 子导航 -->
 <block name="sidebar">
     <include file="Public/sidemenu"/>
@@ -29,6 +33,16 @@
                     </option>
                     </volist>
                 </select>
+            </div>
+        </div>
+
+        <!-- 按钮工具栏 -->
+        <div class="row">
+            <div class="col-md-6">
+                <div class="pull-left">
+                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal" data-get-param="class=13&role=teacher&subject_id=2&teacher_id=">添加成员</button>
+                    <button type="button" class="btn btn-success ajax-post" data-target="[data-check='ids']" data-confirm="确认要删除吗?" data-url="">删除成员</button>
+                </div>
             </div>
         </div>
 
@@ -63,13 +77,6 @@
         <div class="main-title">
             <div class="page_nav pull-left">
                 {$_page}
-            </div>
-            <div id="add-to-group" class="tools pull-right">
-                <form class="add-user" action="{:U('addToGroup')}" method="post" enctype="application/x-www-form-urlencoded" >
-                    <input class="text input-4x" type="text" name="uid" placeholder="请输入uid,多个用英文逗号分隔">
-                    <input type="hidden" name="group_id" value="{:I('group_id')}">
-                    <button type="submit" class="btn ajax-post" target-form="add-user">新 增</button>
-                </form>
             </div>
         </div>
 </block>
