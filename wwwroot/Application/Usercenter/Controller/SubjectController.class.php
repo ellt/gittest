@@ -21,59 +21,45 @@ class SubjectController extends UserCenterController {
     }
     
     public function index(){
-        
         $sidemenu['title'] = "基础信息设置";
         $this->assign('sidemenu', $sidemenu);
-
+        
         $this->assign('subject_lists', $this->model->select());
         $this->display();
     }
 
     public function setSubjectInfo() {
-        if (IS_AJAX) {
-            $info = $this->model->create();
-            
-            if ($this->model->update() == false) { // 数据格式不合法
-                $data['status'] = 0;
-                $dbErrorMsg = $this->model->getError();
-                foreach ($dbErrorMsg as $k => $v) {
-                    $uiErrorMsg[$k]['errorInfo'] = $v;
-                }
-                
-                $data['status'] = 0;
-                $data['hint'] = $uiErrorMsg;
-            } else {
-                $data['info'] = "保存成功！";
-                $data['url'] = "refresh";
-                $data['status'] = 1;
+        $info = $this->model->create();
+        if ($this->model->update() == false) { // 数据格式不合法
+            $dbErrorMsg = $this->model->getError();
+            foreach ($dbErrorMsg as $k => $v) {
+                $uiErrorMsg[$k]['errorInfo'] = $v;
             }
-            $this->ajaxReturn($data);
+            $data['hint'] = $uiErrorMsg;
+            
+            $this->error('获取科目信息失败!', null, $data);
+        } else {
+            $this->success('操作成功！', null, IS_AJAX);
         }
     }
 
-    public function getSubjectInfo(){
-        if (IS_AJAX) {
-            $id = I('id');
-            $subjectInfo = $this->model->getSubjectInfoById($id);
-            if ($subjectInfo == false) {
-                $data['status'] = 0;
-                $data['info'] = '获取科目信息失败';
-            } else {
-                $data['status'] = 1;
-                $data['data'] = $subjectInfo;
-            }
-            
-            $data['url'] = "refresh";
-            $this->ajaxReturn($data);
+    public function getSubjectInfo() {
+        $id = I('id');
+        $subjectInfo = $this->model->getSubjectInfoById($id);
+        if ($id > 0 && $subjectInfo == false) {
+            $this->error('获取科目信息失败!', null, IS_AJAX);
+        } else {
+            $data['data'] = $subjectInfo;
+            $this->success('操作成功！', null, $data);
         }
     }
 
     public function delete($id) {
         $ret = $this->model->delete($id);
         if ($ret == false) {
-            $this->error('科目删除失败！', U('index'));
+            $this->error('科目删除失败！', null, IS_AJAX);
         } else {
-            $this->success('科目删除成功！', U('index'));
+            $this->success('科目删除成功！', null, IS_AJAX);
         }
     }
     
