@@ -12,7 +12,7 @@
 <block name="content">
     <!-- 标题 -->
     <div class="ell-main-title">
-        <h2>基础信息设置 [学年设置]
+        <h2>基础信息设置 [学期设置]
         </h2>
     </div>
 
@@ -26,7 +26,7 @@
                     <th>上学期 结束时间</th>
                     <th>下学期 开始时间</th>
                     <th>下学期 结束时间</th>
-                    <th>操作</th>
+                    <th class="operator-xs-2"></th>
                 </tr>
             </thead>
             <tbody>
@@ -41,10 +41,10 @@
 
                 <tr>
                     <td>{$now['term_year']}-{$now['term_year']++}</td>
-                    <td>{$now.t1|date='Y-m-d',###}</td>
-                    <td>{$now.t2|date='Y-m-d',###}</td>
-                    <td>{$now.t3|date='Y-m-d',###}</td>
-                    <td>{$now.t4|date='Y-m-d',###}</td>
+                    <td <eq name="$now.t1" value="t1">class="info" title="上学期正在进行"</eq>>{$now.t1|date='Y-m-d',###}</td>
+                    <td <eq name="$now.t1" value="t2">class="info" title="上学期已结束"</eq>>{$now.t2|date='Y-m-d',###}</td>
+                    <td <eq name="$now.t1" value="t3">class="info" title="下学期正在进行"</eq>>{$now.t3|date='Y-m-d',###}</td>
+                    <td <eq name="$now.t1" value="t4">class="info" title="下学期已结束"</eq>>{$now.t4|date='Y-m-d',###}</td>
                     <td><button class="btn btn-success btn-xs" data-toggle="modal" data-target="#myModal" data-get-param="id={$now.id}">编 辑</button></td>
                 </tr>
                 

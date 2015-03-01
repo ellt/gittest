@@ -85,9 +85,13 @@
 
 <script>
 $(function(){
-    initModalEvent('#myModal', initModal);
+    initModalEvent('#myModal', initModal, null);
 
-    function initModal($modal, data) {
+    function initModal($modal, data, isClear) {
+
+        if (isClear) {
+            return true;
+        }
 
         $("span", "#myModalLabel").html(data.title);
         $("[data-id='term_year']", $modal).html(data.term_year.value);
@@ -110,5 +114,4 @@ $(function(){
         pickerPosition: "bottom-left"
     });
 });
-
 </script>
