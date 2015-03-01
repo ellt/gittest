@@ -45,8 +45,8 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-primary" data-submit="modal" data-target="#classModalForm" data-url="{:U('setGradeClassNumber')}" data-loading-text="提交中..." autocomplete="off">确定</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="submit" class="btn btn-primary" data-submit="modal" data-target="#classModalForm" data-url="{:U('setGradeClassNumber')}" data-loading-text="提交中..." autocomplete="off">确 定</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
             </div>
         </div>
     </div>
@@ -55,9 +55,14 @@
 <script>
 $(function(){
 
-    initModalEvent('#classModal', initModal);
+    initModalEvent('#classModal', initModal, null);
 
-    function initModal($modal, data) {
+    function initModal($modal, data, isClear) {
+
+        if (isClear) {
+            return true;
+        }
+
         $("[data-id='grade_title']", $modal).html(data.grade_title);
 
         for (var i in data) {

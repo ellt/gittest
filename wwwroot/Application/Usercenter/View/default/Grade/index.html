@@ -30,57 +30,65 @@
         <div class="tab-content">
             <div role="tabpanel" class="tab-pane active" id="subjectContent">
                 <!-- 数据表格 -->
-                <div class="data-table">
-                    <table class="table table-condensed table-striped table-hover">
-                        <thead>
-                            <tr>
-                                <th>年级</th>
-                                <th>科目</th>
-                                <th>操作</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <foreach name='static_grade_info_list' item='vo'>
-                            <tr>
-                                <td>{$vo.grade_name}</td>
-                                <td>
-                                    <foreach name="vo['subject_info']" item='subject'>
-                                    <span class="label label-primary" title="编号 {$subject.subject_number}">{$subject.subject_name}</span>
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="data-table">
+                            <table class="table table-condensed table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>年级</th>
+                                        <th>科目</th>
+                                        <th class="operator-xs-1"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <foreach name='static_grade_info_list' item='vo'>
+                                    <tr>
+                                        <td>{$vo.grade_name}</td>
+                                        <td>
+                                            <foreach name="vo['subject_info']" item='subject'>
+                                            <span class="label label-primary" title="编号 {$subject.subject_number}">{$subject.subject_name}</span>&nbsp;
+                                            </foreach>
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-success btn-xs operator" data-toggle="modal" data-target="#subjectModal" data-get-param="id={$vo.id}">编 辑</button>
+                                        </td>
+                                    </tr>
                                     </foreach>
-                                </td>
-                                <td>
-                                    <button class="btn btn-success btn-xs" data-toggle="modal" data-target="#subjectModal" data-get-param="id={$vo.id}">编 辑</button>
-                                </td>
-                            </tr>
-                            </foreach>
-                        </tbody>
-                    </table>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <div role="tabpanel" class="tab-pane" id="classContent">
                 <!-- 数据表格 -->
-                <div class="data-table">
-                    <table class="table table-condensed table-striped table-hover">
-                        <thead>
-                            <tr>
-                                <th>年级</th>
-                                <th>班级数量</th>
-                                <th>操作</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <foreach name="class_tree" item="vo" key="k">
-                            <tr>
-                                <td>{$vo.name}</td>
-                                <td>{$vo._|count}</td>
-                                <td>
-                                    <button class="btn btn-success btn-xs" data-toggle="modal" data-target="#classModal" data-get-param="id={$vo.id}">编 辑</button>
-                                </td>
-                            </tr>
-                            </foreach>
-                        </tbody>
-                    </table>
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="data-table">
+                            <table class="table table-condensed table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>年级</th>
+                                        <th>班级数量</th>
+                                        <th class="operator-xs-1"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <foreach name="class_tree" item="vo" key="k">
+                                    <tr>
+                                        <td>{$vo.name}</td>
+                                        <td>{$vo._|count}</td>
+                                        <td>
+                                            <button class="btn btn-success btn-xs operator" data-toggle="modal" data-target="#classModal" data-get-param="id={$vo.id}">编 辑</button>
+                                        </td>
+                                    </tr>
+                                    </foreach>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
