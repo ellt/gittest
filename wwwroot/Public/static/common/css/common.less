@@ -348,13 +348,19 @@ a.ell-sidebar-title:focus {
   border: 1px solid #ddd;
   border-radius: 4px;
 
-  .table > thead > tr > .operator-xs-1 {width: 1*50px;}
-  .table > thead > tr > .operator-xs-2 {width: 2*50px;}
-  .table > thead > tr > .operator-xs-3 {width: 3*50px;}
-  .table > thead > tr > .operator-xs-4 {width: 4*50px;}
-  .table > thead > tr > .operator-xs-5 {width: 5*50px;}
+  .table > thead > tr {
+    .operator-xs-1 {width: 1*50px;}
+    .operator-xs-2 {width: 2*50px;}
+    .operator-xs-3 {width: 3*50px;}
+    .operator-xs-4 {width: 4*50px;}
+    .operator-xs-5 {width: 5*50px;}
+  }
+   
+  .table > tbody > tr {
+    > td {
+      height: 33px;
+    }
 
-  tr {
     .operator {
       display: none;
     }
