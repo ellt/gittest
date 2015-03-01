@@ -17,41 +17,44 @@
     </div>
 
     <!-- 数据表格 -->
-    <foreach name='class_list' item='vo'>
-    <div class="panel panel-primary">
-        <div class="panel-heading">{$vo.class_name}</div>
-        <div class="panel-body">
-            <h4>班主任: <strong title="工号：{$vo.master_teacher_id}">{$vo.master_teacher_id|conver_userId_to_name}</strong>
-                <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#myModal" data-get-param="class={$vo.id}&role=master&teacher_id={$sub.teacher_id}">编 辑</button>
-            </h4>
-        </div>
-        <div>
-            <table class="table table-condensed table-hover">
-                <thead>
-                    <tr>
-                        <th>科目名称</th>
-                        <th>任课教师</th>
-                        <th>操作</th>
-                    </tr>
-                </thead>
-               
-                
-                <tbody  id="content">
-                	<foreach name="vo['support_subject']" item='sub'>
-                    <tr>
-                        <td><span title="科目编号:{$sub.subject_id}">{$sub.subject_id|conver_subjectId_to_name}</span></td>
-                        <td><span title="教师用户ID:{$sub.teacher_id}">{$sub.teacher_id|conver_userId_to_name}</span></td>
-                        <td>
-                            <button class="btn btn-success btn-xs" data-toggle="modal" data-target="#myModal" data-get-param="class={$vo.id}&role=teacher&subject_id={$sub.subject_id}&teacher_id={$sub.teacher_id}">编 辑</button>
-                        </td>
-                    </tr>
-                    </foreach>
-                </tbody>
-            </table>
-            <div class="panel-footer">
-                <small>提示：没有找到想要的科目，请点击<a href="">这里</a>设置。</small>
+    <div class="row">
+        <foreach name='class_list' item='vo'>
+        <div class="col-lg-6">
+            <div class="panel panel-primary">
+                <div class="panel-heading">{$vo.class_name}</div>
+                <div class="panel-body">
+                    <h4>班主任: <strong title="工号：{$vo.master_teacher_id}">{$vo.master_teacher_id|conver_userId_to_name}</strong>
+                        <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#myModal" data-get-param="class={$vo.id}&role=master&teacher_id={$sub.teacher_id}">编 辑</button>
+                    </h4>
+                </div>
+                <div>
+                    <table class="table table-condensed table-hover">
+                        <thead>
+                            <tr>
+                                <th>科目名称</th>
+                                <th>任课教师</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                       
+                        <tbody>
+                        	<foreach name="vo['support_subject']" item='sub'>
+                            <tr>
+                                <td><span title="科目编号:{$sub.subject_id}">{$sub.subject_id|conver_subjectId_to_name}</span></td>
+                                <td><span title="教师用户ID:{$sub.teacher_id}">{$sub.teacher_id|conver_userId_to_name}</span></td>
+                                <td>
+                                    <button class="btn btn-success btn-xs" data-toggle="modal" data-target="#myModal" data-get-param="class={$vo.id}&role=teacher&subject_id={$sub.subject_id}&teacher_id={$sub.teacher_id}">编 辑</button>
+                                </td>
+                            </tr>
+                            </foreach>
+                        </tbody>
+                    </table>
+                    <div class="panel-footer">
+                        <small>提示：没有找到想要的科目，请点击<a href="">这里</a>设置。</small>
+                    </div>
+                </div>
             </div>
         </div>
+        </foreach>
     </div>
-    </foreach>
 </block>

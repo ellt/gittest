@@ -335,11 +335,15 @@ function initModalEvent(modalSelector, initModalFun, initOtherEvent) {
         var param = $(e.relatedTarget).data("get-param");
         $.get(url+"&"+param).success(function(data){
             if (data.status) {
-                initModalFun($modal, data.data);
+                initModalFun($modal, data.data, false);
             } else {
                 return e.preventDefault(); // 阻止模态框的展示
             }
         });
+
+        // 清除表单内容及状态
+        initModalFun($modal, null, true);
+        showFormTip($modal);
     });
 
     if (initOtherEvent) {
@@ -373,9 +377,9 @@ function initModalEvent(modalSelector, initModalFun, initOtherEvent) {
     return $modal;
 }
 
-function defaultInitModalFun($modal, data) {
+function defaultInitModalFun($modal, data, isClear) {
     for (var i in data) {
-        $("[name=" + i + "]", $modal).val(data[i]);
+        $("[name=" + i + "]", $modal).val(isClear ? "" : data[i]);
     }
 }
 
