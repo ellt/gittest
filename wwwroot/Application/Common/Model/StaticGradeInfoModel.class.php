@@ -33,7 +33,22 @@ class StaticGradeInfoModel  extends Model{
         $info = $this->where("id=$id")->find();
         return $info;
     }
-    
+
+    public function getStaticGradeList($stamp = NOW_TIME) {
+        $gradeList = array();
+        for ($i = 1; $i <= 6; $i++) {
+            
+            $map['grade_number'] = array('eq', $i );
+            $map['valide_time'] = array('elt', $stamp );
+            $oneGradeInfo = $this->order('valid_time desc')->where($map)->find();
+            
+//             dump($this->getLastSql());
+            array_push($gradeList, $oneGradeInfo);
+        }
+        
+//         dump($gradeList);die();
+        return $gradeList;
+    }
 
     /**
      * 通过年级号，和学期起始时间查找某个年级支持科目信息

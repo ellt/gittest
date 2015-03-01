@@ -13,7 +13,7 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">年级</label>
                         <div class="col-sm-4">
-                            <p class="form-control-static" data-id="gradeTitle"></p>
+                            <p class="form-control-static" data-id="grade_name"></p>
                         </div>
                     </div>
                     <div class="form-group">
@@ -44,8 +44,9 @@ $(function(){
         var allSubjects = data.allSubjects;
         var temp, tempObj, tempArr = Array();
 
-        $modal.data("id", data.id);
-        $("[data-id='gradeTitle']", $modal).html(data.gradeTitle);
+        $modal.data("grade_number", data.grade_number);
+        $modal.data("grade_name", data.grade_name);
+        $("[data-id='grade_name']", $modal).html(data.grade_name);
 
         $('#hasSubjects').html("");
         if (hasSubjects !== null) {
@@ -99,7 +100,8 @@ $(function(){
     
     $("[data-submit='custom']").click(function(e) { 
         var url = $(this).attr('data-url');
-        var id = $modal.data("id");
+        var grade_number = $modal.data("grade_number");
+        var grade_name = $modal.data("grade_name");
         var subjects = Array();
         $("button","#hasSubjects").each(function(index, el) {
             subjects.push($(this).data("subject-id"));
@@ -117,7 +119,7 @@ $(function(){
         var btn = $(this);
         btn.button('loading');
         //发送到服务器
-        $.post(url, {id: id, subjects: subjects}).success(function(data){
+        $.post(url, {grade_number: grade_number, grade_name:grade_name, subjects: subjects}).success(function(data){
             btn.button('reset');
             $modal.modal('hide');
             handleAjax(data);
