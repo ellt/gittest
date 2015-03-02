@@ -43,7 +43,7 @@
                         <td>{$vo.subject_name}</td>
                         <td>
                             <button class="btn btn-success btn-xs operator" data-toggle="modal" data-target="#myModal" data-get-param="id={$vo.id}">编 辑</button>
-                            <a class="btn btn-danger btn-xs operator" href="{:U('delete','id='.$vo[id])}">删 除</a>
+                            <button type="button" class="btn btn-success btn-xs operator btn-sm ajax-get" data-confirm="确认要执行吗?" data-loading-text="执行中..." data-url="{:U('delete','id='.$vo[id])}" autocomplete="off">删除</button>
                         </td>
                     </tr>
                     </foreach>

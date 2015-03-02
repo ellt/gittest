@@ -20,7 +20,7 @@ class SubjectInfoModel  extends Model{
 
     /* 配置自动验证规则 */
     protected $_validate = array(
-        array('subject_number', '', '科目编号冲突', self::MUST_VALIDATE, 'unique', self::MODEL_BOTH ),
+        array('subject_number', '', '科目编号已存在', self::MUST_VALIDATE, 'unique', self::MODEL_BOTH ),
         array('subject_number','/^[0-9]+$/', '科目编号只能是数字', self::VALUE_VALIDATE , 'regex'  ,self::MODEL_BOTH ),
         array('subject_name', '', '科目名称冲突', self::MUST_VALIDATE, 'unique', self::MODEL_BOTH ),
         
