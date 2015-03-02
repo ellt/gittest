@@ -41,10 +41,10 @@
 
                 <tr>
                     <td>{$now['term_year']}-{$now['term_year']++}</td>
-                    <td <eq name="$now.t1" value="t1">class="info" title="上学期正在进行"</eq>>{$now.t1|date='Y-m-d',###}</td>
-                    <td <eq name="$now.t1" value="t2">class="info" title="上学期已结束"</eq>>{$now.t2|date='Y-m-d',###}</td>
-                    <td <eq name="$now.t1" value="t3">class="info" title="下学期正在进行"</eq>>{$now.t3|date='Y-m-d',###}</td>
-                    <td <eq name="$now.t1" value="t4">class="info" title="下学期已结束"</eq>>{$now.t4|date='Y-m-d',###}</td>
+                    <td <eq name="now['current']" value="t1">class="info" title="上学期正在进行"</eq>>{$now.t1|date='Y-m-d',###}</td>
+                    <td <eq name="now['current']" value="t2">class="info" title="上学期已结束"</eq>>{$now.t2|date='Y-m-d',###}</td>
+                    <td <eq name="now['current']" value="t3">class="info" title="下学期正在进行"</eq>>{$now.t3|date='Y-m-d',###}</td>
+                    <td <eq name="now['current']" value="t4">class="info" title="下学期已结束"</eq>>{$now.t4|date='Y-m-d',###}</td>
                     <td><button class="btn btn-success btn-xs" data-toggle="modal" data-target="#myModal" data-get-param="id={$now.id}">编 辑</button></td>
                 </tr>
                 

@@ -26,9 +26,19 @@ class TermController extends UserCenterController {
 
         $termList = $this->model->order('term_year desc')->select();
         
-        
         $nowTermYearInfo = array_shift($termList);
         $nextTermYearInfo = $this->model->getNextTermInfo();
+            
+            // 获取标定当前学期的情况
+        if (NOW_TIME < $nowTermYearInfo['t2']) {
+            $nowTermYearInfo['current'] = 't1';
+        } else if (NOW_TIME >= $nowTermYearInfo['t2'] && NOW_TIME < $nowTermYearInfo['t3']) {
+            $nowTermYearInfo['current'] = 't2';
+        } else if (NOW_TIME >= $nowTermYearInfo['t3'] && NOW_TIME < $nowTermYearInfo['t4']) {
+            $nowTermYearInfo['current'] = 't3';
+        } else {
+            $nowTermYearInfo['current'] = 't4';
+        }
 
         $this->assign('next',$nextTermYearInfo);
         $this->assign('now',$nowTermYearInfo); // 当前学期
@@ -36,34 +46,31 @@ class TermController extends UserCenterController {
         $this->display();
     }
 
-
     public function getTermInfo($id) {
-        if (IS_AJAX) {
-            $data['status'] = 1;
-            $id = I("id");
-            if ($id >= 0) {
-                $showInfo = $this->model->getTermShowInfoById($id);
-                $data['data'] = $showInfo;
-            }
-            $this->ajaxReturn($data);
+        $id = I("id");
+        if ($id >= 0) {
+            $showInfo = $this->model->getTermShowInfoById($id);
+            $data['data'] = $showInfo;
         }
+        $this->success('操作成功', null, $data);
     }
 
     public function setTermInfo() {
-        if ($_POST) {
+        if (IS_POST) {
             $ret = $this->model->saveData($_POST);
             if (false === $ret) {
                 $dbErrorMsg = $this->model->getError();
-
+                
                 foreach ($dbErrorMsg as $k => $v) {
                     $uiErrorMsg[$k]['errorInfo'] = $v;
                 }
-                $data['status']  = 0;
-                $data['info'] = "数据有误！";
+                
                 $data['hint'] = $uiErrorMsg;
                 $this->ajaxReturn($data);
+                
+                $this->error('数据有误！', null, $data);
             } else {
-                $this->success('操作成功', 'refresh', IS_AJAX);
+                $this->success('操作成功', null, IS_AJAX);
             }
         }
     }
