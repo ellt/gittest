@@ -61,8 +61,8 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-primary" data-submit="modal" data-target="#myModalForm" data-url="{:U('setTeacherInfo')}" data-loading-text="提交中..." autocomplete="off">确定</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="submit" class="btn btn-primary" data-submit="modal" data-target="#myModalForm" data-url="{:U('setTeacherInfo')}" data-loading-text="提交中..." autocomplete="off">确 定</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
             </div>
         </div>
     </div>
@@ -71,12 +71,16 @@
 <script>
 $(function(){
 
-    initModalEvent('#myModal', initModal);
+    initModalEvent('#myModal', initModal, null);
 
-    function initModal($modal, data) {
-        $("span", "#myModalLabel").html(data.id===""?"新增":"编辑");
+    function initModal($modal, data, isClear) {
+        if (isClear) {
+            return true;
+        }
+
+        $("span", "#myModalLabel").html(data.id===0?"新增":"编辑");
         
-        $("#teacherId").prop('readonly', data.id===""?false:true);
+        $("#teacherId").prop('readonly', data.id===0?false:true);
 
         for (var i in data) {
             var $input = $("[name=" + i + "]", $modal);
