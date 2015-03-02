@@ -18,6 +18,35 @@ class TuserController extends UserCenterController {
         $this->redirect('homework');
     }
 
+    public function login(){
+        if (IS_AJAX) {
+            $account = I("account");
+            if ($account === "0") {
+                $data['status']  = 0;
+                $data['hint'] = array(
+                    "account" => array(
+                        "errorInfo" => "账号不存在",
+                    ),
+                    "password" => array(
+                        "errorInfo" => "密码不正确",
+                    )
+                );
+            } elseif ($account === "0") {
+                $data['status']  = 0;
+                $data['hint'] = array(
+                    "account" => array(
+                        "errorInfo" => "账号不存在",
+                    ),
+                );
+            } else {
+                $data['status']  = 1;
+            }
+            $this->ajaxReturn($data);
+        }
+
+        $this->display("Public/login");
+    }
+
 // --------------学期设置 --------------------------
 
     public function termSetting(){

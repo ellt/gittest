@@ -1,0 +1,45 @@
+.login-bg {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background: url(../images/login_bg.jpg) 0 0 no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  -webkit-background-size: cover;
+  -o-background-size: cover;
+}
+
+.login-bg > .row {
+  height: 100%;
+}
+
+.login-body {
+  position: fixed;
+  height: 100%;
+  -webkit-box-shadow: 1px 3px 5px #999;
+  -moz-box-shadow: 1px 3px 5px #999;
+  box-shadow: 1px 3px 5px #999;
+  background: rgb(255,255,255);
+  background: rgba(255,255,255,0.3);
+}
+
+.login-main {
+  margin-top: 170px;
+}
+
+@media (min-width: 768px) {
+  .login-main .help-block {
+    padding: 9.33px 15px;
+    background-color: red;
+    border-radius: 6px;
+  }
+}
+
+.login-verify {
+  width: 40%;
+}
+
+.verify-img {
+  display: inline-block;
+  width: 60%;
+}
