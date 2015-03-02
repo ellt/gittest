@@ -1,93 +1,87 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE HTML>
+<html lang="zh-CN">
     <head>
         <meta charset="UTF-8">
-        <title>欢迎您登录OneThink</title>
-        <link rel="stylesheet" type="text/css" href="__CSS__/login.css" media="all">
-        <link rel="stylesheet" type="text/css" href="__CSS__/{$Think.config.COLOR_STYLE}.css" media="all">
+        <title>登录 |e朗朗</title>
+        <link href="__BS__/css/bootstrap.css" rel="stylesheet">
+        <link href="__STATIC__/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+        <link href="__CSS__/login.css" rel="stylesheet">
     </head>
-    <body id="login-page">
-        <div id="main-content">
+    <body>
+        <div class="container-fluid login-bg">
 
             <!-- 主体 -->
-            <div class="login-body">
-                <div class="login-main pr">
-                    <form action="{:U('login')}" method="post" class="login-form">
-                        <h3 class="welcome"><i class="login-logo"></i>OneThink管理平台</h3>
-                        <div id="itemBox" class="item-box">
-                            <div class="item">
-                                <i class="icon-login-user"></i>
-                                <input type="text" name="username" placeholder="请填写用户名" autocomplete="off" />
-                            </div>
-                            <span class="placeholder_copy placeholder_un">请填写用户名</span>
-                            <div class="item b0">
-                                <i class="icon-login-pwd"></i>
-                                <input type="password" name="password" placeholder="请填写密码" autocomplete="off" />
-                            </div>
-                            <span class="placeholder_copy placeholder_pwd">请填写密码</span>
-                            <div class="item verifycode">
-                                <i class="icon-login-verifycode"></i>
-                                <input type="text" name="verify" placeholder="请填写验证码" autocomplete="off">
-                                <a class="reloadverify" title="换一张" href="javascript:void(0)">换一张？</a>
-                            </div>
-                            <span class="placeholder_copy placeholder_check">请填写验证码</span>
-                            <div>
-                                <img class="verifyimg reloadverify" alt="点击切换" src="{:U('Public/verify')}">
-                            </div>
+            <div class="row">
+                <div class="col-xs-12 col-sm-9 col-sm-offset-3 login-body">
+                    <div class="row">
+                        <div class="col-xs-10 col-xs-offset-1 col-sm-6 col-sm-offset-1 col-lg-4 col-lg-offset-2 login-main">
+                            <form class="form-horizontal" action="{:U('tuser/login')}" method="post">
+                                <h1><strong>e朗朗校园平台</strong></h1>
+                                <div class="form-group has-feedback">
+                                    <label class="sr-only" for="account">账号</label>
+                                    <div class="col-xs-12">
+                                        <input type="text" class="form-control input-lg" id="account" name="account" data-container="body" data-toggle="popover" data-placement="top" data-trigger="focus" placeholder="教师工号">
+                                        <span class="form-control-feedback"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group has-feedback">
+                                    <label class="sr-only" for="password">密码</label>
+                                    <div class="col-xs-12">
+                                        <input type="password" class="form-control input-lg" id="password" name="password" data-container="body" data-toggle="popover" data-placement="top" data-trigger="focus" placeholder="密码" autocomplete="off">
+                                        <span class="form-control-feedback"></span>
+                                    </div>
+                                </div>
+<!--                                 <div class="form-group hidden">
+                                    <label class="sr-only" for="verify">验证码</label>
+                                    <input type="text" class="form-control input-lg login-verify" id="verify" name="verify" placeholder="验证码" autocomplete="off">
+                                </div>
+                                <div class="form-group hidden">
+                                    <img class="verifyimg reloadverify" alt="点击切换" src="{:U('Public/verify')}">
+                                    <a class="reloadverify" title="换一张" href="javascript:void(0)">换一张</a>
+                                </div> -->
+                                <div class="form-group">
+                                    <div class="col-xs-12">
+                                        <button type="submit" class="btn btn-primary btn-lg btn-block" data-loading-text="登录中..." autocomplete="off">立即登录</button>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
-                        <div class="login_btn_panel">
-                            <button class="login-btn" type="submit">
-                                <span class="in"><i class="icon-loading"></i>登 录 中 ...</span>
-                                <span class="on">登 录</span>
-                            </button>
-                            <div class="check-tips"></div>
-                        </div>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>
-    <!--[if lt IE 9]>
-    <script type="text/javascript" src="__STATIC__/jquery.min.js"></script>
-    <![endif]-->
-    <!--[if gte IE 9]><!-->
-    <script type="text/javascript" src="__STATIC__/jquery-2.0.3.min.js"></script>
-    <!--<![endif]-->
-    <script type="text/javascript">
-        /* 登陆表单获取焦点变色 */
-        $(".login-form").on("focus", "input", function(){
-            $(this).closest('.item').addClass('focus');
-        }).on("blur","input",function(){
-            $(this).closest('.item').removeClass('focus');
-        });
-
-        //表单提交
-        $(document)
-            .ajaxStart(function(){
-                $("button:submit").addClass("log-in").attr("disabled", true);
-            })
-            .ajaxStop(function(){
-                $("button:submit").removeClass("log-in").attr("disabled", false);
-            });
-
-        $("form").submit(function(){
-            var self = $(this);
-            $.post(self.attr("action"), self.serialize(), success, "json");
-            return false;
-
-            function success(data){
-                if(data.status){
-                    window.location.href = data.url;
-                } else {
-                    self.find(".check-tips").text(data.info);
-                    //刷新验证码
-                    $(".reloadverify").click();
-                }
-            }
-        });
-
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+        <script src="__BS__/js/html5shiv.min.js"></script>
+        <script src="__BS__/js/respond.min.js"></script>
+        <![endif]-->
+        <script src="__STATIC__/jquery.min.js"></script>
+        <script src="__BS__/js/bootstrap.min.js"></script>
+        <script type="text/javascript">
         $(function(){
             //初始化选中用户名输入框
-            $("#itemBox").find("input[name=username]").focus();
+            $("#account").focus();
+            $('[data-toggle="popover"]').popover();
+            //表单提交
+            $("form").submit(function(e) {
+                e.preventDefault();
+
+                var form = $(this);
+                var btn = $("button:submit");
+                btn.button('loading');
+                $.post(form.attr("action"), form.serialize()).success(function(data){
+                    btn.button('reset');
+                    if (data.status) {
+                        showLoginTip(form);
+                        //window.location.href = data.url;
+                    } else {
+                        showLoginTip(form, data.hint);
+                        //刷新验证码
+                        //$(".reloadverify").click();
+                    }
+                });
+            });
+
             //刷新验证码
             var verifyimg = $(".verifyimg").attr("src");
             $(".reloadverify").click(function(){
@@ -98,33 +92,33 @@
                 }
             });
 
-            //placeholder兼容性
-                //如果支持 
-            function isPlaceholer(){
-                var input = document.createElement('input');
-                return "placeholder" in input;
-            }
-                //如果不支持
-            if(!isPlaceholer()){
-                $(".placeholder_copy").css({
-                    display:'block'
-                })
-                $("#itemBox input").keydown(function(){
-                    $(this).parents(".item").next(".placeholder_copy").css({
-                        display:'none'
-                    })                    
-                })
-                $("#itemBox input").blur(function(){
-                    if($(this).val()==""){
-                        $(this).parents(".item").next(".placeholder_copy").css({
-                            display:'block'
-                        })                      
+            function showLoginTip(form, data) {
+                $("input", form).each(function(index){
+                    inputName = $(this).attr("name");
+                    var row = $(this).parents(".form-group");
+                    tipIcon = row.find('.form-control-feedback');
+
+                    // 清空提示
+                    row.removeClass("has-error has-success");
+                    tipIcon.removeClass('glyphicon-remove glyphicon-ok');
+
+                    // 显示提示
+                    if (data && data[inputName]) {
+
+                        $(this).attr('data-content', data[inputName].errorInfo);
+                        $(this).focus();
+
+                        row.addClass("has-error");
+                        tipIcon.addClass('glyphicon glyphicon-remove');
+                    } else {
+                        $(this).attr('data-content', "");
+                        row.addClass("has-success");
+                        tipIcon.addClass('glyphicon glyphicon-ok');
                     }
-                })
-                
-                
+                    tipIcon.removeClass("hidden").addClass("show");
+                });
             }
         });
-    </script>
-</body>
+        </script>
+    </body>
 </html>
