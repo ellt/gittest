@@ -34,83 +34,86 @@ $(function(){
 
     initModalEvent('#myModal', initModal, initOtherEvent);
 
-});
+    function initModal($modal, data, isClear) {
+            
+        if (isClear) {
+            return true;
+        }
 
-function initModal($modal, data) {
-    var list = data.list;
-    var $teacherList = $("#teacherList");
-    
-    $modal.data("id", data.id);
+        var list = data.list;
+        var $teacherList = $("#teacherList");
+        
+        $modal.data("id", data.id);
 
-    $('#seletedList').html("");
-    $teacherList.html("");
+        $('#seletedList').html("");
+        $teacherList.html("");
 
-    if (list !== null) {
-        var tempObj;
-        for (var i = 0; i < list.length; i++) {
-            tempObj = $("<li></li>")
-                    .html(list[i].true_name + " (" + list[i].pin2 + ")")
-                    .data("id",list[i].id)
-                    .appendTo($teacherList);
+        if (list !== null) {
+            var tempObj;
+            for (var i = 0; i < list.length; i++) {
+                tempObj = $("<li></li>")
+                        .html(list[i].true_name + " (" + list[i].pin2 + ")")
+                        .data("id",list[i].id)
+                        .appendTo($teacherList);
+            }
         }
     }
-}
 
-function initOtherEvent($modal) {
-    var $seletedList = $('#seletedList');
+    function initOtherEvent($modal) {
+        var $seletedList = $('#seletedList');
 
-    $("#teacherList").on('click', 'li', function(event) {
-        var id = $(this).data("id");
-        var isExist = false;
-        $("li", $seletedList).each(function(index, el) {
-            if ($(this).data('id') === id) {
-                isExist = true;
-                return false;
+        $("#teacherList").on('click', 'li', function(event) {
+            var id = $(this).data("id");
+            var isExist = false;
+            $("li", $seletedList).each(function(index, el) {
+                if ($(this).data('id') === id) {
+                    isExist = true;
+                    return false;
+                }
+            });
+
+            if (isExist === false) {
+                var $li = $(this).clone(true);
+                $li.append("<span class='close hidden'>&times;</span>")
+                   .appendTo($seletedList);
             }
         });
 
-        if (isExist === false) {
-            var $li = $(this).clone(true);
-            $li.append("<span class='close hidden'>&times;</span>")
-               .appendTo($seletedList);
-        }
-    });
-
-    $seletedList.on('click', 'li', function(event) {
-        $(this).remove();
-    });
-
-    $seletedList.on('mouseover', 'li', function(event) {
-        $(this).find('.close').removeClass('hidden');
-    });
-
-    $seletedList.on('mouseout', 'li', function(event) {
-        $(this).find('.close').addClass('hidden');
-    });
-
-    $("[data-submit='custom']").click(function(e) {
-        var url = $(this).attr('data-url');
-        var id = $modal.data("id");
-        var seletedIds = Array();
-        $("li", $seletedList).each(function(index, el) {
-            seletedIds.push($(this).data("id"));
+        $seletedList.on('click', 'li', function(event) {
+            $(this).remove();
         });
 
-        // 检查被选列表是否为空
-        if(seletedIds.length === 0) {
-            $modal.modal('hide');
-            return false; // 空则不进行提交
-        }
-
-        var btn = $(this);
-        btn.button('loading');
-        //发送到服务器
-        $.post(url, {id: id, seletedIds: seletedIds}).success(function(data){
-            btn.button('reset');
-            $modal.modal('hide');
-            handleAjax(data);
+        $seletedList.on('mouseover', 'li', function(event) {
+            $(this).find('.close').removeClass('hidden');
         });
-    });
-}
 
+        $seletedList.on('mouseout', 'li', function(event) {
+            $(this).find('.close').addClass('hidden');
+        });
+
+        $("[data-submit='custom']").click(function(e) {
+            var url = $(this).attr('data-url');
+            var id = $modal.data("id");
+            var seletedIds = Array();
+            $("li", $seletedList).each(function(index, el) {
+                seletedIds.push($(this).data("id"));
+            });
+
+            // 检查被选列表是否为空
+            if(seletedIds.length === 0) {
+                $modal.modal('hide');
+                return false; // 空则不进行提交
+            }
+
+            var btn = $(this);
+            btn.button('loading');
+            //发送到服务器
+            $.post(url, {id: id, seletedIds: seletedIds}).success(function(data){
+                btn.button('reset');
+                $modal.modal('hide');
+                handleAjax(data);
+            });
+        });
+    }
+});
 </script>
