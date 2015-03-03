@@ -25,7 +25,8 @@ class PublicController extends \Think\Controller {
         if(IS_POST){
             /* 检测验证码 TODO: */
             if(!check_verify($verify)){
-                $this->error('验证码输入错误！');
+                $data['hint']['verify']['errorInfo'] ='验证码输入错误！'; 
+                $this->error('验证码输入错误！', null, $data);
             }
 //             echo 'login'; die();
             /* 调用UC登录接口登录 */
@@ -43,11 +44,17 @@ class PublicController extends \Think\Controller {
 
             } else { //登录失败
                 switch($uid) {
-                    case -1: $error = '用户不存在或被禁用！'; break; //系统级别禁用
-                    case -2: $error = '密码错误！'; break;
+                    case -1: 
+                        $error = '用户不存在或被禁用！'; 
+                        $data['hint']['username']['errorInfo'] = '用户不存在或被禁用！';
+                        break; //系统级别禁用
+                    case -2: 
+                        $error = '密码错误！';
+                        $data['hint']['password']['errorInfo'] = '密码错误！';
+                        break;
                     default: $error = '未知错误！'; break; // 0-接口参数错误（调试阶段使用）
                 }
-                $this->error($error);
+                $this->error($error,null,$data);
             }
         } else {
             if(is_login()){
