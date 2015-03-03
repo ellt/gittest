@@ -116,8 +116,8 @@ label.textarea ~ .check-tips {
     padding-left: 40px;
 }
 
-.checkmod dd .divsion {
-    margin-right: 20px;
+.checkmod .checkbox {
+    display: inline-block;
 }
 
 /* = 分类管理树形菜单（目前只支持3级）

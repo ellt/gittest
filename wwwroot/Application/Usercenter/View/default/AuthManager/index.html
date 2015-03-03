@@ -20,9 +20,6 @@
         <div class="col-md-6">
             <div class="pull-left">
                 <button class="btn btn-success" data-toggle="modal" data-target="#myModal" data-get-param="id=0">新 增</button>
-                <button class="btn btn-success ajax-post" data-target="[data-check='ids']" data-url="{:U('changestatus',array('method'=>'resumeGroup'))}">启 用</button>
-                <button class="btn btn-success ajax-post" data-target="[data-check='ids']" data-url="{:U('changestatus',array('method'=>'forbidGroup'))}" >禁 用</button>
-                <button class="btn btn-success ajax-post" data-confirm="确认要执行吗?" data-target="[data-check='ids']" data-url="{:U('changestatus',array('method'=>'deleteGroup'))}" >删 除</button>
             </div>
         </div>
     </div>
@@ -32,46 +29,39 @@
         <table class="table table-condensed table-hover">
             <thead>
                 <tr>
-                    <th class="row-selected">
-                        <input type="checkbox" data-toggle="checkall" data-target="ids"/>
-                    </th>
                     <th>用户组</th>
                     <th>描述</th>
                     <th>授权</th>
                     <th>状态</th>
-                    <th>操作</th>
+                    <th class="operator-xs-5"></th>
                 </tr>
             </thead>
             <tbody>
                 <notempty name="_list">
                 <volist name="_list" id="vo">
                 <tr>
-                    <td>
-                        <input type="checkbox" data-check="ids" name="id[]" value="{$vo.id}">
-                    </td>
                     <td>{$vo.title}</td>
                     <td>
                         <span>{:mb_strimwidth($vo['description'],0,60,"...","utf-8")}</span>
                     </td>
                     <td>
                         <a href="{:U('AuthManager/access?group_name='.$vo['title'].'&group_id='.$vo['id'])}" >访问授权</a>
-                        <a href="{:U('AuthManager/category?group_name='.$vo['title'].'&group_id='.$vo['id'])}" >分类授权</a>
                         <a href="{:U('AuthManager/user?group_name='.$vo['title'].'&group_id='.$vo['id'])}" >成员授权</a>
                     </td>
                     <td>{$vo.status_text}</td>
                     <td>
                         <eq name="vo.status" value="1">
-                        <a class="ajax-get" href="{:U('AuthManager/changeStatus?method=forbidGroup&id='.$vo['id'])}" >禁用</a>
+                        <button type="button" class="btn btn-success btn-xs operator ajax-get" data-loading-text="禁用中..." data-url="{:U('AuthManager/changeStatus?method=forbidGroup&id='.$vo['id'])}">禁 用</button>
                         <else/>
-                        <a class="ajax-get" href="{:U('AuthManager/changeStatus?method=resumeGroup&id='.$vo['id'])}" >启用</a>
+                        <button type="button" class="btn btn-success btn-xs operator ajax-get" data-loading-text="启用中..." data-url="{:U('AuthManager/changeStatus?method=resumeGroup&id='.$vo['id'])}">启 用</button>
                         </eq>
-                        <a data-toggle="modal" data-target="#myModal" data-get-param="id={$vo.id}" href="javascript:;">编辑</a>
-                        <a class="ajax-get" data-confirm="确认要执行吗?" href="{:U('AuthManager/changeStatus?method=deleteGroup'.$vo['id'])}" >删除</a>
+                        <button type="button" class="btn btn-success btn-xs operator" data-toggle="modal" data-target="#myModal" data-get-param="id={$vo.id}">编 辑</button>
+                        <button type="button" class="btn btn-danger btn-xs operator ajax-get" data-confirm="确认要删除吗?" data-loading-text="删除中..." data-url="{:U('AuthManager/changeStatus?method=deleteGroup'.$vo['id'])}" >删 除</button>
                     </td>
                 </tr>
                 </volist>
                 <else/>
-                <td class="text-center" colspan="6"> aOh! 暂时还没有内容! </td>
+                <td class="text-center" colspan="5"> aOh! 暂时还没有内容! </td>
                 </notempty>
             </tbody>
         </table>
