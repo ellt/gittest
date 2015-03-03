@@ -98,23 +98,18 @@
                     var row = $(this).parents(".form-group");
                     tipIcon = row.find('.form-control-feedback');
 
-                    // 清空提示
-                    row.removeClass("has-error has-success");
-                    tipIcon.removeClass('glyphicon-remove glyphicon-ok');
-
                     // 显示提示
                     if (data && data[inputName]) {
                         $(this).attr('data-content', data[inputName].errorInfo);
                         $(this).focus();
                         row.addClass("has-error");
-                        tipIcon.addClass('glyphicon glyphicon-remove');
-                        
+                        tipIcon.addClass("glyphicon glyphicon-remove");
+                         
                     } else {
                         $(this).attr('data-content', "");
-                        row.addClass("has-success");
-                        tipIcon.addClass('glyphicon glyphicon-ok');
+                        row.removeClass("has-error");
+                        tipIcon.removeClass("glyphicon glyphicon-remove");
                     }
-                    tipIcon.removeClass("hidden").addClass("show");
                 });
             }
         });

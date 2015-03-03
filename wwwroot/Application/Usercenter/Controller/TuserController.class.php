@@ -20,21 +20,21 @@ class TuserController extends UserCenterController {
 
     public function login(){
         if (IS_AJAX) {
-            $account = I("account");
-            if ($account === "0") {
+            $username = I("username");
+            if ($username === "1") {
                 $data['status']  = 0;
                 $data['hint'] = array(
-                    "account" => array(
+                    "username" => array(
                         "errorInfo" => "账号不存在",
                     ),
                     "password" => array(
                         "errorInfo" => "密码不正确",
                     )
                 );
-            } elseif ($account === "0") {
+            } elseif ($username === "0") {
                 $data['status']  = 0;
                 $data['hint'] = array(
-                    "account" => array(
+                    "username" => array(
                         "errorInfo" => "账号不存在",
                     ),
                 );
