@@ -9,6 +9,7 @@
 // +----------------------------------------------------------------------
 
 namespace Usercenter\Controller;
+use Common\Api\GlobalApi;
 
 
 class SubjectController extends UserCenterController {
@@ -39,6 +40,7 @@ class SubjectController extends UserCenterController {
             
             $this->error('获取科目信息失败!', null, $data);
         } else {
+            GlobalApi::setSubjectList(null);
             $this->success('操作成功！', null, IS_AJAX);
         }
     }
@@ -59,6 +61,7 @@ class SubjectController extends UserCenterController {
         if ($ret == false) {
             $this->error('科目删除失败！', null, IS_AJAX);
         } else {
+            GlobalApi::setSubjectList(null);
             $this->success('科目删除成功！', null, IS_AJAX);
         }
     }

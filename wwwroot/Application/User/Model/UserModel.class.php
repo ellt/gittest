@@ -11,6 +11,7 @@
 namespace User\Model;
 use Think\Model\RelationModel;
 use User\Api\UserApi;
+use Usercenter\Model\AuthGroupModel;
 
 
 /**
@@ -144,6 +145,16 @@ class UserModel extends RelationModel
              )
 
     );
+    
+    /*****
+     * 添加用户成功后需要做的处理
+     * 
+     * @see \Think\Model\RelationModel::_after_insert()
+     */
+    protected function _after_insert($data,$options) {
+        parent::_after_insert($data, $options);
+        return AuthGroupModel::addToGroupByUserType($data['id'], $this->user_type); //添加默认权限组
+    }
     
     /**
      * 获取用户扩展模型对象
@@ -370,7 +381,9 @@ class UserModel extends RelationModel
         if (empty($data)) {
             $data = I('post.');
         }
-    
+        if($data['id'] == 0){ // 用户新增的情况
+            unset($data['id']);
+        }
         /* 获取数据对象 */
         $base_data = $this->create($data);
         if (!empty($this->user_extern_model_name)) {

@@ -102,9 +102,7 @@ class StudentController extends UserCenterController {
         if($id==0){
             $data['status']  = 1;
             $data['data'] = array(
-                    'username'=>'',
-                    'id'=>'',
-                    'email'=>''
+                    'id'=>0,
             );
         }else {
             $teacherInfo = $this->model->getStudentInfoById((int)$id);
