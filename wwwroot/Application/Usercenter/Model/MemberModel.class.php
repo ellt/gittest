@@ -17,6 +17,8 @@ use Think\Model;
 
 class MemberModel extends Model {
 
+     protected $tableName   = 'user';
+     
     protected $_validate = array(
         array('nickname', '1,16', '昵称长度为1-16个字符', self::EXISTS_VALIDATE, 'length'),
         array('nickname', '', '昵称被占用', self::EXISTS_VALIDATE, 'unique'), //用户名被占用
@@ -73,11 +75,11 @@ class MemberModel extends Model {
 
         /* 记录登录SESSION和COOKIES */
         $auth = array(
-            'uid'             => $user['uid'],
-            'username'        => $user['nickname'],
+            'uid'             => $user['id'],
+            'username'        => $user['username'],
             'last_login_time' => $user['last_login_time'],
         );
-
+        
         session('user_auth', $auth);
         session('user_auth_sign', data_auth_sign($auth));
 
