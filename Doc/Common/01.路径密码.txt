@@ -22,3 +22,7 @@
     数据表前缀： onethink_
     
     创始人信息： 用户名： root  密码： 0507108063 邮箱：mrji1990@qq.com
+
+微信第三方平台
+账号 3160765050@qq.com
+密码 elanglang
