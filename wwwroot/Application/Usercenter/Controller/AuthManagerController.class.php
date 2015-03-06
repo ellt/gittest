@@ -216,8 +216,9 @@ class AuthManagerController extends UserCenterController{
         $model    = M()->table( $l_table.' m' )->join ( $r_table.' a ON m.id=a.uid' );
         $_REQUEST = array();
         $list = $this->lists($model,array('a.group_id'=>$group_id,'m.status'=>array('egt',0)),'m.id asc',null,'m.id,m.username,m.last_login_time,m.last_login_ip,m.status');
-//         dump($list);
         int_to_string($list);
+        
+        $this->assign('group_id', $group_id);
         $this->assign( '_list',     $list );
         $this->assign('auth_group', $auth_group);
         $this->assign('this_group', $auth_group[(int)$_GET['group_id']]);
@@ -366,6 +367,75 @@ class AuthManagerController extends UserCenterController{
         }else{
             $this->error('操作失败');
         }
+    }
+
+    public function roleAssgin() {
+        if (IS_GET) {
+            $groupId = I('group_id');
+            if (empty($groupId)) {
+                $this->error('参数错误');
+            }
+            
+            $prefix = C('DB_PREFIX');
+            $l_table = $prefix . (AuthGroupModel::MEMBER);
+            $r_table = $prefix . (AuthGroupModel::AUTH_GROUP_ACCESS);
+            $model = M()->table($l_table . ' m')->join($r_table . ' a ON m.id=a.uid');
+            $_REQUEST = array();
+            $map = array('a.group_id' => $groupId, 'm.status' => array('egt', 0 ) );
+            $list = $model->where($map)->field('id')->select();
+            
+            //         dump($list);die();
+            $subjectId = I('subject_id');
+            $teacherList = $this->getTeacherList(array_column($list, 'id'));
+            //         dump($teacherList);die();
+            $data['data'] = array("group_id" => $groupId, "list" => $teacherList );
+            $data['status'] = 1;
+            $this->ajaxReturn($data);
+        }else if(IS_POST){
+            $teacherIds = I('seletedIds');
+            $gid = I('group_id');
+            
+            $AuthGroup = D('AuthGroup');
+            
+            if( $gid && !$AuthGroup->checkGroupId($gid)){
+                $this->error($AuthGroup->error);
+            }
+            if ( $AuthGroup->addToGroup($teacherIds,$gid) ){
+                $this->success('操作成功', null, IS_AJAX);
+            }else{
+                $this->error($AuthGroup->getError(), null, IS_AJAX);
+            }
+        }
+    }
+    
+    
+    public function getTeacherList($excludeList) {
+    
+        // 获取教师列表
+        $m = D('Common/Teacher', 'Logic');
+        $teacherList = $m->relation(true)->select();
+    
+        $fields = array('id','true_name','pin2','support_subject');
+//         dump($excludeList);
+        $newTeacherList = array();
+        foreach ($teacherList as $k => &$oneTeacher) {
+    
+            if(in_array($oneTeacher['id'], $excludeList) ){ // 剔除原本的已在分配过权限的老师
+                unset($teacherList[$k]);
+                continue;
+            }
+    
+            foreach ($oneTeacher as $field => $v) {
+                if (!in_array($field, $fields)) {
+                    unset($oneTeacher[$field]);
+                }
+            }
+            array_push($newTeacherList, $oneTeacher);
+        }
+        
+        
+//         dump($teacherList);die();
+        return $newTeacherList;
     }
 
 }

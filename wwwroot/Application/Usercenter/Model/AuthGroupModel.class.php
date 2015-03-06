@@ -9,6 +9,7 @@
 
 namespace Usercenter\Model;
 use Think\Model;
+use User\Api\UserApi;
 
 /**
  * 用户组模型类
@@ -24,6 +25,10 @@ class AuthGroupModel extends Model {
     const AUTH_GROUP                = 'auth_group';        // 用户组表名
     const AUTH_EXTEND_CATEGORY_TYPE = 1;              // 分类权限标识
     const AUTH_EXTEND_MODEL_TYPE    = 2; //分类权限标识
+    
+    
+    const TEACHER_GROUDE_NUMBER     =1; //id为1的权限组
+    const STUDENT_GROUDE_NUMBER     =2;
 
     protected $_validate = array(
         array('title','require', '必须设置用户组标题', Model::MUST_VALIDATE ,'regex',Model::MODEL_INSERT),
@@ -45,6 +50,35 @@ class AuthGroupModel extends Model {
         return $this->where($map)->select();
     }
 
+    /**
+     * @param unknown $uid
+     * @param unknown $gid
+     * @return boolean
+     * @author jigc <mrji1990@gmail.com>
+     */
+    public static function addToGroupByUserType($uid, $userType) {
+        
+        if ($userType == UserApi::TYPE_TERCHER) {
+            $gid = self::TEACHER_GROUDE_NUMBER;
+        } else if ($userType = UserApi::TYPE_STUDENT) {
+            $gid = self::STUDENT_GROUDE_NUMBER;
+        }
+        
+        $Access = M(self::AUTH_GROUP_ACCESS);
+        
+        $data = array('group_id' => $gid, 'uid' => $uid );
+        if($Access->where($data)->find() === null){ //查找不到数据
+            $Access->add($data);
+        }
+        if ($Access->getDbError()) {
+            return false;
+        }else{
+            return true;
+        }
+        
+        return false;
+    }
+    
     /**
      * 把用户添加到用户组,支持批量添加用户到用户组
      * @author 朱亚杰 <zhuyajie@topthink.net>
@@ -123,9 +157,9 @@ class AuthGroupModel extends Model {
         if ( !$type ) {
             return false;
         }
-        if ( $session ) {
-            $result = session($session);
-        }
+//         if ( $session ) {
+//             $result = session($session);
+//         }
         if ( $uid == UID && !empty($result) ) {
             return $result;
         }
@@ -135,6 +169,9 @@ class AuthGroupModel extends Model {
             ->join($prefix.self::AUTH_EXTEND.' c on g.group_id=c.group_id')
             ->where("g.uid='$uid' and c.type='$type' and !isnull(extend_id)")
             ->getfield('extend_id',true);
+        
+        
+//         dump($result);die(M()->getLastSql());
         if ( $uid == UID && $session ) {
             session($session,$result);
         }

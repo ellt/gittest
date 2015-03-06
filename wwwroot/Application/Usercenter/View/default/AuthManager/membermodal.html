@@ -1,4 +1,4 @@
-<div class="modal fade" id="myModal" data-url="{:U('class/classInit')}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="myModal" data-url="{:U('roleAssgin')}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -22,7 +22,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-primary" data-submit="custom" data-target="#myModalForm" data-url="{:U('tuser/setMemberAuth')}" data-loading-text="提交中..." autocomplete="off">确定</button>
+                <button type="submit" class="btn btn-primary" data-submit="custom" data-target="#myModalForm" data-url="{:U('roleAssgin')}" data-loading-text="提交中..." autocomplete="off">确定</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
             </div>
         </div>
@@ -43,7 +43,7 @@ $(function(){
         var list = data.list;
         var $teacherList = $("#teacherList");
         
-        $modal.data("id", data.id);
+        $modal.data("group_id", data.group_id);
 
         $('#seletedList').html("");
         $teacherList.html("");
@@ -93,7 +93,7 @@ $(function(){
 
         $("[data-submit='custom']").click(function(e) {
             var url = $(this).attr('data-url');
-            var id = $modal.data("id");
+            var group_id = $modal.data("group_id");
             var seletedIds = Array();
             $("li", $seletedList).each(function(index, el) {
                 seletedIds.push($(this).data("id"));
@@ -108,7 +108,7 @@ $(function(){
             var btn = $(this);
             btn.button('loading');
             //发送到服务器
-            $.post(url, {id: id, seletedIds: seletedIds}).success(function(data){
+            $.post(url, {group_id: group_id, seletedIds: seletedIds}).success(function(data){
                 btn.button('reset');
                 $modal.modal('hide');
                 handleAjax(data);
