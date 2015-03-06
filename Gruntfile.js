@@ -11,6 +11,8 @@ module.exports = function(grunt) {
       public: {
         usercenter_less: 'wwwroot/Public/Usercenter/default/less',
         usercenter_css: 'wwwroot/Public/Usercenter/default/css',
+        weixin_less: 'wwwroot/Public/weixin/less',
+        weixin_css: 'wwwroot/Public/weixin/css',
       },
       App: 'wwwroot/Application',
     },
@@ -54,14 +56,16 @@ module.exports = function(grunt) {
       compile: {
         files: {
           '<%= workpath.common.css %>/common.css': '<%= workpath.common.css %>/common.less',
-          '<%= workpath.public.usercenter_css %>/usercenter.css': '<%= workpath.public.usercenter_less %>/usercenter.less'
+          '<%= workpath.public.usercenter_css %>/usercenter.css': '<%= workpath.public.usercenter_less %>/usercenter.less',
+          '<%= workpath.public.weixin_css %>/weixin.css': '<%= workpath.public.weixin_less %>/weixin.less'
         }
       },
       // 压缩
       compress: {
         files: {
           '<%= workpath.common.css %>/common.min.css': '<%= workpath.common.css %>/common.css',
-          '<%= workpath.public.usercenter_css %>/usercenter.min.css': '<%= workpath.public.usercenter_css %>/usercenter.css'
+          '<%= workpath.public.usercenter_css %>/usercenter.min.css': '<%= workpath.public.usercenter_css %>/usercenter.css',
+          '<%= workpath.public.weixin_css %>/weixin.min.css': '<%= workpath.public.weixin_css %>/weixin.css'
         },
         options: {
           compress: true
@@ -71,7 +75,9 @@ module.exports = function(grunt) {
 
     watch: {
       commoncss: {
-        files: ['<%= workpath.common.css %>/*.less','<%= workpath.public.usercenter_less %>/*.less'],
+        files: ['<%= workpath.common.css %>/*.less',
+                '<%= workpath.public.usercenter_less %>/*.less',
+                '<%= workpath.public.weixin_less %>/*.less'],
         tasks: ['common-css'],
       },
       js: {

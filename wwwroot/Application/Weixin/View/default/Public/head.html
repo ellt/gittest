@@ -1,30 +1,30 @@
 <meta charset="UTF-8">
-<meta content="遵循Apache2开源协议,免费提供使用,微信功能插件化开发,多公众号管理,配置简单" name="keywords"/>
-<meta content="weiphp 简洁强大开源的微信公众平台开发框架微信功能插件化开发,多公众号管理,配置简单" name="description"/>
-<link rel="shortcut icon" href="{:SITE_URL}/Public/favicon.ico">
-<title><php>echo empty($page_title) ? C('WEB_SITE_TITLE') : $page_title;</php></title>
-<link href="__STATIC__/font-awesome/css/font-awesome.min.css?v={:SITE_VERSION}" rel="stylesheet">
-<link href="__CSS__/base.css?v={:SITE_VERSION}" rel="stylesheet">
-<link href="__CSS__/module.css?v={:SITE_VERSION}" rel="stylesheet">
-<link href="__CSS__/weiphp.css?v={:SITE_VERSION}" rel="stylesheet">
-<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
-<!--[if lt IE 9]>
-<script src="__STATIC__/bootstrap/js/html5shiv.js?v={:SITE_VERSION}"></script>
-<![endif]-->
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<link rel="shortcut icon" href="__PUBLIC__/favicon.ico">
+<title>{:C('WEB_SITE_TITLE')}</title>
+
+<link href="__BS__/css/bootstrap.css" rel="stylesheet">
+<link href="__STATIC__/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+<link href="__STATIC__/common/css/common.min.css" rel="stylesheet">
+<!-- Custom styles for this template -->
+<!-- <link href="__CSS__/module.css?v={:SITE_VERSION}" rel="stylesheet">
+<link href="__CSS__/weiphp.css?v={:SITE_VERSION}" rel="stylesheet"> -->
+<link href="__CSS__/weixin.min.css" rel="stylesheet">
 <block name="style"></block>
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!--[if lt IE 9]>
-<script type="text/javascript" src="__STATIC__/jquery.min.js"></script>
+<script src="__BS__/js/html5shiv.min.js"></script>
+<script src="__BS__/js/respond.min.js"></script>
 <![endif]-->
-<!---蓝锂002适配修改 QQ:125682133--->
-<!--[if gte IE 9]><!-->
-<script type="text/javascript" src="__STATIC__/jquery-2.0.3.min.js"></script>
-<!--<![endif]-->
-<script type="text/javascript" src="__STATIC__/bootstrap/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
-<script type="text/javascript" src="__JS__/dialog.js?v={:SITE_VERSION}"></script>
-<script type="text/javascript" src="__JS__/admin_common.js?v={:SITE_VERSION}"></script>
-<script type="text/javascript" src="__JS__/admin_image.js?v={:SITE_VERSION}"></script>
-<script type="text/javascript">
+<script src="__STATIC__/jquery.min.js"></script>
+<script src="__BS__/js/bootstrap.min.js"></script>
+<script src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+<script src="__JS__/dialog.js?v={:SITE_VERSION}"></script>
+<script src="__JS__/admin_common.js?v={:SITE_VERSION}"></script>
+<script src="__JS__/admin_image.js?v={:SITE_VERSION}"></script>
+<script>
 var  STATIC = "__STATIC__";
 var  ROOT = "__ROOT__";
 </script>
