@@ -9,6 +9,7 @@
 
 use Usercenter\Model\AuthGroupModel;
 use Common\Api\UserApi;
+use Common\Api\GlobalApi;
 
 /**
  * 后台公共文件
@@ -392,14 +393,16 @@ function get_grade_class_tree()
     $cate_auth  =   $cate_auth == null ? array() : $cate_auth;
     $cate       =   D("Common/Grade","Logic")->getGradeClassList();
 
-    //没有权限的分类则不显示
-    if(!IS_ROOT){
-        foreach ($cate as $key=>$value){
-            if(!in_array($value['id'], $cate_auth)){
-                unset($cate[$key]);
-            }
-        }
-    }
+    
+    
+//     //没有权限的分类则不显示
+//     if(!IS_ROOT){
+//         foreach ($cate as $key=>$value){
+//             if(!in_array($value['id'], $cate_auth)){
+//                 unset($cate[$key]);
+//             }
+//         }
+//     }
     
     $startGradeYear = get_start_grade_year_by_stamp();
     if($startGradeYear == null){
@@ -407,34 +410,57 @@ function get_grade_class_tree()
     }
     
     $cate           =   list_to_tree($cate);	//生成分类树
-
     //获取分类id
     $cate_id        =   I('param.cate_id');
-//     dump($cate_id); die();
+//     dump($cate); die();
 
     //是否展开分类
     $hide_cate = false;
 //     if(ACTION_NAME != 'recycle' && ACTION_NAME != 'draftbox' && ACTION_NAME != 'mydocument'){
 //         $hide_cate  =   true;
 //     }
+
+    $schoolTeachInfo = GlobalApi::getClassTeachInfo();
+    
+    
     //生成每个分类的url
     foreach ($cate as $key=>&$value){
         //$value['url']   =   'student/index?class_id='.$value['id'];
 
-        if(!empty($value['_child'])){
+        if(!empty($value['_child'])){ 
             $is_child = false;
-            foreach ($value['_child'] as $ka=>&$va){
-                //                     $va['url']      =   'student/index?class_id='.$va['id'];
-
-                if(!empty($va['_child'])){
+            foreach ($value['_child'] as $ka=>&$va){ // 年级
+                
+                $gradeTeachInfo = $schoolTeachInfo[$va['sort']];
+//                 dump($gradeTeachInfo);
+                $master_grade_flag = false;
+                if(!empty($va['_child'])){ // 班级
+                    
                     foreach ($va['_child'] as $k=>&$v){
+                        $master_flag = IS_ROOT ? true : false;
+                        
+                        foreach ($gradeTeachInfo as $class) {
+                            
+                            //                             dump($class['cate_id'] .'=>'. $v['id']);
+                            if ($class['cate_id'] == $v['id']) {
+                                if ($class['master_teacher_id'] == UID) { // 匹配到班主任
+                                    $master_grade_flag = true;
+                                    $master_flag = true;
+                                }
+                            }
+                        }
+                        if ($master_flag == false || $gradeTeachInfo == null) {
+                            unset($va['_child'][$k]);
+                            continue;
+                        }
+                        
                         $class_info = D('Common/Class', 'Logic')->getClassInfoByCategoryId($v['id']);
-
-                        $v['url']   =   'student/index?class_id='. $class_info['id'] . '&cate_id=' . $v['id'];
-                        $v['pid']   =   $va['id'];
+                        
+                        $v['url'] = 'student/index?class_id=' . $class_info['id'] . '&cate_id=' . $v['id'];
+                        $v['pid'] = $va['id'];
                         $is_child = $v['id'] == $cate_id ? true : false;
                         
-                        if($v['id'] == $cate_id ){
+                        if ($v['id'] == $cate_id) {
                             $va['current'] = true;
                             $v['current'] = true;
                         }
@@ -447,15 +473,17 @@ function get_grade_class_tree()
                     }else{
                         $va['title'] = $va['title'] . '(新年级)';
                     }
-                    continue;
+                }
+//                 dump($master_grade_flag);
+                if($master_grade_flag == false){
+                    unset($value['_child'][$ka]);
                 }
                 
             }
         }
     }
     
-    
-    //         dump($cate);die();
+//             dump($cate);die();
     return $cate[0]['_child'];
 }
 
@@ -470,7 +498,7 @@ function get_grade_tree()
     if(!IS_ROOT){
         foreach ($cate as $key=>$value){
             if(!in_array($value['id'], $cate_auth)){
-                unset($cate[$key]);
+              //  unset($cate[$key]);
             }
         }
     }
@@ -541,7 +569,6 @@ function get_teacher_info_by_id($id){
 
 function conver_userId_to_name($id){
     
-    
     if($id > 0){
         $name = UserApi::get_truename($id);
     }
@@ -550,11 +577,7 @@ function conver_userId_to_name($id){
 
 function conver_subjectId_to_name($id){
     static $subjectIndexById = null;
-    if($allSubjects == null){
-        // 将科目字典值转换为由ID索引
-        $allSubjects = D('Common/SubjectInfo')->order('id')->select(); // 获取科目
-    }
-    foreach ($allSubjects as $v){
+    foreach (GlobalApi::getSubjectList() as $v){
         if($v['id'] == $id){
             return $v['subject_name'];
         }
