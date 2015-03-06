@@ -30,7 +30,7 @@ class MemberPublicController extends BaseController {
 		// dump ( $this->model );
 		
 		$res ['title'] = $this->model ['title'];
-		$res ['url'] = U ( 'lists' );
+		$res ['url'] = U ( 'config' );
 		$res ['class'] = ACTION_NAME != 'help' ? 'current' : '';
 		$nav [] = $res;
 		
@@ -43,125 +43,17 @@ class MemberPublicController extends BaseController {
 			$nav [] = $res;
 		}
 		
+// 		dump($nav);die();
 		$this->assign ( 'nav', $nav );
 	}
 	protected function _display() {
 		$this->view->display ( 'Addons:' . ACTION_NAME );
 	}
 	function help() {
-		if (empty ( $_GET ['public_id'] )) {
-			$this->error ( '公众号参数非法' );
-		}
+// 		if (empty ( $_GET ['public_id'] )) {
+// 			$this->error ( '公众号参数非法' );
+// 		}
 		$this->display ( 'Index/help' );
-	}
-	/**
-	 * 显示指定模型列表数据
-	 */
-	public function lists() {
-		// 获取模型信息
-		$model = $this->model;
-		
-		$page = I ( 'p', 1, 'intval' );
-		// 解析列表规则
-		$fields = array ();
-		$grids = preg_split ( '/[;\r\n]+/s', htmlspecialchars_decode ( $model ['list_grid'] ) );
-		foreach ( $grids as &$value ) {
-			// 字段:标题:链接
-			$val = explode ( ':', $value );
-			// 支持多个字段显示
-			$field = explode ( ',', $val [0] );
-			$value = array (
-					'field' => $field,
-					'title' => $val [1] 
-			);
-			if (isset ( $val [2] )) {
-				// 链接信息
-				$value ['href'] = $val [2];
-				// 搜索链接信息中的字段信息
-				preg_replace_callback ( '/\[([a-z_]+)\]/', function ($match) use(&$fields) {
-					$fields [] = $match [1];
-				}, $value ['href'] );
-			}
-			if (strpos ( $val [1], '|' )) {
-				// 显示格式定义
-				list ( $value ['title'], $value ['format'] ) = explode ( '|', $val [1] );
-			}
-			foreach ( $field as $val ) {
-				$array = explode ( '|', $val );
-				$fields [] = $array [0];
-			}
-		}
-		// 过滤重复字段信息
-		$fields = array_unique ( $fields );
-		
-		// 关键字搜索
-		$list = M ( 'member_public_link' )->where ( "uid='{$this->mid}'" )->field ( 'mp_id,is_use' )->select ();
-		foreach ( $list as $vo ) {
-			$mp_ids [] = $vo ['mp_id'];
-			$is_use [$vo ['mp_id']] = $vo ['is_use'];
-		}
-		$mp_ids = getSubByKey ( $list, 'mp_id' );
-		
-		$map ['id'] = 0;
-		if (! empty ( $mp_ids )) {
-			$map ['id'] = array (
-					'in',
-					$mp_ids 
-			);
-		}
-		$key = $model ['search_key'] ? $model ['search_key'] : 'title';
-		if (isset ( $_REQUEST [$key] )) {
-			$map [$key] = array (
-					'like',
-					'%' . I ( $key ) . '%' 
-			);
-			unset ( $_REQUEST [$key] );
-		}
-		// 条件搜索
-		foreach ( $_REQUEST as $name => $val ) {
-			if (in_array ( $name, $fields )) {
-				$map [$name] = $val;
-			}
-		}
-		$row = empty ( $model ['list_row'] ) ? 20 : $model ['list_row'];
-		
-		// 读取模型数据列表
-		empty ( $fields ) || in_array ( 'id', $fields ) || array_push ( $fields, 'id' );
-		$name = parse_name ( get_table_name ( $model ['id'] ), true );
-		$data = M ( $name )->where ( $map )->order ( 'id DESC' )->page ( $page, $row )->select ();
-		
-		foreach ( $data as &$vo ) {
-			$vo ['is_use'] = $is_use [$vo ['id']];
-			if (! empty ( $vo ['headface_url'] ))
-				$vo ['headface_url'] = '<img src="' . get_cover_url ( $vo ['headface_url'] ) . '" width="50" height="50" />';
-		}
-		
-		foreach ( $grids as $k => &$g ) {
-			if ($g ['field'] [0] == 'uid') {
-				unset ( $grids [$k] );
-			}
-		}
-		
-		/* 查询记录总数 */
-		$count = M ( $name )->where ( $map )->count ();
-		
-		// 分页
-		if ($count > $row) {
-			$page = new \Think\Page ( $count, $row );
-			$page->setConfig ( 'theme', '%FIRST% %UP_PAGE% %LINK_PAGE% %DOWN_PAGE% %END% %HEADER%' );
-			$_page = $page->show ();
-			$this->assign ( '_page', $_page );
-		}
-		
-		$this->assign ( 'list_grids', $grids );
-		$this->assign ( 'list_data', $data );
-		$this->meta_title = $model ['title'] . '列表';
-		
-		// 使用提示
-		$normal_tips = '您目前最多可自己创建' . getPublicMax ( $this->mid ) . '个公众号（不包括管理员分配的公众号）。如需要更多名额请需要管理员在后台设置';
-		$this->assign ( 'normal_tips', $normal_tips );
-		
-		$this->_display ();
 	}
 	public function del($model = null, $ids = null) {
 		$model = $this->model;
@@ -193,24 +85,17 @@ class MemberPublicController extends BaseController {
 			$this->error ( '删除失败！' );
 		}
 	}
-	public function edit($model = null, $id = 0) {
-		$id || $id = I ( 'id' );
-		redirect ( U ( 'add', array (
-				'id' => $id 
-		) ) );
-	}
-	public function add($model = null) {
-		$id = I ( 'id', 0, 'intval' );
+	public function config($model = null) {
+		$id = 1;
 		$this->assign ( 'id', $id );
-		
 		$model = $this->model;
 		if (IS_POST) {
 			foreach ( $_POST as &$v ) {
 				$v = trim ( $v );
 			}
 			$_POST ['token'] = $_POST ['public_id'];
-			$_POST ['group_id'] = intval ( C ( 'DEFAULT_PUBLIC_GROUP_ID' ) );
-			$_POST ['uid'] = $this->mid;
+// 			$_POST ['group_id'] = intval ( C ( 'DEFAULT_PUBLIC_GROUP_ID' ) );
+// 			$_POST ['uid'] = $this->mid;
 			
 			$Model = D ( parse_name ( get_table_name ( $model ['id'] ), 1 ) );
 			// 获取模型的字段信息
@@ -239,16 +124,8 @@ class MemberPublicController extends BaseController {
 				}
 			}
 		} else {
-			if (empty ( $id )) {
-				$allow_add_count = getPublicMax ( $this->mid );
-				$has_add_count = M ( 'member_public_link' )->where ( "uid='{$this->mid}'" )->getField ( 'sum(is_creator)' );
-				if ($allow_add_count <= $has_add_count) {
-					$this->error ( '您最多只能创建 ' . $allow_add_count . ' 个公众号！' );
-					exit ();
-				}
-			} else {
-				$data = M ( get_table_name ( $model ['id'] ) )->find ( $id );
-			}
+		    
+		    $data = M ( get_table_name ( $model ['id'] ) )->find ( $id );
 			$data ['type'] = intval ( $data ['type'] );
 			$this->assign ( 'info', $data );
 			
