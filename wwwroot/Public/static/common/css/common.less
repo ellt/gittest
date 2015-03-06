@@ -6,14 +6,6 @@ body {
   padding-top: 50px;
 }
 
-// // 使内容区占满整个屏幕，让页脚始终在页面底部
-// .ell-main-container,
-// .ell-main-container > .row,
-// .ell-content,
-// .ell-main-content {
-//   //height: 100%;
-// }
-
 .ell-navbar {
 
   .navbar-brand {
@@ -343,12 +335,6 @@ a.ell-sidebar-title:focus {
   cursor: pointer;
 }
 
-.data-table {
-  padding: 15px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-}
-
 .table {
   > thead > tr {
     .operator-xs-1 {width: 1*50px;}
@@ -428,4 +414,66 @@ a.ell-sidebar-title:focus {
   -webkit-border-radius: 1px;
 }
 
+//----------------------- 常用组件样式 ---------------------------------
+/* 高级搜索 */
+.search-form .adv-sch-pannel {
+    margin-right: 0;
+}
+.search-form .adv-sch-pannel .dropdown-pannel {
+    right: 0;
+    left: auto;
+    padding: 15px 0 15px 15px;
+    white-space: nowrap;
+}
+.adv-sch-pannel .row {
+    display: inline-block;
+    *display: inline;
+    margin-right: 15px;
+    margin-bottom:6px;
+}
+.adv-sch-pannel label{
+    width:70px;
+    display:inline-block;
+}
 
+/* = 表格
+------------------------------------------ */
+.data-table {
+  padding: 15px;
+  margin: 10px 0;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.data-table thead th {
+    text-align: left;
+    color:#fff;
+    background-color: #444;
+}
+
+/* 复选框的列宽 */
+.row-selected {
+    width: 15px;
+}
+
+/* 带下拉框的按钮组 */
+.btn-group-click {
+    display: inline-block;
+    *display: inline;
+    position: relative;
+    margin-right: 5px;
+    vertical-align: middle;
+}
+.btn-group-click .btn {
+    margin-right: 0;
+}
+.btn-group-click .dropdown-pannel {
+    display: none;
+    position: absolute;
+    top: 30px;
+    left: 0;
+    margin-top: 3px;
+    min-width: 85px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+}
