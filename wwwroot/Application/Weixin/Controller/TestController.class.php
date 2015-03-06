@@ -47,4 +47,9 @@ class TestController extends BaseController {
 
         $this->display();
     }
+
+    // 教师绑定
+    public function teacherBind() {
+        $this->display();
+    }
 }
