@@ -3,7 +3,7 @@
   <div class="span9 page_message">
 <section id="contents">
   <ul class="tab-nav nav">
-    <li class="current"><a href="{:U('lists')}">公众号管理<span class="arrow fa fa-sort-up"></span></a></li>
+    <li class="current"><a href="{:U('config')}">公众号管理<span class="arrow fa fa-sort-up"></span></a></li>
   </ul>
   <div class="setting_step app_setting">
          <a class="step step_cur_1" href="{:U('add',array('id'=>$id))}">1.增加基本信息</a>
@@ -12,7 +12,7 @@
   </div>     
   <div class="tab-content"> 
     <!-- 表单 -->
-    <form class="form-horizontal" method="post" action="{:U('add')}" id="form">
+    <form class="form-horizontal" method="post" action="{:U('config')}" id="form">
       <!-- 基础文档模型 -->
       <div class="tab-pane in              tab1" id="tab1">
         <div class="form-item cf toggle-public_name">
