@@ -13,28 +13,22 @@
 <block name="content">
     <!-- 标题栏 -->
     <div class="ell-main-title">
-        <h2>权限管理</h2>
+        <h2>权限管理 [ 用户组：
+            <select name="group">
+                <volist name="auth_group" id="vo">
+                <option value="{:U('AuthManager/access',array('group_id'=>$vo['id'],'group_name'=>$vo['title']))}" <eq name="vo['id']" value="$this_group['id']">selected</eq>>
+                    {$vo.title}
+                </option>
+                </volist>
+            </select>
+        ]</h2>
     </div>
 
-    <div class="tab-wrap">
-        <div class="row">
-            <div class="col-md-9">
-                <ul class="nav nav-tabs" role="tablist">
-                    <li><a href="{:U('AuthManager/access',array('group_name'=>I('group_name') ,'group_id'=> I('group_id')))}">访问授权</a></li>
-                    <li><a href="{:U('AuthManager/category',array('group_name'=>I('group_name') ,'group_id'=> I('group_id')))}">分类授权</a></li>
-                    <li class="active"><a href="javascript:;">成员授权</a></li>
-                </ul>
-            </div>
-            <div class="col-md-3">
-                <select class="form-control" name="group">
-                    <volist name="auth_group" id="vo">
-                    <option value="{:U('AuthManager/user',array('group_id'=>$vo['id'],'group_name'=>$vo['title']))}" <eq name="vo['id']" value="$this_group['id']">selected</eq>>
-                        {$vo.title}
-                    </option>
-                    </volist>
-                </select>
-            </div>
-        </div>
+    <div class="ell-tab-wrap">
+        <ul class="nav nav-tabs" role="tablist">
+            <li><a href="{:U('AuthManager/access',array('group_name'=>I('group_name') ,'group_id'=> I('group_id')))}">访问授权</a></li>
+            <li class="active"><a href="javascript:;">成员授权</a></li>
+        </ul>
 
         <!-- 按钮工具栏 -->
         <div class="row">

@@ -11,12 +11,14 @@
             <div class="modal-body">
                 <form id="editUserGroupForm" role="form">
                     <div class="row">
-                        <div class="form-group col-sm-10 col-sm-offset-1">
-                            <label for="authTitle">用户组</label>                    
-                            <input type="text" class="form-control" id="authTitle" name="title"  value="{$auth_group.title}">
-                            <div class="help-block hidden">
-                                <span class="glyphicon glyphicon-remove"></span>
-                                <span>格式错误</span>
+                        <div class="form-group col-sm-10 col-sm-offset-1 has-feedback">
+                            <label for="authTitle">用户组</label>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="authTitle" name="title" value="{$auth_group.title}">
+                                    <span class="form-control-feedback"></span>
+                                </div>
+                                <div class="col-sm-6 help-block hidden"></div>
                             </div>
                         </div>
                     </div>
@@ -25,18 +27,14 @@
                             <label for="authDescription">描述</label>
                             <textarea class="form-control" id="authDescription" name="description" value="">{$auth_group.description}
                             </textarea>
-                            <div class="help-block hidden">
-                                <span class="glyphicon glyphicon-remove"></span>
-                                <span>格式错误</span>
-                            </div>
                         </div>
                     </div>
                     <input type="hidden" name="id" value="{$auth_group.id}"/>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-primary" data-submit="modal" data-target="#editUserGroupForm" data-url="{:U('AuthManager/writeGroup')}" data-loading-text="提交中..." autocomplete="off">确定</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="submit" class="btn btn-primary" data-submit="modal" data-target="#editUserGroupForm" data-url="{:U('AuthManager/writeGroup')}" data-loading-text="提交中..." autocomplete="off">确 定</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
             </div>
         </div>
     </div>
@@ -45,66 +43,19 @@
 <script>
 $(function(){
 
-    $('#myModal').on('show.bs.modal', function (e) {
-        var url = $(this).attr('data-url');
-        var param = $(e.relatedTarget).data("get-param");
-        $.get(url+"&"+param).success(function(data){
-            if (data.status) {
-                initModal(data.data);
-            } else {
-                return e.preventDefault(); // 阻止模态框的展示
-            }
-        });
-    });
+    initModalEvent('#myModal', initModal, null);
 
-    function initModal(data) {
+    function initModal($modal, data, isClear) {
+        if (isClear) {
+            $("span", "#myModalLabel").html("");
+            $("#authTitle", $modal).val("");
+            $("#authDescription", $modal).val("");
+            return true;
+        }
+
         $("span", "#myModalLabel").html(data.title===""?"新增":"编辑");
         $('#authTitle').val(data.title);
         $('#authDescription').val(data.description);
     }
-
-    // 表单提交
-    $("[data-submit='form']").click(function(e) { 
-        //取消默认动作，防止表单两次提交
-        e.preventDefault();
-
-        var url = $(this).attr('data-url');
-        var targetForm = $(this).attr('data-target');
-        var form = $(targetForm);
-        var formContent = form.serialize();
-
-        var btn = $(this);
-        btn.button('loading');
-        //发送到服务器
-        $.post(url, formContent).success(function(data){
-            btn.button('reset');
-            if (data.status) {
-                showFormTip(form);
-                $('#myModal').modal('hide');
-            } else {
-                showFormTip(form, data.error_info);
-            }
-        });
-    });
 });
-
-function showFormTip(form, data) {
-    var row, tip, tipContent;
-    data = data || []; // 给定默认值为空数组
-    $("input", form).each(function(index){
-        row = $(this).parentsUntil("form").filter(".row");
-        tip = row.find(".help-block");
-        tipContent = tip.find("span").next();
-
-        if (data[index]) {
-            row.addClass("has-error");
-            tipContent.html(data[index]);
-            tip.removeClass("hidden").addClass("show");
-        } else {
-            row.removeClass("has-error");
-            tipContent.html();
-            tip.removeClass("show").addClass("hidden");
-        }
-    });
-}
 </script>

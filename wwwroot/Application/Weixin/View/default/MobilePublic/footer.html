@@ -1,0 +1,21 @@
+    <include file="Public/var"/>
+    <script src="__STATIC__/common.js"></script>
+
+    <!-- Custom JS for this template -->    
+    <block name="script"></block>
+
+    <!-- 页面footer钩子，一般用于加载插件JS文件和JS代码 -->    
+    {:hook('pageFooter', 'widget')}
+    <div class="hidden">
+        <!-- 用于加载统计代码等隐藏元素 -->    
+        <block name="hidden">
+            <script>
+            $(function(){
+                /*---bookmarklet---*/
+                // bootlint
+                //(function(){var s=document.createElement("script");s.onload=function(){bootlint.showLintReportForCurrentDocument([]);};s.src="https://maxcdn.bootstrapcdn.com/bootlint/latest/bootlint.min.js";document.body.appendChild(s);})();
+                /*---bookmarklet---*/
+            });
+            </script>
+        </block>
+    </div>

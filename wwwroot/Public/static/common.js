@@ -106,7 +106,7 @@ $(function() {
         var formContent = form.serialize();
 
         //发送提交请求
-        var callable = (method == 'post') ? $.post : $.get;
+        var callable = (method.toLowerCase() == 'post') ? $.post : $.get;
         callable(action, formContent, function(data) {
             handleAjax(data);
             $("[type='submit']", form).button('reset');
