@@ -98,45 +98,6 @@ body {
 .ell-sidebar .nav div > .sub-menu > li > .sub-menu > li > .sub-menu a {
   padding-left: 80px;
 }
-.ell-sidebar .nav > .ell-sidebar-title {
-  font-weight: bold;
-  color: #fff;
-  cursor: default;
-  background-color: #444;
-  border: 1px solid #444;
-}
-.ell-sidebar .nav > .list-group-item > a,
-.ell-sidebar .nav > .list-group-item > a:hover {
-  color: #000;
-  text-decoration: none;
-  cursor: pointer;
-}
-.nav-blocks > li > a {
-  border-radius: 0;
-}
-.nav-blocks > li.active > a,
-.nav-blocks > li.active > a:hover,
-.nav-blocks > li.active > a:focus {
-  color: #fff;
-  background-color: #337ab7;
-  border: 1px solid #337ab7;
-}
-a.ell-sidebar-title,
-a.ell-sidebar-title:hover,
-a.ell-sidebar-title:focus {
-  font-weight: bold;
-  color: #fff;
-  cursor: default;
-  background-color: #444;
-  border: 1px solid #444;
-}
-.ell-sidebar-tree .list-group-item {
-  margin-right: -1px;
-  margin-left: -1px;
-  border-top: none;
-  border-bottom: none;
-  border-radius: 0;
-}
 .ell-alert {
   position: absolute;
   right: 15px;
@@ -166,81 +127,8 @@ a.ell-sidebar-title:focus {
 .ell-tab-wrap > ul {
   margin-bottom: 10px;
 }
-.ell-homework-main {
-  margin: 20px 0;
-  background: white;
-}
-.ell-homework-main .row {
-  margin-bottom: 10px;
-}
-.ell-homework-main textarea {
-  margin-bottom: 10px;
-}
-.ell-homework-main textarea::-webkit-input-placeholder:after {
-  display: block;
-  content: "1、XXXX。\A 2、XXXX。";
-  /*  \A 表示换行  */
-}
-.ell-homework-main textarea::-moz-placeholder:after {
-  content: "1、XXXX。\A 2、XXXX。";
-  /*  \A 表示换行  */
-}
-.data-chart {
-  margin: 50px 0;
-}
-.data-chart .chart-toolbox {
-  padding: 20px;
-  margin: 20px 0;
-  border: 1px solid #eee;
-  border-left-color: #1b809e;
-  border-left-width: 5px;
-  border-radius: 3px;
-}
-.data-chart .chart-toolbox h4 {
-  margin-top: 0;
-  margin-bottom: 5px;
-  font-weight: 700;
-  color: #1b809e;
-}
-.ell-homework-footer {
-  text-align: center;
-}
-.text-inverse {
-  color: #fff;
-}
 .icon-arrow-join {
   padding: 170px 15px;
-}
-.form-horizontal .has-feedback .form-control-feedback.has-addon {
-  right: 53px;
-}
-.select-list-group {
-  height: 350px;
-  padding-left: 0;
-  overflow-x: hidden;
-  overflow-y: auto;
-  list-style: none;
-  background-color: #f7fdff;
-}
-.select-list-group li {
-  display: block;
-  height: 33px;
-  padding-left: 15px;
-  line-height: 33px;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  list-style-type: none;
-  cursor: pointer;
-}
-.select-list-group li .close {
-  float: right !important;
-  width: 33px;
-  padding: 6px 8px;
-  background-color: #cce1f6;
-  opacity: 1;
-}
-.select-list-group li:hover {
-  background: #ecf7fb;
 }
 .typeahead .dropdown-menu {
   width: 100%;
@@ -249,30 +137,6 @@ a.ell-sidebar-title:focus {
 }
 .cursor-pointer {
   cursor: pointer;
-}
-.table > thead > tr .operator-xs-1 {
-  width: 50px;
-}
-.table > thead > tr .operator-xs-2 {
-  width: 100px;
-}
-.table > thead > tr .operator-xs-3 {
-  width: 150px;
-}
-.table > thead > tr .operator-xs-4 {
-  width: 200px;
-}
-.table > thead > tr .operator-xs-5 {
-  width: 250px;
-}
-.table > tbody > tr > td {
-  height: 33px;
-}
-.table > tbody > tr .operator {
-  display: none;
-}
-.table > tbody > tr:hover .operator {
-  display: inline-block;
 }
 ::-webkit-scrollbar {
   width: 9px;
@@ -347,6 +211,22 @@ a.ell-sidebar-title:focus {
 
   -webkit-border-radius: 1px;
 }
+.nav-blocks > li > a {
+  border-radius: 0;
+}
+.nav-blocks > li.active > a,
+.nav-blocks > li.active > a:hover,
+.nav-blocks > li.active > a:focus {
+  color: #fff;
+  background-color: #337ab7;
+  border: 1px solid #337ab7;
+}
+.form-horizontal .has-feedback .form-control-feedback.has-addon {
+  right: 53px;
+}
+.text-inverse {
+  color: #fff;
+}
 /* 高级搜索 */
 .search-form .adv-sch-pannel {
   margin-right: 0;
@@ -368,8 +248,34 @@ a.ell-sidebar-title:focus {
   display: inline-block;
   width: 70px;
 }
-/* = 表格
------------------------------------------- */
+.select-list-group {
+  height: 350px;
+  padding-left: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  list-style: none;
+  background-color: #f7fdff;
+}
+.select-list-group li {
+  display: block;
+  height: 33px;
+  padding-left: 15px;
+  line-height: 33px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  list-style-type: none;
+  cursor: pointer;
+}
+.select-list-group li .close {
+  float: right !important;
+  width: 33px;
+  padding: 6px 8px;
+  background-color: #cce1f6;
+  opacity: 1;
+}
+.select-list-group li:hover {
+  background: #ecf7fb;
+}
 .data-table {
   padding: 15px;
   margin: 10px 0;
@@ -380,6 +286,47 @@ a.ell-sidebar-title:focus {
   color: #fff;
   text-align: left;
   background-color: #444;
+}
+.table > thead > tr .operator-xs-1 {
+  width: 50px;
+}
+.table > thead > tr .operator-xs-2 {
+  width: 100px;
+}
+.table > thead > tr .operator-xs-3 {
+  width: 150px;
+}
+.table > thead > tr .operator-xs-4 {
+  width: 200px;
+}
+.table > thead > tr .operator-xs-5 {
+  width: 250px;
+}
+.table > tbody > tr > td {
+  height: 33px;
+}
+.table > tbody > tr .operator {
+  display: none;
+}
+.table > tbody > tr:hover .operator {
+  display: inline-block;
+}
+.data-chart {
+  margin: 50px 0;
+}
+.data-chart .chart-toolbox {
+  padding: 20px;
+  margin: 20px 0;
+  border: 1px solid #eee;
+  border-left-color: #1b809e;
+  border-left-width: 5px;
+  border-radius: 3px;
+}
+.data-chart .chart-toolbox h4 {
+  margin-top: 0;
+  margin-bottom: 5px;
+  font-weight: 700;
+  color: #1b809e;
 }
 /* 复选框的列宽 */
 .row-selected {

@@ -6,6 +6,7 @@ body {
   padding-top: 50px;
 }
 
+//-------顶部导航栏---------
 .ell-navbar {
 
   .navbar-brand {
@@ -28,7 +29,7 @@ body {
   }
 }
 
-
+//--------左侧导航栏----------
 .ell-sidebar {
   position: fixed;
   top:50px;
@@ -137,67 +138,6 @@ body {
   div > .sub-menu > li > .sub-menu > li > .sub-menu a {
     padding-left: 80px;
   }
-
-  // 下面为临时
-  > .ell-sidebar-title {
-    font-weight: bold;
-    color: #fff;
-    cursor:default;
-    background-color: #444;
-    border: 1px solid #444;
-  }
-
-  > .list-group-item {
-    > a,
-    > a:hover {
-      color: #000;
-      text-decoration:none;
-      cursor: pointer;
-    }
-  }
-}
-
-// Blocks
-// -------------------------
-.nav-blocks {
-  > li {
-
-    // Links rendered as blocks
-    > a {
-      border-radius: 0;
-    }
-
-    // Active state
-    &.active > a {
-      &,
-      &:hover,
-      &:focus {
-        color: @nav-blocks-active-link-hover-color;
-        background-color: @nav-blocks-active-link-hover-bg;
-        border: 1px solid @nav-blocks-active-link-hover-border-color;
-      }
-    }
-  }
-}
-
-a.ell-sidebar-title,
-a.ell-sidebar-title:hover,
-a.ell-sidebar-title:focus {
-  font-weight: bold;
-  color: #fff;
-  cursor:default;
-  background-color: #444;
-  border: 1px solid #444;
-}
-.ell-sidebar-tree {
-
-  .list-group-item {
-    margin-right: -1px;
-    margin-left: -1px;
-    border-top: none;
-    border-bottom: none;
-    border-radius: 0;
-  }
 }
 
 .ell-alert {
@@ -233,95 +173,8 @@ a.ell-sidebar-title:focus {
   margin-bottom: 10px;
 }
 
-.ell-homework-main {
-  margin: 20px 0;
-  background: white; 
-  .row {
-    margin-bottom: 10px;
-  }
-
-  textarea {
-    margin-bottom: 10px;
-
-    &::-webkit-input-placeholder:after {
-      display:block;
-      content:"1、XXXX。\A 2、XXXX。";/*  \A 表示换行  */
-      
-    }
-    &::-moz-placeholder:after {
-      content:"1、XXXX。\A 2、XXXX。";/*  \A 表示换行  */
-     
-    }
-  }
-}
-
-.data-chart {
-  margin: 50px 0;
-
-  .chart-toolbox {
-    margin: 20px 0;
-    padding: 20px;
-    border: 1px solid #eee;
-    border-radius: 3px;
-    border-left-width: 5px;
-    border-left-color: #1b809e;
-
-    h4 {
-      margin-top: 0;
-      margin-bottom: 5px;
-      color: #1b809e;
-      font-weight: 700;
-    }
-  }
-}
-
-.ell-homework-footer {
-  text-align: center;
-}
-
-.text-inverse {
-  color: #fff;
-}
-
 .icon-arrow-join {
   padding: 170px 15px;
-}
-
-.form-horizontal .has-feedback .form-control-feedback.has-addon {
-  right: 15px + 38px; 
-}
-
-//----------------------- 选择列表组 ---------------------------------
-.select-list-group {
-  padding-left: 0;
-  list-style: none;
-  height:350px;
-  overflow-y: auto;
-  overflow-x: hidden;
-  background-color:#f7fdff;
-
-  li {
-    display: block;
-    padding-left: 15px;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    height: 33px;
-    line-height: 33px;
-    list-style-type: none;
-    cursor: pointer;
-
-    .close {
-      padding: 6px 8px;
-      width: 33px;
-      float: right !important;
-      background-color: #cce1f6;
-      opacity: 1;
-    }
-
-    &:hover {
-      background: #ecf7fb;
-    }
-  }
 }
 
 //////////////////////////  工具类  ///////////////////////////////
@@ -333,30 +186,6 @@ a.ell-sidebar-title:focus {
 
 .cursor-pointer {
   cursor: pointer;
-}
-
-.table {
-  > thead > tr {
-    .operator-xs-1 {width: 1*50px;}
-    .operator-xs-2 {width: 2*50px;}
-    .operator-xs-3 {width: 3*50px;}
-    .operator-xs-4 {width: 4*50px;}
-    .operator-xs-5 {width: 5*50px;}
-  }
-
-  > tbody > tr {
-    > td {
-      height: 33px;
-    }
-    
-    .operator {
-      display: none;
-    }
-
-    &:hover .operator {
-      display: inline-block;
-    }
-  }
 }
 
 ::-webkit-scrollbar {
@@ -414,7 +243,46 @@ a.ell-sidebar-title:focus {
   -webkit-border-radius: 1px;
 }
 
-//----------------------- 常用组件样式 ---------------------------------
+//--------------------------------------------------------
+//                    bootstrap定制化样式
+//--------------------------------------------------------
+
+// --------- 导航栏 ----------------
+.nav-blocks {
+  > li {
+
+    // Links rendered as blocks
+    > a {
+      border-radius: 0;
+    }
+
+    // Active state
+    &.active > a {
+      &,
+      &:hover,
+      &:focus {
+        color: @nav-blocks-active-link-hover-color;
+        background-color: @nav-blocks-active-link-hover-bg;
+        border: 1px solid @nav-blocks-active-link-hover-border-color;
+      }
+    }
+  }
+}
+
+// -------- 表单 -------------
+.form-horizontal .has-feedback .form-control-feedback.has-addon {
+  right: 15px + 38px; 
+}
+
+// -------- 文本 -------------
+.text-inverse {
+  color: #fff;
+}
+
+//--------------------------------------------------------
+//                    常用组件样式
+//--------------------------------------------------------
+
 /* 高级搜索 */
 .search-form .adv-sch-pannel {
     margin-right: 0;
@@ -436,8 +304,40 @@ a.ell-sidebar-title:focus {
     display:inline-block;
 }
 
-/* = 表格
------------------------------------------- */
+//---------- 选择列表组 ----------------
+.select-list-group {
+  padding-left: 0;
+  list-style: none;
+  height:350px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background-color:#f7fdff;
+
+  li {
+    display: block;
+    padding-left: 15px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    height: 33px;
+    line-height: 33px;
+    list-style-type: none;
+    cursor: pointer;
+
+    .close {
+      padding: 6px 8px;
+      width: 33px;
+      float: right !important;
+      background-color: #cce1f6;
+      opacity: 1;
+    }
+
+    &:hover {
+      background: #ecf7fb;
+    }
+  }
+}
+
+//--------- 表格---------
 .data-table {
   padding: 15px;
   margin: 10px 0;
@@ -449,6 +349,51 @@ a.ell-sidebar-title:focus {
     text-align: left;
     color:#fff;
     background-color: #444;
+}
+
+.table {
+  > thead > tr {
+    .operator-xs-1 {width: 1*50px;}
+    .operator-xs-2 {width: 2*50px;}
+    .operator-xs-3 {width: 3*50px;}
+    .operator-xs-4 {width: 4*50px;}
+    .operator-xs-5 {width: 5*50px;}
+  }
+
+  > tbody > tr {
+    > td {
+      height: 33px;
+    }
+    
+    .operator {
+      display: none;
+    }
+
+    &:hover .operator {
+      display: inline-block;
+    }
+  }
+}
+
+//---------- 图表 -------------
+.data-chart {
+  margin: 50px 0;
+
+  .chart-toolbox {
+    margin: 20px 0;
+    padding: 20px;
+    border: 1px solid #eee;
+    border-radius: 3px;
+    border-left-width: 5px;
+    border-left-color: #1b809e;
+
+    h4 {
+      margin-top: 0;
+      margin-bottom: 5px;
+      color: #1b809e;
+      font-weight: 700;
+    }
+  }
 }
 
 /* 复选框的列宽 */

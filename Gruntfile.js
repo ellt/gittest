@@ -8,8 +8,10 @@ module.exports = function(grunt) {
         css: 'wwwroot/Public/static/common/css',
         js: 'wwwroot/Public/static/',
       },
-      public: 'wwwroot/Public',
-
+      public: {
+        usercenter_less: 'wwwroot/Public/Usercenter/default/less',
+        usercenter_css: 'wwwroot/Public/Usercenter/default/css',
+      },
       App: 'wwwroot/Application',
     },
 
@@ -51,13 +53,15 @@ module.exports = function(grunt) {
       // 编译
       compile: {
         files: {
-          '<%= workpath.common.css %>/common.css': '<%= workpath.common.css %>/common.less'
+          '<%= workpath.common.css %>/common.css': '<%= workpath.common.css %>/common.less',
+          '<%= workpath.public.usercenter_css %>/usercenter.css': '<%= workpath.public.usercenter_less %>/usercenter.less'
         }
       },
       // 压缩
       compress: {
         files: {
-          '<%= workpath.common.css %>/common.min.css': '<%= workpath.common.css %>/common.css'
+          '<%= workpath.common.css %>/common.min.css': '<%= workpath.common.css %>/common.css',
+          '<%= workpath.public.usercenter_css %>/usercenter.min.css': '<%= workpath.public.usercenter_css %>/usercenter.css'
         },
         options: {
           compress: true
@@ -67,7 +71,7 @@ module.exports = function(grunt) {
 
     watch: {
       commoncss: {
-        files: ['<%= workpath.common.css %>/*.less'],
+        files: ['<%= workpath.common.css %>/*.less','<%= workpath.public.usercenter_less %>/*.less'],
         tasks: ['common-css'],
       },
       js: {

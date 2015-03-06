@@ -1,23 +1,42 @@
+.ell-homework-main {
+  margin: 20px 0;
+  background: white;
+}
+.ell-homework-main .row {
+  margin-bottom: 10px;
+}
+.ell-homework-main textarea {
+  margin-bottom: 10px;
+}
+.ell-homework-main textarea::-webkit-input-placeholder:after {
+  display: block;
+  content: "1、XXXX。\A 2、XXXX。";
+  /*  \A 表示换行  */
+}
+.ell-homework-main textarea::-moz-placeholder:after {
+  content: "1、XXXX。\A 2、XXXX。";
+  /*  \A 表示换行  */
+}
+.ell-homework-footer {
+  text-align: center;
+}
 /* 授权编辑页 */
 .checkmod {
-    margin-bottom: 20px;
-    border: 1px solid #ebebeb;
+  margin-bottom: 20px;
+  border: 1px solid #ebebeb;
 }
 .checkmod dt {
-    padding-left: 40px;
-    border-top: 1px solid #ebebeb;
-    border-bottom: 1px solid #ebebeb;
-    background-color: #ECECEC;
+  padding-left: 40px;
+  border-top: 1px solid #ebebeb;
+  border-bottom: 1px solid #ebebeb;
+  background-color: #ECECEC;
 }
-
 .checkmod dd {
-    padding-left: 40px;
+  padding-left: 40px;
 }
-
 .checkmod .checkbox {
-    display: inline-block;
+  display: inline-block;
 }
-
 /* = uploadify上传插件样式
 ------------------------------------------ */
 .uploadify-button {
@@ -98,7 +117,7 @@
   padding: 3px;
   border: 1px solid #c3c3c3;
   background-color: #fff;
-  box-shadow: 0 0 4px rgba(0,0,0,.5);
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
 }
 .upload-img-popup .close-pop {
   position: absolute;
@@ -121,5 +140,5 @@
   background: url(../images/attachment_1.png);
   display: inline-block;
   vertical-align: middle;
-  margin-right: 5px
+  margin-right: 5px;
 }
