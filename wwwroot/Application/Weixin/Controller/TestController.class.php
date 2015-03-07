@@ -59,7 +59,31 @@ class TestController extends BaseController {
             $id = I("id");
 
             $data['status']  = 1;
-            $data['data'] = "得到的数据为".$id;
+            if($id=="111111") {
+                $data['data'] = array(
+                    array(
+                        "relation" => "父亲",
+                        "name" => "李大哈",
+                        "phone" => "135456466",
+                        "manager" => true,
+                    ),
+                    array(
+                        "relation" => "母亲",
+                        "name" => "李大妈",
+                        "phone" => "135456555",
+                        "manager" => false,
+                    ),
+                );
+            } else {
+                $data['data'] = array(
+                    array(
+                        "relation" => "母亲",
+                        "name" => "大大哈",
+                        "phone" => "135456477",
+                        "manager" => true,
+                    ),
+                );
+            }
             $this->ajaxReturn($data);
         }
 
