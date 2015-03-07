@@ -124,8 +124,12 @@ body {
 .ell-main-title > h2 > .label {
   font-size: 100%;
 }
-.ell-tab-wrap > ul {
-  margin-bottom: 10px;
+.ell-tab-wrap > .nav {
+  margin-bottom: 30px;
+}
+.ell-tab-wrap > .nav.nav-pills {
+  border: 1px solid #eee;
+  border-radius: 4px;
 }
 .icon-arrow-join {
   padding: 170px 15px;
