@@ -42,26 +42,29 @@
 
         <!-- 数据列表 -->
         <div class="data-table">
-            <table class="table table-condensed table-striped table-hover">
+            <table class="table table-condensed table-hover">
             <thead>
                 <tr>
-                    <th class="">UID</th>
-                    <th class="">昵称</th>
-                    <th class="">最后登录时间</th>
-                    <th class="">最后登录IP</th>
-                    <th class="">状态</th>
-                    <th class="">操作</th>
+                    <th class="row-selected"><input type="checkbox" data-toggle="checkall" data-target="ids"/></th>
+                    <th>UID</th>
+                    <th>昵称</th>
+                    <th>最后登录时间</th>
+                    <th>最后登录IP</th>
+                    <th>状态</th>
+                    <th class="operator-xs-4"></th>
                 </tr>
             </thead>
             <tbody>
                 <volist name="_list" id="vo">
                 <tr>
+                    <td><input type="checkbox" data-check="ids" name="ids[]" value="{$vo.id}"></td>
                     <td>{$vo.id} </td>
                     <td>{$vo.username}</td>
-                    <td><span>{$vo.last_login_time|time_format}</span></td>
-                    <td><span>{$vo.last_login_ip|long2ip}</span></td>
+                    <td>{$vo.last_login_time|time_format}</td>
+                    <td>{$vo.last_login_ip|long2ip}</td>
                     <td>{$vo.status_text}</td>
-                    <td><a href="{:U('AuthManager/removeFromGroup?uid='.$vo['uid'].'&group_id='.I('group_id'))}" class="ajax-get">解除授权</a>
+                    <td>
+                        <button type="button" class="btn btn-danger btn-xs operator ajax-get" data-confirm="确认要解除吗?" data-loading-text="执行中..." data-url="{:U('AuthManager/removeFromGroup?uid='.$vo['uid'].'&group_id='.I('group_id'))}" autocomplete="off">解除授权</button>
                     </td>
                 </tr>
                 </volist>
