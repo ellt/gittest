@@ -11,7 +11,7 @@
 <block name="content">
     <!-- 标题 -->
     <div class="ell-main-title">
-        <h2>教师微信绑定
+        <h2>家长微信绑定
         </h2>
     </div>
 
@@ -24,7 +24,7 @@
         </div>
         <div class="col-md-6">
             <div class="col-md-6 input-group pull-right">
-                <input type="text" class="form-control" id="search" name="nickname" value="{:I('nickname')}" placeholder="请输入教师工号或姓名">
+                <input type="text" class="form-control" id="search" name="nickname" value="{:I('nickname')}" placeholder="请输入学生学号或姓名">
                 <span class="input-group-btn">
                     <button type="button" class="btn btn-primary" data-submit="search" data-target="#search" data-url="{:U('index')}">
                         <span class="glyphicon glyphicon-search"></span>
@@ -36,12 +36,12 @@
 
     <!-- 数据表格 -->
     <div class="data-table">
-        <table class="table table-condensed table-hover">
+        <table class="table table-condensed table-hover" data-url="{:U('test/parentBind')}">
             <thead>
                 <tr>
                     <th class="row-selected"><input type="checkbox" data-toggle="checkall" data-target="ids"/></th>
-                    <th>工号</th>
-                    <th>姓名</th>
+                    <th>学号</th>
+                    <th>学生姓名</th>
                     <th>绑定状态</th>
                     <th class="operator-xs-5"></th>
                 </tr>
@@ -49,10 +49,10 @@
             <tbody>
                 <tr>
                     <td><input type="checkbox" data-check="ids" name="ids[]" value="{$vo.id}"></td>
-                    <td>214514</td>
+                    <td>111111</td>
                     <td>李芳芳</td>
                     <td>
-                        <span>
+                        <span class="cursor-pointer" data-id="state" data-get-param="id=111111">
                             <span class="glyphicon glyphicon-ok text-success"></span> 已绑定
                         </span>
                     </td>
@@ -62,7 +62,20 @@
                 </tr>
                 <tr>
                     <td><input type="checkbox" data-check="ids" name="ids[]" value="{$vo.id}"></td>
-                    <td>214514</td>
+                    <td>222222</td>
+                    <td>大山</td>
+                    <td>
+                        <span class="cursor-pointer" data-id="state" data-get-param="id=222222">
+                            <span class="glyphicon glyphicon-ok text-success"></span> 已绑定
+                        </span>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-danger btn-xs operator ajax-get" data-confirm="确认要执行吗?" data-loading-text="执行中..." data-url="{:U('delete','id='.$vo[id])}" autocomplete="off">解除绑定</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" data-check="ids" name="ids[]" value="{$vo.id}"></td>
+                    <td>333333</td>
                     <td>大山</td>
                     <td>
                         <span>
@@ -75,4 +88,40 @@
             </tbody>
         </table>
     </div>
+</block>
+
+<block name="script">
+    <script>
+    $(function(){
+
+        var url = $('table').data("url");
+        $('table').on('mouseover', "[data-id='state']", {url: url}, function(event) {
+            var $span = $(this);
+
+            if($span.data("state") !== "loaded") {
+                
+                $span.popover({
+                    container: "body",
+                    placement: "top",
+                    trigger: "hover",
+                });
+
+                var param = $span.data("get-param");
+
+                $.get(event.data.url+"&"+param).success(function(data){
+                    if (data.status) {
+                        $span.data("bs.popover").options.content = data.data;
+                        $span.popover("show");
+                    } else {
+                        $span.data("bs.popover").options.content = "绑定信息加载失败！";
+                        $span.popover("show");
+                    }
+                });
+
+                $span.data("state", "loaded");
+            }
+        });
+        
+    });
+    </script>
 </block>

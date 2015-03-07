@@ -52,4 +52,17 @@ class TestController extends BaseController {
     public function teacherBind() {
         $this->display();
     }
+
+    // 家长绑定
+    public function parentBind() {
+        if (IS_AJAX) {
+            $id = I("id");
+
+            $data['status']  = 1;
+            $data['data'] = "得到的数据为".$id;
+            $this->ajaxReturn($data);
+        }
+
+        $this->display();
+    }
 }
