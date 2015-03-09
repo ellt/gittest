@@ -68,4 +68,22 @@ class GlobalApi {
         return $teachInfo;
     }
     
+    
+    static public function getModelIdByName($modelName){
+        static  $modelList = null;
+        
+        
+        
+        if($modelList == null){
+            $modelList = D('model')->select();
+        }
+        
+        foreach ($modelList as $v){
+            if($v['name'] == $modelName){
+                return $v['id'];
+            }
+        }
+        return false;
+    }
+    
 }

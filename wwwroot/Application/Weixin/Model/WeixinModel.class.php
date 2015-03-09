@@ -23,17 +23,22 @@ class WeixinModel extends Model {
 		
 		// 读取http请求数据包中body的数据
 		$content = file_get_contents ( 'php://input' );
+		
+		addWeixinLog ( '$content', $content );
+		
+        if(!is_sae()){
+            // 测试数据,模拟接收到微信发来的消息 start
+            $content = "<xml><ToUserName><![CDATA[gh_4eb8678aea9b]]></ToUserName>
+<FromUserName><![CDATA[o5_e6jiSxOetXXTwEVx136fH35CI]]></FromUserName>
+<CreateTime>1425719184</CreateTime>
+<MsgType><![CDATA[text]]></MsgType>
+<Content><![CDATA[hi]]></Content>
+<MsgId>6123417268763648672</MsgId>
+</xml>";
+            // 测试数据,模拟接收到微信发来的消息 end
+        }
 
-		// 测试数据,模拟接收到微信发来的消息 start
-		// $content = "<xml>
-		// 			<ToUserName><![CDATA[gh_0866d74fbf97]]></ToUserName>
-		// 			<FromUserName><![CDATA[o17hItz6tZ_urAJF7wNrao3LiwoA]]></FromUserName> 
-		// 			<CreateTime>1417171442</CreateTime>
-		// 			<MsgType><![CDATA[text]]></MsgType>
-		// 			<Content><![CDATA[微官网]]></Content>
-		// 			<MsgId>6086704996416930273</MsgId>
-		// 			</xml>";
-		// 测试数据,模拟接收到微信发来的消息 end
+		
 
 		! empty ( $content ) || die ( '这是微信请求的接口地址，直接在浏览器里无效' );
 		
@@ -119,7 +124,7 @@ class WeixinModel extends Model {
 		$msg ['CreateTime'] = NOW_TIME;
 		$msg ['MsgType'] = $msgType;
 		
-		if($_REQUEST ['doNotInit']){
+		if($_REQUEST ['doNotInit'] || !is_sae()){
 			dump($msg);
 			exit;
 		}
