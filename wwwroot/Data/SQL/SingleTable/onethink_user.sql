@@ -10,20 +10,22 @@ Target Server Type    : MYSQL
 Target Server Version : 50621
 File Encoding         : 65001
 
-Date: 2015-01-09 02:28:59
+Date: 2015-03-09 17:40:07
 */
 
 SET FOREIGN_KEY_CHECKS=0;
 
--- ----------------------------
--- Table structure for `onethink_user`
--- ----------------------------
+
+
 DROP TABLE IF EXISTS `onethink_user`;
 CREATE TABLE `onethink_user` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '用户ID',
+  `user_type` tinyint(4) unsigned zerofill DEFAULT NULL,
   `username` char(16) NOT NULL COMMENT '用户名',
   `password` char(32) NOT NULL COMMENT '密码',
   `true_name` char(32) DEFAULT NULL COMMENT '真实姓名',
+  `pin2` varchar(255) NOT NULL COMMENT '工号或学号',
+  `chat_rel_id` varchar(255) DEFAULT NULL COMMENT '微信关联id',
   `email` char(32) NOT NULL COMMENT '用户邮箱',
   `mobile` char(15) NOT NULL COMMENT '用户手机',
   `reg_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '注册时间',
@@ -42,12 +44,4 @@ CREATE TABLE `onethink_user` (
 -- ----------------------------
 -- Records of onethink_user
 -- ----------------------------
-INSERT INTO `onethink_user` VALUES ('1', 'root', '149bb7ed74d9bf6f2781ed39fc520893', null, 'mrji1990@gmail.com', '', '1417342882', '2130706433', '1420741602', '2130706433', '1417342882', '0', '1');
-INSERT INTO `onethink_user` VALUES ('2', 's2', '149bb7ed74d9bf6f2781ed39fc520893', null, 'mrji1991@gmail.com', '13423997110', '1417342882', '2130706433', '1420738623', '2130706433', '1417342882', '0', '1');
-INSERT INTO `onethink_user` VALUES ('3', 's3', '149bb7ed74d9bf6f2781ed39fc520893', null, 'mrji1992@gmail.com', '13423997110', '1417342882', '2130706433', '1420733392', '2130706433', '1417342882', '8', '1');
-INSERT INTO `onethink_user` VALUES ('4', 's4', '149bb7ed74d9bf6f2781ed39fc520893', null, 'mrji1993@gmail.com', '13423997110', '1417342882', '2130706433', '1420733392', '2130706433', '1417342882', '8', '1');
-INSERT INTO `onethink_user` VALUES ('5', 's5', '149bb7ed74d9bf6f2781ed39fc520893', null, 'mrji1994@gmail.com', '13423997110', '1417342882', '2130706433', '1420733392', '2130706433', '1417342882', '8', '1');
-INSERT INTO `onethink_user` VALUES ('6', 's6', '149bb7ed74d9bf6f2781ed39fc520893', null, 'mrji1995@gmail.com', '13423997110', '1417342882', '2130706433', '1420733392', '2130706433', '1417342882', '8', '1');
-INSERT INTO `onethink_user` VALUES ('7', 's7', '149bb7ed74d9bf6f2781ed39fc520893', null, 'mrji1996@gmail.com', '13423997110', '1417342882', '2130706433', '1420733392', '2130706433', '1417342882', '8', '1');
-INSERT INTO `onethink_user` VALUES ('8', 's8', '149bb7ed74d9bf6f2781ed39fc520893', null, 'mrji1997@gmail.com', '13423997110', '1417342882', '2130706433', '1420733392', '2130706433', '1417342882', '8', '1');
-INSERT INTO `onethink_user` VALUES ('9', 's9', '149bb7ed74d9bf6f2781ed39fc520893', null, 'mrji1998@gmail.com', '13423997110', '1417342882', '2130706433', '1420733392', '2130706433', '1417342882', '8', '1');
+INSERT INTO `onethink_user` VALUES ('1', null, 'root', '149bb7ed74d9bf6f2781ed39fc520893', null, 'mrji1990@gmail.com', '', '1417342882', '2130706433', '1424914282', '2130706433', '1417342882', '0', '1', '0', '1');

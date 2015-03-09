@@ -371,3 +371,29 @@ function get_action_type($type, $all = false){
 	}
 	return $list[$type];
 }
+
+/**
+ * 执行SQL文件
+ */
+function execute_sql_file($sql_path) {
+    // 读取SQL文件
+    $sql = file_get_contents ( $sql_path );
+    $sql = str_replace ( "\r", "\n", $sql );
+    $sql = explode ( ";\n", $sql );
+
+    // 替换表前缀
+    $orginal = 'wp_';
+    $prefix = C ( 'DB_PREFIX' );
+    $sql = str_replace ( "{$orginal}", "{$prefix}", $sql );
+
+    // 开始安装
+    foreach ( $sql as $value ) {
+        $value = trim ( $value );
+        if (empty ( $value ))
+            continue;
+
+        $res = M ()->execute ( $value );
+        // dump($res);
+        // dump(M()->getLastSql());
+    }
+}

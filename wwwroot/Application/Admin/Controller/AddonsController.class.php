@@ -353,7 +353,7 @@ str;
             $config         =   array('config'=>json_encode($addons->getConfig()));
             $addonsModel->where("name='{$addon_name}'")->save($config);
             $hooks_update   =   D('Hooks')->updateHooks($addon_name);
-            if($hooks_update){
+            if($hooks_update || $info['status'] == 1){
                 S('hooks', null);
                 $this->success('安装成功');
             }else{
