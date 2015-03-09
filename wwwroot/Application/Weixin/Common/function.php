@@ -50,11 +50,11 @@ function msubstr_local($str, $start = 0, $length, $charset = "utf-8") {
 }
 
 function get_truename($uid) {
-	$info = D ( 'Home/Member' )->getMemberInfo ( $uid );
-	return $info ['truename'];
+	$info = D ( 'Common/Teacher','Logic' )->getTeacherInfoById ( $uid );
+	return $info ['true_name'];
 }
 function get_memberinfo($uid) {
-	return D ( 'Home/Member' )->getMemberInfo ( $uid );
+	return $info = D ( 'Common/Teacher','Logic' )->getTeacherInfoById ( $uid );;
 }
 function get_followinfo($id) {
 	return D ( 'Common/Follow' )->getFollowInfo ( $id );

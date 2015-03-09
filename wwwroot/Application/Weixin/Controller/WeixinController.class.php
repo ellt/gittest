@@ -60,10 +60,7 @@ class WeixinController extends BaseController {
 		$this->token = $data ['ToUserName'];
 		
 		// 公众号粉丝信息初始化
-		//$this->initFollow ( $weixin, $data );
-		
-		// 记录日志
-		addWeixinLog ( $data, $GLOBALS ['HTTP_RAW_POST_DATA'] );
+		$this->initFollow ( $weixin, $data );
 		
 		// 回复数据
 		$this->reply ( $data, $weixin );
@@ -161,21 +158,25 @@ class WeixinController extends BaseController {
 					$forbit_addon 
 			);
 		}
-		$like ['token'] = array (
-				'exp',
-				"='0' or token='{$this->token}'" 
-		);
+// 		$like ['token'] = array (
+// 				'exp',
+// 				"='0' or token='{$this->token}'" 
+// 		);
 		
-		if (! isset ( $addons [$key] )) {
+		if (! isset ( $addons [$key] )) { //全词匹配
 			$like ['keyword'] = $key;
 			$like ['keyword_type'] = 0;
 			$keywordArr = M ( 'keyword' )->where ( $like )->order ( 'id desc' )->find ();
-			addWeixinLog ( M ()->getLastSql (), 'addon1' );
+			
 			if (! empty ( $keywordArr ['addon'] )) {
+			    
 				$addons [$key] = $keywordArr ['addon'];
 				$this->request_count ( $keywordArr );
 			}
 		}
+		
+		addWeixinLog ( M ()->getLastSql (), 'addon1' );
+		
 		// 通过模糊关键词来定位处理的插件
 		if (! isset ( $addons [$key] )) {
 			unset ( $like ['keyword'] );
@@ -201,8 +202,7 @@ class WeixinController extends BaseController {
 				$addons [$key] = $keywordArr ['addon'];
 				$this->request_count ( $keywordArr );
 			}
-		}
-		addWeixinLog ( M ()->getLastSql (), 'addon3' );
+			addWeixinLog ( M ()->getLastSql (), 'addon3' );
 		// 以上都无法定位插件时，如果开启了智能聊天，则默认使用智能聊天插件
 		if (! isset ( $addons [$key] ) && isset ( $addon_list ['Chat'] )) {
 			
@@ -219,11 +219,14 @@ class WeixinController extends BaseController {
 		if (! isset ( $addons [$key] ) || ! file_exists ( ONETHINK_ADDON_PATH . $addons [$key] . '/Model/WeixinAddonModel.class.php' )) {
 			return false;
 		}
-		addWeixinLog ( $addons [$key], 'addon2' );
+		
 		// 加载相应的插件来处理并反馈信息
 		require_once ONETHINK_ADDON_PATH . $addons [$key] . '/Model/WeixinAddonModel.class.php';
 		$model = D ( 'Addons://' . $addons [$key] . '/WeixinAddon' );
 		$model->reply ( $data, $keywordArr );
+		
+		
+		!is_sae() && dump('*****end*******');
 		
 		// 暂时不使用统计功能 modify by Guoky
 		// 运营统计

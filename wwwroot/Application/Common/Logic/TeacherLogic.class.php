@@ -11,6 +11,7 @@
 namespace Common\Logic;
 use Think\Model\RelationModel;
 use User\Api\UserApi;
+use Common\Api\GlobalApi;
 
 /**
  * 老师逻辑定义
@@ -126,11 +127,30 @@ class TeacherLogic extends RelationModel
     }
     
     public function getTeacherInfoById($id){
-        return $this->where("id=$id")->relation(true)->find();
+        $map['id'] = $id;
+        $map['user_extern_model_id'] = GlobalApi::getModelIdByName('teacher');
+        return $this->where($map)->relation(true)->find();
+    }
+    
+    public function getTeacherInfoByPin2($pin2){
+        $map['pin2'] = $pin2;
+        $map['user_extern_model_id'] = GlobalApi::getModelIdByName('teacher');
+        return $this->where($map)->relation(true)->find();
     }
     
     public function deleteOneTeacher($id){
         return $this->where("id=$id")->relation(true)->delete();
+    }
+    
+    public function teacherBindChatId($chatRelId, $pin2){
+        $map['chat_rel_id'] = $chatRelId;
+        $map['user_extern_model_id'] = GlobalApi::getModelIdByName('teacher');
+        $baseModel = D('user');
+        $baseModel->where($map)->setField('chat_rel_id', 0); // 解除已有的教师绑定
+        dump($this->getLastSql());
+        $ret = $baseModel->where("pin2=" . $pin2)->setField('chat_rel_id', $chatRelId);
+        dump($this->getLastSql());
+        return $ret;
     }
     
 }

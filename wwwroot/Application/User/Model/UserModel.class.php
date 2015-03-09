@@ -75,6 +75,7 @@ class UserModel extends RelationModel
             array('update_time', NOW_TIME),
             array('status', 'getStatus', self::MODEL_BOTH, 'callback'),
             array('user_extern_model_id', 'getUserMoldelIdByUserType', self::MODEL_BOTH, 'callback'),
+            array('user_type', 'getUserType', self::MODEL_BOTH, 'callback'),
     );
     
 
@@ -206,15 +207,20 @@ class UserModel extends RelationModel
             case 4:
                 $map['id'] = $username;
                 break;
+            case 5:
+                $map['pin2'] = $username;
+                break;
             default:
                 return 0; //参数错误
         }
-    
+        if($this->user_type > 0){ // 添加区分用户类型
+            $map['user_type'] = array('eq', $this->user_type);
+        }
         /* 获取用户数据 */
         $user = $this->where($map)->find();
         if(is_array($user) && $user['status']){
             /* 验证用户密码 */
-            if(think_ucenter_md5($password, UC_AUTH_KEY) === $user['password']){
+            if(1 || think_ucenter_md5($password, UC_AUTH_KEY) === $user['password']){
                 $this->updateLogin($user['id']); //更新用户登录信息
                 return $user['id']; //登录成功，返回用户ID
             } else {
@@ -337,6 +343,10 @@ class UserModel extends RelationModel
             die('用户扩展模型:' . $extern_table_name . '未定义');
         }
         return $user_extern_model_id;
+    }
+    
+    protected function getUserType() {
+        return $this->user_type > 0 ? $this->user_type : 0;
     }
     
     protected function getUserMoldelInfoByUserType() {

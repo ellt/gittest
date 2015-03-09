@@ -2,22 +2,30 @@
 
 <block name="content">
     <div class="col-xs-12">
-        <form class="form-horizontal" action="{:U('login')}" method="post">
+        <form class="form-horizontal" action="{:U('Bind/teacher')}" method="post">
             <h1><strong>教师账号绑定</strong></h1>
             <div class="form-group has-feedback">
                 <label class="sr-only" for="username">教师工号</label>
                 <div class="col-xs-12">
-                    <input type="text" class="form-control input-lg" id="username" name="username" data-container="body" data-toggle="popover" data-placement="top" data-trigger="focus" placeholder="教师工号">
+                    <input type="text" class="form-control input-lg" id="pin2" name="pin2"  value="{$pin2}" data-container="body" data-toggle="popover" data-placement="top" data-trigger="focus" placeholder="教师工号">
+                    <span class="form-control-feedback"></span>
+                </div>
+            </div>
+             <div class="form-group has-feedback">
+                <label class="sr-only" for="true_name">教师姓名</label>
+                <div class="col-xs-12">
+                    <input type="text" class="form-control input-lg" id="true_name" name="true_name" value="{$true_name}" data-container="body" data-toggle="popover" data-placement="top">
                     <span class="form-control-feedback"></span>
                 </div>
             </div>
             <div class="form-group has-feedback">
-                <label class="sr-only" for="name">教师姓名</label>
+                <label class="sr-only" for="name">绑定密码</label>
                 <div class="col-xs-12">
-                    <input type="text" class="form-control input-lg" id="name" name="true_name" data-container="body" data-toggle="popover" data-placement="top" data-trigger="focus" placeholder="教师姓名">
+                    <input type="text" class="form-control input-lg" id="passwd" name="passwd" data-container="body" data-toggle="popover" data-placement="top" data-trigger="focus" placeholder="绑定密码">
                     <span class="form-control-feedback"></span>
                 </div>
             </div>
+            <input type="hidden" name="openid" value={$openid}>
             <div class="form-group">
                 <div class="col-xs-12">
                     <button type="submit" class="btn btn-primary btn-lg btn-block" data-loading-text="登录中..." autocomplete="off">立即登录</button>

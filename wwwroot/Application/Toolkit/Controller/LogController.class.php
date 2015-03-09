@@ -86,5 +86,19 @@ class LogController extends ToolkitController
         $this->success("清除成功");
 
     }
+    
+    public function dumpDBlog(){
+//         M ( 'weixin_log' )->list();
+       $m = M ('weixin_log' );
+       $logs =  $m->order('id')->field('data,data_post') ->select();
+       foreach ($logs as $k => $v){
+           if(unserialize($v['data'])){
+              $v['data'] = unserialize($v['data']);
+           }
+           dump($v);
+       }
+       
+       $m->where('id >0')->delete();
+    }
 
 }

@@ -1225,4 +1225,10 @@ function get_model_table_data($contorller, $model = null, $p = 0){
     }
     return conver_girds_data_to_table($grids, $data);
 }
+
+
+
+function is_sae() {
+    return function_exists('saeAutoLoader');
+}
 //-----增加的函数  add by jigc -----end

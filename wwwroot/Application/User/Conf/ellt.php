@@ -14,6 +14,6 @@
 
 define('UC_APP_ID', 1); //应用ID
 define('UC_API_TYPE', 'Model'); //可选值 Model / Service
-define('UC_AUTH_KEY', 'CfDQ("JSZz83BL6]$HV[eM7UK,p{@cj!0/`iyqTF'); //加密KEY
+define('UC_AUTH_KEY', '^U8ey|+w`R{0!Fr3Z(7&N>4ELG.;}@2jt#AS)*xa'); //加密KEY
 define('UC_DB_DSN', 'mysqli://xjolml0jn1:2kykl3i14jwkkwlw4mkhy4x04x0yyw41l01yjj5y@w.rdc.sae.sina.com.cn:3307/app_ellt'); // 数据库连接，使用Model方式调用API必须配置此项
 define('UC_TABLE_PREFIX', 'onethink_'); // 数据表前缀，使用Model方式调用API必须配置此项

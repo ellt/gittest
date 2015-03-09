@@ -39,16 +39,17 @@ abstract class BaseController {
      * @access public
      */
     public function __construct() {
+        
         Hook::listen('action_begin',$this->config);
         //实例化视图类
         $this->view     = Think::instance('Think\View');
         //控制器初始化
         if(method_exists($this,'_initialize'))
             $this->_initialize();
-        
+       
         if (strtolower ( MODULE_NAME ) != 'install') {
             $this->initSite ();
-            //$this->initUser ();
+            $this->initUser ();
         }
     }
 
@@ -110,6 +111,7 @@ abstract class BaseController {
      * @return void
      */
     private function initUser() {
+        
         $index_1 = strtolower ( MODULE_NAME . '/*/*' );
         $index_2 = strtolower ( MODULE_NAME . '/' . CONTROLLER_NAME . '/*' );
         $index_3 = strtolower ( MODULE_NAME . '/' . CONTROLLER_NAME . '/' . ACTION_NAME );
@@ -130,7 +132,7 @@ abstract class BaseController {
         
         if (! is_login () && ! $guest_login) {
             Cookie ( '__forward__', $_SERVER ['REQUEST_URI'] );
-            redirect ( U ( 'home/user/login' ) );
+            redirect ( U ( 'UserCenter/Public/login' ) );
         }
         
         // 当前登录者
@@ -144,41 +146,24 @@ abstract class BaseController {
         $this->assign ( 'mid', $this->mid ); // 登录者
         $this->assign ( 'uid', $this->uid ); // 访问对象
         $this->assign ( 'myinfo', $GLOBALS ['myinfo'] ); // 访问对象
-                                                         
+            
+
         // 管理中心里的公众号列表
         if ($this->mid) {
-            $link = M ( 'member_public_link' )->where ( 'uid=' . $this->mid )->order ( 'is_use desc' )->select ();
-            foreach ( $link as $l ) {
-                $mp_ids [] = $l ['mp_id'];
-                $is_use [$l ['mp_id']] = $l ['is_use'];
+            $map['id'] = array('eq', 1 );
+            
+            $member_public_list = M('member_public')->where($map)->order('FIND_IN_SET(id,"' . $mp_ids . '")')->select();
+            $member_public = $member_public_list[0];
+            $this->assign('member_public', $member_public);
+//             dump($member_public);die();
+            $token = get_token();
+            if ($member_public['public_id'] && ($is_use[$member_public['id']] == 0 || $token == '' || $token == -1)) {
+                get_token($member_public['public_id']);
             }
-            $mp_ids = getSubByKey ( $link, 'mp_id' );
-            if (! empty ( $mp_ids )) {
-                /**
-                 * <!-- 切换显示优化,QQ:125682133 -->*
-                 */
-                $this->assign ( 'mp_ids_list', count ( $mp_ids ) );
-                $mp_ids = implode ( ',', $mp_ids );
-                $map ['id'] = array (
-                        'in',
-                        $mp_ids 
-                );
-                
-                $member_public_list = M ( 'member_public' )->where ( $map )->order ( 'FIND_IN_SET(id,"' . $mp_ids . '")' )->select ();
-                $member_public = $member_public_list [0];
-                $this->assign ( 'member_public', $member_public );
-
-                $token = get_token ();
-                if ($member_public ['public_id'] && ($is_use [$member_public ['id']] == 0 || $token == '' || $token == - 1)) {
-                    get_token ( $member_public ['public_id'] );
-                }
-                
-                unset ( $member_public_list [0] );
-                $this->assign ( 'member_public_list', $member_public_list );
-            } else {
-                $this->assign ( 'mp_ids_list', 0 );
-            }
-        }
+            
+            unset($member_public_list[0]);
+            $this->assign('member_public_list', $member_public_list);
+        } 
     }
     // 公众号粉丝信息初始化
     function initFollow($dao = false, $data = array()) {
@@ -197,57 +182,59 @@ abstract class BaseController {
             return true;
         }
         
-        // 当前粉丝信息
+//         // 当前粉丝信息
         $map ['openid'] = get_openid ();
+//         dump($map);die();
         $user = M ( 'follow' )->where ( $map )->find ();
         if (! $user && ! empty ( $map ['token'] ) && $map ['token'] != '-1' && ! empty ( $map ['openid'] ) && $map ['openid'] != '-1') {
-                D ( 'Common/Follow' )->init_follow ( $map ['openid'] );
-                $user = M ( 'follow' )->where ( $map )->find ();
+            A('Bind')->hint(get_openid ());
+//                 D ( 'Common/Follow' )->init_follow ( $map ['openid'] );
+//                 $user = M ( 'follow' )->where ( $map )->find ();
         }
 
         // 绑定配置
-        $config = getAddonConfig ( 'UserCenter' );
-	$guestAccess = strtolower ( CONTROLLER_NAME ) != 'weixin';
-	$isWeixnLogin = ! empty ( $map ['token'] ) && ! empty ( $map ['openid'] ) && $map ['token'] != - 1 && $map ['token'] != - 1;
-	$userNeed = ($user ['id'] > 0 && $user ['status'] < 2) || (empty ( $user ) && $guestAccess);
-	if ($isWeixnLogin && $config ['need_bind'] == 1 && $userNeed) {
-		$bind_url = addons_url ( 'UserCenter://UserCenter/userCenter', $map );
-		if ($dao === false) {
-			if ($config ['bind_start'] != 1 && strtolower ( $_REQUEST ['_addons'] ) != 'usercenter') {
-				Cookie ( '__forward__', $_SERVER ['REQUEST_URI'] );
-				redirect ( $bind_url );
-			}
-		} else {
-			if ($config ['bind_start'] != 0 && strtolower ( $data ['Event'] ) != 'subscribe') {
-				$dao->replyText ( '请先<a href="' . $bind_url . '">绑定账号</a>再使用' );
-				exit ();
-			}
-		}
-	}
+//         $config = getAddonConfig ( 'UserCenter' );
+// 	$guestAccess = strtolower ( CONTROLLER_NAME ) != 'weixin';
+// 	$isWeixnLogin = ! empty ( $map ['token'] ) && ! empty ( $map ['openid'] ) && $map ['token'] != - 1 && $map ['token'] != - 1;
+// 	$userNeed = ($user ['id'] > 0 && $user ['status'] < 2) || (empty ( $user ) && $guestAccess);
+// 	if ($isWeixnLogin && $config ['need_bind'] == 1 && $userNeed) {
+// 		$bind_url = addons_url ( 'UserCenter://UserCenter/userCenter', $map );
+// 		if ($dao === false) {
+// 			if ($config ['bind_start'] != 1 && strtolower ( $_REQUEST ['_addons'] ) != 'usercenter') {
+// 				Cookie ( '__forward__', $_SERVER ['REQUEST_URI'] );
+// 				redirect ( $bind_url );
+// 			}
+// 		} else {
+// 			if ($config ['bind_start'] != 0 && strtolower ( $data ['Event'] ) != 'subscribe') {
+// 				$dao->replyText ( '请先<a href="' . $bind_url . '">绑定账号</a>再使用' );
+// 				exit ();
+// 			}
+// 		}
+// 	}
         
-        if (! $user) {
-            $user ['status'] = 0; // 未关注、游客
+//         if (! $user) {
+//             $user ['status'] = 0; // 未关注、游客
             
-            $user ['id'] = session ( 'mid' );
-            if (! $user ['id']) {
-                $youke_uid = M ( 'config' )->where ( 'name="FOLLOW_YOUKE_UID"' )->getField ( 'value' ) - 1;
-                $user ['id'] = $youke_uid;
-                M ( 'config' )->where ( 'name="FOLLOW_YOUKE_UID"' )->setField ( 'value', $youke_uid );
-            }
-        }
-        $user ['uid'] = $user ['id'];
+//             $user ['id'] = session ( 'mid' );
+//             if (! $user ['id']) {
+//                 $youke_uid = M ( 'config' )->where ( 'name="FOLLOW_YOUKE_UID"' )->getField ( 'value' ) - 1;
+//                 $user ['id'] = $youke_uid;
+//                 M ( 'config' )->where ( 'name="FOLLOW_YOUKE_UID"' )->setField ( 'value', $youke_uid );
+//             }
+//         }
+//         $user ['uid'] = $user ['id'];
         
-        // 当前登录者
-        $GLOBALS ['mid'] = $this->mid = intval ( $user ['uid'] );
-        $GLOBALS ['user'] = $user;
+//         // 当前登录者
+//         $GLOBALS ['mid'] = $this->mid = intval ( $user ['uid'] );
+//         $GLOBALS ['user'] = $user;
         
-        // 当前访问对象的uid
-        $GLOBALS ['uid'] = $this->uid = intval ( $_REQUEST ['uid'] == 0 ? $this->mid : $_REQUEST ['uid'] );
+//         // 当前访问对象的uid
+//         $GLOBALS ['uid'] = $this->uid = intval ( $_REQUEST ['uid'] == 0 ? $this->mid : $_REQUEST ['uid'] );
         
-        $this->assign ( 'mid', $this->mid ); // 登录者
-        $this->assign ( 'uid', $this->uid ); // 访问对象
+//         $this->assign ( 'mid', $this->mid ); // 登录者
+//         $this->assign ( 'uid', $this->uid ); // 访问对象
         
-        session ( 'mid', $this->mid );
+//         session ( 'mid', $this->mid );
         session ( 'is_follow_login', 1 ); // 记录这是粉丝的信息，以便与管理员的登录信息区分
     }
     
