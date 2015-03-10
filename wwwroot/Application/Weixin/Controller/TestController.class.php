@@ -16,7 +16,7 @@ namespace Weixin\Controller;
 class TestController extends BaseController {
     
     public function index() {
-        $this->redirect('login');
+        $this->redirect('myinfo');
     }
 
     public function login() {
@@ -45,6 +45,10 @@ class TestController extends BaseController {
             $this->ajaxReturn($data);
         }
 
+        $this->display();
+    }
+
+    public function teacherLogin() {
         $this->display();
     }
 
@@ -87,6 +91,14 @@ class TestController extends BaseController {
             $this->ajaxReturn($data);
         }
 
+        $this->display();
+    }
+
+    public function myinfo() {
+        $this->display();
+    }
+
+    public function familyManager() {
         $this->display();
     }
 }

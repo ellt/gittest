@@ -1,0 +1,36 @@
+<div class="modal" id="myModal" data-url="{:U('getTeacherInitInfo')}" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+            <p>将<span>谢珊珊(母亲)</span>移出该家庭，将同时删除与之相关联的信息</p>
+            </div>
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col-xs-6">
+                        <button type="submit" class="btn btn-primary btn-block" data-submit="modal" data-target="#myModalForm" data-url="{:U('setTeacherInfo')}" data-loading-text="提交中..." autocomplete="off">确 定</button>  
+                    </div>
+                    <div class="col-xs-6">
+                        <button type="button" class="btn btn-default btn-block" data-dismiss="modal">取 消</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+$(function(){
+    // 初始化
+    $("#myModal").on('show.bs.modal', function (e) {
+        var name = $(e.relatedTarget).data("info-name");
+        var relation = $(e.relatedTarget).data("info-relation");
+        var manager = $(e.relatedTarget).data("info-manager");
+
+        if (manager) {
+            
+        } else {
+            $(".modal-body", this).find("span").html(name + "(" + relation + ")");
+        }
+    });
+});
+</script>

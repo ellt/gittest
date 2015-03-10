@@ -1,0 +1,46 @@
+body {
+  background-color: #f5f5f5;
+}
+
+.section {
+  margin: 20px -15px;
+  background-color: #fff;
+  border-top: 1px solid #EBEBEB;
+}
+
+.section .title {
+  padding: 20px 15px;
+  font-size: 18px;
+  line-height: 20px;
+  color: #333;
+  font-weight: bold;
+}
+
+.section .content .heading {
+  margin: 0 15px;
+  padding: 15px 0;
+  font-size: 16px;
+  font-weight: bold;
+  border-top: 1px solid #f4f4f4;
+}
+
+.title a:link,
+.title a:visited,
+.heading a:link,
+.heading a:visited {
+    color: #337ab7;
+}
+
+.list-group .list-group-item {
+  display: block;
+  padding: 12px 15px;
+  color: #000;
+  border: 0;
+}
+
+.list-group .list-group-item p {
+  margin: 0;
+  margin-top: -12px;
+  padding-top: 12px;
+  border-top: 1px solid #f4f4f4;
+}
