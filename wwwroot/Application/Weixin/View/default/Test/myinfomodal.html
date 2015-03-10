@@ -2,12 +2,11 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-body">
-            <p>将<span>谢珊珊(母亲)</span>移出该家庭，将同时删除与之相关联的信息</p>
             </div>
             <div class="modal-footer">
                 <div class="row">
                     <div class="col-xs-6">
-                        <button type="submit" class="btn btn-primary btn-block" data-submit="modal" data-target="#myModalForm" data-url="{:U('setTeacherInfo')}" data-loading-text="提交中..." autocomplete="off">确 定</button>  
+                        <button type="submit" class="btn btn-primary btn-block" data-url="{:U('delete')}" data-submit="custom" autocomplete="off">确 定</button>  
                     </div>
                     <div class="col-xs-6">
                         <button type="button" class="btn btn-default btn-block" data-dismiss="modal">取 消</button>
@@ -25,12 +24,33 @@ $(function(){
         var name = $(e.relatedTarget).data("info-name");
         var relation = $(e.relatedTarget).data("info-relation");
         var manager = $(e.relatedTarget).data("info-manager");
-
+        var msg;
         if (manager) {
-            
+            msg = name + "(" + relation + ")是家庭管理员，不能移出，请问您是要将该家庭组解散吗？";
         } else {
-            $(".modal-body", this).find("span").html(name + "(" + relation + ")");
+            msg = "将" + name + "(" + relation + ")移出该家庭，将同时删除与之相关联的信息";
         }
+        $(".modal-body", this).html(msg);
+
+        var param = $(e.relatedTarget).data("submit-param");
+        $(this).data("param", param);
+    });
+
+    $("[data-submit='custom']", "#myModal").click(function(e) {
+        //取消默认动作，防止表单两次提交
+        e.preventDefault();
+
+        var url = $(this).attr('data-url');
+        var param = $("#myModal").data("param");
+        
+        //发送到服务器
+        $.get(url+"&"+param).success(function(data){
+            if (data.status) {
+                $("#myModal").modal('hide');
+                location.href = location.href;
+            } else {
+            }
+        });
     });
 });
 </script>

@@ -101,4 +101,10 @@ class TestController extends BaseController {
     public function familyManager() {
         $this->display();
     }
+
+    public function delete() {
+        $data['status']  = 1;
+        $data['url'] = "refresh";
+        $this->ajaxReturn($data);
+    }
 }
