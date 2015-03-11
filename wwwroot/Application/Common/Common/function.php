@@ -1226,7 +1226,16 @@ function get_model_table_data($contorller, $model = null, $p = 0){
     return conver_girds_data_to_table($grids, $data);
 }
 
-
+function format_DB_error_info($dbErrorMsg){
+    if (is_array($dbErrorMsg)) {
+        foreach ($dbErrorMsg as $k => $v) {
+            $uiErrorMsg[$k]['errorInfo'] = $v;
+        }
+    } else {
+        $uiErrorMsg['all']['errorInfo'] = $dbErrorMsg;
+    }
+    return $uiErrorMsg;
+}
 
 function is_sae() {
     return function_exists('saeAutoLoader');

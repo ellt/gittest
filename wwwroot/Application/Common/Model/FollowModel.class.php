@@ -55,6 +55,38 @@ class FollowModel extends Model {
         }
     }
     
+    public function updateFamilyFollowInfo($openid, $name, $relation, $mobile){
+        
+        $update_success_id = false;
+        $data['openid'] = $openid;
+        
+        $data = $this->where($data)->find();
+        
+        $data['openid'] = $openid;
+        $data['subscribe_time'] = time();
+        $data['name'] = $name;
+        $data['family_role'] = $relation;
+        $data['mobile'] = $mobile;
+        
+        
+        if (empty($data['id'])) {
+                $data['auth_code'] = $this->createAuthCode();
+                $update_success_id = $this->add($data);
+                if(false === $update_success_id){
+                    return false;
+                }
+        }else{
+            $update_success_id = $this->save($data);
+            if(false === $update_success_id){
+                return false;
+            }else{
+                $update_success_id = $data['id'];
+            }
+        }
+        return $update_success_id;
+        
+    }
+    
     /**
      * 获取粉丝全部信息
      */
@@ -84,9 +116,9 @@ class FollowModel extends Model {
             $m = M()->table($l_table . ' a')->join($r_table . ' b ON a.member_id=b.id');
             
             $familyInfo = $m->where($map)->select();
-            dump($m->getLastSql());
+//             dump($m->getLastSql());
             if ($familyInfo) {
-                return $familyInfo;
+                return true;
             }
         }
         
@@ -100,10 +132,10 @@ class FollowModel extends Model {
             $m = M()->table($l_table . ' a')->join($r_table . ' b ON a.pin2=b.pin2');
             
             $teacherInfo = $m->where($map)->field("subscribe_time,true_name,a.pin2")->find();
-            dump($m->getLastSql());
+//             dump($m->getLastSql());
             if ($teacherInfo) {
-                dump($teacherInfo);
-                return $teacherInfo;
+//                 dump($teacherInfo);
+                return true;
             }
             
             
@@ -174,7 +206,7 @@ class FollowModel extends Model {
         }
         
         $followInfo = $this->initFollow($openid);
-//         dump($followInfo);
+//         dump($studentInfo);die();
         if ($studentInfo['chat_rel_id'] > 0) {
             if ($studentInfo['chat_rel_id'] == $followInfo['id']) {
                 $this->error = '该学生已经加入本家庭组，无需再添加！';
@@ -182,6 +214,7 @@ class FollowModel extends Model {
             } else { // 学生已经有家庭组，将本openId需要提升用户将本openId也加入到家庭组里
                 $master_id = $studentInfo['chat_rel_id'];
                 $masterInfo = $this->getFollowInfo($master_id);
+//                 dump($masterInfo);die($this->getLastSql() );
                 if (!$masterInfo) { // 未知错误
                     $this->error = '学生已经加入了家庭组，但是找不到相应家庭组管理员，请联系系统管理员查明原因！';
                     return false;
@@ -201,7 +234,7 @@ class FollowModel extends Model {
                         $familyGroup->add($data);
                     }else{
                         $this->error = '该学生已经加入本家庭组，无需再添加！';
-                        return true;
+                        return false;
                     }
                     return true;
                 }

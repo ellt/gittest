@@ -45,69 +45,50 @@ class BindController extends Controller {
     }
     
     public function family($openid){
+        
         $this->model = D('Common/Follow');
-//         $followInfo = $this->model->initFollow($openid);
-//         dump($followInfo);die();
+        
         if(IS_POST){
             $openid = I('openid');
             $pin2 = I('pin2');
             $name = I('true_name');
             $authCode = I('auth_code');
-//             dump($_POST);die();
-            $ret = $this->model->bindOneStudent($openid, $pin2, $name, $authCode);
             
-            if($ret === false){
-                $dbErrorMsg = $this->model->getError();
-                if (is_array($dbErrorMsg)) {
-                    foreach ($dbErrorMsg as $k => $v) {
-                        $uiErrorMsg[$k]['errorInfo'] = $v;
-                    }
-                }else{
-                    $uiErrorMsg['all']['errorInfo'] = $dbErrorMsg;
+            
+            // 家长信息
+            $bindFlag = I('bind_flag');// 是否曾经绑定过的标志
+            $parentName = I('parent_name');
+            $parentMobile = I('parent_mobile');
+            $relation = I('relation');
+//             dump($_POST);die();
+            
+            if(!$bindFlag){ // 处理微信号用户信息
+                $ret = $this->model->updateFamilyFollowInfo($openid, $parentName, $relation, $parentMobile);
+                if ($ret === false) {
+                    $data['status'] = 0;
+                    $data['hint'] = format_DB_error_info($this->model->getError());
+                    $this->ajaxReturn($data);
                 }
-        
+            }
+            
+            $ret = $this->model->bindOneStudent($openid, $pin2, $name, $authCode);
+            if($ret === false){
                 $data['status'] = 0;
-                $data['hint'] = $uiErrorMsg;
+                $data['hint'] = format_DB_error_info($this->model->getError());;
                 $this->ajaxReturn($data);
             }else{
                 $this->success('绑定成功！',U('Bind/myinfo','openid='.$openid), IS_AJAX);
             }
+            return;
+        } else {
+            
+            $bindFlag = $this->model->checkFollowIsBind($openid, 1);
+            $this->assign('bind_flag', $bindFlag);
+            $this->assign('openid', $openid);
+            $this->display('Test/login');
         }
-
-        $this->assign('openid', $openid);
-        $this->display('Test/login');
     }
     
-    public function joinFamily($openid){
-        if(IS_POST){
-            $openid = I('openid');
-            $pin2 = I('pin2');
-            $name = I('true_name');
-             
-            $ret = $this->model->bindOneStudent($openid, $pin2, $name);
-        
-            if($ret === false){
-                $dbErrorMsg = $this->model->getError();
-                if (is_array($dbErrorMsg)) {
-                    foreach ($dbErrorMsg as $k => $v) {
-                        $uiErrorMsg[$k]['errorInfo'] = $v;
-                    }
-                }else{
-                    $uiErrorMsg['hold']['errorInfo'] = $dbErrorMsg;
-                }
-        
-                $data['status'] = 0;
-                $data['hint'] = $uiErrorMsg;
-                
-                $this->ajaxReturn($data);
-            }else{
-                $this->success('绑定成功！',U('Bind/myinfo','openid='.$openid), IS_AJAX);
-            }
-        }
-         
-        $this->assign('openid', $openid);
-        $this->display('Test/login');
-    }
     
     public function myinfo($openid){
         // 获取个人信息
@@ -124,7 +105,6 @@ class BindController extends Controller {
         // 获取我的家庭信息
         
         // 获取孩子信息
-//         D('Common/Student', 'Logic')->getStudentInfoByFamily();
 
         $this->assign('openid', $openid);
         $this->assign('personal', $personalInfo);
@@ -133,7 +113,6 @@ class BindController extends Controller {
     }
     
     public function teacher($openid){
-//         dump('111');die();
         $info = $this->model->checkFollowIsBind($openid, 2);
         if(IS_POST){
             $openid = I('openid');
