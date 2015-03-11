@@ -33,57 +33,60 @@
             <div class="content">
                 <div class="list-group">
                     <div class="list-group-item">
-                        <p>姓名<span class="pull-right">李忠胜</span></p>
+                        <p>姓名<span class="pull-right">"{$personal.name}"</span></p>
                     </div>
                     <a class="list-group-item">
-                        <p>手机<span class="pull-right">1346578454</span></p>
+                        <p>手机<span class="pull-right">"{$personal.mobile}"</span></p>
                     </a>
                 </div>
             </div>
         </div>
+        
         <div class="section">
-            <div class="title">
-                我管理的家庭
-                <a class="pull-right" id="manager" data-state=false href="javascript:;"><i class="fa fa-cog fa-fw"></i> <span>管理</span></a>
-            </div>
-            <div class="content">
+        
+        	<foreach name="family_list" key="fid" item="family" >
+			<div class="title">
+				<if condition="$family['master_flag'] eq true ">
+				我管理的家庭
+				<a class="pull-right" id="manager{$fid}" data-state=false href="javascript:;"><i class="fa fa-cog fa-fw"></i> <span>管理</span></a>
+				<else />
+				 我加入的家庭
+				 </if>
+			</div>
+			
+			 <div class="content">
                 <div class="heading">
                     孩子
-                    <a class="pull-right" href="{:U('test/login')}">
+               <if condition="$family['master_flag'] eq true ">
+                    <a class="pull-right" href="{:U('bind/family?openid=' . $openid)}">
                         <span class="glyphicon glyphicon-plus"></span> 添加
                     </a>
+               </if>
                 </div>
-                <div class="list-group">
-                    <div class="list-group-item">
-                        <p>李小明<span class="pull-right">学号：5464578454</span></p>
+                
+                <!-- 列出学生信息 !-->
+                <div class="list-group"> 
+                	<foreach name="family['studentInfo']"  item='student'>
+                	<div class="list-group-item">
+                        <p>{$student.true_name}({$student.class_name})<span class="pull-right">学号：{$student.pin2}</span></p>
                     </div>
-                    <div class="list-group-item">
-                        <p>李二明<span class="pull-right">学号：5464578455</span></p>
-                    </div>
+                	</foreach>
                 </div>
-
-                <div class="heading">
-                    <span>家长</span>
-                    <a class="pull-right" data-toggle="modal" href="#parentModal"><span class="glyphicon glyphicon-plus"></span> 添加</a>
-                </div>
-                <div class="list-group" id="parentList">
-                    <div class="list-group-item">
-                        <p>李忠胜
+               
+				<!-- 列出家长信息 !-->
+				<div class="list-group" id="parentList{$fid}">
+				
+					<foreach name="family['parentInfo']"  item='parent'>
+                	<div class="list-group-item">
+                        <p>{$parent.name}
                             <span class="pull-right">父亲 <i class="hidden fa fa-remove fa-lg fa-fw text-danger" data-toggle="modal" data-target="#myModal" data-info-name="李忠胜" data-info-relation="父亲" data-info-manager=true data-submit-param="id=32"></i></span>
                         </p>
                     </div>
-                    <div class="list-group-item">
-                        <p>谢姗姗
-                            <span class="pull-right">母亲 <i class="hidden fa fa-remove fa-lg fa-fw text-danger" data-toggle="modal" data-target="#myModal" data-info-name="谢姗姗" data-info-relation="母亲" data-info-manager=false data-submit-param="id=33"></i></span>
-                        </p>
-                    </div>
-                    <div class="list-group-item">
-                        <p>李国名
-                            <span class="pull-right">爷爷 <i class="hidden fa fa-remove fa-lg fa-fw text-danger" data-toggle="modal" data-target="#myModal" data-info-name="李国名" data-info-relation="爷爷" data-info-manager=false data-submit-param="id=34"></i></span>
-                        </p>
-                    </div>
+                	</foreach>
                 </div>
-            </div>
+			
+        	</foreach>
+        	
         </div>
     </div>
     </div>

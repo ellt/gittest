@@ -23,7 +23,7 @@
             <div class="form-group has-feedback hidden" id="passwdGroup">
                 <label class="sr-only" for="passwd">家庭密钥</label>
                 <div class="col-xs-12">
-                    <input type="text" class="form-control input-lg" id="passwd" name="passwd" data-container="body" data-toggle="popover" data-placement="top" data-trigger="focus" placeholder="家庭密钥">
+                    <input type="text" class="form-control input-lg" id="auth_code" name="auth_code" data-container="body" data-toggle="popover" data-placement="top" data-trigger="focus" placeholder="家庭密钥">
                     <span class="form-control-feedback"></span>
                 </div>
             </div>
@@ -59,7 +59,7 @@
                     showLoginTip(form);
                     window.location.href = data.url;
                 } else {
-                    if(data.hasBind) {
+                    if(data.hint.auth_code) {
                         $("#passwdGroup").removeClass('hidden');
                     } else {
                         $("#passwdGroup").addClass('hidden');

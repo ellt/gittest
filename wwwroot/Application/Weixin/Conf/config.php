@@ -94,8 +94,8 @@ return array(
     ),
 
     /* SESSION 和 COOKIE 配置 */
-    'SESSION_PREFIX' => 'onethink_weixin', //session前缀
-    'COOKIE_PREFIX'  => 'onethink_weixin_', // Cookie前缀 避免冲突
+    'SESSION_PREFIX' => 'onethink_usercenter', //session前缀
+    'COOKIE_PREFIX'  => 'onethink_usercenter_', // Cookie前缀 避免冲突
 
     /**
      * 附件相关配置
