@@ -76,6 +76,14 @@
 				<!-- 列出家长信息 !-->
 				<div class="list-group" id="parentList{$fid}">
 				
+				<div class="heading">
+                    家长
+               <if condition="$family['master_flag'] eq true ">
+                    <a class="pull-right" href="{:U('')}">
+                        <span class="glyphicon glyphicon-plus"></span> 添加
+                    </a>
+               </if>
+                </div>
 					<foreach name="family['parentInfo']"  item='parent'>
                 	<div class="list-group-item">
                         <p>{$parent.name}
