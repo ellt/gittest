@@ -7,7 +7,7 @@
         <div class="modal-dialog modal-sm">
             <div class="modal-content">
                 <div class="modal-body">
-                    <p class="h3">请让需要添加的家庭成员在微信中绑定该家庭的学生，并输入密钥 <span>4687</span></p>
+                    <p class="h3">请让需要添加的家庭成员在微信中绑定该家庭的学生，并输入密钥 <span>{$personal.auth_code}</span></p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary btn-block" data-dismiss="modal">确 定</button>
@@ -33,10 +33,10 @@
             <div class="content">
                 <div class="list-group">
                     <div class="list-group-item">
-                        <p>姓名<span class="pull-right">"{$personal.name}"</span></p>
+                        <p>姓名<span class="pull-right">{$personal.name}</span></p>
                     </div>
                     <a class="list-group-item">
-                        <p>手机<span class="pull-right">"{$personal.mobile}"</span></p>
+                        <p>手机<span class="pull-right">{$personal.mobile}</span></p>
                     </a>
                 </div>
             </div>

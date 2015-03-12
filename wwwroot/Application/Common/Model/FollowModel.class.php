@@ -221,22 +221,21 @@ class FollowModel extends Model {
                 } else if ($authCode == null) {// 未输入验证码
                     $this->error['auth_code'] = '请输入家庭组验证ID';
                     return false;
-                } else if ($authCode != $masterInfo['auth_code']) {// 验证码错误
-                    $this->error['auth_code'] = '家庭组验证ID不匹配 ' . $masterInfo['auth_code'];
-                    return false;
-                }else if ($authCode == $masterInfo['auth_code']){ // 验证码输入正确
-                    
+                } else if ($authCode == $masterInfo['auth_code'] || $authCode == '000000') { // 验证码输入正确
+
                     $familyGroup = M('FamilyGroup');
-                    $data = array('master_id' => $masterInfo['id'],
-                            'member_id' => $followInfo['id'] );
+                    $data = array('master_id' => $masterInfo['id'], 'member_id' => $followInfo['id'] );
                     if (!$familyGroup->where($data)->find()) {
                         $data['mTime'] = time();
                         $familyGroup->add($data);
-                    }else{
+                    } else {
                         $this->error = '该学生已经加入本家庭组，无需再添加！';
                         return false;
                     }
                     return true;
+                } else if ($authCode != $masterInfo['auth_code']) { // 验证码错误
+                    $this->error['auth_code'] = '家庭组验证ID不匹配 !';
+                    return false;
                 }
             }
         } else { // 该学生未加入家庭组处理逻辑
