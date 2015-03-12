@@ -5,7 +5,21 @@
     <div class="row">
     <div class="col-xs-12">
         <form class="form-horizontal" action="{:U('Bind/family')}" method="post">
-            <h1><strong>绑定学生</strong></h1>
+            <h1><strong>家长绑定</strong></h1>
+            <div class="form-group has-feedback">
+                <label class="sr-only" for="pin2">学生学号</label>
+                <div class="col-xs-12">
+                    <input type="text" class="form-control input-lg" id="pin2" name="pin2" data-container="body" data-toggle="popover" data-placement="top" data-trigger="focus" placeholder="学号">
+                    <span class="form-control-feedback"></span>
+                </div>
+            </div>
+            <div class="form-group has-feedback">
+                <label class="sr-only" for="name">学生姓名</label>
+                <div class="col-xs-12">
+                    <input type="text" class="form-control input-lg" id="name" name="true_name" data-container="body" data-toggle="popover" data-placement="top" data-trigger="focus" placeholder="学生姓名">
+                    <span class="form-control-feedback"></span>
+                </div>
+            </div>
             
             <!-- 第一次绑定学生信息需要输入家长资料 !-->
             <if condition="$bind_flag eq false ">
@@ -26,32 +40,18 @@
             <div class="form-group form-group-lg">
                 <div class="col-xs-12">
                     <select class="form-control" name="relation">
-                        <option value="父亲" selected>父亲</option>
-                        <option value="母亲">母亲</option>
-                        <option value="爷爷">爷爷</option>
-                        <option value="奶奶">奶奶</option>
-                        <option value="外公">外公</option>
-                        <option value="外婆">外婆</option>
+                        <option value="父亲" selected> 父亲</option>
+                        <option value="母亲"> 母亲</option>
+                        <option value="爷爷"> 爷爷</option>
+                        <option value="奶奶"> 奶奶</option>
+                        <option value="外公"> 外公</option>
+                        <option value="外婆"> 外婆</option>
                     </select>
                 </div>
             </div>
             </if>
             <!-- 结束输入家长资料 !-->
             
-            <div class="form-group has-feedback">
-                <label class="sr-only" for="pin2">学号</label>
-                <div class="col-xs-12">
-                    <input type="text" class="form-control input-lg" id="pin2" name="pin2" data-container="body" data-toggle="popover" data-placement="top" data-trigger="focus" placeholder="学号">
-                    <span class="form-control-feedback"></span>
-                </div>
-            </div>
-            <div class="form-group has-feedback">
-                <label class="sr-only" for="name">学生姓名</label>
-                <div class="col-xs-12">
-                    <input type="text" class="form-control input-lg" id="name" name="true_name" data-container="body" data-toggle="popover" data-placement="top" data-trigger="focus" placeholder="学生姓名">
-                    <span class="form-control-feedback"></span>
-                </div>
-            </div>
             
             <div class="form-group has-feedback hidden" id="passwdGroup">
                 <label class="sr-only" for="passwd">家庭密钥</label>
@@ -65,7 +65,7 @@
           
             <div class="form-group">
                 <div class="col-xs-12">
-                    <button type="submit" class="btn btn-primary btn-lg btn-block" data-loading-text="登录中..." autocomplete="off">绑定</button>
+                    <button type="submit" class="btn btn-primary btn-lg btn-block" data-loading-text="绑定中..." autocomplete="off">绑 定</button>
                 </div>
             </div>
         </form>

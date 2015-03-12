@@ -1,7 +1,7 @@
 <extend name="MobilePublic/base"/>
 
 <block name="header">
-    <include file="myinfomodal"/>
+    <include file="test/myinfomodal"/>
 
     <div class="modal" id="parentModal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-sm">
@@ -28,7 +28,7 @@
     <div class="col-xs-12">
         <div class="section">
             <div class="title">
-                <span>我的信息</span>
+                我的信息
             </div>
             <div class="content">
                 <div class="list-group">
@@ -42,60 +42,63 @@
             </div>
         </div>
         
-        <div class="section">
+        <foreach name="family_list" key="fid" item="family" >
+            <div class="section">
         
-        	<foreach name="family_list" key="fid" item="family" >
 			<div class="title">
 				<if condition="$family['master_flag'] eq true ">
 				我管理的家庭
-				<a class="pull-right" id="manager{$fid}" data-state=false href="javascript:;"><i class="fa fa-cog fa-fw"></i> <span>管理</span></a>
+				<a class="pull-right" id="manager" data-state=false href="javascript:;">
+                    <i class="fa fa-cog fa-fw"></i>
+                    <span>管理</span>
+                </a>
+
 				<else />
-				 我加入的家庭
-				 </if>
+				我的家庭 <if condition="$fid neq 0 ">（{$fid+1}）</if>
+				</if>
 			</div>
 			
-			 <div class="content">
+			<div class="content">
+                <!-- 列出学生信息 !-->
                 <div class="heading">
                     孩子
-               <if condition="$family['master_flag'] eq true ">
+                    <if condition="$family['master_flag'] eq true ">
                     <a class="pull-right" href="{:U('bind/family?openid=' . $openid)}">
                         <span class="glyphicon glyphicon-plus"></span> 添加
                     </a>
-               </if>
+                    </if>
                 </div>
                 
-                <!-- 列出学生信息 !-->
                 <div class="list-group"> 
-                	<foreach name="family['studentInfo']"  item='student'>
+                	<foreach name="family['studentInfo']" item='student'>
                 	<div class="list-group-item">
                         <p>{$student.true_name}({$student.class_name})<span class="pull-right">学号：{$student.pin2}</span></p>
                     </div>
                 	</foreach>
                 </div>
                
-				<!-- 列出家长信息 !-->
-				<div class="list-group" id="parentList{$fid}">
-				
-				<div class="heading">
+                <!-- 列出家长信息 !-->
+                <div class="heading">
                     家长
-               <if condition="$family['master_flag'] eq true ">
-                    <a class="pull-right" href="{:U('')}">
+                    <if condition="$family['master_flag'] eq true ">
+                    <a class="pull-right" data-toggle="modal" href="#parentModal">
                         <span class="glyphicon glyphicon-plus"></span> 添加
                     </a>
-               </if>
+                    </if>
                 </div>
-					<foreach name="family['parentInfo']"  item='parent'>
+
+                <div class="list-group" data-id="parentList">
+					<foreach name="family['parentInfo']" item='parent'>
                 	<div class="list-group-item">
                         <p>{$parent.name}
-                            <span class="pull-right">父亲 <i class="hidden fa fa-remove fa-lg fa-fw text-danger" data-toggle="modal" data-target="#myModal" data-info-name="李忠胜" data-info-relation="父亲" data-info-manager=true data-submit-param="id=32"></i></span>
+                            <span class="pull-right">{$parent.family_role} <i class="hidden fa fa-remove fa-lg fa-fw text-danger" data-toggle="modal" data-target="#myModal" data-info-name="{$parent.name}" data-info-relation="{$parent.family_role}" data-info-manager=true data-submit-param="{$parent.id}"></i></span>
                         </p>
                     </div>
                 	</foreach>
-                </div>
-			
-        	</foreach>
-        	
+                </div>    
+            </div>
         </div>
+        </foreach>
     </div>
     </div>
     </div>
@@ -110,13 +113,13 @@
                 // 已经激活
                 $("i", this).removeClass('fa-spin');
                 $("span", this).html("管理");
-                $("i", "#parentList").addClass("hidden");
+                $("i", "[data-id='parentList']").addClass("hidden");
                 $(this).data('state', false);
             } else {
                 // 未激活
                 $("i", this).addClass('fa-spin');
                 $("span", this).html("退出管理");
-                $("i", "#parentList").removeClass("hidden");
+                $("i", "[data-id='parentList']").removeClass("hidden");
                 $(this).data('state', true);
             }
         });
