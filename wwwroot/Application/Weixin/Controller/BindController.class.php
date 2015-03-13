@@ -44,6 +44,17 @@ class BindController extends Controller {
         //TODO 界面
     }
     
+    public function unbindFamily($master_id, $member_id){
+        if(IS_POST){
+            $ret = $this->model->unbindFamily($master_id, $member_id);
+            if($ret === false){
+             $this->error($this->model->getError(), null, IS_AJAX);   
+            }else{
+             $this->success('操作成功', null, IS_AJAX);
+            }
+        }
+    }
+    
     public function family($openid){
         
         $this->model = D('Common/Follow');
@@ -97,7 +108,7 @@ class BindController extends Controller {
         $map['openid'] = $openid;
         $familyBindInfoList = $this->model->getFamilyBindInfo($openid);
         $personalInfo =  $this->model->initFollow($openid);
-//         dump($familyBindInfoList);
+//         dump($personalInfo);
         //die();
 //         if(!$followInfo){
 //             $this->redirect('webHint', 'openid=' . $openid);
@@ -146,6 +157,5 @@ class BindController extends Controller {
         }
        
     }
-    
     
 }

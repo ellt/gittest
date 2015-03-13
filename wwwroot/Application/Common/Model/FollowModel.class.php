@@ -154,7 +154,7 @@ class FollowModel extends Model {
         } else { //登录失败
             switch($uid) {
                 case -1:
-                    $this->error['username'] = '工号不存在或被禁用！';
+                    $this->error['pin2'] = '工号不存在或被禁用！';
                     return false;
                 case -2:
                     $this->error['password'] = '密码错误！'; //密码错误
@@ -189,6 +189,24 @@ class FollowModel extends Model {
         $ret = $m->where($map)->select();
         dump($m->getLastSql());
         return $ret;
+    }
+    
+    public function unbindFamily($master_id, $member_id){
+        if($master_id == $menber_id){ // 删除家庭组
+            $map['master_id'] = $master_id;
+        }else{// 删除家庭成员
+            $map['master_id'] = $master_id;
+            $map['member_id'] = $member_id;
+        }
+        
+        $ret = D('FamilyGroup')->where($map)->delete();
+//         dump($ret);dump(D('FamilyGroup')->getLastSql());
+        if($ret > 0){
+            return true;
+        }else{
+            $this->error = '删除失败！';
+            return false;
+        }
     }
     
     public function bindOneStudent($openid, $pin2, $name, $authCode = null) {
@@ -282,16 +300,6 @@ class FollowModel extends Model {
         
     }
     
-    public function bindOneFamilyMember($openid, $mobile, $pin2, $password) {
-        if ($this->checkOneUser($pin2, UserApi::TYPE_STUDENT) == false) {
-            return false;
-        }
-        
-        $info = $this->initFollow($openid, self::TYPE_FAMILY);
-        
-        $familyInfo = $m->getFamilyInfoByOpenID($openid);
-    }
-    
     public function getTeacherBindInfo($openid){
         $map['type'] = self::BIND_TEACHER;
         $map['openid'] = $openid;
@@ -325,10 +333,21 @@ class FollowModel extends Model {
                 $map = null;
                 $map['master_id'] = $familyInfo['master_id'];
                 $m1 = M()->table($l_table . ' a')->join($r_table . ' b ON a.id=b.member_id');
-                $familyBindInfo['parentInfo'] = $m1->where($map)->order('b.mTime ')->field('openid,name')->select();
+                $familyBindInfo['parentInfo'] = $m1->where($map)->order('b.mTime ')->field('id,openid,name,family_role')->select();
 //                 dump($familyBindInfo);dump($m1->getLastSql());
                 
                 if($familyBindInfo['parentInfo']){
+                    
+                    if($followInfo['id'] == $familyInfo['master_id']){
+                        $familyBindInfo['master_flag'] = true;
+                    }
+                    
+                    foreach ($familyBindInfo['parentInfo'] as &$v){
+                        if($v['id'] ==  $followInfo['id']){
+                            $v['master_flag']= true;
+                        }
+                    }
+                    
                     // 获取学生列表
                     $umap = null;
                     $umap['user_type'] = UserApi::TYPE_STUDENT;
@@ -344,9 +363,7 @@ class FollowModel extends Model {
                 
                     $studentInfo = $userModel->where($umap)->field('pin2,true_name,class_name')->select();
                     $familyBindInfo['studentInfo'] = $studentInfo;
-                    if($followInfo['id'] == $familyInfo['master_id']){
-                        $familyBindInfo['master_flag'] = true;
-                    }
+
 //                      dump($userModel->getLastSql());dump($familyBindInfo);
                     array_push($familyBindInfoList, $familyBindInfo);
                 }
