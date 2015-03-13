@@ -211,7 +211,7 @@ class FollowModel extends Model {
     
     public function bindOneStudent($openid, $pin2, $name, $authCode = null) {
         $map['pin2'] = $pin2;
-        $map['true_name'] = $name;
+//         $map['true_name'] = $name;
         $map['user_type'] = UserApi::TYPE_STUDENT;
         $userModel = M('user');
         
@@ -219,7 +219,10 @@ class FollowModel extends Model {
         
 //         dump($studentInfo);die($userModel->getLastSql());
         if ($studentInfo == null) {
-            $this->error = '学生学号姓名不匹配，找不到该学生！';
+            $this->error['pin2'] = '学号输入错误，找不到对应学号的学生！';
+            return false;
+        }else if($studentInfo['true_name'] != $name){
+            $this->error['true_name'] = '姓名与学号不匹配！';
             return false;
         }
         
