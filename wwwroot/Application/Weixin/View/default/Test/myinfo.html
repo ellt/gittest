@@ -91,7 +91,7 @@
 					<foreach name="family['parentInfo']" item='parent'>
                 	<div class="list-group-item">
                         <p>{$parent.name}
-                            <span class="pull-right">{$parent.family_role} <i class="hidden fa fa-remove fa-lg fa-fw text-danger" data-toggle="modal" data-target="#myModal" data-info-name="{$parent.name}" data-info-relation="{$parent.family_role}" data-info-manager=true data-submit-param="{$parent.id}"></i></span>
+                            <span class="pull-right">{$parent.family_role} <i class="hidden fa fa-remove fa-lg fa-fw text-danger" data-toggle="modal" data-target="#myModal" data-info-name="{$parent.name}" data-info-relation="{$parent.family_role}" data-info-manager="{$parent.master_flag}" data-submit-param="master_id={$personal.id}&member_id={$parent.id}"></i></span>
                         </p>
                     </div>
                 	</foreach>

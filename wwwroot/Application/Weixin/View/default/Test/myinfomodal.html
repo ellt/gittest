@@ -6,7 +6,7 @@
             <div class="modal-footer">
                 <div class="row">
                     <div class="col-xs-6">
-                        <button type="submit" class="btn btn-primary btn-block" data-url="{:U('delete')}" data-submit="custom" autocomplete="off">确 定</button>  
+                        <button type="submit" class="btn btn-primary btn-block" data-url="{:U('unbindFamily')}" data-submit="custom" autocomplete="off">确 定</button>  
                     </div>
                     <div class="col-xs-6">
                         <button type="button" class="btn btn-default btn-block" data-dismiss="modal">取 消</button>
@@ -44,7 +44,7 @@ $(function(){
         var param = $("#myModal").data("param");
         
         //发送到服务器
-        $.get(url+"&"+param).success(function(data){
+        $.post(url+"&"+param).success(function(data){
             if (data.status) {
                 $("#myModal").modal('hide');
                 location.href = location.href;
