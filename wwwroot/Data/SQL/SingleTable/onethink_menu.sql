@@ -160,6 +160,7 @@ INSERT INTO `onethink_menu` VALUES ('1005', '班级信息管理', '1001', '0', '
 INSERT INTO `onethink_menu` VALUES ('1006', '教师信息管理', '1001', '0', 'teacher/index', '0', '', '人员管理', '0');
 INSERT INTO `onethink_menu` VALUES ('1007', '学生信息管理', '1001', '0', 'student/index', '0', '', '人员管理', '0');
 INSERT INTO `onethink_menu` VALUES ('1008', '权限信息管理', '1001', '0', 'auth_manager/index', '0', '', '人员管理', '0');
+INSERT INTO `onethink_menu` VALUES ('1009', '班级绑定信息', '1001', '0', 'student/xxxx', '0', '', '公众号管理', '0');
 
 
 INSERT INTO `onethink_menu` VALUES ('1101', '成绩', '0', '3', 'subject/index', '0', '', '', '0');

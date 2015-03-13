@@ -336,12 +336,15 @@ class UserCenterController extends CommonBaseController {
                         foreach ($menus['child'] as $gkey => $g){
                             foreach ($g as $k=> $v){
                                 if($v['url'] == 'student/index'){
-                                    $t = get_grade_class_tree();
+                                    $t = get_grade_class_tree('student/index');
 //                                     unset($menus['child'][$gkey][$k]['url']);
                                     $menus['child'][$gkey][$k]['_child'] = $t;
                                 }
                                 else if($v['url'] == 'Class/index'){
                                     $t = get_grade_tree();
+                                    $menus['child'][$gkey][$k]['_child'] = $t;
+                                } else if($v['url'] == 'student/bind'){
+                                    $t = get_grade_class_tree('student/bind');
                                     $menus['child'][$gkey][$k]['_child'] = $t;
                                 }
                                 

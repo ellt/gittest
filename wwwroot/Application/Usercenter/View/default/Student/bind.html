@@ -1,0 +1,120 @@
+<extend name="Public/base"/>
+
+<block name="header">
+</block>
+
+<!-- 子导航 -->
+<block name="sidebar">
+    <include file="Usercenter@Public/sidemenu"/>
+</block>
+
+<block name="content">
+    <!-- 标题 -->
+    <div class="ell-main-title">
+        <h2>家长微信绑定
+        </h2>
+    </div>
+
+    <!-- 按钮工具栏 -->
+    <div class="row">
+        <div class="col-md-6">
+            <div class="pull-left">
+                <button class="btn btn-success ajax-post" data-target="[data-check='ids']" data-confirm="确认要删除吗?" data-url="">解除绑定</button>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="col-md-6 input-group pull-right">
+                <input type="text" class="form-control" id="search" name="nickname" value="{:I('nickname')}" placeholder="请输入学生学号或姓名">
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-primary" data-submit="search" data-target="#search" data-url="{:U('index')}">
+                        <span class="glyphicon glyphicon-search"></span>
+                    </button>
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 数据表格 -->
+    <div class="data-table">
+        <table class="table table-condensed table-hover" data-url="{:U('test/parentBind')}">
+            <thead>
+                <tr>
+                    <th class="row-selected"><input type="checkbox" data-toggle="checkall" data-target="ids"/></th>
+                    <th>学号</th>
+                    <th>学生</th>
+                    <th class="operator-xs-3"></th>
+                </tr>
+            </thead>
+            <tbody>
+            	<foreach name='student_lists' item='vo'>
+                 <tr>
+                    <td><input type="checkbox" data-check="ids" name="ids[]" value="{$vo.id}"></td>
+                    <td>{$vo.pin2}</td>
+                    <td>{$vo.true_name}</td>
+                    <if condition="$vo['chat_rel_id'] gt 0">
+                    <td>
+                        <span class="cursor-pointer" data-id="state" >
+                            <span class="glyphicon glyphicon-ok text-success"></span> 已绑定
+                        </span>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-danger btn-xs operator ajax-get" data-confirm="确认要执行吗?" data-loading-text="执行中..." data-url="{:U('unbindStudent','id='.$vo[id])}" autocomplete="off">解除绑定</button>
+                    </td>
+                    <else />
+                    <td>                   
+						<span>
+                            <span class="glyphicon glyphicon-remove text-danger"></span> 未绑定
+                        </span>
+                    </td> 
+                    <td>
+                    </td>
+                    </if>
+                </tr>
+            	</foreach>
+            </tbody>
+        </table>
+    </div>
+</block>
+
+<block name="script">
+    <script>
+    $(function(){
+
+        var url = $('table').data("url");
+        $('table').on('mouseover', "[data-id='state']", {url: url}, function(event) {
+            var $span = $(this);
+
+            if($span.data("state") !== "loaded") {
+                
+                $span.popover({
+                    container: "body",
+                    placement: "top",
+                    trigger: "hover",
+                });
+
+                var param = $span.data("get-param");
+
+                $.get(event.data.url).success(function(data){
+                    if (data.status) {
+                        var list = data.data;
+                        var content = "成员：";
+
+                        for (var i = 0; i < list.length; i++) {
+                            content += list[i].relation + " ";
+                        }
+
+                        $span.data("bs.popover").options.content = content;
+                        $span.popover("show");
+                    } else {
+                        $span.data("bs.popover").options.content = "绑定信息加载失败！";
+                        $span.popover("show");
+                    }
+                });
+
+                $span.data("state", "loaded");
+            }
+        });
+        
+    });
+    </script>
+</block>
