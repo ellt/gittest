@@ -42,6 +42,20 @@ class StudentController extends UserCenterController {
         $this->display();
     }
 
+    public function getStudentBindInfo($id) {
+        if (IS_AJAX) {
+            $model = D('Common/Follow');
+            $ret = $model->getStudentBindInfo($id);
+            if ($ret === false) {
+                $this->error($this->model->getError(), null, IS_AJAX);
+            } else {
+                $data['status'] = 1;
+                $data['data'] = $ret;
+                $this->ajaxReturn($data);
+            }
+        }
+    }
+    
     public function unbindStudent($id) {
         $model = D('Common/Follow');
         $ret = $model->unbindStudent($id);

@@ -36,12 +36,13 @@
 
     <!-- 数据表格 -->
     <div class="data-table">
-        <table class="table table-condensed table-hover" data-url="{:U('test/parentBind')}">
+        <table class="table table-condensed table-hover" data-url="{:U('getStudentBindInfo')}">
             <thead>
                 <tr>
                     <th class="row-selected"><input type="checkbox" data-toggle="checkall" data-target="ids"/></th>
                     <th>学号</th>
                     <th>学生</th>
+                    <th>绑定状态</th>
                     <th class="operator-xs-3"></th>
                 </tr>
             </thead>
@@ -51,9 +52,10 @@
                     <td><input type="checkbox" data-check="ids" name="ids[]" value="{$vo.id}"></td>
                     <td>{$vo.pin2}</td>
                     <td>{$vo.true_name}</td>
+                    
                     <if condition="$vo['chat_rel_id'] gt 0">
                     <td>
-                        <span class="cursor-pointer" data-id="state" >
+                        <span class="cursor-pointer" data-id="state" data-get-param="id={$vo.id}">
                             <span class="glyphicon glyphicon-ok text-success"></span> 已绑定
                         </span>
                     </td>
@@ -94,13 +96,13 @@
 
                 var param = $span.data("get-param");
 
-                $.get(event.data.url).success(function(data){
+                $.get(event.data.url+"&"+param).success(function(data){
                     if (data.status) {
                         var list = data.data;
                         var content = "成员：";
 
                         for (var i = 0; i < list.length; i++) {
-                            content += list[i].relation + " ";
+                            content += list[i].family_role + " ";
                         }
 
                         $span.data("bs.popover").options.content = content;
