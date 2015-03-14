@@ -208,6 +208,18 @@ class FollowModel extends Model {
             return false;
         }
     }
+    public function unbindTeacher($pin2){
+        
+        $map['pin2'] = $pin2;
+        $ret = $this->where($map)->setField('pin2', 0);
+        //             dump($userModel->getLastSql());die();
+        if ($ret > 0) {
+            return true;
+        } else {
+            $this->error = '删除失败！';
+            return false;
+        }
+    }
     
     public function unbindStudent($id){
         $userModel = M('user');

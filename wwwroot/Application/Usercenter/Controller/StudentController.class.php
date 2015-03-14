@@ -10,7 +10,6 @@
 
 namespace Usercenter\Controller;
 
-use Common\Util\DBError;
 use User\Api\UserApi;
 
 class StudentController extends UserCenterController {
@@ -67,7 +66,7 @@ class StudentController extends UserCenterController {
     }
     
     public function bind(){
-        $sidemenu['title'] = "基础信息设置";
+        $sidemenu['title'] = "学生绑定信息";
     
         $class_id = I('class_id'); # 这里获取班级ID
         
