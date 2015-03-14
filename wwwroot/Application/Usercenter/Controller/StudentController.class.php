@@ -11,6 +11,7 @@
 namespace Usercenter\Controller;
 
 use Common\Util\DBError;
+use User\Api\UserApi;
 
 class StudentController extends UserCenterController {
 
@@ -38,6 +39,45 @@ class StudentController extends UserCenterController {
         $this->assign('student_lists',$student_lists);
         $this->assign('sidemenu', $sidemenu);
         $this->assign('sidebar_file', 'Public/sidemenu');
+        $this->display();
+    }
+
+    public function unbindStudent($id) {
+        $model = D('Common/Follow');
+        $ret = $model->unbindStudent($id);
+        if ($ret === false) {
+            $this->error($this->model->getError(), null, IS_AJAX);
+        } else {
+            $this->success('操作成功', null, IS_AJAX);
+        }
+    }
+    
+    public function bind(){
+        $sidemenu['title'] = "基础信息设置";
+    
+        $class_id = I('class_id'); # 这里获取班级ID
+        
+        $prefix   = C('DB_PREFIX');
+        $a_table = $prefix . 'user';
+        $b_table = $prefix . 'follow';
+        $c_table = $prefix . 'user_student';
+        
+        $m = M()->table($a_table . ' a')
+                ->join($b_table . ' b ON a.chat_rel_id=b.id', 'LEFT')
+                ->join($c_table . ' c ON a.id=c.id');
+        
+        # 获取学生列表
+        $map= array('class_id' => $class_id, 'user_type' => UserApi::TYPE_STUDENT);
+        $field = 'a.id,a.pin2,true_name,chat_rel_id';
+        $student_lists = $m->where($map)->field($field)->order('pin2')->select();
+        // $this->lists($m, array('class_id' => $class_id, 'user_type' => UserApi::TYPE_STUDENT));
+    
+//                 dump($student_lists);die($m->getLastSql());
+        $this->assign('class_id', $class_id);
+        $this->assign('calss_name', D('Class','Logic')->getClassNameById($class_id));
+        $this->assign('student_lists',$student_lists);
+        $this->assign('sidemenu', $sidemenu);
+            $this->assign('sidebar_file', 'Public/sidemenu');
         $this->display();
     }
 

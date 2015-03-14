@@ -209,9 +209,47 @@ class FollowModel extends Model {
         }
     }
     
+    public function unbindStudent($id){
+        $userModel = M('user');
+        $studentInfo = $userModel->find($id);
+        
+        if ($studentInfo == null) {
+            $this->error = '学生id号错误！';
+            return false;
+        } else if ($studentInfo['chat_rel_id'] <= 0) {
+            $this->error = '该生未绑定任何家庭组，无需操作！';
+            return false;
+        } else {
+            $masterId = $map['chat_rel_id'];
+            $ret = $userModel->where('id=' . $id)->setField('chat_rel_id', 0);
+//             dump($userModel->getLastSql());die();
+            if ($ret > 0) {
+                return true;
+            } else {
+                $this->error = '删除失败！';
+                return false;
+            }
+        }
+        $map['chat_rel_id'] = $masterId;
+        if ($this->where($map)->select()) {
+            return true;
+        } else { // 该家庭组未绑定其他家庭成员，需要解散家庭组
+            
+
+            $map['master_flag'] = $masterId;
+            $ret = D('FamilyGroup')->map($map)->delete();
+            if ($ret > 0) {
+                return true;
+            } else {
+                $this->error = '删除失败！';
+                return false;
+            }
+        }
+    }
+    
     public function bindOneStudent($openid, $pin2, $name, $authCode = null) {
         $map['pin2'] = $pin2;
-        $map['true_name'] = $name;
+//         $map['true_name'] = $name;
         $map['user_type'] = UserApi::TYPE_STUDENT;
         $userModel = M('user');
         
@@ -219,7 +257,10 @@ class FollowModel extends Model {
         
 //         dump($studentInfo);die($userModel->getLastSql());
         if ($studentInfo == null) {
-            $this->error = '学生学号姓名不匹配，找不到该学生！';
+            $this->error['pin2'] = '学号输入错误，找不到对应学号的学生！';
+            return false;
+        }else if($studentInfo['true_name'] != $name){
+            $this->error['true_name'] = '姓名与学号不匹配！';
             return false;
         }
         
