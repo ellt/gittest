@@ -10,7 +10,6 @@
 
 namespace Usercenter\Controller;
 
-use Common\Util\DBError;
 use User\Api\UserApi;
 
 class StudentController extends UserCenterController {
@@ -42,6 +41,20 @@ class StudentController extends UserCenterController {
         $this->display();
     }
 
+    public function getStudentBindInfo($id) {
+        if (IS_AJAX) {
+            $model = D('Common/Follow');
+            $ret = $model->getStudentBindInfo($id);
+            if ($ret === false) {
+                $this->error($this->model->getError(), null, IS_AJAX);
+            } else {
+                $data['status'] = 1;
+                $data['data'] = $ret;
+                $this->ajaxReturn($data);
+            }
+        }
+    }
+    
     public function unbindStudent($id) {
         $model = D('Common/Follow');
         $ret = $model->unbindStudent($id);
@@ -53,7 +66,7 @@ class StudentController extends UserCenterController {
     }
     
     public function bind(){
-        $sidemenu['title'] = "基础信息设置";
+        $sidemenu['title'] = "学生绑定信息";
     
         $class_id = I('class_id'); # 这里获取班级ID
         

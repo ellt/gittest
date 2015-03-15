@@ -10,7 +10,7 @@
 
 namespace Usercenter\Controller;
 
-use Common\Util\DBError;
+use User\Api\UserApi;
 
 class TeacherController extends UserCenterController {
 
@@ -29,9 +29,43 @@ class TeacherController extends UserCenterController {
         
         
 //         dump($this->model->lists());die();
-        # 获取学生列表
         $tercher_lists = $this->relationLists($this->model);
 //         dump($tercher_lists);die();
+        $this->assign('calss_name', D('Class','Logic')->getClassNameById($class_id));
+        $this->assign('tercher_lists',$tercher_lists);
+        $this->assign('sidemenu', $sidemenu);
+        $this->display();
+    }
+    
+    
+    public function unbindTeacher($pin2){
+        $model = D('Common/Follow');
+        $ret = $model->unbindTeacher($pin2);
+        if ($ret === false) {
+            $this->error($this->model->getError(), null, IS_AJAX);
+        } else {
+            $this->success('操作成功', null, IS_AJAX);
+        }
+    }
+    
+    public function bind(){
+        $sidemenu['title'] = "学生绑定信息";
+    
+        //         dump($this->model->lists());die();
+        $prefix   = C('DB_PREFIX');
+        $a_table = $prefix . 'user';
+        $b_table = $prefix . 'follow';
+        
+        $m = M()->table($a_table . ' a')
+                ->join($b_table . ' b ON a.pin2=b.pin2', 'LEFT');
+        
+        # 获取教师列表
+        $map= array('user_type' => UserApi::TYPE_TERCHER );
+        $field = 'a.id,a.pin2,b.pin2 binded,true_name,name';
+        $tercher_lists = $m->where($map)->field($field)->order('pin2')->select();
+//         dump($tercher_lists);die($m->getLastSql());
+//         $tercher_lists = $this->relationLists($this->model);
+        //         dump($tercher_lists);die();
         $this->assign('calss_name', D('Class','Logic')->getClassNameById($class_id));
         $this->assign('tercher_lists',$tercher_lists);
         $this->assign('sidemenu', $sidemenu);

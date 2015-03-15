@@ -208,6 +208,18 @@ class FollowModel extends Model {
             return false;
         }
     }
+    public function unbindTeacher($pin2){
+        
+        $map['pin2'] = $pin2;
+        $ret = $this->where($map)->setField('pin2', 0);
+        //             dump($userModel->getLastSql());die();
+        if ($ret > 0) {
+            return true;
+        } else {
+            $this->error = '删除失败！';
+            return false;
+        }
+    }
     
     public function unbindStudent($id){
         $userModel = M('user');
@@ -413,7 +425,30 @@ class FollowModel extends Model {
         }
         return empty($familyBindInfoList) ? false : $familyBindInfoList;
     }
-   
+
+    public function getStudentBindInfo($studentId) {
+        $map['id'] = $studentId;
+        //         $map['true_name'] = $name;
+        $map['user_type'] = UserApi::TYPE_STUDENT;
+        $map['chat_rel_id'] = array('gt', 0 );
+        $userModel = M('user');
+        
+        $studentInfo = $userModel->where($map)->find();
+        if ($studentInfo) {
+            $map = null;
+            $map['master_id'] = $studentInfo['chat_rel_id'];
+            $prefix = C('DB_PREFIX');
+            $l_table = $prefix . 'follow';
+            $r_table = $prefix . 'family_group';
+            
+            $m = M()->table($l_table . ' a')->join($r_table . ' b ON a.id=b.member_id');
+            $parentInfo = $m->where($map)->order('b.mTime ')->field('id,openid,name,family_role')->select();
+            return $parentInfo;
+        } else {
+            $this->error = '该学生未绑定！';
+            return false;
+        }
+    }
     
     
     
