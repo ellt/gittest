@@ -1,0 +1,19 @@
+{
+  "name": "elanglang",
+  "version": "0.1.0",
+  "homepage": "https://github.com/ellt/gittest",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.1.3",
+    "angular-bootstrap": "~0.12.1",
+    "angular": "~1.3.14",
+    "font-awesome": "~4.3.0"
+  }
+}
