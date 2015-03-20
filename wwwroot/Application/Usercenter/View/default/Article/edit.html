@@ -2,7 +2,7 @@
 
 <!-- 子导航 -->
 <block name="sidebar">
-    <include file="sidemenu" />
+    <include file="sidemenu"/>
 </block>
 
 <block name="content">
@@ -19,47 +19,53 @@
         </h2>
     </div>
     <!-- 标签页导航 -->
-    <div class="tab-wrap">
+    <div class="ell-tab-wrap">
         <ul class="nav nav-tabs" role="tablist">
             <volist name=":parse_config_attr($model['field_group'])" id="group">
-                <li <eq name="i" value="1">class="active"</eq> role="presentation"><a data-toggle="tab" href="#tab{$key}" role="tab">{$group}</a></li>
+            <li class="<eq name='i' value='1'>active</eq>" role="presentation"> 
+                <a data-toggle="tab" href="#tab{$key}" role="tab">{$group}</a>
+            </li>
             </volist>
         </ul>
         <!-- 表单 -->
-        <form class="form-horizontal" id="form" action="{:U('update')}" method="post">
+        <form class="edit" id="form" action="{:U('update')}" method="post" role="form">
+
         <div class="tab-content">
             <!-- 基础文档模型 -->
             <volist name=":parse_config_attr($model['field_group'])" id="group">
-            <div id="tab{$key}" class="tab-pane <eq name="key" value="1">in</eq> tab{$key}">
+            <div class="tab-pane <eq name='key' value='1'>active</eq>" id="tab{$key}" role="tabpanel">
                 <volist name="fields[$key]" id="field">
                     <if condition="$field['is_show'] == 1 || $field['is_show'] == 3">
-                    <div class="form-item cf">
-                        <label class="item-label">{$field['title']}<span class="check-tips"><notempty name="field['remark']">（{$field['remark']}）</notempty></span></label>
-                        <div class="controls">
+                    <div class="form-group">
+                        <label>{$field['title']}<span class="check-tips"><notempty name="field['remark']">（{$field['remark']}）</notempty></span></label>
+                        <div class="clearfix">
                             <switch name="field.type">
                                 <case value="num">
-                                    <input type="text" class="text input-medium" name="{$field.name}" value="{$data[$field['name']]}">
+                                    <input type="text" class="input-sm" name="{$field.name}" value="{$data[$field['name']]}">
                                 </case>
                                 <case value="string">
-                                    <input type="text" class="text input-large" name="{$field.name}" value="{$data[$field['name']]}">
+                                    <input type="text" class="input-sm" name="{$field.name}" value="{$data[$field['name']]}">
                                 </case>
                                 <case value="textarea">
-                                    <label class="textarea input-large">
-                                    <textarea name="{$field.name}">{$data[$field['name']]}</textarea>
-                                    </label>
+                                    <textarea class="form-control" rows="3"  name="{$field.name}">{$data[$field['name']]}</textarea>
                                 </case>
                                 <case value="datetime">
-                                    <input type="text" name="{$field.name}" class="text input-large time" value="{$data[$field['name']]|time_format}" placeholder="请选择时间" />
+                                <div class="col-lg-3 input-group date">
+                                    <input type="text" class="form-control input-sm" name="{$field.name}"  value="{$data[$field['name']]|time_format}" placeholder="请选择时间"/>
+                                    <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                    </span>
+                                </div>
                                 </case>
                                 <case value="bool">
-                                    <select name="{$field.name}">
+                                    <select class="input-sm" name="{$field.name}">
                                         <volist name=":parse_field_attr($field['extra'])" id="vo">
                                             <option value="{$key}" <eq name="data[$field['name']]" value="$key">selected</eq>>{$vo}</option>
                                         </volist>
                                     </select>
                                 </case>
                                 <case value="select">
-                                    <select name="{$field.name}">
+                                    <select class="input-sm" name="{$field.name}">
                                         <volist name=":parse_field_attr($field['extra'])" id="vo">
                                             <option value="{$key}" <eq name="data[$field['name']]" value="$key">selected</eq>>{$vo}</option>
                                         </volist>
@@ -67,16 +73,16 @@
                                 </case>
                                 <case value="radio">
                                     <volist name=":parse_field_attr($field['extra'])" id="vo">
-                                        <label class="radio">
-                                        <input type="radio" value="{$key}" name="{$field.name}" <eq name="data[$field['name']]" value="$key">checked="checked"</eq>>{$vo}
-                                        </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="{$field.name}" value="{$key}" <eq name="data[$field['name']]" value="$key">checked</eq>>{$vo}
+                                    </label>
                                     </volist>
                                 </case>
                                 <case value="checkbox">
                                     <volist name=":parse_field_attr($field['extra'])" id="vo">
-                                        <label class="checkbox">
-                                        <input type="checkbox" value="{$key}" name="{$field.name}[]" <if condition="check_document_position($data[$field['name']],$key)">checked="checked"</if>>{$vo}
-                                        </label>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" name="{$field.name}[]" value="{$key}" <if condition="check_document_position($data[$field['name']],$key)">checked</if>>{$vo}
+                                    </label>
                                     </volist>
                                 </case>
                                 <case value="editor">
@@ -86,14 +92,12 @@
                                     </label>
                                 </case>
                                 <case value="picture">
-                                    <div class="controls">
-                                        <input type="file" id="upload_picture_{$field.name}">
-                                        <input type="hidden" name="{$field.name}" id="cover_id_{$field.name}" value="{$data[$field['name']]}"/>
-                                        <div class="upload-img-box">
-                                        <notempty name="data[$field['name']]">
-                                            <div class="upload-pre-item"><img src="__ROOT__{$data[$field['name']]|get_cover='path'}"/></div>
-                                        </notempty>
-                                        </div>
+                                    <input type="file" id="upload_picture_{$field.name}">
+                                    <input type="hidden" name="{$field.name}" id="cover_id_{$field.name}" value="{$data[$field['name']]}"/>
+                                    <div class="upload-img-box">
+                                    <notempty name="data[$field['name']]">
+                                        <div class="upload-pre-item"><img src="__ROOT__{$data[$field['name']]|get_cover='path'}"/></div>
+                                    </notempty>
                                     </div>
                                     <script type="text/javascript">
                                     //上传图片
@@ -132,14 +136,12 @@
                                     </script>
                                 </case>
                                 <case value="file">
-                                    <div class="controls">
-                                        <input type="file" id="upload_file_{$field.name}">
-                                        <input type="hidden" name="{$field.name}" value="{:think_encrypt(json_encode(get_table_field($data[$field['name']],'id','','File')))}"/>
-                                        <div class="upload-img-box">
-                                            <present name="data[$field['name']]">
-                                                <div class="upload-pre-file"><span class="upload_icon_all"></span>{$data[$field['name']]|get_table_field=###,'id','name','File'}</div>
-                                            </present>
-                                        </div>
+                                    <input type="file" id="upload_file_{$field.name}">
+                                    <input type="hidden" name="{$field.name}" value="{:think_encrypt(json_encode(get_table_field($data[$field['name']],'id','','File')))}"/>
+                                    <div class="upload-img-box">
+                                        <present name="data[$field['name']]">
+                                            <div class="upload-pre-file"><span class="upload_icon_all"></span>{$data[$field['name']]|get_table_field=###,'id','name','File'}</div>
+                                        </present>
                                     </div>
                                     <script type="text/javascript">
                                     //上传图片
@@ -176,7 +178,7 @@
                                     </script>
                                 </case>
                                 <default/>
-                                <input type="text" class="text input-large" name="{$field.name}" value="{$data[$field['name']]}">
+                                <input type="text" class="input-sm" name="{$field.name}" value="{$data[$field['name']]}">
                             </switch>
                         </div>
                     </div>
@@ -186,10 +188,10 @@
             </volist>
 
             <div class="form-item">
-                <button class="btn btn-success ajax-post" id="submit" type="submit" target-form="form-horizontal">确 定</button>
+                <button class="btn btn-success ajax-post" id="submit" type="submit" target-form="edit">确 定</button>
                 <a class="btn btn-success" href="{$Think.cookie.__forward__}">返 回</a>
                 <if condition="C('OPEN_DRAFTBOX') and (ACTION_NAME eq 'add' or $data['status'] eq 3)">
-                <button class="btn btn-success" id="autoSave" url="{:U('article/autoSave')}" target-form="form-horizontal">
+                <button class="btn btn-success" id="autoSave" url="{:U('article/autoSave')}" target-form="edit">
                     存草稿
                 </button>
                 </if>
@@ -203,81 +205,85 @@
     </div>
 </block>
 
+<block name="style">
+    <link href="__STATIC__/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+</block>
 <block name="script">
-<link href="__STATIC__/datetimepicker/css/datetimepicker.css" rel="stylesheet" type="text/css">
-<script src="__STATIC__/datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
-<script src="__STATIC__/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
-<script>
-Think.setValue("type", {$data.type|default='""'});
-Think.setValue("display", {$data.display|default=0});
+    <script src="__STATIC__/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="__STATIC__/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+    <script>
 
-$('#submit').click(function(){
-    $('#form').submit();
-});
-
-$(function(){
-    $('.time').datetimepicker({
-        format: 'yyyy-mm-dd hh:ii',
-        language:"zh-CN",
-        minView:2,
-        autoclose:true
-    });
-    showTab();
-
-    <if condition="C('OPEN_DRAFTBOX') and (ACTION_NAME eq 'add' or $data['status'] eq 3)">
-    //保存草稿
-    var interval;
-    $('#autoSave').click(function(){
-        var target_form = $(this).attr('target-form');
-        var target = $(this).attr('url')
-        var form = $('.'+target_form);
-        var query = form.serialize();
-        var that = this;
-
-        $(that).addClass('disabled').attr('autocomplete','off').prop('disabled',true);
-        $.post(target,query).success(function(data){
-            if (data.status==1) {
-                updateAlert(data.info ,'alert-success');
-                $('input[name=id]').val(data.data.id);
-            }else{
-                updateAlert(data.info);
-            }
-            setTimeout(function(){
-                $('#top-alert').find('button').click();
-                $(that).removeClass('disabled').prop('disabled',false);
-            },1500);
-        })
-
-        //重新开始定时器
-        clearInterval(interval);
-        autoSaveDraft();
-        return false;
+    $('#submit').click(function(){
+        $('#form').submit();
     });
 
-    //Ctrl+S保存草稿
-    $('body').keydown(function(e){
-        if(e.ctrlKey && e.which == 83){
-            $('#autoSave').click();
+    $(function(){
+        $('.date').datetimepicker({
+            language:  'zh-CN',
+            weekStart: 1,
+            todayBtn:  "linked",
+            autoclose: true,
+            todayHighlight: true,
+            startView: 2,
+            forceParse: false,
+            format: "yyyy-mm-dd hh:ii",
+            pickerPosition: "bottom-left"
+        });
+
+        <if condition="C('OPEN_DRAFTBOX') and (ACTION_NAME eq 'add' or $data['status'] eq 3)">
+        //保存草稿
+        var interval;
+        $('#autoSave').click(function(){
+            var target_form = $(this).attr('target-form');
+            var target = $(this).attr('url')
+            var form = $('.'+target_form);
+            var query = form.serialize();
+            var that = this;
+
+            $(that).addClass('disabled').attr('autocomplete','off').prop('disabled',true);
+            $.post(target,query).success(function(data){
+                if (data.status==1) {
+                    updateAlert(data.info ,'alert-success');
+                    $('input[name=id]').val(data.data.id);
+                }else{
+                    updateAlert(data.info);
+                }
+                setTimeout(function(){
+                    $('#top-alert').find('button').click();
+                    $(that).removeClass('disabled').prop('disabled',false);
+                },1500);
+            })
+
+            //重新开始定时器
+            clearInterval(interval);
+            autoSaveDraft();
             return false;
-        }
-    });
+        });
 
-    //每隔一段时间保存草稿
-    function autoSaveDraft(){
-        interval = setInterval(function(){
-            //只有基础信息填写了，才会触发
-            var title = $('input[name=title]').val();
-            var name = $('input[name=name]').val();
-            var des = $('textarea[name=description]').val();
-            if(title != '' || name != '' || des != ''){
+        //Ctrl+S保存草稿
+        $('body').keydown(function(e){
+            if(e.ctrlKey && e.which == 83){
                 $('#autoSave').click();
+                return false;
             }
-        }, 1000*parseInt({:C('DRAFT_AOTOSAVE_INTERVAL')}));
-    }
-    autoSaveDraft();
+        });
 
-    </if>
+        //每隔一段时间保存草稿
+        function autoSaveDraft(){
+            interval = setInterval(function(){
+                //只有基础信息填写了，才会触发
+                var title = $('input[name=title]').val();
+                var name = $('input[name=name]').val();
+                var des = $('textarea[name=description]').val();
+                if(title != '' || name != '' || des != ''){
+                    $('#autoSave').click();
+                }
+            }, 1000*parseInt({:C('DRAFT_AOTOSAVE_INTERVAL')}));
+        }
+        autoSaveDraft();
 
-});
-</script>
+        </if>
+
+    });
+    </script>
 </block>

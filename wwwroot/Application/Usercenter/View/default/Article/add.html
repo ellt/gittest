@@ -22,7 +22,7 @@
     <div class="ell-tab-wrap">
         <ul class="nav nav-tabs" role="tablist">
             <volist name=":parse_config_attr($model['field_group'])" id="group">
-            <li class="<eq name='key' value='1'>active</eq>" role="presentation"> 
+            <li class="<eq name='i' value='1'>active</eq>" role="presentation"> 
                 <a data-toggle="tab" href="#tab{$key}" role="tab">{$group}</a>
             </li>
             </volist>
@@ -37,8 +37,8 @@
                 <volist name="fields[$key]" id="field">
                     <if condition="$field['is_show'] == 1 || $field['is_show'] == 2">
                     <div class="form-group">
-                        <label class="item-label">{$field['title']}<span class="check-tips"><notempty name="field['remark']">（{$field['remark']}）</notempty></span></label>
-                        <div class="controls">
+                        <label>{$field['title']}<span class="check-tips"><notempty name="field['remark']">（{$field['remark']}）</notempty></span></label>
+                        <div class="clearfix">
                             <switch name="field.type">
                                 <case value="num">
                                     <input type="text" class="input-sm" name="{$field.name}" value="{$field.value}">
@@ -50,7 +50,12 @@
                                     <textarea class="form-control" rows="3" name="{$field.name}">{$field.value}</textarea>
                                 </case>
                                 <case value="datetime">
-                                    <input type="text" class="input-sm" name="{$field.name}" placeholder="请选择时间" />
+                                <div class="col-lg-3 input-group date">
+                                    <input type="text" class="form-control input-sm" name="{$field.name}" placeholder="请选择时间" />
+                                    <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                    </span>
+                                </div>
                                 </case>
                                 <case value="bool">
                                     <select class="input-sm" name="{$field.name}">
@@ -200,78 +205,85 @@
     </div>
 </block>
 
+<block name="style">
+    <link href="__STATIC__/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+</block>
 <block name="script">
-<link href="__STATIC__/datetimepicker/css/datetimepicker.css" rel="stylesheet" type="text/css">
-<script src="__STATIC__/datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
-<script src="__STATIC__/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
-<script>
+    <script src="__STATIC__/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="__STATIC__/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+    <script>
 
-$('#submit').click(function(){
-    $('#form').submit();
-});
-
-$(function(){
-    $('.time').datetimepicker({
-        format: 'yyyy-mm-dd hh:ii',
-        language:"zh-CN",
-        minView:2,
-        autoclose:true
+    $('#submit').click(function(){
+        $('#form').submit();
     });
 
-    <if condition="C('OPEN_DRAFTBOX') and (ACTION_NAME eq 'add' or $info['status'] eq 3)">
-    //保存草稿
-    var interval;
-    $('#autoSave').click(function(){
-        var target_form = $(this).attr('target-form');
-        var target = $(this).attr('url')
-        var form = $('.'+target_form);
-        var query = form.serialize();
-        var that = this;
+    $(function(){
+        $('.date').datetimepicker({
+            language:  'zh-CN',
+            weekStart: 1,
+            todayBtn:  "linked",
+            autoclose: true,
+            todayHighlight: true,
+            startView: 2,
+            forceParse: false,
+            format: "yyyy-mm-dd hh:ii",
+            pickerPosition: "bottom-left"
+        });
 
-        $(that).addClass('disabled').attr('autocomplete','off').prop('disabled',true);
-        $.post(target,query).success(function(data){
-            if (data.status==1) {
-                updateAlert(data.info ,'alert-success');
-                $('input[name=id]').val(data.data.id);
-            }else{
-                updateAlert(data.info);
-            }
-            setTimeout(function(){
-                $('#top-alert').find('button').click();
-                $(that).removeClass('disabled').prop('disabled',false);
-            },1500);
-        })
+        <if condition="C('OPEN_DRAFTBOX') and (ACTION_NAME eq 'add' or $info['status'] eq 3)">
+        //保存草稿
+        var interval;
+        $('#autoSave').click(function(){
+            var target_form = $(this).attr('target-form');
+            var target = $(this).attr('url')
+            var form = $('.'+target_form);
+            var query = form.serialize();
+            var that = this;
 
-        //重新开始定时器
-        clearInterval(interval);
-        autoSaveDraft();
-        return false;
-    });
+            $(that).addClass('disabled').attr('autocomplete','off').prop('disabled',true);
+            $.post(target,query).success(function(data){
+                if (data.status==1) {
+                    updateAlert(data.info ,'alert-success');
+                    $('input[name=id]').val(data.data.id);
+                }else{
+                    updateAlert(data.info);
+                }
+                setTimeout(function(){
+                    $('#top-alert').find('button').click();
+                    $(that).removeClass('disabled').prop('disabled',false);
+                },1500);
+            })
 
-    //Ctrl+S保存草稿
-    $('body').keydown(function(e){
-        if(e.ctrlKey && e.which == 83){
-            $('#autoSave').click();
+            //重新开始定时器
+            clearInterval(interval);
+            autoSaveDraft();
             return false;
-        }
-    });
+        });
 
-    //每隔一段时间保存草稿
-    function autoSaveDraft(){
-        interval = setInterval(function(){
-            //只有基础信息填写了，才会触发
-            var title = $('input[name=title]').val();
-            var name = $('input[name=name]').val();
-            var des = $('textarea[name=description]').val();
-            if(title != '' || name != '' || des != ''){
+        //Ctrl+S保存草稿
+        $('body').keydown(function(e){
+            if(e.ctrlKey && e.which == 83){
                 $('#autoSave').click();
+                return false;
             }
-        }, 1000*parseInt({:C('DRAFT_AOTOSAVE_INTERVAL')}));
-    }
-    autoSaveDraft();
+        });
 
-    </if>
+        //每隔一段时间保存草稿
+        function autoSaveDraft(){
+            interval = setInterval(function(){
+                //只有基础信息填写了，才会触发
+                var title = $('input[name=title]').val();
+                var name = $('input[name=name]').val();
+                var des = $('textarea[name=description]').val();
+                if(title != '' || name != '' || des != ''){
+                    $('#autoSave').click();
+                }
+            }, 1000*parseInt({:C('DRAFT_AOTOSAVE_INTERVAL')}));
+        }
+        autoSaveDraft();
 
-});
-</script>
+        </if>
+
+    });
+    </script>
 </block>
