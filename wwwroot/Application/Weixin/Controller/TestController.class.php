@@ -107,4 +107,8 @@ class TestController extends BaseController {
         $data['url'] = "refresh";
         $this->ajaxReturn($data);
     }
+
+    public function homework() {
+        $this->display();
+    }
 }
