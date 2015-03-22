@@ -617,6 +617,9 @@ class TuserController extends UserCenterController {
         $this->ajaxReturn($data);
     }
 
+    public function myClass() {
+        $this->display();
+    }
 
 ////////////////////////新学期设置 NewTerm////////////////////////////////
 
