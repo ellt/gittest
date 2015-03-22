@@ -16,7 +16,7 @@ class JssdkTestController extends Controller{
 
     public function index() {
         
-        $jssdk = new Jssdk("wx971717953ee2e242", "ad9946d429c88d837f916f8dda7f49d7");
+        $jssdk = new Jssdk("wx9a92688da58adc0d", "4027198651a64e9c795a8a0f9072a50b");
         $signPackage = $jssdk->GetSignPackage();
 //         dump($signPackage);die();
         $this->assign('sign_package', $signPackage);
