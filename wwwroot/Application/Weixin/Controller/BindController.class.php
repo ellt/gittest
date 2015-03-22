@@ -9,6 +9,7 @@
 
 namespace Weixin\Controller;
 use Think\Controller;
+use Common\Api\GlobalApi;
 
 class BindController extends Controller {
     
@@ -142,7 +143,7 @@ class BindController extends Controller {
                 $data['hint'] = $uiErrorMsg;
                 $this->ajaxReturn($data);
             }else{
-                $this->success('绑定成功！', null, IS_AJAX);
+                $this->success('绑定成功！', U('teacher'), IS_AJAX);
             }
         }
         else{
@@ -156,6 +157,10 @@ class BindController extends Controller {
             $this->display('Test/teacherlogin');
         }
        
+    }
+    
+    public function familyQrCreate($openid){
+        GlobalApi::qrCreate($openid);
     }
     
 }
