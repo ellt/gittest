@@ -1,0 +1,109 @@
+<div class="modal fade" id="myModal" data-url="{:U('getStudentInitInfo')}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">关闭</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel"><span></span>菜单</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="myModalForm" role="form">
+                    <div class="form-group has-feedback">
+                        <label class="col-sm-3 control-label" for="title">菜单名</label>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control" id="title" name="title">
+                            <span class="form-control-feedback"></span>
+                        </div>
+                        <div class="col-sm-4 help-block hidden"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">类型</label>
+                        <div class="col-sm-5">
+                            <label class="radio-inline">
+                                <input type="radio" name="type" value="click" checked> 发送信息
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="type" value="url"> 跳转到网页
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group has-feedback">
+                        <label class="col-sm-3 control-label" for="keyword">信息关键词</label>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control" id="keyword" name="keyword">
+                            <span class="form-control-feedback"></span>
+                        </div>
+                        <div class="col-sm-4 help-block hidden"></div>
+                    </div>
+
+                    <div class="form-group has-feedback hidden">
+                        <label class="col-sm-3 control-label" for="url">网页地址</label>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control" id="url" name="url">
+                            <span class="form-control-feedback"></span>
+                        </div>
+                        <div class="col-sm-4 help-block hidden"></div>
+                    </div>
+
+                    <input type="hidden" name="id">
+                    <input type="hidden" name="class_id" value="{$class_id}" >
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary" data-submit="modal" data-target="#myModalForm" data-url="{:U('setStudentInfo')}" data-loading-text="提交中..." autocomplete="off">确 定</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+$(function(){
+
+    initModalEvent('#myModal', initModal, initOtherEvent);
+
+    function initModal($modal, data, isClear) {
+        if (isClear) {
+            return true;
+        }
+
+        $("span", "#myModalLabel").html(data.id===0?"新增":"编辑");
+        
+        for (var i in data) {
+            var $input = $("[name=" + i + "]", $modal);
+            var type = $input.attr('type');
+            
+            if (type === "radio") {
+                $input.filter("[value="+ data[i] +"]").prop('checked', true);
+                setMenuType(data[i]);
+            } else {
+                // type === "text" || type === "hidden"
+                $input.val(data[i]);
+            }
+        }
+    }
+
+    function initOtherEvent() {
+        $("input[name='type']").click(function(event) {
+            setMenuType(this.value);
+        });
+    }
+
+    function setMenuType($type) {
+        var keyword = $("#keyword").parents(".form-group");
+        var url = $("#url").parents(".form-group");
+
+        if ($type === "click") {
+            keyword.removeClass('hidden');
+            url.addClass('hidden');
+        } else {
+            url.removeClass('hidden');
+            keyword.addClass('hidden');
+        }
+    }
+});
+</script>
