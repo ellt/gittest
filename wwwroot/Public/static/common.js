@@ -341,8 +341,8 @@ function initModalEvent(modalSelector, initModalFun, initOtherEvent) {
             }
         });
 
-        // 清除表单内容及状态
-        initModalFun($modal, null, true);
+        // 清除表单内容及状态,或初始化
+        initModalFun($modal, $(e.relatedTarget), true);
         showFormTip($modal);
     });
 

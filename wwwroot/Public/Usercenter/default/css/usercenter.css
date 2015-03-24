@@ -1,5 +1,36 @@
+.ell-class-top {
+  margin-bottom: 20px;
+  padding: 9px;
+  background-color: #f1f9f7;
+  border-color: #e0f1e9;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+}
+.ell-class-top .ell-font {
+  line-height: 1.3333333;
+  padding: 10px;
+}
+.ell-class-top .ell-btn {
+  margin: 10px auto;
+  text-align: center;
+}
+.ell-class-top .alert {
+  margin: 10px auto;
+  padding: 10px;
+}
+.ell-class-top .dropdown-menu > li > p {
+  padding: 3px 20px;
+}
+.ell-class-top .dropdown-menu > li > p:hover,
+.ell-class-top .dropdown-menu > li > p:focus {
+  color: #a94442;
+  background-color: #f2dede;
+}
+.ell-class-msg {
+  position: relative;
+  min-height: 200px;
+}
 .ell-class-msg .ell-font {
-  margin: 20px 0;
+  margin: 90px auto 20px;
   text-align: center;
   font-size: 16px;
   font-weight: bold;
@@ -7,6 +38,53 @@
 .ell-class-msg .ell-btn {
   margin: 20px auto;
   text-align: center;
+}
+.ell-class-msg .ell-s-container {
+  position: relative;
+  height: 280px;
+}
+.ell-class-msg .ell-m-container {
+  position: relative;
+  height: 280px;
+  border-left: 1px solid #ebe9e4;
+  border-right: 1px solid #ebe9e4;
+}
+.ell-class-msg .ell-m-block {
+  margin: 90px auto;
+  padding-top: 20px;
+  height: 100px;
+  text-align: center;
+  font-size: 16px;
+  font-weight: bold;
+  border: 1px solid transparent;
+}
+.ell-class-msg .ell-m-block:hover,
+.ell-class-msg .ell-m-block:focus {
+  border: 1px solid #bebebe;
+  -moz-box-shadow: 2px 2px 8px;
+  -webkit-box-shadow: 2px 2px 8px;
+  box-shadow: 2px 2px 8px;
+  cursor: pointer;
+}
+.ell-class-msg .ell-t-block {
+  float: left;
+  margin: 0 0 10px 10px;
+  padding: 10px;
+  width: 100px;
+  border-radius: 3px;
+  border: #eee solid 1px;
+}
+.ell-class-msg .ell-t-block.ell-t-warning {
+  background-color: #f2dede;
+  border-color: #ebccd1;
+}
+.ell-class-msg .ell-t-block:hover,
+.ell-class-msg .ell-t-block:focus {
+  border: #bebebe solid 1px;
+  -moz-box-shadow: 2px 2px 8px;
+  -webkit-box-shadow: 2px 2px 8px;
+  box-shadow: 2px 2px 8px;
+  cursor: pointer;
 }
 .ell-homework-container {
   background-color: #FAFAFA;
