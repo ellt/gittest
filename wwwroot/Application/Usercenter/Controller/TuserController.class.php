@@ -230,7 +230,7 @@ class TuserController extends UserCenterController {
             $data['url'] = "refresh";
             $this->ajaxReturn($data);
         }
-        $this->display('Class/index');
+        $this->display();
     }
 
     public function classInit() {
