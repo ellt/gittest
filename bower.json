@@ -18,6 +18,7 @@
     "bootstrap": "~3.3.4",
     "smalot-bootstrap-datetimepicker": "~2.3.1",
     "echarts": "~2.2.1",
-    "handsontable": "~0.13.1"
+    "handsontable": "~0.13.1",
+    "bootstrap-hover-dropdown": "~2.1.3"
   }
 }
