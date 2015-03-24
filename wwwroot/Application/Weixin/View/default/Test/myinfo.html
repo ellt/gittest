@@ -1,7 +1,7 @@
 <extend name="MobilePublic/base"/>
 
 <block name="header">
-    <include file="test/myinfomodal"/>
+    <include file="Test/myinfomodal"/>
 
     <div class="modal" id="parentModal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-sm">
@@ -43,11 +43,10 @@
             </div>
         </div>
         
-        <foreach name="family_list" key="fid" item="family" >
-            <div class="section">
-        
+        <foreach name="family_list" key="fid" item="family">
+        <div class="section">
 			<div class="title">
-				<if condition="$family['master_flag'] eq true ">
+				<if condition="$family['master_flag'] eq true">
 				我管理的家庭
 				<a class="pull-right" id="manager" data-state=false href="javascript:;">
                     <i class="fa fa-cog fa-fw"></i>
@@ -63,7 +62,7 @@
                 <!-- 列出学生信息 !-->
                 <div class="heading">
                     孩子
-                    <if condition="$family['master_flag'] eq true ">
+                    <if condition="$family['master_flag'] eq true">
                     <a class="pull-right" href="{:U('bind/family?openid=' . $openid)}">
                         <span class="glyphicon glyphicon-plus"></span> 添加
                     </a>
@@ -81,7 +80,7 @@
                 <!-- 列出家长信息 !-->
                 <div class="heading">
                     家长
-                    <if condition="$family['master_flag'] eq true ">
+                    <if condition="$family['master_flag'] eq true">
                     <a class="pull-right" data-toggle="modal" href="#parentModal">
                         <span class="glyphicon glyphicon-plus"></span> 添加
                     </a>
@@ -99,6 +98,17 @@
                 </div>    
             </div>
         </div>
+        </foreach>
+        <foreach name="family_list" key="fid" item="family">
+            <if condition="($fid eq 0) AND $family['master_flag'] neq true">
+            <div class="section">
+                <div class="content">
+                    <a class="btn" href="{:U('bind/family?openid=' . $openid)}">
+                        <span class="glyphicon glyphicon-plus"></span> 绑定更多的孩子
+                    </a>
+                </div>
+            </div>
+            </if>
         </foreach>
     </div>
     </div>

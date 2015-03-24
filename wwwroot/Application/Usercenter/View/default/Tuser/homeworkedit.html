@@ -4,30 +4,23 @@
 
 <block name="content">
     <div class="well well-lg ell-homework-main">
-        <div class="row">
-            <h2>编辑已布置的作业</h2>
-        </div>
-        <form id="addHomeworkForm" role="form">
-            <div class="row">
-                <div class="col-xs-4 col-sm-2">
-                    <p class="h5 text-right">科 目</p>
-                </div>
+        <h2 class="page-header">修改已布置的作业</h2>
+
+        <form class="form-horizontal" id="addHomeworkForm" role="form">
+            <div class="form-group">
+                <label class="col-xs-4 col-sm-2 control-label">科 目</label>
                 <div class="col-xs-8 col-sm-10">
-                    <p class="h5">语 文</p>
+                    <p class="form-control-static">语 文</p>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-xs-4 col-sm-2">
-                    <p class="h5 text-right">班 级</p>
-                </div>
+            <div class="form-group">
+                <label class="col-xs-4 col-sm-2 control-label">班 级</label>
                 <div class="col-xs-8 col-sm-10">
-                    <p class="h5">2009级1班</p>
+                    <p class="form-control-static">2009级1班</p>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-xs-4 col-sm-2">
-                    <p class="h5 text-right">预计用时</p>
-                </div>
+            <div class="form-group">
+                <label class="col-xs-4 col-sm-2 control-label">预计用时</label>
                 <div class="col-xs-8 col-sm-3">
                     <div class="input-group input-group-sm">
                       <input type="text" class="form-control" id="setTime" name="time">
@@ -41,35 +34,30 @@
                     <button type="button" class="btn btn-primary btn-sm" data-form-btn="set-time" data-target="#setTime" data-content="90">90分钟</button>
                 </div>
             </div>
-
-            <div class="row">
-                <div>
-                    <textarea class="form-control" id="homework" name="homework" rows="5" placeholder="请输入作业内容，建议格式如下："></textarea>
-                    <div class="pull-right">
-                        <a class="btn btn-danger" href="" title="放弃修改">返回</a>
-                        <button type="button" class="btn btn-warning" data-submit="form" data-target="#addHomeworkForm" data-url="{:U('Tuser/homework')}" data-status="0" data-loading-text="提交中..." autocomplete="off">今天没作业</button>
-                    </div>
-                </div>
-            </div>
-            <hr>
-            <h3>
-              作业布置情况  
-            </h3>
-            <div class="row">
-                <div class="col-xs-6 col-sm-2">
-                    <span class="h5"><strong>2009 级 1 班</strong></span>
-                </div>
-                <div class="col-xs-6 col-sm-2">
-                    合计：<span class="label label-primary">120分钟</span>
-                </div>
-                <div class="col-xs-6 col-sm-2">
-                    数学：<span class="label label-default">60分钟</span> 
-                </div>
-                <div class="col-xs-6 col-sm-2">
-                    英语：<span class="label label-default">60分钟</span> 
+            <div class="form-group">
+                <textarea class="form-control" id="homework" name="homework" rows="8" placeholder="请输入作业内容，建议格式如下："></textarea>
+                <div class="pull-right">
+                    <a class="btn btn-danger" href="" title="放弃修改">返回</a>
+                    <button type="button" class="btn btn-warning" data-submit="form" data-target="#addHomeworkForm" data-url="{:U('Tuser/homework')}" data-status="0" data-loading-text="提交中..." autocomplete="off">今天没作业</button>
                 </div>
             </div>
         </form>
+        <hr>
+        <h3>作业布置情况</h3>
+        <div class="row">
+            <div class="col-xs-6 col-sm-2">
+                <span class="h5"><strong>2009 级 1 班</strong></span>
+            </div>
+            <div class="col-xs-6 col-sm-2">
+                合计：<span class="label label-primary">120分钟</span>
+            </div>
+            <div class="col-xs-6 col-sm-2">
+                数学：<span class="label label-default">60分钟</span> 
+            </div>
+            <div class="col-xs-6 col-sm-2">
+                英语：<span class="label label-default">60分钟</span> 
+            </div>
+        </div>
     </div>
     <div class="ell-homework-history">
         <include file="homeworkhistory"/>

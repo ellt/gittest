@@ -1,9 +1,20 @@
+.ell-class-msg .ell-font {
+  margin: 20px 0;
+  text-align: center;
+  font-size: 16px;
+  font-weight: bold;
+}
+.ell-class-msg .ell-btn {
+  margin: 20px auto;
+  text-align: center;
+}
+.ell-homework-container {
+  background-color: #FAFAFA;
+}
 .ell-homework-main {
+  padding-top: 0;
   margin: 20px 0;
   background: white;
-}
-.ell-homework-main .row {
-  margin-bottom: 10px;
 }
 .ell-homework-main textarea {
   margin-bottom: 10px;

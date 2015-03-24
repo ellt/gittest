@@ -1,0 +1,41 @@
+官网：http://www.gruntjs.net/docs/getting-started/
+
+---------------安装 nodejs------------------------
+一、安装方法略
+二、node查看版本 node -v
+三、npm是node官方提供的包依赖管理工具,当我们安装好nodejs后， npm 就自动可用了。
+四、npm查看版本 npm -v
+
+---------------安装 grunt-------------------------
+
+一、执行流程
+1、安装Grunt CLI。
+2、在项目根目录配置package.json 和 Gruntfile 文件。
+3、将命令行的当前目录转到项目的根目录下。
+4、执行npm install命令安装项目依赖的库(即package.json 中 devDependencies配置的库)。
+5、执行 grunt 命令。
+
+另：向已经存在的package.json 文件中添加node模块的最简单方式是通过 npm install <module> --save-dev命令。此命令不光安装了<module>，还会自动将其添加到devDependencies 配置段中。
+
+
+二、Gruntfile由以下几部分构成：
+"wrapper" 函数
+项目与任务配置
+加载grunt插件和任务
+自定义任务
+
+三、常用插件
+grunt-contrib-uglify
+grunt-contrib-qunit
+grunt-contrib-concat
+grunt-contrib-jshint
+grunt-contrib-watch
+
+------------------------------安装bower--------------
+一、bower跟npm在某种意义上相似，它是用来管理常用的js库的依赖的，比如jquery, underscore, angularjs等。
+二、安装命令 npm install bower -g
+
+-----------------------安装grunt-bower-task----------------
+一、bower只负责把依赖下载到本地的 bower_components 目录，并不负责把它们拷贝到我们项目中实际使用的地方，比如 public/js/lib 目录下。grunt-bower-task可实现这样的功能。
+二、安装命令 npm install grunt-bower-task --save-dev
+三、然后打开其文档：https://www.npmjs.org/package/grunt-bower-task ，按照上面的提示进行配置。

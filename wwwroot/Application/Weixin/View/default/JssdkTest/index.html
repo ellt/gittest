@@ -2,11 +2,15 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title></title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>微信jsSDK</title>
 </head>
 <body>
-  
+  <div id="kk"></div>
+  <button id="btn">扫一扫</button>
 </body>
+<script src="__STATIC__/jquery-2.1.3.min.js"></script>
 <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 <script>
   /*
@@ -20,18 +24,49 @@
    * 邮件主题：【微信JS-SDK反馈】具体问题
    * 邮件内容说明：用简明的语言描述问题所在，并交代清楚遇到该问题的场景，可附上截屏图片，微信团队会尽快处理你的反馈。
    */
+
   wx.config({
     debug: true,
     appId: '{$sign_package.appId}',
     timestamp: '{$sign_package.timestamp}',
     nonceStr: '{$sign_package.nonceStr}',
     signature: '{$sign_package.signature}',
-    jsApiList: [
+    jsApiList: ['scanQRCode','checkJsApi'
       // 所有要调用的 API 都要加到这个列表中
     ]
   });
+
   wx.ready(function () {
     // 在这里调用 API
+    $("#kk").html("ready,ok");
+    alert("ready,ok");
+
+    wx.checkJsApi({
+      jsApiList: ['scanQRCode'], // 需要检测的JS接口列表，所有JS接口列表见附录2,
+      success: function(res) {
+          $("#kk").html("checkJsApi,ok");
+          alert("scanQRCode "+res);
+          // 以键值对的形式返回，可用的api值true，不可用为false
+          // 如：{"checkResult":{"chooseImage":true},"errMsg":"checkJsApi:ok"}
+      }
+    });
+
+    $("#btn").click(function(event) {
+      wx.scanQRCode({
+        needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
+        scanType: ["qrCode","barCode"], // 可以指定扫二维码还是一维码，默认二者都有
+        success: function (res) {
+        var result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
+          $("#kk").html("scanQRCoderesult："+result);
+          alert(result);
+        }
+      });
+    });
   });
+
+  wx.error(function (res) {
+    $("#kk").html("JS-SDK产生错误："+res.errMsg);
+    alert(res.errMsg);
+  }); 
 </script>
 </html>

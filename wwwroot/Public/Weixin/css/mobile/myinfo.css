@@ -24,11 +24,17 @@ body {
   border-top: 1px solid #f4f4f4;
 }
 
+.section .content > a {
+  display: block;
+  padding: 12px 15px;
+  color: #337ab7;
+}
+
 .title a:link,
 .title a:visited,
 .heading a:link,
 .heading a:visited {
-    color: #337ab7;
+  color: #337ab7;
 }
 
 .list-group .list-group-item {

@@ -424,6 +424,19 @@ function showFormTip(form, data) {
 
 // 工具函数
 
+// 替换所有的回车换行  
+function newlinetoHTML(content)  
+{  
+    var string = content;  
+    try{  
+        string=string.replace(/\r\n/g,"<br>");
+        string=string.replace(/\n/g,"<br>");  
+    }catch(e) {  
+        alert(e.message);  
+    }  
+    return string;  
+}  
+
 function displayObj(obj) {
     var names = "";
     for (var name in obj) {

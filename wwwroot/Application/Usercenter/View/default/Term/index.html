@@ -67,7 +67,13 @@
     </div>
 </block>
 
+<block name="style">
+    <link href="__STATIC__/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+</block>
+
 <block name="script">
+    <script src="__STATIC__/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="__STATIC__/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
     <script>
     $(function(){
         $('#showHistory').click(function(event) {

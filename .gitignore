@@ -7,3 +7,4 @@ wwwroot/Application/Install/Data/install.lock
 参考资料/
 wwwroot/Data/Temp/
 node_modules/
+bower_components/
