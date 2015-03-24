@@ -23,12 +23,28 @@ class TermController extends UserCenterController {
     
     
     public function index(){
-
-        $termList = $this->model->order('term_year desc')->select();
         
-        $nowTermYearInfo = array_shift($termList);
-        $nextTermYearInfo = $this->model->getNextTermInfo();
-            
+        
+
+        
+        $termHistoryList = $this->model->getHistoryTermInfo();
+        $nowTermYearInfo = $this->model->getNowTermInfo();
+        
+        if($nowTermYearInfo['status'] == 'prepare'){
+            $nextTermYearInfo = $nowTermYearInfo;
+            $nowTermYearInfo = array_shift($termHistoryList);
+        }else{
+            $nextTermYearInfo = $this->model->getNextTermInfo();
+        }
+        
+        
+        
+
+//         dump($termHistoryList);
+//         dump($nowTermYearInfo);
+//         dump($nextTermYearInfo);die();
+        
+//         dump($nextTermYearInfo);die();
             // 获取标定当前学期的情况
         if (NOW_TIME < $nowTermYearInfo['t2']) {
             $nowTermYearInfo['current'] = 't1';
@@ -42,7 +58,7 @@ class TermController extends UserCenterController {
 
         $this->assign('next',$nextTermYearInfo);
         $this->assign('now',$nowTermYearInfo); // 当前学期
-        $this->assign('term_histoty_list', $termList);
+        $this->assign('term_histoty_list', $termHistoryList);
         $this->display();
     }
 
@@ -132,7 +148,6 @@ class TermController extends UserCenterController {
             $oneterm["t2"] = ($oneterm['excel_t2']-70*365-19)*86400-8*3600;
             $oneterm["t3"] = ($oneterm['excel_t3']-70*365-19)*86400-8*3600;
             $oneterm["t4"] = ($oneterm['excel_t4']-70*365-19)*86400-8*3600;
-            $oneterm["active"] = ($oneterm['active_time']-70*365-19)*86400-8*3600;
             
 //             unset($oneterm['excel_time_start']);
 //             unset($oneterm['excel_time_end']);
@@ -141,7 +156,6 @@ class TermController extends UserCenterController {
             $oneterm["t2"] = date('Y-m-d', $oneterm["t2"]);
             $oneterm["t3"] = date('Y-m-d', $oneterm["t3"]);
             $oneterm["t4"] = date('Y-m-d', $oneterm["t4"]);
-            $oneterm["active"] = date('Y-m-d', $oneterm["active"]);
             
             
             $_POST = $oneterm;

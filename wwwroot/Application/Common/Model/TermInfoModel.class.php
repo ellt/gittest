@@ -68,18 +68,7 @@ class TermInfoModel  extends Model{
             return false;
         }
         
-        // 重复记录检查
-        $map['term_year'] = $data['term_year'];
-        $info = $this->where($map)->find();
-       
-        if(!empty($info)){
-            $data['id'] = $info['id'];
-        }
-        
-        // 自动检测
-        $data = $this->create($data);
-        
-        return $data;
+        return true;
     }
     
     public function saveData($data){
@@ -89,19 +78,23 @@ class TermInfoModel  extends Model{
         }
         //将其实结束时间转换成时间戳再保存到数据库中
         
-        $data['t1'] = strtotime($data['t1']);
-        $data['t2'] = strtotime($data['t2']);
-        $data['t3'] = strtotime($data['t3']);
-        $data['t4'] = strtotime($data['t4']);
+//         $data['t1'] = strtotime($data['t1']);
+//         $data['t2'] = strtotime($data['t2']);
+//         $data['t3'] = strtotime($data['t3']);
+//         $data['t4'] = strtotime($data['t4']);
         
-        if(isset($data['active']))  $data['active'] = strtotime($data['active']);
-       
-        if(empty($data['id'])){
+        
+        // 重复记录检查
+        $map['id'] = $data['id'];
+        $info = $this->where($map)->find();
+         
+        if(empty($info)){
             $update_success_id =  $this->add($data);
         }else{
             $this->save($data);
             $update_success_id = $data['id'];
         }
+        
 //         dump($this->getLastSql());
         return $update_success_id;
     }
@@ -141,16 +134,6 @@ class TermInfoModel  extends Model{
         return $successFlag;
     }
     
-    public function getNextTermInfo() {
-        $info = $this->order('t4 desc')->find();
-        $info['id'] = null;
-        $info['term_year'] = $info['term_year']+1;
-        $info['t1'] = strtotime($info['term_year'] . '-9-1');
-        $info['t2'] = strtotime(($info['term_year']+1) . '-2-1');
-        $info['t3'] = strtotime(($info['term_year']+1) . '-3-1');
-        $info['t4'] = strtotime(($info['term_year']+1) . '-7-10');
-        return $info;
-    }
     
     public function getTermShowInfoById($id) {
         
@@ -164,8 +147,8 @@ class TermInfoModel  extends Model{
         if ($info) {
             foreach ($info as $k => $v) {
                 switch ($k) {
-                    case 'term_year':
-                        $showInfo['term_year']['value'] = $v . '-' . ($v + 1);
+                    case 'id':
+                        $showInfo['id']['value'] = $v . '-' . ($v + 1);
                         break;
                     case 't1':
                     case 't2':
@@ -175,7 +158,7 @@ class TermInfoModel  extends Model{
                             if ($info[$k] == null) {
                                 $showInfo[$k]['value'] = null;
                             } else {
-                                $showInfo[$k]['value'] = date('Y-m-d', $v);
+                                $showInfo[$k]['value'] = $v;
                                 if ($v < NOW_TIME) {
                                     $showInfo[$k]['readonly'] = true;
                                 }
@@ -192,5 +175,23 @@ class TermInfoModel  extends Model{
         }
         return false;
     }
+
     
+    public function getHistoryTermInfo(){
+        $map['status'] = 'finish';
+        $termHistoryList = $this->where($map)->order('id desc')->select();
+        return $termHistoryList;
+    }
+    
+    public function getNowTermInfo(){
+        $map['status'] = array('in', array('prepare','underway'));
+        $term = $this->where($map)->order('id ')->find();
+        return $term;
+    }
+    
+    public function getNextTermInfo(){
+        $map['status'] = 'prepare';
+        $term = $this->where($map)->order('id ')->find();
+        return $term;
+    }
 } 

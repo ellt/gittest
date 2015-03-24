@@ -12,6 +12,7 @@
 namespace Common\Api;
 
 use Vendor\QRcode;
+use Admin\Controller\PublicController;
 
 class GlobalApi {
 
@@ -27,6 +28,16 @@ class GlobalApi {
     static public function setSubjectList($gSubujecList = null) {
         S('gSubjectList', null);
     }
+    
+    
+    static public function getCurTerm(){
+        $gCurTerm = S('gCurTerm');
+        if (!$gCurTerm) {
+            $gCurTerm = D('Common/TermInfo')->getNowTermInfo();
+            S('gSubjectList', $gCurTerm);
+        }
+        return $gCurTerm;
+    } 
     
     static public function getClassTeachInfo(){
         
