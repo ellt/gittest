@@ -92,6 +92,15 @@ class TermController extends UserCenterController {
     }
     
     
+    public function finish(){
+        $this->model->finish();     
+    }
+    
+    public function upgrate(){
+        $this->model->upgrate();
+//         die($this->model->getError());
+    }
+    
     public function loadTermFormExcelObjiec() {
         //         Vendor('Classes.PHPExcel');
         import("Vendor.Classes.PHPExcel");

@@ -82,3 +82,17 @@ CREATE TABLE `onethink_auth_group_access` (
   KEY `uid` (`uid`),
   KEY `group_id` (`group_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+
+
+DROP TABLE IF EXISTS `school_std_rel_cls`;
+CREATE TABLE `school_std_rel_cls` (
+  `term_year` year(4) NOT NULL COMMENT '学年',
+  `uid` int(10) NOT NULL COMMENT '学生编号',
+  `cls_id` int(4) NOT NULL COMMENT '班级编号',
+  `t1` date DEFAULT NULL COMMENT '状态起始时间',
+  `t2` date DEFAULT NULL COMMENT '状态结束时间',
+  `status` char(10) NOT NULL COMMENT '支持状态类型（underway, shift, finish, graduate）',
+  PRIMARY KEY (`term_year`,`uid`,`cls_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+

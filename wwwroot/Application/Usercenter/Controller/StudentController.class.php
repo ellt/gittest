@@ -11,6 +11,7 @@
 namespace Usercenter\Controller;
 
 use User\Api\UserApi;
+use Common\Api\GlobalApi;
 
 class StudentController extends UserCenterController {
 
@@ -271,12 +272,23 @@ class StudentController extends UserCenterController {
                 }
             }
         }
-        dump(count($arr));
+//         dump(GlobalApi::getCurTerm());die();
+//         dump(count($arr));die();
+        $curTerm = GlobalApi::getCurTerm();
+        $m = D('Common/StdRelCls');
         foreach ($arr as $key => $oneuser) {
             $_POST = $oneuser;
-            $ret = $this->model->register();
-            if ($ret) {
-                dump('添加学生信息成功！');
+            
+            $studentId = $this->model->register();
+            if ($studentId) {
+                
+               $ret =  $m->addStudentToClass($studentId, $oneuser['class_id']);
+               if($ret === false){
+                   dump($m->getError());
+                   dump($key);die();
+               }
+               dump('添加学生信息成功！');
+                
             } else {
                 dump($oneuser);
                 dump($this->model->getError());

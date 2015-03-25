@@ -194,4 +194,61 @@ class TermInfoModel  extends Model{
         $term = $this->where($map)->order('id ')->find();
         return $term;
     }
+    
+    public function finish(){
+//         $map['status'] = 'underway';
+        $curTerm = $this->getNowTermInfo();
+        if($curTerm['status'] == 'finish'){
+            $this->error = '当前学年已结束，无需重复设置！';
+            return false;
+                    
+        }else if($curTerm['status'] == 'prepare'){
+            $this->error = '当前学年未开始，不能结束！';
+            return false;
+        }else if($curTerm['status'] == 'underway'){
+            
+            $StdRelCls = D('Common/StdRelCls');
+            
+            if($StdRelCls->finishTerm()){
+                
+            }else{
+                $this->error = $StdRelCls->getError();
+            }
+            return $stdRelClsInfo;
+            
+        }else{
+            $this->error = '未知错误！';
+            return false;
+        }
+        
+    }
+    
+    
+    public function upgrate(){
+        //         $map['status'] = 'underway';
+        $curTerm = $this->getNowTermInfo();
+        if($curTerm['status'] == 'finish'){
+            $this->error = '当前学年已结束，未进入设置暂未进入设置阶段！';
+            return false;
+    
+        }else if($curTerm['status'] == 'underway'){
+            $this->error = '当前学年未结束，无法进入下学年！';
+            return false;
+        }else if($curTerm['status'] == 'prepare'){
+            
+            $StdRelCls = D('Common/StdRelCls');
+    
+            if($StdRelCls->upgradeTerm()){
+    
+            }else{
+                $this->error = $StdRelCls->getError();
+            }
+            return $stdRelClsInfo;
+    
+        }else{
+            $this->error = '未知错误！';
+            return false;
+        }
+    
+    }
 } 
