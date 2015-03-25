@@ -76,6 +76,55 @@ class TuserController extends UserCenterController {
         }
     }
 
+    public function finishTerm() {
+
+        $flag = false; // 测试标志 true 结束学年成功， false 结束学年失败
+
+        if ($flag) {
+            $data['status']  = 1;
+            $data['info']  = "结束学年成功";
+        } else {
+            $data['status']  = 0;
+            $data['info']  = "错误码【#15645】结束本学年操作失败！";
+        }
+
+        $this->ajaxReturn($data);
+    }
+
+    public function switchTerm() {
+        $flag = false; // 测试标志 true 结束学年成功， false 结束学年失败
+
+        if ($flag) {
+            $data['status']  = 1;
+            $data['info']  = "切换至新学年成功";
+        } else {
+            $data['status']  = 0;
+            $data['info']  = "错误码【#15645】切换至新学年操作失败！";
+        }
+
+        $this->ajaxReturn($data);
+    }
+
+    public function getSwitchTermInfo() {
+        $flag = true; // 测试标志 true 具备切换条件， false 不具备切换条件
+
+        $data['status']  = 1;
+        if ($flag) {
+            $data['data']  = array(
+                "icon" => "info",
+                "msg" => "确定要切换至新学年吗？"
+            );
+        } else {
+            $data['data']  = array(
+                "icon" => "danger",
+                "msg" => "还有 52 处未设置，请设置完后再切换至新学年！前往设置页面吗？",
+                "url" => U("usercenter/class/index/grade_id/2009/cate_id/79.html")
+            );
+        }
+
+        $this->ajaxReturn($data);
+    }
+
 // --------------科目设置 --------------------------
     public function subjectInit(){
         $data['status']  = 1;

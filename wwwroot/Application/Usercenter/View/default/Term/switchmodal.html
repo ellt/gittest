@@ -1,0 +1,70 @@
+<div class="modal fade" id="switchModal" data-url="{:U('tuser/getSwitchTermInfo')}" tabindex="-1" role="dialog" aria-labelledby="switchLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">关闭</span>
+                </button>
+                <h4 class="modal-title" id="switchLabel">提示</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-2 text-center">
+                        <p data-id="modal-icon"></p>
+                    </div>
+                    <div class="col-md-10">
+                        <p data-id="modal-msg"></p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary" data-submit="custom" data-url="{:U('tuser/switchTerm')}" data-loading-text="切换中..." autocomplete="off">确定</button>
+                <a class="btn btn-primary hidden" id="settingLink" href="">前往设置</a>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+$(function(){
+
+    // 初始化
+    var $modal = $("#switchModal");
+    var $icon  = $("[data-id='modal-icon']", $modal);
+    var $msg   = $("[data-id='modal-msg']", $modal);
+
+    initModalEvent('#switchModal', initModal, null);
+
+    function initModal($modal, data, isClear) {
+
+        if (isClear) {
+            $icon.html("");
+            $msg.html("");
+            return true;
+        }
+
+        if (data.icon === "danger") {
+            $("[type='submit']").addClass('hidden');
+            $("#settingLink").removeClass('hidden');
+            $("#settingLink").attr('href', data.url);
+        } else {
+            $("#settingLink").addClass('hidden'); 
+            $("[type='submit']").removeClass('hidden');
+        }
+        setTipIcon($icon, data.icon);
+        $msg.html(data.msg);
+    }
+
+    function setTipIcon($icon, state) {
+        if (state === "info") {
+            $icon.html("<i class='fa fa-info-circle fa-4x text-primary'></i>");
+        } else if (state === "warning") {
+            $icon.html("<i class='fa fa-warning fa-4x text-warning'></i>");
+        } else if (state === "danger") {
+            $icon.html("<i class='fa fa-times-circle-o fa-4x text-danger'></i>");
+        }
+    }
+});
+</script>
