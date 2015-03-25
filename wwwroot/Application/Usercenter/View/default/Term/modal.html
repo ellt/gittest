@@ -13,7 +13,7 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">学年</label>
                         <div class="col-sm-4">
-                            <p class="form-control-static" data-id="term_year"></p>
+                            <p class="form-control-static" data-id="id"></p>
                         </div>
                     </div>
                     
@@ -94,7 +94,7 @@ $(function(){
         }
 
         $("span", "#myModalLabel").html(data.title);
-        $("[data-id='term_year']", $modal).html(data.term_year.value);
+        $("[data-id='id']", $modal).html(data.id.value);
 		
         for (var i in data) {
             $("[name=" + i + "]", $modal).val(data[i].value);

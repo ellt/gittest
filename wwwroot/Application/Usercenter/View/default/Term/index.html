@@ -33,39 +33,43 @@
                 </tr>
             </thead>
             <tbody>
+            	<notempty name="next">
                 <tr>
-                     <td>{$next['term_year']}-{$now['term_year']++}</td>
-                    <td>{$next.t1|date='Y-m-d',###}</td>
-                    <td>{$next.t2|date='Y-m-d',###}</td>
-                    <td>{$next.t3|date='Y-m-d',###}</td>
-                    <td>{$next.t4|date='Y-m-d',###}</td>
+                    <td>{$next['id']}-{$next['id']++}</td>
+                    <td>{$next.t1}</td>
+                    <td>{$next.t2}</td>
+                    <td>{$next.t3}</td>
+                    <td>{$next.t4}</td>
                     <td>设置新学年</td>
                     <td>
                         <button class="btn btn-success btn-xs" data-toggle="modal" data-target="#myModal" data-get-param="id={$now.id}">编 辑</button>
                         <button class="btn btn-primary btn-xs" data-toggle="modal" data-target="#switchModal">切换至新学年</button>
                     </td>
-                </tr>                
-
+                </tr>
+                </notempty>               
+				
+				<notempty name="now">
                 <tr>
-                    <td>{$now['term_year']}-{$now['term_year']++}</td>
-                    <td <eq name="now['current']" value="t1">class="info" title="上学期正在进行"</eq>>{$now.t1|date='Y-m-d',###}</td>
-                    <td <eq name="now['current']" value="t2">class="info" title="上学期已结束"</eq>>{$now.t2|date='Y-m-d',###}</td>
-                    <td <eq name="now['current']" value="t3">class="info" title="下学期正在进行"</eq>>{$now.t3|date='Y-m-d',###}</td>
-                    <td <eq name="now['current']" value="t4">class="info" title="下学期已结束"</eq>>{$now.t4|date='Y-m-d',###}</td>
+                    <td>{$now['id']}-{$now['id']++}</td>
+                    <td <eq name="now['current']" value="t1">class="info" title="上学期正在进行"</eq>>{$now.t1}</td>
+                    <td <eq name="now['current']" value="t2">class="info" title="上学期已结束"</eq>>{$now.t2}</td>
+                    <td <eq name="now['current']" value="t3">class="info" title="下学期正在进行"</eq>>{$now.t3}</td>
+                    <td <eq name="now['current']" value="t4">class="info" title="下学期已结束"</eq>>{$now.t4}</td>
                     <td>进行</td>
                     <td>
                         <button class="btn btn-success btn-xs" data-toggle="modal" data-target="#myModal" data-get-param="id={$now.id}">编 辑</button>
                         <button class="btn btn-danger btn-xs" data-toggle="modal" data-target="#finishModal" data-info='{"current":"2013-2014", "next":"2014-2015", "state":"t3"}'>结束本学年</button>
                     </td>
                 </tr>
+                </notempty>
                 
                 <foreach name="term_histoty_list" item="vo">
                 <tr class="collapse" data-id="history">
-                    <td>{$vo['term_year']}-{$vo['term_year']++}</td>
-                    <td>{$vo.t1|date='Y-m-d',###}</td>
-                    <td>{$vo.t2|date='Y-m-d',###}</td>
-                    <td>{$vo.t3|date='Y-m-d',###}</td>
-                    <td>{$vo.t4|date='Y-m-d',###}</td>
+                    <td>{$vo['id']}-{$vo['id']++}</td>
+                    <td>{$vo.t1}</td>
+                    <td>{$vo.t2}</td>
+                    <td>{$vo.t3}</td>
+                    <td>{$vo.t4}</td>
                     <td>结束</td>
                     <td></td>
                 </tr>

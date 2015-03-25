@@ -155,14 +155,7 @@ class TermInfoModel  extends Model{
                     case 't3':
                     case 't4':
                         {
-                            if ($info[$k] == null) {
-                                $showInfo[$k]['value'] = null;
-                            } else {
-                                $showInfo[$k]['value'] = $v;
-                                if ($v < NOW_TIME) {
-                                    $showInfo[$k]['readonly'] = true;
-                                }
-                            }
+                            $showInfo[$k]['value'] = $v;
                         }
                         break;
                     
@@ -171,6 +164,7 @@ class TermInfoModel  extends Model{
                         break;
                 }
             }
+//             dump($showInfo);die();
             return $showInfo;
         }
         return false;
