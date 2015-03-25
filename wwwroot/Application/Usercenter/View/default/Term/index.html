@@ -2,6 +2,8 @@
 
 <block name="header">
     <include file="modal"/>
+    <include file="finishmodal"/>
+    <include file="switchmodal"/>
 </block>
 
 <!-- 子导航 -->
@@ -26,40 +28,50 @@
                     <th>上学期 结束时间</th>
                     <th>下学期 开始时间</th>
                     <th>下学期 结束时间</th>
-                    <th class="operator-xs-2"></th>
+                    <th>学年状态</th>
+                    <th class="operator-xs-3"></th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                     <td>{$next['id']}-{$next['id']+1}</td>
-                    <td>{$next.t1}</td>
-                    <td>{$next.t2}</td>
-                    <td>{$next.t3}</td>
-                    <td>{$next.t4}</td>
-                    <td><button class="btn btn-primary btn-xs" data-toggle="modal" data-target="#myModal" data-get-param="id=0">切换至新学年</button></td>
+                     <td>{$next['term_year']}-{$now['term_year']++}</td>
+                    <td>{$next.t1|date='Y-m-d',###}</td>
+                    <td>{$next.t2|date='Y-m-d',###}</td>
+                    <td>{$next.t3|date='Y-m-d',###}</td>
+                    <td>{$next.t4|date='Y-m-d',###}</td>
+                    <td>设置新学年</td>
+                    <td>
+                        <button class="btn btn-success btn-xs" data-toggle="modal" data-target="#myModal" data-get-param="id={$now.id}">编 辑</button>
+                        <button class="btn btn-primary btn-xs" data-toggle="modal" data-target="#switchModal">切换至新学年</button>
+                    </td>
                 </tr>                
 
                 <tr>
-                    <td>{$now['id']}-{$now['id']+1}</td>
-                    <td <eq name="now['current']" value="t1">class="info" title="上学期正在进行"</eq>>{$now.t1}</td>
-                    <td <eq name="now['current']" value="t2">class="info" title="上学期已结束"</eq>>{$now.t2}</td>
-                    <td <eq name="now['current']" value="t3">class="info" title="下学期正在进行"</eq>>{$now.t3}</td>
-                    <td <eq name="now['current']" value="t4">class="info" title="下学期已结束"</eq>>{$now.t4}</td>
-                    <td><button class="btn btn-success btn-xs" data-toggle="modal" data-target="#myModal" data-get-param="id={$now.id}">编 辑</button></td>
+                    <td>{$now['term_year']}-{$now['term_year']++}</td>
+                    <td <eq name="now['current']" value="t1">class="info" title="上学期正在进行"</eq>>{$now.t1|date='Y-m-d',###}</td>
+                    <td <eq name="now['current']" value="t2">class="info" title="上学期已结束"</eq>>{$now.t2|date='Y-m-d',###}</td>
+                    <td <eq name="now['current']" value="t3">class="info" title="下学期正在进行"</eq>>{$now.t3|date='Y-m-d',###}</td>
+                    <td <eq name="now['current']" value="t4">class="info" title="下学期已结束"</eq>>{$now.t4|date='Y-m-d',###}</td>
+                    <td>进行</td>
+                    <td>
+                        <button class="btn btn-success btn-xs" data-toggle="modal" data-target="#myModal" data-get-param="id={$now.id}">编 辑</button>
+                        <button class="btn btn-danger btn-xs" data-toggle="modal" data-target="#finishModal" data-info='{"current":"2013-2014", "next":"2014-2015", "state":"t3"}'>结束本学年</button>
+                    </td>
                 </tr>
                 
                 <foreach name="term_histoty_list" item="vo">
                 <tr class="collapse" data-id="history">
-                    <td>{$vo['id']}-{$vo['id']+1}</td>
-                    <td>{$vo.t1}</td>
-                    <td>{$vo.t2}</td>
-                    <td>{$vo.t3}</td>
-                    <td>{$vo.t4}</td>
+                    <td>{$vo['term_year']}-{$vo['term_year']++}</td>
+                    <td>{$vo.t1|date='Y-m-d',###}</td>
+                    <td>{$vo.t2|date='Y-m-d',###}</td>
+                    <td>{$vo.t3|date='Y-m-d',###}</td>
+                    <td>{$vo.t4|date='Y-m-d',###}</td>
+                    <td>结束</td>
                     <td></td>
                 </tr>
                 </foreach>
 
-                <td class="text-center cursor-pointer" id="showHistory" data-toggle="collapse" data-target="[data-id='history']" data-state="hidden" colspan="6"> 
+                <td class="text-center cursor-pointer" id="showHistory" data-toggle="collapse" data-target="[data-id='history']" data-state="hidden" colspan="7"> 
                     <span>显示学期历史记录</span> <i class="fa fa-chevron-down"></i> 
                 </td>
             </tbody>

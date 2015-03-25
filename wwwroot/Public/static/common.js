@@ -337,6 +337,7 @@ function initModalEvent(modalSelector, initModalFun, initOtherEvent) {
             if (data.status) {
                 initModalFun($modal, data.data, false);
             } else {
+                handleAjax(data);
                 return e.preventDefault(); // 阻止模态框的展示
             }
         });
