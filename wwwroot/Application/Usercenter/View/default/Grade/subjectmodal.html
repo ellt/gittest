@@ -105,7 +105,7 @@ function initOtherEvent($modal) {
         $('#hasSubjects').append(this).append(' ');
     });
 
-    $("[data-submit='custom']").click(function(e) { 
+    $("[data-submit='custom']", $modal).click(function(e) { 
         var url = $(this).attr('data-url');
         var grade_number = $modal.data("grade_number");
         var grade_name = $modal.data("grade_name");
