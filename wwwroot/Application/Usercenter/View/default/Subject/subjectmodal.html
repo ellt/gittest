@@ -1,0 +1,136 @@
+<div class="modal fade" id="subjectModal" data-url="{:U('getGradeSubjectInfo')}" tabindex="-1" role="dialog" aria-labelledby="subjectModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">关闭</span>
+                </button>
+                <h4 class="modal-title" id="subjectModalLabel">设置年级科目</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="subjectModalForm" role="form">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">年级</label>
+                        <div class="col-sm-4">
+                            <p class="form-control-static" data-id="grade_name"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" title="点击移除科目">科目</label>
+                        <div class="col-sm-9" id="hasSubjects"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">点击添加科目</label>
+                        <div class="col-sm-9" id="allSubjects"></div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary" data-submit="custom" data-url="{:U('setGradeSubjectInfo')}" data-loading-text="提交中..." autocomplete="off">确 定</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+$(function(){
+
+    var $modal = initModalEvent('#subjectModal', initModal, initOtherEvent);
+
+    function initModal($modal, data, isClear) {
+
+        if (isClear) {
+            $('#hasSubjects').html("");
+            $('#allSubjects').html("");
+            return true;
+        }
+
+        var hasSubjects = data.hasSubjects;
+        var allSubjects = data.allSubjects;
+        var temp, tempObj, tempArr = Array();
+
+        $modal.data("grade_number", data.grade_number);
+        $modal.data("grade_name", data.grade_name);
+        $("[data-id='grade_name']", $modal).html(data.grade_name);
+
+        if (hasSubjects !== null) {
+            for (var i = 0; i < hasSubjects.length; i++) {
+                tempArr.push(hasSubjects[i].id);
+
+                tempObj = $('<button type="button"></button>')
+                        .html(hasSubjects[i].subject_name)
+                        .addClass('btn btn-default btn-sm')
+                        .data("subject-id",hasSubjects[i].id);
+                
+                if (hasSubjects[i].usedFlag) {
+                    tempObj.addClass('active')
+                           .attr('data-toggle', 'tooltip')
+                           .attr('data-placement', 'bottom')
+                           .attr('title', '科目在使用，不可直接移除！');
+                }
+
+                $('#hasSubjects').append(tempObj).append(' ');
+            }
+        }
+        $('#hasSubjects').data("hasSubjects", tempArr);
+
+        if (allSubjects !== null) {
+            for (var j = 0; j < allSubjects.length; j++) {
+                temp = $.inArray(allSubjects[j].id, tempArr);
+                if (temp === -1) {
+                    tempObj = $('<button type="button"></button>')
+                            .html(allSubjects[j].subject_name)
+                            .addClass('btn btn-default btn-sm')
+                            .data("subject-id",allSubjects[j].id);
+
+                    $('#allSubjects').append(tempObj).append(' ');
+                }
+            }
+        }
+
+        $('[data-toggle="tooltip"]', $modal).tooltip();
+    }
+});
+
+function initOtherEvent($modal) {
+    $('#hasSubjects').on('click', 'button', function(event) {
+        if(!$(this).hasClass('active')) {
+            $('#allSubjects').append(this).append(' ');
+        }
+    });
+
+    $('#allSubjects').on('click', 'button', function(event) {
+        $('#hasSubjects').append(this).append(' ');
+    });
+
+    $("[data-submit='custom']", $modal).click(function(e) { 
+        var url = $(this).attr('data-url');
+        var grade_number = $modal.data("grade_number");
+        var grade_name = $modal.data("grade_name");
+        var subjects = Array();
+        $("button","#hasSubjects").each(function(index, el) {
+            subjects.push($(this).data("subject-id"));
+        });
+
+        // 检查是否有修改
+        var hasSubjects = $('#hasSubjects').data('hasSubjects');
+        var oldSubjects = hasSubjects.sort().toString();
+        var newSubjects = subjects.sort().toString();
+        if (oldSubjects === newSubjects) {
+            $modal.modal('hide');
+            return false; // 没有修改不进行提交
+        }
+
+        var btn = $(this);
+        btn.button('loading');
+        //发送到服务器
+        $.post(url, {grade_number: grade_number, grade_name:grade_name, subjects: subjects}).success(function(data){
+            btn.button('reset');
+            $modal.modal('hide');
+            handleAjax(data);
+        });
+    });
+}
+</script>
