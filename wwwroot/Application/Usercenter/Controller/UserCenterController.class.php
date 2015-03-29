@@ -13,18 +13,23 @@ use Think\Controller;
 use Usercenter\Model\AuthRuleModel;
 use Usercenter\Model\AuthGroupModel;
 use Common\Controller\CommonBaseController;
+use Common\Util\School;
+use Common\Api\GlobalApi;
 /**
  * 后台首页控制器
  * @author 麦当苗儿 <zuojiazi@vip.qq.com>
  */
 class UserCenterController extends CommonBaseController {
 
+    protected  $school = null;
     /**
      * 后台控制器初始化
      */
     protected function _initialize(){
         
         parent::_initialize();
+        
+        $this->school = GlobalApi::getSchoolObj();
         
         // 获取当前用户ID
         define('UID',is_login());

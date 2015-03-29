@@ -167,3 +167,6 @@ INSERT INTO `onethink_menu` VALUES ('1010', '教师绑定信息', '1001', '1', '
 INSERT INTO `onethink_menu` VALUES ('1101', '成绩', '0', '3', 'subject/index', '0', '', '', '0');
 
 INSERT INTO `onethink_menu` VALUES ('1201', '作业', '0', '4', 'subject/index', '0', '', '', '0');
+
+
+INSERT INTO `onethink_menu` VALUES ('2000', '获取sidebar数据', '1002', '0', 'subject/menu', '0', '', '', '0');

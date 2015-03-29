@@ -89,9 +89,15 @@ class TermController extends UserCenterController {
     }
     
     public function upgrate(){
-        die('升级。。');
-        $this->model->upgrate();
-//         die($this->model->getError());
+        $result = $this->school->checkIsAllTeacherHasSet();
+        if($result != true){
+            dump($result);
+        }else {
+            
+        }
+        $this->school->upgradeTerm();
+        die('1111111');
+        //         die($this->model->getError());
     }
     
     

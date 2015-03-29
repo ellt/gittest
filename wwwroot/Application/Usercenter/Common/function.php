@@ -405,7 +405,7 @@ function get_grade_class_tree($baseUrl)
     $class_id        =   I('param.class_id');
 //     dump($class_id); die();
 
-    $schoolTeachInfo = GlobalApi::getClassTeachInfo();
+//     $schoolTeachInfo = GlobalApi::getClassTeachInfo();
     
     $classModel =  D('ClassInfo');
     $classTree = array();
@@ -595,12 +595,10 @@ function conver_userId_to_name($id){
 }
 
 function conver_subjectId_to_name($id){
-    static $subjectIndexById = null;
     foreach (GlobalApi::getSubjectList() as $v){
         if($v['id'] == $id){
             return $v['subject_name'];
         }
     }
-//     dump($subjectIndexById);die();
     return '未知';
 }
