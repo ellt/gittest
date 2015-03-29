@@ -10,12 +10,14 @@
 
 namespace Usercenter\Controller;
 
+use Common\Api\GlobalApi;
 class ClassController extends UserCenterController {
 
     protected $model;
 
     public function _initialize() {
         parent::_initialize();
+        
     }
     
     public function index(){
@@ -65,10 +67,71 @@ class ClassController extends UserCenterController {
         $this->display();
     }
     
+    
+    public function classmanager($gid){
+        
+       $school =  $this->school;
+//        dump($school->settingTeachRelClsInfo);
+       
+//        dump($school);die();
+       $classList = array();
+//        dump($school->settingStdRelClsInfo);
+        if($school->status == 'underway'){
+            
+        }else if($school->status == 'prepare'){
+            
+            foreach ($school->settingClsList as $cls_id){
+                if((int)($cls_id/100) != $gid) continue;
+                
+                $classInfo = array();
+                $classInfo['cls_id'] = $cls_id;
+                $classInfo['name'] = clsID_to_clsName($cls_id);
+                $classInfo['user_cnt'] = count($school->settingStdRelClsInfo[$cls_id]);
+                
+                $classInfo['teacher_info'] = array();
+                $classInfo['teacher_info'] = $school->settingTeachRelClsInfo[$cls_id];
+
+              if($cls_id == $gid*100){
+                  $gradeInfo = $classInfo;
+                  
+              }else{
+                  array_push($classList, $classInfo);
+              }
+              
+//                 dump($classInfo);
+            }
+        }
+        
+        
+        $gradeInfo['id'] = $gradeInfo['cls_id'];
+        $gradeInfo['cls_cnt'] = count($classList);
+        $gradeInfo['teacher_id'] = $gradeInfo['teacher_info'][0];
+        foreach ($classList as $class){
+            $gradeInfo['user_cnt'] += $class['user_cnt'];
+        }
+//         dump($gradeInfo);die();
+        $this->assign('subject_list',$subjectIndexById);
+        $this->assign('grade_id', $gid);
+        $this->assign('grade_info', $gradeInfo);
+        $this->assign('class_list', $classList);
+        $this->assign('sidebar_file', 'Public/sidemenu');
+        $this->display();
+    }
+    
+    public function addClass($grade_id){
+        if(IS_AJAX){
+            $school =  $this->school;
+            $school->addOneClass($grade_id);
+            $this->success('添加班级成功', null, IS_AJAX);
+        }
+    }
+    
+    
     public function classInit() {
         $class = I("class"); //班级
         $role = I("role");
         $teacherId = I("teacher_id");
+        $subjectId = I('subject_id');
         
         if ($teacherId > 0) {
             $oldTeacherInfo = get_teacher_info_by_id($teacherId);
@@ -78,6 +141,7 @@ class ClassController extends UserCenterController {
             $teacherList = $this->getTeacherList(0, $teacherId);
             $data['data'] = array("class_id" => $class, 
                     "master_flag" => 1, 
+                    "subject_id" => $subjectId,
                     "title" => $subjectTitle . "班主任", 
                     "old" => $oldTeacherInfo, 
                     "list" => $teacherList )
@@ -85,14 +149,12 @@ class ClassController extends UserCenterController {
             ;
         } elseif ($role == "teacher") {
             
-            $subjectId = I('subject_id');
             $teacherList = $this->getTeacherList($subjectId, $teacherId);
             $data['data'] = array("class_id" => $class, 
                     "subject_id" => $subjectId, 
                     "title" => $subjectTitle . "任课教师", 
                     "old" => $oldTeacherInfo, 
                     "list" => $teacherList )
-
             ;
         }
         $data['status']=1;
@@ -146,17 +208,18 @@ class ClassController extends UserCenterController {
 
     public function setSubjectTeachInfo() {
         if (IS_AJAX) {
-            $_POST['teach_start'] = NOW_TIME;
             $successFlag = false;
             
-            //             dump($_POST);
-            $teachInfoModel = D('Common/ClassTeachInfo');
-            $data = $teachInfoModel->create();
-            //             dump($data);die();
-            if ($data != false) {
-                $successFlag = $teachInfoModel->add($data);
-            }
+//             dump($_POST);die();
+            
+            $tid = I('teacher_id');
+            $subject_id = I('subject_id');
+            $class_id = I('class_id');
+            
+            $successFlag = $this->school->setTeacherClassInfo($tid, $subject_id, $class_id);;
+            
             if ($successFlag != false) {
+                
                 $this->success('科任老师设置成功', 'refresh', true);
             } else {
                 $this->error(0, '科任老师设置失败', 'refresh', true);
