@@ -8,20 +8,13 @@ class CustomMenuController extends AddonsController {
 	var $model_name = 'custom_menu';
 	public function lists($model = null, $page = 0) {
 		is_array ( $model ) || $model = $this->getModel ( $this->model_name );
-		
-		// 解析列表规则
-		$list_data = $this->_list_grid ( $model );
-		$fields = $list_data ['fields'];
-		
-		// 搜索条件
-		$map = $this->_search_map ( $model, $fields );
-		
-		$list_data ['list_data'] = $this->get_data ( $map );
+
+		$list_data ['list_data'] = $this->get_data ();
 		$this->assign ( $list_data );
 		
 		$this->display ();
 	}
-	function get_data($map) {
+	function get_data() {
 		$map ['token'] = get_token ();
 		$list = M ( 'custom_menu' )->where ( $map )->order ( 'pid asc, sort asc' )->select ();
 		
@@ -112,7 +105,7 @@ class CustomMenuController extends AddonsController {
 		
 		$url = 'https://api.weixin.qq.com/cgi-bin/menu/create?access_token=' . $access ['access_token'];
 		$header [] = "content-type: application/x-www-form-urlencoded; charset=UTF-8";
-		
+		dump($tree);dump($tree2);die();
 		$ch = curl_init ();
 		curl_setopt ( $ch, CURLOPT_URL, $url );
 		curl_setopt ( $ch, CURLOPT_CUSTOMREQUEST, "POST" );
@@ -130,104 +123,64 @@ class CustomMenuController extends AddonsController {
 		if ($res ['errcode'] == 0) {
 			$this->success ( '发送菜单成功' );
 		} else {
-			$this->success ( '发送菜单失败，错误的返回码是：' . $res ['errcode'] . ', 错误的提示是：' . $res ['errmsg'] );
+			$this->error ( '发送菜单失败，错误的返回码是：' . $res ['errcode'] . ', 错误的提示是：' . $res ['errmsg'] );
 		}
 	}
-	public function edit($model = null, $id = 0) {
-		is_array ( $model ) || $model = $this->getModel ( $this->model_name );
-		$Model = D ( parse_name ( get_table_name ( $model ['id'] ), 1 ) );
-		$id || $id = I ( 'id' );
-		
-		if (IS_POST) {
-			// 获取模型的字段信息
-			$Model = $this->checkAttr ( $Model, $model ['id'] );
-			if ($Model->create () && $Model->save ()) {
-				$this->success ( '保存' . $model ['title'] . '成功！', U ( 'lists?model=' . $model ['name'] ) );
-			} else {
-				$this->error ( $Model->getError () );
-			}
-		} else {
-			// 获取一级菜单
-			$map ['token'] = get_token ();
-			$map ['pid'] = 0;
-			$map ['id'] = array (
-					'not in',
-					$id 
-			);
-			$list = $Model->where ( $map )->select ();
-			foreach ( $list as $v ) {
-				$extra .= $v ['id'] . ':' . $v ['title'] . "\r\n";
-			}
-			
-			$fields = get_model_attribute ( $model ['id'] );
-			if (! empty ( $extra )) {
-				foreach ( $fields [1] as &$vo ) {
-					if ($vo ['name'] == 'pid') {
-						$vo ['extra'] .= "\r\n" . $extra;
-					}
-				}
-			}
-			
-			// 获取数据
-			$data = M ( get_table_name ( $model ['id'] ) )->find ( $id );
-			$data || $this->error ( '数据不存在！' );
-			
-		$token = get_token ();
-		if (isset ( $data ['token'] ) && $token != $data ['token'] && defined ( 'ADDON_PUBLIC_PATH' )) {
-			$this->error ( '非法访问！' );
-		}			
-			
-			$this->assign ( 'fields', $fields );
-			$this->assign ( 'data', $data );
-			$this->meta_title = '编辑' . $model ['title'];
-			
-			$this->display ();
-		}
-	}
-	public function add($model = null) {
-		is_array ( $model ) || $model = $this->getModel ( $this->model_name );
-		$Model = D ( parse_name ( get_table_name ( $model ['id'] ), 1 ) );
-		
-		if (IS_POST) {
-			// 获取模型的字段信息
-			$Model = $this->checkAttr ( $Model, $model ['id'] );
-			if ($Model->create () && $id = $Model->add ()) {
-				$this->success ( '添加' . $model ['title'] . '成功！', U ( 'lists?model=' . $model ['name'] ) );
-			} else {
-				$this->error ( $Model->getError () );
-			}
-		} else {
-			// 要先填写appid
-			$map ['token'] = get_token ();
-			$info = M ( 'member_public' )->where ( $map )->find ();
-			
-			if (empty ( $info ['appid'] ) || empty ( $info ['secret'] )) {
-				$this->error ( '请先配置appid和secret', U ( 'Weixin/MemberPublic/edit', 'id=' . $info ['id'] ) );
-			}
-			// 获取一级菜单
-			$map ['pid'] = 0;
-			$list = $Model->where ( $map )->select ();
-			foreach ( $list as $v ) {
-				$extra .= $v ['id'] . ':' . $v ['title'] . "\r\n";
-			}
-			
-			$fields = get_model_attribute ( $model ['id'] );
-			if (! empty ( $extra )) {
-				foreach ( $fields [1] as &$vo ) {
-					if ($vo ['name'] == 'pid') {
-						$vo ['extra'] .= "\r\n" . $extra;
-					}
-				}
-			}
-			
-			$this->assign ( 'fields', $fields );
-			$this->meta_title = '新增' . $model ['title'];
-			
-			$this->display ();
-		}
-	}
+	
 	public function del() {
 		$model = $this->getModel ( $this->model_name );
 		parent::common_del ( $model );
 	}	
+
+	public function getMenuInitInfo() {
+		is_array ( $model ) || $model = $this->getModel ( $this->model_name );
+		$Model = D ( parse_name ( get_table_name ( $model ['id'] ), 1 ) );
+
+        $id = I("id");
+        $method = I("method");
+		
+		$data['status']  = 1;
+        if($id==0) {
+        	// 新增一级菜单
+            $data['data'] = array(
+            	'id'=>0,
+            	'pid'=>"0",
+            	'type'=>'none',
+            );
+        } else if($method == "sub") {
+        	// 新增子菜单
+            $data['data'] = array(
+            	'id'=>0,
+            	'pid'=>$id,
+            	'type'=>'click',
+            );
+        } else {
+			// 获取菜单信息
+			$map ['id'] = $id;
+			$list = $Model->where ( $map )->select ();
+            $data['data'] = $list[0];
+        }
+        $this->ajaxReturn($data);
+	}
+
+	public function setMenuInfo() {
+		is_array ( $model ) || $model = $this->getModel ( $this->model_name );
+		$Model = D ( parse_name ( get_table_name ( $model ['id'] ), 1 ) );
+		$id = I('id');
+
+		// 获取模型的字段信息
+		$Model = $this->checkAttr ( $Model, $model ['id'] );
+
+		if ($Model->create ()) {
+			if ($id == 0 && $Model->add ()) {
+				// 新增
+				$this->success ( '添加' . $model ['title'] . '成功！', U ( 'lists?model=' . $model ['name'] ) );
+			} elseif ($Model->save ()) {
+				// 编辑
+				$this->success ( '保存' . $model ['title'] . '成功！', U ( 'lists?model=' . $model ['name'] ) );
+			}
+		}
+		
+		$this->error ( $Model->getError () );
+	}
 }

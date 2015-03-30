@@ -1,4 +1,4 @@
-<div class="modal fade" id="myModal" data-url="{:U('getStudentInitInfo')}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="myModal" data-url="{:U('getMenuInitInfo')}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -21,12 +21,15 @@
 
                     <div class="form-group">
                         <label class="col-sm-3 control-label">类型</label>
-                        <div class="col-sm-5">
-                            <label class="radio-inline">
+                        <div class="col-sm-9">
+                            <label class="radio-inline" id="radioClick">
                                 <input type="radio" name="type" value="click" checked> 发送信息
                             </label>
-                            <label class="radio-inline">
-                                <input type="radio" name="type" value="url"> 跳转到网页
+                            <label class="radio-inline" id="radioView">
+                                <input type="radio" name="type" value="view"> 跳转到网页
+                            </label>
+                            <label class="radio-inline" id="radioNone">
+                                <input type="radio" name="type" value="none"> 带子菜单
                             </label>
                         </div>
                     </div>
@@ -49,12 +52,13 @@
                         <div class="col-sm-4 help-block hidden"></div>
                     </div>
 
-                    <input type="hidden" name="id">
-                    <input type="hidden" name="class_id" value="{$class_id}" >
+                    <input type="hidden" name="id" value="0">
+                    <input type="hidden" name="pid" value="0">
+                    <input type="hidden" name="sort" value="0">
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-primary" data-submit="modal" data-target="#myModalForm" data-url="{:U('setStudentInfo')}" data-loading-text="提交中..." autocomplete="off">确 定</button>
+                <button type="submit" class="btn btn-primary" data-submit="modal" data-target="#myModalForm" data-url="{:U('setMenuInfo')}" data-loading-text="提交中..." autocomplete="off">确 定</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
             </div>
         </div>
@@ -68,11 +72,29 @@ $(function(){
 
     function initModal($modal, data, isClear) {
         if (isClear) {
+            $("[name='title']", $modal).val("");
+
             return true;
         }
 
-        $("span", "#myModalLabel").html(data.id===0?"新增":"编辑");
-        
+        $("span", "#myModalLabel").html(data.id===0?"添加":"编辑");
+
+        // 一级菜单 显示“带子菜单”选项 二级菜单不显示
+        if (data.pid === "0") {
+            $("#radioNone").removeClass("hidden");
+        } else {
+            $("#radioNone").addClass("hidden");
+        }
+
+        // “带子菜单”的一级菜单 只显示“带子菜单”, 新添加时除外
+        if (data.id!==0 && data.type === "none") {
+            $("#radioClick").addClass("hidden");
+            $("#radioView").addClass("hidden");
+        } else {
+            $("#radioClick").removeClass("hidden");
+            $("#radioView").removeClass("hidden");
+        }
+
         for (var i in data) {
             var $input = $("[name=" + i + "]", $modal);
             var type = $input.attr('type');
@@ -93,16 +115,25 @@ $(function(){
         });
     }
 
-    function setMenuType($type) {
-        var keyword = $("#keyword").parents(".form-group");
-        var url = $("#url").parents(".form-group");
+    function setMenuType(type) {
+        var $keyword = $("#keyword");
+        var $url = $("#url");
+        var $keywordBlock = $keyword.parents(".form-group");
+        var $urlBlock = $url.parents(".form-group");
 
-        if ($type === "click") {
-            keyword.removeClass('hidden');
-            url.addClass('hidden');
+        if (type === "none") {
+            $keywordBlock.addClass('hidden');
+            $urlBlock.addClass('hidden');
+            $keyword.val("");
+            $url.val("");
+        } else if(type === "view") {
+            $urlBlock.removeClass('hidden');
+            $keywordBlock.addClass('hidden');
+            $keyword.val("");
         } else {
-            url.removeClass('hidden');
-            keyword.addClass('hidden');
+            $keywordBlock.removeClass('hidden');
+            $urlBlock.addClass('hidden');
+            $url.val("");
         }
     }
 });

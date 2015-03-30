@@ -14,9 +14,8 @@
     <div class="row">
         <div class="col-md-6">
             <div class="pull-left">
-                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal" data-get-param="id=0">新 增</button>
-                <button type="button" class="btn btn-success ajax-post" data-target="[data-check='ids']" data-confirm="确认要删除吗?" data-url="{:U('del?model='.$model['id'])}">删 除</button>
-                <a class="btn btn-primary ajax-get" data-confirm="确认要发布吗?" data-url="{:U('send_menu?model='.$model['id'])}">发 布</a>
+                <button type="button" class="btn btn-success" <if condition="count_one_level_menu($list_data) egt 3">data-toggle="alert" data-alert-type="error" data-alert-info="一级菜单最多只能三个" <else/> data-toggle="modal" data-target="#myModal" data-get-param="id=0"</if> >新 增</button>
+                <a class="btn btn-primary ajax-get" data-confirm="确认要发布吗?" data-url="{:U('send_menu?model='.$model['id'])}" data-loading-text="发布中..." autocomplete="off">发 布</a>
             </div>
         </div>
     </div>
@@ -26,7 +25,6 @@
         <table class="table table-condensed table-hover">
             <thead>
                 <tr>
-                    <th class="row-selected"><input type="checkbox" data-toggle="checkall" data-target="ids"/></th>
                     <th>菜单名</th>
                     <th>类型</th>
                     <th>关联关键词</th>
@@ -38,16 +36,17 @@
             <tbody>
                 <foreach name="list_data" item="vo">
                 <tr>
-                    <td><input type="checkbox" data-check="ids" name="ids[]" value="{$vo.id}"></td>
                     <td>{$vo.title}</td>
-                    <td>{$vo.type}</td>
+                    <td>{:convert_menu_type($vo['type'])}</td>
                     <td>{$vo.keyword}</td>
                     <td>{$vo.url}</td>
                     <td>{$vo.sort}</td>
-                    <td>
-                        <button type="button" class="btn btn-success btn-xs operator" data-toggle="modal" data-target="#myModal" data-get-param="">添加子菜单</button>
-                        <button type="button" class="btn btn-success btn-xs operator" data-toggle="modal" data-target="#myModal" data-get-param="">编 辑</button>
-                        <a class="btn btn-danger btn-xs operator ajax-get" data-confirm="确认要删除吗?" href="">删 除</a>
+                    <td class="text-right">
+                        <eq name="vo['type']" value="none">
+                        <button type="button" class="btn btn-success btn-xs operator" <if condition="count_two_level_menu($list_data, $vo['id']) egt 5">data-toggle="alert" data-alert-type="error" data-alert-info="二级菜单最多只能五个" <else/> data-toggle="modal" data-target="#myModal" data-get-param="id={$vo.id}&method=sub"</if> >添加子菜单</button>
+                        </eq>
+                        <button type="button" class="btn btn-success btn-xs operator" data-toggle="modal" data-target="#myModal" data-get-param="id={$vo.id}&method=edit">编 辑</button>
+                        <button class="btn btn-danger btn-xs operator ajax-get" data-confirm="确认要将该菜单下设置的消息删除吗?" data-url="{:U('del?id='.$vo['id'].'&model=custom_menu')}">删 除</button>
                     </td>
                 </tr>
                 </foreach>

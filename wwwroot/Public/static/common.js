@@ -80,6 +80,12 @@ $(function() {
         }
     };
 
+    $("[data-toggle='alert']").click(function(event) {
+        var type = $(this).data("alert-type");
+        var info = $(this).data("alert-info");
+        updateAlert(info, type);
+    });
+
     /**
      * ajax-form
      * 通过ajax提交表单，显示提示消息
@@ -338,7 +344,7 @@ function initModalEvent(modalSelector, initModalFun, initOtherEvent) {
                 initModalFun($modal, data.data, false);
             } else {
                 handleAjax(data);
-                return e.preventDefault(); // 阻止模态框的展示
+                $modal.modal('hide'); //收起模态框
             }
         });
 
