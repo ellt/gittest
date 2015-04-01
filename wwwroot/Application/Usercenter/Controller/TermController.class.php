@@ -84,18 +84,19 @@ class TermController extends UserCenterController {
     
     
     public function finish(){
-        die('学期结束。。');
-        $this->model->finish();     
+        $ret = $this->school->finishTerm();
+        if($ret  === false){
+            dump($this->school->getError());die();
+        }
+        die('学期结束成功，进行新学期配置状态。。');
     }
     
     public function upgrate(){
-        $result = $this->school->checkIsAllTeacherHasSet();
-        if($result != true){
-            dump($result);
-        }else {
-            
+        
+        $ret = $this->school->upgradeTerm();
+        if($ret  === false){
+            dump($this->school->getError());die();
         }
-        $this->school->upgradeTerm();
         die('1111111');
         //         die($this->model->getError());
     }

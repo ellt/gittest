@@ -15,6 +15,10 @@ class School {
     public $nowTerm  = null;
     public $nextTerm  = null;
     
+    
+    public $underwayTeachRelClsInfo = array() ;
+    public $underwayStdRelClsInfo  = array();
+    
     public $settingTeachRelClsInfo = array() ;
     public $settingStdRelClsInfo  = array();
     
@@ -35,6 +39,7 @@ class School {
         $this->InitSubjectList(); // 初始化科目
         $this->InitGradeSubjectInfo(); //初始化年级列表
         $this->InitPrepareSchoolBaseInfo();
+        $this->InitUnderwaySchoolBaseInfo();
 //         die();
     }
     
@@ -49,7 +54,7 @@ class School {
         unset($this->nowTerm['extern']);
         unset($this->nextTerm['extern']);
         
-        if($this->nowTerm == 'underway'){
+        if($this->nowTerm['status'] == 'underway'){
             $this->status = 'underway';
         }else{
             $this->status = 'prepare';
@@ -128,8 +133,57 @@ class School {
             }
             
         }
-//         dump($this->settingStdClssClsInfo);
 //         dump($this->settingTeachRelClsInfo);die();
+    }
+    
+    
+    public function InitUnderwaySchoolBaseInfo(){
+    
+    
+        $classList = $this->clsList;
+    
+        $map = null;
+        $map['status'] = 'underway';
+        $teachRelClsModel = D('Common/TeachRelCls');
+        $stdRelClsModel = D('Common/StdRelCls');
+    
+        foreach ($classList  as $classId){
+            $classInfo = array();
+            $gradeId = (int)$classId / 100;
+    
+            $info = null;
+            foreach ( $this->gradeSubjectInfo[$gradeId] as $subjectId){
+                $map = null;
+                $map['term_year'] = $this->nowTerm['id'];
+                $map['status'] = 'underway';
+                $map['cls_id'] = $classId;
+                $map['subject_id']=  $subjectId;
+                $info = $teachRelClsModel->where($map)->find();
+    
+                if(!empty($info['uid'])){
+                    $classInfo[$subjectId]= $info['uid'];
+                }else{
+                    $classInfo[$subjectId]= null;
+                }
+            }
+    
+            $info = null;
+    
+            $this->underwayTeachRelClsInfo[$classId] = $classInfo;
+            $this->underwayStdRelClsInfo [$classId] = array();
+            $map = null;
+            $map['term_year'] = $this->nowTerm['id'];
+            $map['status'] = 'underway';
+            $map['cls_id'] = $classId;
+            $info = $stdRelClsModel->where($map)->order('uid ')->select();
+    
+            foreach ($info as $v){
+                array_push($this->underwayStdRelClsInfo [$classId], $v['uid']);
+            }
+    
+        }
+//                 dump($this->underwayStdClssClsInfo);
+//                 dump($this->underwayTeachRelClsInfo);die();
     }
     
     public function  setTeacherClassInfo($tid, $subjectId, $clsId){
@@ -168,18 +222,20 @@ class School {
         return $this->error;
     }
     
-    
     public function addOneClass($gradeId){
 //         die($this->status);
         if($this->status == 'prepare'){
             for ($i=1;$i<=20;$i++){
                 
                 $newClsId =  $gradeId*100 + $i;
-                if(isset($this->settingClsList[$newClsId])){
+                if(in_array($this->settingClsList, $newClsId) ){
                     continue;
                 } else {
                     $m = D('Common/TermInfo');
-                    $this->settingClsList[$newClsId] = $newClsId;
+                    
+                    array_push($this->settingClsList, $newClsId);
+                    
+                    sort($this->settingClsList, SORT_REGULAR);
                     
                     $map['id'] = $this->nextTerm['id'];
                     $m->where($map)->setField('extern', serialize($this->settingClsList));
@@ -190,7 +246,7 @@ class School {
         }
     }
     
-    private function rollbackFinishTermStap1(){
+    private function rollbackfinishTermStep1(){
     
         
         $m = D('Common/StdRelCls');
@@ -210,15 +266,67 @@ class School {
         $m->where($map)->setField($update);
     }
     
-    private  function finishTermStap1(){
+    private function finishTermStep1(){
+    
+        $m = D('Common/TeachRelCls');
+    
+        $m->startTrans(); // 开启事务
+    
+        $map['status'] = 'underway';
+    
+        $teachRelClsInfo = $m->where($map)->select();
+        foreach ($teachRelClsInfo as &$v){
+    
+    
+            $v['t1'] = date('Y-m-d');
+            $v['t2'] = null;
+            if($v['cls_id'] > 600){ //六年级，需要毕业 毕业学年不需要增加
+                continue;
+            }else{
+                $v['term_year']++;
+                $v['status'] = 'setting';
+                $v['cls_id'] += 100; //升级
+                $gradeId = (int)$v['cls_id'] / 100;
+    
+                //新年级没有的学科老师将不会同步升级
+                if($v['subject_id'] != 0 && in_array($this->gradeSubjectInfo[$gradeId], $v['subject_id'])){
+                    continue;
+                }
+            }
+    
+            $ret = $m->add($v);
+             
+            if($ret === false){
+                $this->error =  '升级出错！！';
+                goto UPGRADE_ERROR;
+            }
+        }
+    
+        // 将旧成员状态改为 finish
+        $update = array('status'=> 'finish', 't2' => date('Y-m-d'));
+        $ret = $m->where($map)->setField($update);
+        if($ret === false){
+            $this->error =  '升级出错！！';
+            goto UPGRADE_ERROR;
+        }
+         
+        $m->commit();
+        return true;
+    
+        UPGRADE_ERROR:
+        $m->rollback();
+        return false;
+    }
+    
+    private  function finishTermStep2(){
     
         $m = D('Common/StdRelCls');
-        if(1){ // 调试用
-            $this->rollbackFinishTermStap1();
+        if(0){ // 调试用
+            $m->rollbackfinishTermStep1();
             //            die();
         }
     
-        $this->startTrans(); // 开启事务
+        $m->startTrans(); // 开启事务
     
         $map['status'] = 'underway';//只有处于上课状态的学生才需要平行升级
     
@@ -246,7 +354,6 @@ class School {
         // 将旧成员状态改为 finish
         $update = array('status'=> 'finish', 't2' => date('Y-m-d'));
         $m->where($map)->setField($update);
-    
          
         $m->commit();
     
@@ -254,31 +361,45 @@ class School {
         //         dump($m->select());
         UPGRADE_ERROR:
         $m->rollback();
+        return false;
     }
     
+    private function finishTermStep3(){
+        $m = D('Common/TermInfo');
+        $ret = $m->finish(&$this);
+        if($ret === false){
+            $this->error =  '升级出错！！';
+            return  false;
+        }
+        
+    }    
     public function finishTerm(){
         
         if($this->status != 'underway'){
             $this->error = '当前学期未开始，无法结束';
+            return false;
+        }
+    
+        if($this->finishTermStep1() === false){
+             return false;
         }
         
-        $termInfoModel = D('Common/TermInfo');
-        $teachRelClsModel = D('Common/TeachRelCls');
-
-        if($teachRelClsModel->finishTerm($this) == false){
-            $this->error = '配置教师数据错误';
+        if($this->finishTermStep2() === false){
+            return false;
+        }
+    
+        if($this->finishTermStep3() === false){
+            return false;
         }
         
-        if($termInfoModel->finishTerm($this) == false){
-            $this->error = '配置学期数据错误';
-        }
+        return true;
     }
     
     
     
     public function  checkIsAllTeacherHasSet(){
         
-        
+//         dump($this->settingTeachRelClsInfo);
        $result  = $this->settingTeachRelClsInfo;
        foreach ($result as $classId => &$class){
            foreach ($class as $subjectId => &$hint){
@@ -304,23 +425,52 @@ class School {
            if(empty($class)) unset($result[$classId]);
        }
        
-//        dump(empty($result) ? true : $result); die();
+//        dump(empty($result) ? true : $result); 
        return empty($result) ? true : $result;
     }
     
+    
+    private function upgradeTermStep1(){
+    
+        if($this->checkIsAllTeacherHasSet() !== true){
+            $this->error = '某些班级老师未设置';
+            return false;
+        }
+    
+        $m = D('Common/TeachRelCls');
+    
+        $m->startTrans(); // 开启事务
+    
+        $map['status'] = 'setting';
+    
+        // 将旧成员状态改为 underway
+        $update = array('status'=> 'underway', 't2' => date('Y-m-d'));
+        $ret = $m->where($map)->setField($update);
+        if($ret === false){
+            $this->error =  '升级出错！！';
+            goto UPGRADE_ERROR;
+        }
+    
+         
+        $m->commit();
+        return true;
+    
+        UPGRADE_ERROR:
+        $m->rollback();
+    }
     
     /**
      * 对学生数据进行平行升级
      * @author jigc <mrji1990@gmail.com>
      */
-    private function upgradeTermStep1(){
+    private function upgradeTermStep2(){
         $m = D('Common/StdRelCls');
         
         $m->startTrans(); // 开启事务
         
         $map['status'] = 'setting';
         
-        // 将就成员状态改为 underway
+        // 将旧成员状态改为 underway
         $update = array('status'=> 'underway', 't1' => date('Y-m-d'), 't2' => null);
         $ret = $m->where($map)->setField($update);
         if($ret === false){
@@ -336,35 +486,6 @@ class School {
         $m->rollback();
     }
     
-    private function upgradeTermStep2(){
-        
-        if($this->checkIsAllTeacherHasSet() != true){
-            
-            $this->error = '科任老师未设置完毕';
-            return false;
-        }
-        
-        $m = D('Common/TeachRelCls');
-    
-        $m->startTrans(); // 开启事务
-    
-        $map['status'] = 'setting';
-        
-        // 将就成员状态改为 underway
-        $update = array('status'=> 'underway', 't2' => date('Y-m-d'));
-        $ret = $m->where($map)->setField($update);
-        if($ret === false){
-            $this->error =  '升级出错！！';
-            goto UPGRADE_ERROR;
-        }
-    
-         
-        $m->commit();
-        return true;
-        
-        UPGRADE_ERROR:
-        $m->rollback();
-    }
     
     private function upgradeTermStep3(){
         $m = D('Common/TermInfo');
@@ -378,12 +499,13 @@ class School {
     
     public function upgradeTerm(){
     
-        if($this->status != 'underway'){
-            $this->error = '当前学期未开始，无法结束';
+        if($this->status != 'prepare'){
+            $this->error = '学期状态出错, 必须是配置状态才能进行升级。';
+            return false;
         }
     
         if($this->upgradeTermStep1() === false){
-            $this->error = '配置学生数据错误';
+            return false;
         }
         if($this->upgradeTermStep2() === false){
             return false;

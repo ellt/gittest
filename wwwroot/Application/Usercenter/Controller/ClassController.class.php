@@ -73,10 +73,30 @@ class ClassController extends UserCenterController {
        $school =  $this->school;
 //        dump($school->settingTeachRelClsInfo);
        
-//        dump($school);die();
+//        dump($school->status);die();
        $classList = array();
 //        dump($school->settingStdRelClsInfo);
         if($school->status == 'underway'){
+//             dump($school->clsList);die();
+            foreach ($school->clsList as $cls_id){
+                if((int)($cls_id/100) != $gid) continue;
+            
+                $classInfo = array();
+                $classInfo['cls_id'] = $cls_id;
+                $classInfo['name'] = clsID_to_clsName($cls_id);
+                $classInfo['user_cnt'] = count($school->underwayStdRelClsInfo[$cls_id]);
+            
+                $classInfo['teacher_info'] = array();
+                $classInfo['teacher_info'] = $school->underwayTeachRelClsInfo[$cls_id];
+            
+                if($cls_id == $gid*100){
+                    $gradeInfo = $classInfo;
+            
+                }else{
+                    array_push($classList, $classInfo);
+                }
+            }
+            
             
         }else if($school->status == 'prepare'){
             
