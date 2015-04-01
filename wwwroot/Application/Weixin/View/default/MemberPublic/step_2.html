@@ -9,13 +9,13 @@
     <div class="ell-tab-wrap">
         <ul class="nav nav-pills nav-justified">
             <li role="presentation">
-                <a href="{:U('config',array('id'=>$id))}">1.增加基本信息</a>
+                <a href="{:U('config')}">1.设置基本信息</a>
             </li>
             <li role="presentation">
-                <a href="{:U('step_1',array('id'=>$id))}">2.配置公众平台</a>
+                <a href="{:U('step_1')}">2.配置公众平台</a>
             </li>
             <li role="presentation" class="active">
-                <a href="{:U('step_2',array('id'=>$id))}">3.保存接口配置</a>
+                <a href="{:U('step_2')}">3.保存接口配置</a>
             </li>
         </ul>
 
@@ -23,7 +23,7 @@
             <div class="row">
                 <div class="col-md-6">
                     <!-- 表单 -->
-                    <form action="{:U('step_2',array('id'=>$id))}" method="post">
+                    <form class="ajax-form" action="{:U('step_2')}" method="post">
                         <div class="form-group">
                             <label for="appId">AppID （应用ID）</label>
                             <input type="text" class="form-control" id="appId" name="appid" value="{$info.appid}">
@@ -36,7 +36,7 @@
                             <label for="encodingaeskey">EncodingAESKey （安全模式下必填）</label>
                             <input type="text" class="form-control" id="encodingaeskey" name="encodingaeskey" value="{$info.encodingaeskey}">
                         </div>
-                        <button type="submit" class="btn btn-primary">确定保存</button>
+                        <button type="submit" class="btn btn-primary" data-loading-text="确定保存">确定保存</button>
                     </form>
                 </div>
             </div>

@@ -292,21 +292,25 @@ function U(url, params, rewrite) {
  */
 function handleAjax(data) {
 
-    //如果需要跳转的话，消息的末尾附上即将跳转字样
-    if (data.url && data.url != "no-refresh") {
-        data.info += '，页面即将跳转～';
+    //设置跳转时间 0为即刻跳转
+    var interval = 1000;
+
+    //如果需要跳转,并且消息是空的，则立即跳转
+    if (data.url && data.url != "no-refresh" && !data.info) {
+        interval = 0;
     }
 
     //弹出提示消息
-    if (data.status) {
-        updateAlert(data.info, 'success');
-        if (!data.url) data.url = "refresh"; // 对ot admin 方法兼容，后期需要优化 add by Guoky
-    } else {
-        updateAlert(data.info, 'error');
+    if(data.info) {
+        if (data.status) {
+            updateAlert(data.info, 'success');
+            if (!data.url) data.url = "refresh"; // 对ot admin 方法兼容，后期需要优化 add by Guoky
+        } else {
+            updateAlert(data.info, 'error');
+        }
     }
 
     //需要跳转的话就跳转
-    var interval = 1000;
     if (data.url == "refresh") {
         setTimeout(function() {
             location.href = location.href;
