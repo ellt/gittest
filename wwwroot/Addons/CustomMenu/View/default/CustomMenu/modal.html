@@ -43,13 +43,23 @@
                         <div class="col-sm-4 help-block hidden"></div>
                     </div>
 
-                    <div class="form-group has-feedback hidden">
+                    <div class="form-group hidden">
                         <label class="col-sm-3 control-label" for="url">网页地址</label>
-                        <div class="col-sm-5">
+                        <div class="col-sm-6">
                             <input type="text" class="form-control" id="url" name="url">
-                            <span class="form-control-feedback"></span>
                         </div>
-                        <div class="col-sm-4 help-block hidden"></div>
+                        <div class="col-sm-3">
+                            <button type="button" class="btn btn-link" id="pop">从素材库中选择</button>
+                        </div>
+                        <div class="col-xs-12 hidden" id="material" data-url="{:U('Weixin/Weisite/articleList')}">
+                            <hr/>
+                            <div class="well" style="height:250px; overflow-y: auto; overflow-x: hidden;">
+                                <p>请从素材列表中选择</p>
+                                <div class="list-group">
+                                    <p class="text-center">没有素材</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <input type="hidden" name="id" value="0">
@@ -73,7 +83,7 @@ $(function(){
     function initModal($modal, data, isClear) {
         if (isClear) {
             $("[name='title']", $modal).val("");
-
+            $("#material").addClass('hidden');
             return true;
         }
 
@@ -109,9 +119,40 @@ $(function(){
         }
     }
 
-    function initOtherEvent() {
-        $("input[name='type']").click(function(event) {
+    function initOtherEvent($modal) {
+        $("input[name='type']", $modal).click(function(event) {
             setMenuType(this.value);
+        });
+
+        var $material = $("#material");
+
+        $("#pop").click(function(event) {
+            $material.removeClass('hidden');
+        });
+
+        $material.on('click', '.list-group-item', function(event) {
+            event.preventDefault();
+            var url = $(this).data("url");
+            $("#url").val(url);
+            $(".list-group-item", $material).removeClass("active");
+            $(this).addClass("active");
+        });
+
+        var url = $material.attr('data-url');
+        $.get(url).success(function(data){
+            if (data.status) {
+                if (data.data) {
+                    var $listGroup = $(".list-group", $material);
+                    $listGroup.html("");
+                    var lists = data.data;
+                    for (var i = 0; i < lists.length; i++) {
+                        $("<a class='list-group-item' href='#'></a>")
+                        .html(lists[i].title)
+                        .data('url', lists[i].url)
+                        .appendTo($listGroup);
+                    }
+                }
+            }
         });
     }
 

@@ -1,0 +1,48 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>{$public_name}</title>
+    <link href="__CSS__/mobile/article.css?v={:SITE_VERSION}" rel="stylesheet">
+</head>
+<body>
+    <div class="rich_media_inner">
+        <div class="rich_media_area_primary">
+            <h2 class="rich_media_title">{$info.title}</h2>
+            <div class="rich_media_meta_list">
+                <em class="rich_media_meta rich_media_meta_text">{$info.create_time|date='Y-m-d',###}</em>
+                <a class="rich_media_meta rich_media_meta_link rich_media_meta_nickname" href="javascript:void(0);" id="post-user">{$public_name}</a>
+            </div>
+            
+            <div class="rich_media_content">
+                {$info.content}
+            </div>
+
+            <div class="rich_media_tool" id="js_toobar">
+                <div id="js_read_area" class="media_tool_meta tips_global meta_primary">阅读 <span id="readNum">{$info.view}</span></div>
+
+                <span class="media_tool_meta meta_primary tips_global meta_praise" id="like">
+                    <i class="icon_praise_gray"></i>
+                    <span class="praise_num" id="likeNum"></span>
+                </span>
+
+                <a id="js_report_article" class="media_tool_meta tips_global meta_extra" href="javascript:void(0);">举报</a>
+
+            </div>
+        </div>
+    </div>
+    <script src="__STATIC__/jquery-2.1.3.min.js"></script>
+    <script>
+        $(function(){
+            var likeNum = 10;
+            $('#likeNum').html(likeNum);
+            $('#like').click(function(event) {
+                $('#likeNum').html(likeNum+1);
+                $(this).off();
+            });
+        });
+    </script>
+</body>
+</html>

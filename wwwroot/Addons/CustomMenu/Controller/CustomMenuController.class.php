@@ -105,7 +105,7 @@ class CustomMenuController extends AddonsController {
 		
 		$url = 'https://api.weixin.qq.com/cgi-bin/menu/create?access_token=' . $access ['access_token'];
 		$header [] = "content-type: application/x-www-form-urlencoded; charset=UTF-8";
-		dump($tree);dump($tree2);die();
+
 		$ch = curl_init ();
 		curl_setopt ( $ch, CURLOPT_URL, $url );
 		curl_setopt ( $ch, CURLOPT_CUSTOMREQUEST, "POST" );

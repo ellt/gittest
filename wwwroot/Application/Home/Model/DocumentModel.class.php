@@ -304,7 +304,7 @@ class DocumentModel extends Model{
 	 * @return object         模型对象
 	 */
 	private function logic($model){
-		return D(get_document_model($model, 'name'), 'Logic');
+		return D("Home/".get_document_model($model, 'name'), 'Logic');
 	}
 
 	/**
