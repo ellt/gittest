@@ -49,6 +49,9 @@ return array(
     /* 文档模型配置 (文档模型核心配置，请勿更改) */
     'DOCUMENT_MODEL_TYPE' => array(2 => '主题', 1 => '目录', 3 => '段落'),
 
+    /* 数据缓存设置 */
+    'DATA_CACHE_PREFIX'   => 'onethink_', // 缓存前缀
+
     /* 图片上传相关配置 */
     'PICTURE_UPLOAD' => array(
         'mimes'    => '', //允许上传的文件MiMe类型
