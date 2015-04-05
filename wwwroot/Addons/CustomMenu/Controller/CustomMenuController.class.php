@@ -15,8 +15,7 @@ class CustomMenuController extends AddonsController {
 		$this->display ();
 	}
 	function get_data() {
-		$map ['token'] = get_token ();
-		$list = M ( 'custom_menu' )->where ( $map )->order ( 'pid asc, sort asc' )->select ();
+		$list = M ( 'custom_menu' )->order ( 'pid asc, sort asc' )->select ();
 		
 		// 取一级菜单
 		foreach ( $list as $k => $vo ) {
@@ -83,8 +82,7 @@ class CustomMenuController extends AddonsController {
 		}
 
 		$tree = $this->json_encode_cn ( $tree2 );
-		$map ['token'] = get_token ();
-		$info = M ( 'member_public' )->where ( $map )->find ();
+		$info = M ( 'member_public' )->find ();
 		$url_get = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=' . $info ['appid'] . '&secret=' . $info ['secret'];
 		
 		$ch1 = curl_init ();
