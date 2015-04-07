@@ -1247,7 +1247,26 @@ function cur_term(){
 }
 
 function clsID_to_clsName($clsId){
-    return (int)($clsId /100) . '年级' . $clsId % 100 . '班';
+    
+    $gradeNumber = intval ( (int)($clsId /100) );
+    $clsNumber = intval($clsId % 100 );
+    $capnum = array (
+			"零",
+			"一",
+			"二",
+			"三",
+			"四",
+			"五",
+			"六",
+			"七",
+			"八",
+			"九" 
+	);
+    if($clsNumber>0){
+        return  $capnum[ $gradeNumber ] . '年级' . $clsId % 100 . '班';
+    }else{
+        return  $capnum[ $gradeNumber ] . '年级' ;
+    }
 }
 
 function conver_subjectId_to_name($id){
