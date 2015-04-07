@@ -82,7 +82,7 @@ class Uploader
             $this->stateInfo = $this->getStateInfo("ERROR_TMP_FILE_NOT_FOUND");
             return;
         } else if (!is_uploaded_file($file['tmp_name'])) {
-            $this->stateInfo = $this->getStateInfo("ERROR_TMPFILE");
+            $this->stateInfo = $this->getStateInfo("ERROR_TMP_FILE");
             return;
         }
 
