@@ -35,7 +35,7 @@
             <tbody>
             	<notempty name="next">
                 <tr>
-                    <td>{$next['id']}-{$next['id']++}</td>
+                    <td>{$next['id']}-{$next['id']+1}</td>
                     <td>{$next.t1}</td>
                     <td>{$next.t2}</td>
                     <td>{$next.t3}</td>
@@ -50,7 +50,7 @@
 				
 				<notempty name="now">
                 <tr>
-                    <td>{$now['id']}-{$now['id']++}</td>
+                    <td>{$now['id']}-{$now['id']+1}</td>
                     <td <eq name="now['current']" value="t1">class="info" title="上学期正在进行"</eq>>{$now.t1}</td>
                     <td <eq name="now['current']" value="t2">class="info" title="上学期已结束"</eq>>{$now.t2}</td>
                     <td <eq name="now['current']" value="t3">class="info" title="下学期正在进行"</eq>>{$now.t3}</td>
@@ -65,7 +65,7 @@
                 
                 <foreach name="term_histoty_list" item="vo">
                 <tr class="collapse" data-id="history">
-                    <td>{$vo['id']}-{$vo['id']++}</td>
+                    <td>{$vo['id']}-{$vo['id']+1}</td>
                     <td>{$vo.t1}</td>
                     <td>{$vo.t2}</td>
                     <td>{$vo.t3}</td>

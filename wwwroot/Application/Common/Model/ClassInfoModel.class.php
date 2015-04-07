@@ -16,24 +16,4 @@ class ClassInfoModel  extends RelationModel{
     /* 数据表前缀 */ 
     protected $tablePrefix      =   'school_';
     
-    /**
-     * @var array
-    */
-    public $_link = array(
-    
-            
-          'teach_info' => array(
-                  'mapping_type' => self::HAS_MANY ,
-                  
-                  'class_name' => 'ClassTeachInfo',
-                  
-                  'mapping_key' => 'id',
-                  
-                  'foreign_key' => 'class_id',
-                  
-                  'mapping_name' => 'teach_info',
-                  
-//                   'as_fields' => 'username,email,mobile,true_name',
-          )
-    );
 } 

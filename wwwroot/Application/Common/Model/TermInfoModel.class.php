@@ -180,69 +180,59 @@ class TermInfoModel  extends Model{
     public function getNowTermInfo(){
         $map['status'] = array('in', array('prepare','underway'));
         $term = $this->where($map)->order('id ')->find();
+        $term['extern'] = unserialize($term['extern']) ;
         return $term;
     }
     
     public function getNextTermInfo(){
         $map['status'] = 'prepare';
         $term = $this->where($map)->order('id ')->find();
+        $term['extern'] = unserialize($term['extern']) ;
         return $term;
     }
     
-    public function finish(){
-//         $map['status'] = 'underway';
-        $curTerm = $this->getNowTermInfo();
-        if($curTerm['status'] == 'finish'){
-            $this->error = '当前学年已结束，无需重复设置！';
-            return false;
-                    
-        }else if($curTerm['status'] == 'prepare'){
-            $this->error = '当前学年未开始，不能结束！';
-            return false;
-        }else if($curTerm['status'] == 'underway'){
-            
-            $StdRelCls = D('Common/StdRelCls');
-            
-            if($StdRelCls->finishTerm()){
-                
-            }else{
-                $this->error = $StdRelCls->getError();
-            }
-            return $stdRelClsInfo;
-            
-        }else{
-            $this->error = '未知错误！';
+    public function finish(&$school){
+        $map['id'] = $school->nowTerm['id'];
+        $map['status'] = 'underway';
+
+        $ret = $this->where($map)->setField('status', 'finish');
+        if ($ret === false) {
+            $this->error = '结束旧学年出错。';
             return false;
         }
         
-    }
-    
-    
-    public function upgrate(){
-        //         $map['status'] = 'underway';
-        $curTerm = $this->getNowTermInfo();
-        if($curTerm['status'] == 'finish'){
-            $this->error = '当前学年已结束，未进入设置暂未进入设置阶段！';
-            return false;
-    
-        }else if($curTerm['status'] == 'underway'){
-            $this->error = '当前学年未结束，无法进入下学年！';
-            return false;
-        }else if($curTerm['status'] == 'prepare'){
-            
-            $StdRelCls = D('Common/StdRelCls');
-    
-            if($StdRelCls->upgradeTerm()){
-    
-            }else{
-                $this->error = $StdRelCls->getError();
+        $school->settingClsList = array();
+        array_push($school->settingClsList, 100);
+        foreach ($school->clsList as $v){
+            if($v < 600 ){
+                array_push($school->settingClsList, $v+100);
             }
-            return $stdRelClsInfo;
-    
-        }else{
-            $this->error = '未知错误！';
+        }
+        
+        
+        sort($school->settingClsList, SORT_REGULAR);
+        
+        $map['id'] = $school->nextTerm['id'];
+        $map['status'] = 'prepare';
+        $ret = $this->where($map)->setField('extern', serialize($school->settingClsList));
+   
+//         dump($this->getLastSql());
+        if ($ret === false) {
+            $this->error = '配置新学年班级信息。';
             return false;
         }
-    
+    }
+
+    public function upgrate(&$school) {
+        $map['id'] = $school->nowTerm['id'];
+        $map['status'] = 'prepare';
+        $update = array('status' => 'underway' );
+        $ret = $this->where($map)->setField($update);
+        if ($ret == false) {
+            $this->error = '学年升级出错。';
+            return false;
+        }
+        
+        return true;
     }
 } 

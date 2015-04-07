@@ -25,25 +25,11 @@ class TermController extends UserCenterController {
     public function index(){
         
         
-
-        
         $termHistoryList = $this->model->getHistoryTermInfo();
         $nowTermYearInfo = $this->model->getNowTermInfo();
         
-        
 
-//         if (NOW_TIME < $nowTermYearInfo['t2']) {
-//             $nowTermYearInfo['current'] = 't1';
-//         } else if (NOW_TIME >= $nowTermYearInfo['t2'] && NOW_TIME < $nowTermYearInfo['t3']) {
-//             $nowTermYearInfo['current'] = 't2';
-//         } else if (NOW_TIME >= $nowTermYearInfo['t3'] && NOW_TIME < $nowTermYearInfo['t4']) {
-//             $nowTermYearInfo['current'] = 't3';
-//         } else {
-//             $nowTermYearInfo['current'] = 't4';
-//         }
-        
-//         dump($nowTermYearInfo);die();
-        if($nowTermYearInfo['status'] == 'prepare'){
+        if($this->school->status == 'prepare'){
             $this->assign('next',$nowTermYearInfo);
         }else{
             $this->assign('now',$nowTermYearInfo); // 当前学期
@@ -84,31 +70,39 @@ class TermController extends UserCenterController {
     
     
     public function finish(){
-        die('学期结束。。');
-        $this->model->finish();     
+        $ret = $this->school->finishTerm();
+        if($ret  === false){
+            dump($this->school->getError());die();
+        }
+        die('学期结束成功，进行新学期配置状态。。');
     }
     
     public function upgrate(){
-        die('升级。。');
-        $this->model->upgrate();
-//         die($this->model->getError());
+        
+        $ret = $this->school->upgradeTerm();
+        if($ret  === false){
+            dump($this->school->getError());die();
+        }
+        die('1111111');
+        //         die($this->model->getError());
     }
     
     
     public function getSwitchTermInfo() {
-        $flag = false; // 测试标志 true 具备切换条件， false 不具备切换条件
-    
         $data['status']  = 1;
-        if ($flag) {
+        $ret = $this->school->checkIsAllTeacherHasSet();
+        if($ret !== true){
+            
+          $data['data']  = array(
+                    "icon" => "danger",
+                    "msg" => "还有 52 处未设置，请设置完后再切换至新学年！前往设置页面吗？",
+                    "url" => U("/usercenter/class/classmanager/gid/1.html")
+            );
+          
+        }else{
             $data['data']  = array(
                     "icon" => "info",
                     "msg" => "确定要切换至新学年吗？"
-            );
-        } else {
-            $data['data']  = array(
-                    "icon" => "danger",
-                    "msg" => "还有 52 处未设置，请设置完后再切换至新学年！前往设置页面吗？",
-                    "url" => U("usercenter/class/index/grade_id/2009/cate_id/79.html")
             );
         }
     

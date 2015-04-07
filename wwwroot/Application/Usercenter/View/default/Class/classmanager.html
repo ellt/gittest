@@ -1,0 +1,121 @@
+<extend name="Public/base"/>
+
+<block name="header">
+    <include file="modal"/>
+    <include file="tuser/addsubjectmodal"/>
+</block>
+
+<!-- 子导航 -->
+<block name="sidebar">
+    <include file="Public/sidemenu"/>
+</block>
+
+<block name="content">
+    <!-- 标题 -->
+    <div class="ell-main-title">
+        <h2>班级管理 [二年级]
+        </h2>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="ell-class-top clearfix">
+                <div class="col-md-3">
+                    <p class="h4 text-left ell-font">年级组长： 
+	                    <a class="cursor-pointer" data-toggle="modal" data-target="#myModal" data-get-param="class={$grade_info['cls_id']}&role=master&teacher_id={$grade_info['teacher_id']}" data-info-type="grade-master">
+	                    
+	                    <empty name="grade_info['teacher_id']">
+	                    	未设置
+	                    <else />
+	                    	{$grade_info.teacher_id|conver_userId_to_name}
+	                    </empty>
+	                    
+	                    </a>
+	                </p>
+                </div>
+                <div class="col-md-4">
+                    <div class="dropdown">
+                        <div class="alert alert-danger dropdown-toggle" data-hover="dropdown" data-delay="150">
+                            <p><i class="fa fa-warning fa-fw"></i> 有 <strong>3</strong> 处未设置</p>
+                        </div>
+                        <ul class="dropdown-menu" role="menu">
+                            <li role="presentation"><p>三年级 <span class="text-primary">年级主任</span> 未设置，<a role="menuitem" tabindex="-1" href="#">去设置</a></p></li>
+                            <li role="presentation"><p>三年级1班 <span class="text-primary">科学老师</span> 未设置，<a role="menuitem" tabindex="-1" href="#">去设置</a></p></li>
+                            <li role="presentation"><p>三年级2班 <span class="text-primary">语文老师</span> 未设置，<a role="menuitem" tabindex="-1" href="#">去设置</a></p></li>
+                            <li role="presentation"><p>三年级3班 <span class="text-primary">班主任</span> 未设置，<a role="menuitem" tabindex="-1" href="#">去设置</a></p></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <p class="h4 text-right ell-font">
+                        共 <span class="text-primary">5</span> 个班 <span class="text-primary">300</span> 名学生
+                    </p>
+                </div>
+                <div class="col-md-2 ell-btn">
+                	<button type="button" class="btn btn-primary btn-lg ajax-get" data-url="{:U('addClass?grade_id='.$grade_id)}" data-loading-text="新增中..." autocomplete="off">新增班级</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+        	<foreach name='class_list' item='cls'>
+            <div class="panel panel-primary ell-class-msg">
+                <div class="panel-heading">
+                    <span class="panel-title" data-toggle="tooltip" data-placement="right" title="2014 级">{$cls.name}</span>
+                    <div class="pull-right">
+                        <i class="fa fa-remove"></i>
+                    </div>
+                </div>
+                <div class="row panel-body">
+                    <div class="col-md-2 ell-s-container">
+                        <p class="ell-font">班级学生：{$cls.user_cnt}</p>
+                        <div class="ell-btn">
+                            <a class="btn btn-primary btn-lg" href="">学生详情</a>
+                        </div>
+                    </div>
+                    
+                   <foreach name="cls['teacher_info']" key='subject_id' item='teacher_id'>
+                     	<if condition="$subject_id eq 0">
+                     	<div class="col-md-2 ell-m-container">
+                        <div class="ell-m-block" data-toggle="modal" data-target="#myModal" data-get-param="class={$cls.cls_id}&role=master&subject_id={$subject_id}&teacher_id={$teacher_id}" data-info-type="class-master">
+                            <p><i class="fa fa-user fa-lg fa-fw text-success"></i> 班主任</p>
+                             <if condition="$teacher_id gt 0">
+			                  <p><i class="fa fa-male fa-fw text-primary"></i> {$teacher_id|conver_userId_to_name}</p>
+			                  <else />
+			                  <p class="text-danger"><i class="fa fa-warning fa-fw text-warning"></i> 未设置</p>
+			                  </if>
+                        </div>
+                    	</div>
+                    	</if>
+                   </foreach>
+                   
+                    <div class="col-md-8 pull-right text-center">
+                        <div class="row">
+                        	<foreach name="cls['teacher_info']" key='subject_id' item='teacher_id'>
+                        	<if condition="$subject_id gt 0">
+                            <div class="ell-t-block" data-toggle="modal" data-target="#myModal" data-get-param="class={$cls.cls_id}&role=teacher&subject_id={$subject_id}&teacher_id={teacher_id}" data-info-type="subject-teacher">
+                                <p>{$subject_id|conver_subjectId_to_name}老师</p>
+                                <if condition="$teacher_id gt 0">
+			                    <p><i class="fa fa-male fa-fw text-primary"></i> {$teacher_id|conver_userId_to_name}</p>
+			                    <else />
+			                    <p class="text-danger"><i class="fa fa-warning fa-fw text-warning"></i> 未设置</p>
+			                    </if>
+                            </div>
+                            </if>
+                            </foreach>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </foreach>
+        </div>
+    </div>
+</block>
+
+<block name="script">
+    <script src="__STATIC__/bootstrap-hover-dropdown/bootstrap-hover-dropdown.js"></script>
+    <script>
+    $(function () {
+
+    });
+    </script>
+</block>

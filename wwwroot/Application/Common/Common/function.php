@@ -1,4 +1,5 @@
 <?php
+use Common\Api\GlobalApi;
 // +----------------------------------------------------------------------
 // | OneThink [ WE CAN DO IT JUST THINK IT ]
 // +----------------------------------------------------------------------
@@ -1240,4 +1241,13 @@ function format_DB_error_info($dbErrorMsg){
 function is_sae() {
     return function_exists('saeAutoLoader');
 }
+
+function cur_term(){
+    return GlobalApi::getCurTerm();
+}
+
+function clsID_to_clsName($clsId){
+    return (int)($clsId /100) . '年级' . $clsId % 100 . '班';
+}
+
 //-----增加的函数  add by jigc -----end
