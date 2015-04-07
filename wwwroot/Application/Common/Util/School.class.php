@@ -15,7 +15,6 @@ class School {
     public $nowTerm  = null;
     public $nextTerm  = null;
     
-    
     public $underwayTeachRelClsInfo = array() ;
     public $underwayStdRelClsInfo  = array();
     
@@ -540,6 +539,23 @@ class School {
         if($this->upgradeTermStep3() === false){
             return false;
         }
-    die();
     }
+    
+    
+    public function  getStudentClsInfo($uid){
+//         dump($this->underwayStdRelClsInfo);die();
+        
+        foreach ($this->underwayStdRelClsInfo as $clsId=>$class){
+            
+            if(in_array($uid, $class)){
+                $classInof = array();
+                $classInof['id'] = $clsId;
+                $classInof['name'] = clsID_to_clsName($clsId);
+                return  $classInof;
+            };
+        }
+        
+        return false;
+    }
+    
 }

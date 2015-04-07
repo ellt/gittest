@@ -593,12 +593,3 @@ function conver_userId_to_name($id){
     }
     return $name;
 }
-
-function conver_subjectId_to_name($id){
-    foreach (GlobalApi::getSubjectList() as $v){
-        if($v['id'] == $id){
-            return $v['subject_name'];
-        }
-    }
-    return '未知';
-}

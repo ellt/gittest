@@ -10,6 +10,7 @@
 namespace Common\Model;
 use Think\Model;
 use User\Api\UserApi;
+use Common\Api\GlobalApi;
 
 class FollowModel extends Model {
     
@@ -408,16 +409,25 @@ class FollowModel extends Model {
                 
                     $a_table = $prefix . 'user';
                     $b_table = $prefix . 'user_student';
-                    $c_table = 'school_' . 'class_info';
-                    //             $c_table = $prefix . 'family_group';
                     $userModel = M()->table($a_table . ' a')
-                    ->join($b_table . ' b ON a.id=b.id')
-                    ->join($c_table . ' c ON b.class_id=c.id');
+                    ->join($b_table . ' b ON a.id=b.id');
                 
-                    $studentInfo = $userModel->where($umap)->field('pin2,true_name,class_name')->select();
+                    $studentInfo = $userModel->where($umap)->field('a.id uid, pin2,true_name')->select();
+                    
+                    $school = GlobalApi::getSchoolObj();
+                    foreach ($studentInfo as &$info){
+                        $clsInfo = $school->getStudentClsInfo($info['uid']);
+                        if($clsInfo){
+                            $info['class_name'] = $clsInfo['name'];
+                            $info['cls_id'] = $clsInfo['id'];
+                        }else{
+                            $info['class_name'] = '未知';
+                        }
+                    }
+                    
                     $familyBindInfo['studentInfo'] = $studentInfo;
 
-//                      dump($userModel->getLastSql());dump($familyBindInfo);
+//                     dump($userModel->getLastSql());dump($familyBindInfo);
                     array_push($familyBindInfoList, $familyBindInfo);
                 }
             }
@@ -450,6 +460,53 @@ class FollowModel extends Model {
         }
     }
     
+    
+    public function getStudentList($openid){
+        $familyBindInfoList = array();
+        
+        $followInfo = $this->initFollow($openid);
+        
+        $map['member_id'] = $followInfo['id'];
+        $m = M('FamilyGroup');
+        $ret = $m->where($map)->order('mTime ')->select();
+        if($ret){
+            $familyIds = array();
+            foreach ($ret as $familyInfo){
+                array_push($familyIds, $familyInfo['master_id']);
+            }
+            
+            
+            // 获取学生列表
+            $umap = null;
+            $umap['user_type'] = UserApi::TYPE_STUDENT;
+            $umap['chat_rel_id'] = array('in', $familyIds);
+            
+            $prefix   = C('DB_PREFIX');
+            $a_table = $prefix . 'user';
+            $b_table = $prefix . 'user_student';
+            $userModel = M()->table($a_table . ' a')
+            ->join($b_table . ' b ON a.id=b.id');
+            
+            $studentInfo = $userModel->where($umap)->field('a.id uid, pin2,true_name')->select();
+            
+            $school = GlobalApi::getSchoolObj();
+            foreach ($studentInfo as &$info){
+                $clsInfo = $school->getStudentClsInfo($info['uid']);
+                if($clsInfo){
+                    $info['class_name'] = $clsInfo['name'];
+                    $info['cls_id'] = $clsInfo['id'];
+                }else{
+                    $info['class_name'] = '未知';
+                }
+            }
+//             dump($studentInfo);
+            
+            return $studentInfo;
+            
+        }
+        
+        
+    }
     
     
 }

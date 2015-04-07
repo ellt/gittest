@@ -1250,4 +1250,13 @@ function clsID_to_clsName($clsId){
     return (int)($clsId /100) . '年级' . $clsId % 100 . '班';
 }
 
+function conver_subjectId_to_name($id){
+    foreach (GlobalApi::getSubjectList() as $v){
+        if($v['id'] == $id){
+            return $v['subject_name'];
+        }
+    }
+    return '未知';
+}
+
 //-----增加的函数  add by jigc -----end
