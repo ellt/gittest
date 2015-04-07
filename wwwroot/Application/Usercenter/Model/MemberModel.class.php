@@ -77,6 +77,7 @@ class MemberModel extends Model {
         $auth = array(
             'uid'             => $user['id'],
             'username'        => $user['username'],
+            'name'        => $user['true_name'],
             'last_login_time' => $user['last_login_time'],
         );
         
