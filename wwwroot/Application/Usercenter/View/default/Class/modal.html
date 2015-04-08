@@ -48,11 +48,13 @@
 <script>
 $(function(){
     
-    initModalEvent('#myModal', initModal);
+    initModalEvent('#myModal', initModal, null);
 
     function initModal($modal, data, isClear) {
 
         if (isClear) {
+            var type = data.data('info-type');
+            elog(type);
             $("span", "#myModalLabel").html("");
             $(".form-control-static", $modal).html("");
             $("[name='new_teacher']", $modal).val("");

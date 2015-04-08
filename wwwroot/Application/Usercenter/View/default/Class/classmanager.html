@@ -2,7 +2,7 @@
 
 <block name="header">
     <include file="modal"/>
-    <include file="tuser/addsubjectmodal"/>
+    <include file="addsubjectmodal"/>
 </block>
 
 <!-- 子导航 -->
@@ -22,16 +22,16 @@
             <div class="ell-class-top clearfix">
                 <div class="col-md-3">
                     <p class="h4 text-left ell-font">年级组长： 
-	                    <a class="cursor-pointer" data-toggle="modal" data-target="#myModal" data-get-param="class={$grade_info['cls_id']}&role=master&teacher_id={$grade_info['teacher_id']}" data-info-type="grade-master">
-	                    
-	                    <empty name="grade_info['teacher_id']">
-	                    	未设置
-	                    <else />
-	                    	{$grade_info.teacher_id|conver_userId_to_name}
-	                    </empty>
-	                    
-	                    </a>
-	                </p>
+                        <a class="cursor-pointer" data-toggle="modal" data-target="#myModal" data-get-param="class={$grade_info['cls_id']}&role=master&teacher_id={$grade_info['teacher_id']}" data-info-type="grade-master">
+                        
+                        <empty name="grade_info['teacher_id']">
+                            未设置
+                        <else />
+                            {$grade_info.teacher_id|conver_userId_to_name}
+                        </empty>
+                        
+                        </a>
+                    </p>
                 </div>
                 <div class="col-md-4">
                     <div class="dropdown">
@@ -52,12 +52,12 @@
                     </p>
                 </div>
                 <div class="col-md-2 ell-btn">
-                	<button type="button" class="btn btn-primary btn-lg ajax-get" data-url="{:U('addClass?grade_id='.$grade_id)}" data-loading-text="新增中..." autocomplete="off">新增班级</button>
+                    <button type="button" class="btn btn-primary btn-lg ajax-get" data-url="{:U('addClass?grade_id='.$grade_id)}" data-loading-text="新增中..." autocomplete="off">新增班级</button>
                 </div>
             </div>
         </div>
         <div class="col-md-12">
-        	<foreach name='class_list' item='cls'>
+            <foreach name='class_list' item='cls'>
             <div class="panel panel-primary ell-class-msg">
                 <div class="panel-heading">
                     <span class="panel-title" data-toggle="tooltip" data-placement="right" title="2014 级">{$cls.name}</span>
@@ -74,34 +74,52 @@
                     </div>
                     
                    <foreach name="cls['teacher_info']" key='subject_id' item='teacher_id'>
-                     	<if condition="$subject_id eq 0">
-                     	<div class="col-md-2 ell-m-container">
+                        <if condition="$subject_id eq 0">
+                        <div class="col-md-2 ell-m-container">
                         <div class="ell-m-block" data-toggle="modal" data-target="#myModal" data-get-param="class={$cls.cls_id}&role=master&subject_id={$subject_id}&teacher_id={$teacher_id}" data-info-type="class-master">
                             <p><i class="fa fa-user fa-lg fa-fw text-success"></i> 班主任</p>
-                             <if condition="$teacher_id gt 0">
-			                  <p><i class="fa fa-male fa-fw text-primary"></i> {$teacher_id|conver_userId_to_name}</p>
-			                  <else />
-			                  <p class="text-danger"><i class="fa fa-warning fa-fw text-warning"></i> 未设置</p>
-			                  </if>
+                            <if condition="$teacher_id gt 0">
+                            <p>
+                                <eq name="teacher_sex" value="male">
+                                <i class="fa fa-male fa-fw text-primary"></i>
+                                <else />
+                                <i class="fa fa-female fa-fw text-danger"></i>
+                                </eq> 
+                                {$teacher_id|conver_userId_to_name}
+                            </p>
+                            <else />
+                            <p class="text-danger"><i class="fa fa-warning fa-fw text-warning"></i> 未设置</p>
+                            </if>
                         </div>
-                    	</div>
-                    	</if>
+                        </div>
+                        </if>
                    </foreach>
                    
                     <div class="col-md-8 pull-right text-center">
                         <div class="row">
-                        	<foreach name="cls['teacher_info']" key='subject_id' item='teacher_id'>
-                        	<if condition="$subject_id gt 0">
-                            <div class="ell-t-block" data-toggle="modal" data-target="#myModal" data-get-param="class={$cls.cls_id}&role=teacher&subject_id={$subject_id}&teacher_id={teacher_id}" data-info-type="subject-teacher">
+                            <foreach name="cls['teacher_info']" key='subject_id' item='teacher_id'>
+                            <if condition="$subject_id gt 0">
+                            <div class="ell-t-block" data-toggle="modal" data-target="#myModal" data-get-param="class={$cls.cls_id}&role=teacher&subject_id={$subject_id}&teacher_id={$teacher_id}" data-info-type="subject-teacher">
                                 <p>{$subject_id|conver_subjectId_to_name}老师</p>
                                 <if condition="$teacher_id gt 0">
-			                    <p><i class="fa fa-male fa-fw text-primary"></i> {$teacher_id|conver_userId_to_name}</p>
-			                    <else />
-			                    <p class="text-danger"><i class="fa fa-warning fa-fw text-warning"></i> 未设置</p>
-			                    </if>
+                                <p>
+                                    <eq name="teacher_sex" value="male">
+                                    <i class="fa fa-male fa-fw text-primary"></i> 
+                                    <else />
+                                    <i class="fa fa-female fa-fw text-danger"></i>
+                                    </eq>
+                                    {$teacher_id|conver_userId_to_name}
+                                </p>
+                                <else />
+                                <p class="text-danger"><i class="fa fa-warning fa-fw text-warning"></i> 未设置</p>
+                                </if>
                             </div>
                             </if>
                             </foreach>
+<!--                             <div class="ell-t-block" data-toggle="modal" data-target="#addSubjectModal" data-get-param="">
+                                <p class="text-primary"><span class="glyphicon glyphicon-plus"></span></p>
+                                <p class="text-primary">添加科目</p>
+                            </div> -->
                         </div>
                     </div>
                 </div>
