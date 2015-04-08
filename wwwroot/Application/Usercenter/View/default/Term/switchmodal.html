@@ -35,7 +35,7 @@ $(function(){
     var $icon  = $("[data-id='modal-icon']", $modal);
     var $msg   = $("[data-id='modal-msg']", $modal);
 
-    initModalEvent('#switchModal', initModal, null);
+    initModalEvent('#switchModal', initModal, initOtherEvent);
 
     function initModal($modal, data, isClear) {
 
@@ -66,5 +66,23 @@ $(function(){
             $icon.html("<i class='fa fa-times-circle-o fa-4x text-danger'></i>");
         }
     }
+    
+    function initOtherEvent($modal) {
+        $("[data-submit='custom']", $modal).click(function(e) { 
+            //取消默认动作
+            e.preventDefault();
+
+            var url = $(this).data('url');
+            var btn = $(this);
+            btn.button('loading');
+            //发送到服务器
+            $.post(url, {}).success(function(data){
+                btn.button('reset');
+                $modal.modal('hide');
+                handleAjax(data);
+            });
+        });
+    }
+
 });
 </script>

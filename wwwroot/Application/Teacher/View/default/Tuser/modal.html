@@ -1,0 +1,116 @@
+<div class="modal fade" id="myModal" data-url="{:U('classInit')}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">关闭</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">编辑<span></span></h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="myModalForm" role="form">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">原来的</label>
+                        <div class="col-sm-5">
+                            <p class="form-control-static" data-id="old"></p>
+                        </div>
+                    </div>
+
+                    <div class="form-group has-feedback">
+                        <label class="col-sm-2 control-label" for="new">新的</label>
+                        <div class="col-sm-5 typeahead">
+                            <input type="text" class="form-control" id="new" name="new_teacher" data-provide="typeahead" placeholder="请输入教师工号或姓名" autocomplete="off">
+                            <span class="form-control-feedback"></span>
+                        </div>
+                        <div class="col-sm-4 help-block hidden"></div>
+                        <!-- 
+                            <span>教师不存在，前往<a href="">教师信息管理</a></span>
+                            <span>请在下方提示框中点击选取</span>
+                            <span>该教师原不属于数学科组，点击确定后将自动加入数学科组</span>
+                         -->
+                    </div>
+
+                    <input type="hidden" name="class_id">
+                    <input type="hidden" name="subject_id">
+                    <input type="hidden" name="teacher_id">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary" data-submit="modal" data-target="#myModalForm" data-url="{:U('setSubjectTeachInfo')}" data-loading-text="提交中..." autocomplete="off" disabled>确 定</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+$(function(){
+    
+    initModalEvent('#myModal', initModal, null);
+
+    function initModal($modal, data, isClear) {
+
+        if (isClear) {
+            var type = data.data('info-type');
+            elog(type);
+            $("span", "#myModalLabel").html("");
+            $(".form-control-static", $modal).html("");
+            $("[name='new_teacher']", $modal).val("");
+            return true;
+        }
+
+        $("span", "#myModalLabel").html(data.title);
+        $("[data-id='old']", $modal).html(data.old === null ? "未设置" : data.old.true_name);
+        $("[name='class_id']", $modal).val(data.class_id);
+        $("[name='subject_id']", $modal).val(data.subject_id);
+        $("[name='master_flag']", $modal).val(data.master_flag);
+        $("[data-submit='modal']", $modal).prop('disabled', true);
+
+        initTypeahead($modal, data.list);
+    }
+
+    function initTypeahead($modal, list) {
+        var source = Array();
+        var $input = $("#new");
+        for (var i in list) {
+            source.push({
+                name: "("+list[i].pin2+")  "+list[i].true_name,
+                id: list[i].id,
+                subject: list[i].support_subject,
+            });
+        }
+
+        $input.data("teacher-list", list)
+                .typeahead({
+                    source:source,
+                    items:'all',
+                    showHintOnFocus:true,
+                    minLength:0,
+                });
+
+        $input.change(function() {
+            var btn = $("[data-submit='modal']", $modal);
+            var current = $input.typeahead("getActive");
+            var hint={};
+            hint.new_teacher={};
+            if (current) {
+                if (current.name == $input.val()) {
+                    hint.new_teacher.successInfo = "";
+                    $("[name='teacher_id']").val(current.id);
+                    btn.prop('disabled', false);
+                } else {
+                    hint.new_teacher.warningInfo = "请在下方提示框中点击选取";
+                    $("[name='teacher_id']").val("");
+                    btn.prop('disabled', true);
+                }
+            } else {
+                hint.new_teacher.errorInfo = "教师不存在，前往<a href=''>教师信息管理</a>";
+                $("[name='teacher_id']").val("");
+                btn.prop('disabled', true);
+            }
+            showFormTip($("#myModalForm"), hint);
+        });
+    }
+});
+</script>

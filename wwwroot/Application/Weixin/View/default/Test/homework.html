@@ -14,11 +14,14 @@
                 当天作业 <small class="pull-right">2013-12-15</small>
             </div>
         </div>
+        
+        <foreach name='student_list' item='stdudent'>
         <div class="section">
             <div class="content">
                 <!-- 单个学生 -->
-                <!-- 学 生 <small class="pull-right">季明吉</small> -->
-                <!-- 多个学生 -->
+                <!-- -->
+                	学 生 <small class="pull-right">{$stdudent.true_name}</small> 
+                <!-- 多个学生 
                 学 生 
                 <select class="pull-right" name="student">
                     <option value="#" selected>
@@ -28,28 +31,23 @@
                         季日吉
                     </option>
                 </select>
+                
+                -->
             </div>
         </div>
+        <foreach name="stdudent['homework']" item='hw' >
         <div class="panel panel-info">
-            <div class="panel-heading">语文</div>
+            <div class="panel-heading">{$hw.subject_id|conver_subjectId_to_name}</div>
             <div class="panel-body">
                 <p>
-                    1、好好念书,背诵课文第一章第一节。<br/>
-                    2、天天向上<br/>
+                  {$hw.content}
                 </p>
             </div>
-            <div class="panel-footer">建议用时：30分钟</div>
+            <div class="panel-footer">建议用时：{$hw.suggest_time}分钟</div>
         </div>
-        <div class="panel panel-info">
-            <div class="panel-heading">数学</div>
-            <div class="panel-body">
-                <p>
-                    1、3+5=？<br/>
-                    2、做题<br/>
-                </p>   
-            </div>
-            <div class="panel-footer">建议用时：30分钟</div>
-        </div>
+        </foreach>
+        
+      </foreach>
     </div>
     </div>
     </div>

@@ -15,7 +15,6 @@ class School {
     public $nowTerm  = null;
     public $nextTerm  = null;
     
-    
     public $underwayTeachRelClsInfo = array() ;
     public $underwayStdRelClsInfo  = array();
     
@@ -53,7 +52,7 @@ class School {
         
         unset($this->nowTerm['extern']);
         unset($this->nextTerm['extern']);
-        
+//         dump($this->settingClsList);die();
         if($this->nowTerm['status'] == 'underway'){
             $this->status = 'underway';
         }else{
@@ -189,7 +188,33 @@ class School {
     public function  setTeacherClassInfo($tid, $subjectId, $clsId){
 
         if($this->status == 'underway'){
-
+            
+            $data['status'] = 'underway';
+            
+            $data['cls_id'] = $clsId;
+            $data['subject_id'] = $subjectId;
+            $data['term_year'] = $this->nowTerm ['id'];
+            $m = D('Common/TeachRelCls');
+            
+            $update = array('status'=>'shift');
+            $ret = $m->where($data)->setField($update);
+            //                         dump($ret);dump($m->getLastSql());die();
+            if($ret === false){
+                $data['uid'] = $tid;
+                return false;
+            }
+            
+            
+            $data['uid'] = $tid;
+            $data['t1'] =date('Y-m-d', NOW_TIME);
+            $ret = $m->add($data);
+            if($ret === false){
+                $this->error = '添加老师信息出错！';
+                return false;
+            }
+            
+            $this->settingTeachRelClsInfo[$clsId] = $tid;
+            return true;
         
         }else if($this->status == 'prepare'){
         
@@ -228,7 +253,7 @@ class School {
             for ($i=1;$i<=20;$i++){
                 
                 $newClsId =  $gradeId*100 + $i;
-                if(in_array($this->settingClsList, $newClsId) ){
+                if(in_array($newClsId, $this->settingClsList ) ){
                     continue;
                 } else {
                     $m = D('Common/TermInfo');
@@ -444,7 +469,7 @@ class School {
         $map['status'] = 'setting';
     
         // 将旧成员状态改为 underway
-        $update = array('status'=> 'underway', 't2' => date('Y-m-d'));
+        $update = array('status'=> 'underway', 't1' => date('Y-m-d'),'t2' => null);
         $ret = $m->where($map)->setField($update);
         if($ret === false){
             $this->error =  '升级出错！！';
@@ -514,6 +539,37 @@ class School {
         if($this->upgradeTermStep3() === false){
             return false;
         }
-    die();
     }
+    
+    
+    public function  getStudentClsInfo($uid){
+//         dump($this->underwayStdRelClsInfo);die();
+        
+        foreach ($this->underwayStdRelClsInfo as $clsId=>$class){
+            
+            if(in_array($uid, $class)){
+                $classInof = array();
+                $classInof['id'] = $clsId;
+                $classInof['name'] = clsID_to_clsName($clsId);
+                return  $classInof;
+            };
+        }
+        
+        return false;
+    }
+    
+    
+    public function getMyClassList($tid){
+        $classList = array();
+        foreach ($this->underwayTeachRelClsInfo as $clsId => $clsInfo){
+            
+            if($clsId % 100 == 0) continue;
+            
+            if(in_array($tid, $clsInfo)){
+                $classList[$clsId] = $clsInfo;
+            }
+        }
+        return $classList;
+    }
+    
 }

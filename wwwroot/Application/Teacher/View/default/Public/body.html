@@ -1,0 +1,36 @@
+    <div class="container">
+        <block name="header"></block>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-2 col-sm-3 hidden-xs">
+                <div class="ell-sidebar" id="sideBar">
+                    <block name="sidebar"></block>
+                </div>
+            </div>
+            <div class="col-md-10 col-md-offset-2 col-sm-9 col-sm-offset-3">
+                <div class="ell-alert">
+                    <div class="alert alert-warning alert-dismissible" id="top-alert" role="alert">
+                        <button type="button" class="close">
+                            <span aria-hidden="true">&times;</span>
+                            <span class="sr-only">关闭</span>
+                        </button>
+                        <div class="alert-content">这是内容</div>
+                    </div>
+                </div>
+                <!-- 内容 ================================================== -->
+                <div class="ell-main-content">
+                    <block name="content"></block>
+                </div>
+                <!--  页脚，版权信息   ================================================== -->
+                <footer class="row">
+                    <div class="col-sm-2 col-sm-offset-10">
+                        <p>
+                            本站由 <strong><a href="#">e朗朗</a></strong> 强力驱动
+                        </p>
+                    </div>
+                </footer>
+                <!--  /页脚，版权信息   ================================================= -->
+            </div>
+        </div>
+    </div>

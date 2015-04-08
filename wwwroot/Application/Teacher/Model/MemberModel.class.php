@@ -7,7 +7,7 @@
 // | Author: 麦当苗儿 <zuojiazi@vip.qq.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
 
-namespace Usercenter\Model;
+namespace Teacher\Model;
 use Think\Model;
 
 /**
