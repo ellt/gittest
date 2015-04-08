@@ -558,4 +558,18 @@ class School {
         return false;
     }
     
+    
+    public function getMyClassList($tid){
+        $classList = array();
+        foreach ($this->underwayTeachRelClsInfo as $clsId => $clsInfo){
+            
+            if($clsId % 100 == 0) continue;
+            
+            if(in_array($tid, $clsInfo)){
+                $classList[$clsId] = $clsInfo;
+            }
+        }
+        return $classList;
+    }
+    
 }
