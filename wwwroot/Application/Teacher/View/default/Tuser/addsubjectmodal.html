@@ -1,0 +1,57 @@
+<div class="modal fade" id="addSubjectModal" data-url="{:U('classInit')}" tabindex="-1" role="dialog" aria-labelledby="addSubjectLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">关闭</span>
+                </button>
+                <h4 class="modal-title" id="addSubjectLabel">添加科目</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="addSubjectForm" role="form">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">选择科目</label>
+                        <div class="col-sm-4">
+                            <select class="form-control" name="subject">
+                                <option selected>语 文</option>
+                                <option>英 语</option>
+                                <option>数 学</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary" data-submit="modal" data-target="#addSubjectForm" data-url="{:U('setSubjectTeachInfo')}" data-loading-text="提交中..." autocomplete="off">确 定</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+$(function(){
+    
+    initModalEvent('#addSubject', initModal, null);
+
+    function initModal($modal, data, isClear) {
+
+        if (isClear) {
+            $("span", "#myModalLabel").html("");
+            $(".form-control-static", $modal).html("");
+            $("[name='new_teacher']", $modal).val("");
+            return true;
+        }
+
+        $("span", "#myModalLabel").html(data.title);
+        $("[data-id='old']", $modal).html(data.old === null ? "未设置" : data.old.true_name);
+        $("[name='class_id']", $modal).val(data.class_id);
+        $("[name='subject_id']", $modal).val(data.subject_id);
+        $("[name='master_flag']", $modal).val(data.master_flag);
+        $("[data-submit='modal']", $modal).prop('disabled', true);
+
+        initTypeahead($modal, data.list);
+    }
+});
+</script>
