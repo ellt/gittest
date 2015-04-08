@@ -10,6 +10,7 @@
 namespace Addons\EditorForAdmin\Controller;
 use Home\Controller\AddonsController;
 use Think\Upload;
+use Org\Util\Ueditor;
 
 class UploadController extends AddonsController{
 
@@ -66,4 +67,10 @@ class UploadController extends AddonsController{
 		$this->ajaxReturn($return);
 	}
 
+	//ueditor编辑器配置
+	public function ueditor(){
+        $data = new Ueditor();
+        echo $data->output();
+        exit(); // 防止调试信息输出
+    }
 }
