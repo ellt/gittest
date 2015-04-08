@@ -1,22 +1,55 @@
-<extend name="Tuser/homeworkbase"/>
+<extend name="Public/base"/>
 
-<block name="header"></block>
+<!-- 子导航 -->
+<block name="sidebar">
+    <include file="Usercenter@Public/sidemenu"/>
+</block>
 
 <block name="content">
     <div class="well well-lg ell-homework-main">
-        <h2 class="page-header">修改已布置的作业</h2>
+        <h2 class="page-header">布置作业</h2>
 
         <form class="form-horizontal" id="addHomeworkForm" role="form">
             <div class="form-group">
                 <label class="col-xs-4 col-sm-2 control-label">科 目</label>
-                <div class="col-xs-8 col-sm-10">
-                    <p class="form-control-static">语 文</p>
+                <div class="col-xs-8 col-sm-10 btn-group">
+                    <a class="btn btn-primary btn-sm" href="">语 文</a>
+                    <a class="btn btn-default btn-sm" href="">数 学</a>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-xs-4 col-sm-2 control-label">班 级</label>
                 <div class="col-xs-8 col-sm-10">
-                    <p class="form-control-static">2009级1班</p>
+                    <div class="row">
+                        <div class="col-sm-3 col-lg-2">
+                            <label class="checkbox-inline">
+                                <input type="checkbox" data-toggle="checkall" data-target="class" checked> 全 选
+                            </label>
+                        </div>
+                        <foreach name='class_list' item='clsId'>
+                        <div class="col-sm-3 col-lg-2">
+                            <label class="checkbox-inline">
+                                <input type="checkbox" data-check="class" name="ids[]" value="{$clsId}" checked> {$clsId|clsID_to_clsName}
+                            </label>
+                        </div>
+                        </foreach>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-4 col-sm-2 control-label">已布置班级</label>
+                <div class="col-xs-8 col-sm-10">
+                    <div class="row form-control-static">
+                        <div class="col-sm-3">
+                            <span>2009级4班</span>
+                            <a href="">修改</a>
+                        </div>
+                        <div class="col-sm-3">
+                            <span>2009级5班</span>
+                            <a href="">修改</a>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="form-group">
@@ -37,8 +70,7 @@
             <div class="form-group">
                 <textarea class="form-control" id="homework" name="homework" rows="8" placeholder="请输入作业内容，建议格式如下："></textarea>
                 <div class="pull-right">
-                    <a class="btn btn-danger" href="" title="放弃修改">返回</a>
-                    <button type="button" class="btn btn-warning" data-submit="form" data-target="#addHomeworkForm" data-url="{:U('Tuser/homework')}" data-status="0" data-loading-text="提交中..." autocomplete="off">今天没作业</button>
+                    <button type="button" class="btn btn-warning" data-submit="form" data-target="#addHomeworkForm" data-url="{:U('add')}" data-status="0" data-loading-text="提交中..." autocomplete="off">今天没作业</button>
                 </div>
             </div>
         </form>
@@ -58,9 +90,23 @@
                 英语：<span class="label label-default">60分钟</span> 
             </div>
         </div>
+        <div class="row">
+            <div class="col-xs-6 col-sm-2">
+                <span class="h5"><strong>2009 级 2 班</strong></span>
+            </div>
+            <div class="col-xs-6 col-sm-2">
+                合计：<span class="label label-primary">70分钟</span>
+            </div>
+            <div class="col-xs-6 col-sm-2">
+                数学：<span class="label label-default">70分钟</span> 
+            </div>
+            <div class="col-xs-6 col-sm-2">
+                英语：<span class="label label-default">0分钟</span> 
+            </div>
+        </div>
     </div>
     <div class="ell-homework-history">
-        <include file="homeworkhistory"/>
+        <include file="history"/>
     </div>
 </block>
 

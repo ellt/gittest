@@ -2,9 +2,9 @@
 $(function() {
     $("[data-target='class']").change(function() {
         var history = $("[id^='history']");
-        if(this.checked) {console.log(111);
+        if(this.checked) {
             history.show();
-        } else {console.log(222);
+        } else {
             history.hide();
         }
     });
