@@ -11,6 +11,8 @@ module.exports = function(grunt) {
       public: {
         usercenter_less: 'wwwroot/Public/Usercenter/default/less',
         usercenter_css: 'wwwroot/Public/Usercenter/default/css',
+        teacher_less: 'wwwroot/Public/Teacher/less',
+        teacher_css: 'wwwroot/Public/Teacher/css',
         weixin_less: 'wwwroot/Public/weixin/less',
         weixin_css: 'wwwroot/Public/weixin/css',
       },
@@ -57,6 +59,7 @@ module.exports = function(grunt) {
         files: {
           '<%= workpath.common.css %>/common.css': '<%= workpath.common.css %>/common.less',
           '<%= workpath.public.usercenter_css %>/usercenter.css': '<%= workpath.public.usercenter_less %>/usercenter.less',
+          '<%= workpath.public.teacher_css %>/teacher.css': '<%= workpath.public.teacher_less %>/teacher.less',
           '<%= workpath.public.weixin_css %>/weixin.css': '<%= workpath.public.weixin_less %>/weixin.less'
         }
       },
@@ -65,6 +68,7 @@ module.exports = function(grunt) {
         files: {
           '<%= workpath.common.css %>/common.min.css': '<%= workpath.common.css %>/common.css',
           '<%= workpath.public.usercenter_css %>/usercenter.min.css': '<%= workpath.public.usercenter_css %>/usercenter.css',
+          '<%= workpath.public.teacher_css %>/teacher.min.css': '<%= workpath.public.teacher_css %>/teacher.css',
           '<%= workpath.public.weixin_css %>/weixin.min.css': '<%= workpath.public.weixin_css %>/weixin.css'
         },
         options: {
@@ -77,7 +81,9 @@ module.exports = function(grunt) {
       commoncss: {
         files: ['<%= workpath.common.css %>/*.less',
                 '<%= workpath.public.usercenter_less %>/*.less',
-                '<%= workpath.public.weixin_less %>/*.less'],
+                '<%= workpath.public.teacher_less %>/*.less',
+                '<%= workpath.public.weixin_less %>/*.less'
+                ],
         tasks: ['common-css'],
       },
       js: {

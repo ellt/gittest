@@ -8,3 +8,4 @@ wwwroot/Application/Install/Data/install.lock
 wwwroot/Data/Temp/
 node_modules/
 bower_components/
+wwwroot/Uploads/

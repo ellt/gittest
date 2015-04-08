@@ -2,6 +2,7 @@
 
 <block name="header">
     <include file="modal"/>
+    <include file="subjectmodal"/>
 </block>
 
 <!-- 子导航 -->
@@ -16,40 +17,94 @@
         </h2>
     </div>
 
-    <!-- 按钮工具栏 -->
-    <div class="row">
-        <div class="col-md-6">
-            <div class="pull-left">
-                <button class="btn btn-success" data-toggle="modal" data-target="#myModal" data-get-param="id=0">新 增</button>
-            </div>
-        </div>
-    </div>
+    <div class="ell-tab-wrap" role="tabpanel">
+        <ul class="nav nav-tabs" role="tablist">
+            <li class="active" role="presentation">
+                <a href="#gradeSubjectContent" aria-controls="gradeSubjectContent" role="tab" data-toggle="tab">年级科目</a>
+            </li>
+            <li role="presentation">
+                <a href="#schoolSubjectContent" aria-controls="schoolSubjectContent" role="tab" data-toggle="tab">科目录入</a>
+            </li>
+        </ul>
 
-    <!-- 数据表格 -->
-    <div class="row">
-        <div class="col-lg-6">
-            <div class="data-table">
-                <table class="table table-condensed table-hover">
-                    <thead>
-                        <tr>
-                            <th>科目编号</th>
-                            <th>科目名称</th>
-                            <th class="operator-xs-2"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <foreach name="subject_lists" item="vo">
-                        <tr>
-                            <td>{$vo.subject_number}</td>
-                            <td>{$vo.subject_name}</td>
-                            <td>
-                                <button class="btn btn-success btn-xs operator" data-toggle="modal" data-target="#myModal" data-get-param="id={$vo.id}">编 辑</button>
-                                <button type="button" class="btn btn-danger btn-xs operator ajax-get" data-confirm="确认要执行吗?" data-loading-text="执行中..." data-url="{:U('delete','id='.$vo[id])}" autocomplete="off">删除</button>
-                            </td>
-                        </tr>
-                        </foreach>
-                    </tbody>
-                </table>
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="gradeSubjectContent">
+                <!-- 数据表格 -->
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="data-table">
+                            <table class="table table-condensed table-hover">
+                                <thead>
+                                    <tr>
+                                        <th class="operator-xs-3">年级</th>
+                                        <th>科目</th>
+                                        <th class="operator-xs-2"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <foreach name='static_grade_info_list' item='vo'>
+                                    <tr>
+                                        <td>{$vo.grade_name}</td>
+                                        <td>
+                                            <foreach name="vo['subject_info']" item='subject'>
+                                            <span class="label label-primary" title="编号 {$subject.subject_number}">{$subject.subject_name}</span>&nbsp;
+                                            </foreach>
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-success btn-xs operator" data-toggle="modal" data-target="#subjectModal" data-get-param="id={$vo.id}">编 辑</button>
+                                        </td>
+                                    </tr>
+                                    </foreach>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div role="tabpanel" class="tab-pane" id="schoolSubjectContent">
+
+                <!-- 按钮工具栏 -->
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="pull-left">
+                            <button class="btn btn-success" data-toggle="modal" data-target="#myModal" data-get-param="id=0">新 增</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 数据表格 -->
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="data-table">
+                            <table class="table table-condensed table-hover" id="subjectLib">
+                                <thead>
+                                    <tr>
+                                        <th>科目编号</th>
+                                        <th>科目名称</th>
+                                        <th class="operator-xs-2"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <notempty name="subject_lists">
+                                    <foreach name="subject_lists" item="vo">
+                                    <tr>
+                                        <td>{$vo.subject_number}</td>
+                                        <td>{$vo.subject_name}</td>
+                                        <td>
+                                            <button class="btn btn-success btn-xs operator" data-toggle="modal" data-target="#myModal" data-get-param="id={$vo.id}">编 辑</button>
+                                            <button type="button" class="btn btn-danger btn-xs operator ajax-get" data-confirm="确认要执行吗?" data-loading-text="执行中..." data-url="{:U('delete','id='.$vo[id])}" autocomplete="off">删除</button>
+                                        </td>
+                                    </tr>
+                                    </foreach>
+                                    <else/>
+                                    <tr data-id="tip"><td class="text-center" colspan="3"> 暂时还没有科目! </td></tr>
+                                    </notempty>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

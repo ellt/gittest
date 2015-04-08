@@ -1058,3 +1058,48 @@ function replace_url($content) {
 	
 	return $content;
 }
+
+/**
+ * 获取自定义菜单类型对应的标题
+ *
+ * @author Guokaiyi
+ */
+function convert_menu_type($type) {
+	switch ($type) {
+		case 'none':
+			return "带子菜单";
+			break;
+
+		case 'click':
+			return "发送信息";
+			break;
+		
+		case 'view':
+			return "跳转到网页";
+			break;
+
+		default:
+			return "发送信息";
+			break;
+	}
+}
+
+function count_one_level_menu($list_data) {
+	$counter = 0;
+	foreach ($list_data as $vo) { 
+		if ($vo['pid'] == 0) {
+			$counter++;
+		}
+	}
+	return $counter;
+}
+
+function count_two_level_menu($list_data, $id) {
+	$counter = 0;
+	foreach ($list_data as $vo) { 
+		if ($vo['pid'] == $id) {
+			$counter++;
+		}
+	}
+	return $counter;
+}

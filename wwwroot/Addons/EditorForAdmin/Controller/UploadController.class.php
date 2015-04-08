@@ -10,6 +10,7 @@
 namespace Addons\EditorForAdmin\Controller;
 use Home\Controller\AddonsController;
 use Think\Upload;
+use Org\Util\Ueditor;
 
 class UploadController extends AddonsController{
 
@@ -20,9 +21,10 @@ class UploadController extends AddonsController{
 		session('upload_error', null);
 		/* 上传配置 */
 		$setting = C('EDITOR_UPLOAD');
+		$driver = C('EDITOR_UPLOAD_DRIVER');
 
 		/* 调用文件上传组件上传文件 */
-		$this->uploader = new Upload($setting, 'Local');
+		$this->uploader = new Upload($setting, $driver);
 		$info   = $this->uploader->upload($_FILES);
 		if($info){
 			$url = C('EDITOR_UPLOAD.rootPath').$info['imgFile']['savepath'].$info['imgFile']['savename'];
@@ -65,4 +67,10 @@ class UploadController extends AddonsController{
 		$this->ajaxReturn($return);
 	}
 
+	//ueditor编辑器配置
+	public function ueditor(){
+        $data = new Ueditor();
+        echo $data->output();
+        exit(); // 防止调试信息输出
+    }
 }

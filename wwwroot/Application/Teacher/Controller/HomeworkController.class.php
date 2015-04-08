@@ -53,7 +53,7 @@ class HomeworkController extends TeacherController {
 //         dump($clsList);
         $this->assign('underway_list',$underwayClsList);
         $this->assign('class_list', $clsList);
-        $this->display('Tuser/homework');
+        $this->display();
     }
     
     

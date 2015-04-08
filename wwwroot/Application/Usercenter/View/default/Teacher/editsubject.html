@@ -109,7 +109,7 @@ function initOtherEvent($modal) {
         $('#hasSubjects').append(this).append(' ');
     });
 
-    $("[data-submit='custom']").click(function(e) { 
+    $("[data-submit='custom']", $modal).click(function(e) { 
         var url = $(this).attr('data-url');
         var id = $modal.data("id");
         var subjects = Array();
