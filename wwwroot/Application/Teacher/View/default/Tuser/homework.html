@@ -36,18 +36,16 @@
             </div>
             <div class="form-group">
                 <label class="col-xs-4 col-sm-2 control-label">已布置班级</label>
+                <foreach name='underway_list' item='v'>
                 <div class="col-xs-8 col-sm-10">
                     <div class="row form-control-static">
                         <div class="col-sm-3">
-                            <span>2009级4班</span>
-                            <a href="">修改</a>
-                        </div>
-                        <div class="col-sm-3">
-                            <span>2009级5班</span>
-                            <a href="">修改</a>
+                            <span>{$v.clsId|clsID_to_clsName}</span>
+                            <a href='{$v.url}'>修改</a>
                         </div>
                     </div>
                 </div>
+                </foreach>
             </div>
             <div class="form-group">
                 <label class="col-xs-4 col-sm-2 control-label">预计用时</label>
