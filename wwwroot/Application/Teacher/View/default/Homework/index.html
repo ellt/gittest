@@ -29,7 +29,7 @@
                         <foreach name='class_list' item='clsId'>
                         <div class="col-sm-3 col-lg-2">
                             <label class="checkbox-inline">
-                                <input type="checkbox" data-check="class" name="ids[]" value="{$clsId}" checked> {$clsId|clsID_to_clsName}
+                                <input type="checkbox" data-check="class" name="class_ids[]" value="{$clsId}" checked> {$clsId|clsID_to_clsName}
                             </label>
                         </div>
                         </foreach>
@@ -39,24 +39,22 @@
             </div>
             <div class="form-group">
                 <label class="col-xs-4 col-sm-2 control-label">已布置班级</label>
+                <foreach name='underway_list' item='v'>
                 <div class="col-xs-8 col-sm-10">
                     <div class="row form-control-static">
                         <div class="col-sm-3">
-                            <span>2009级4班</span>
-                            <a href="">修改</a>
-                        </div>
-                        <div class="col-sm-3">
-                            <span>2009级5班</span>
-                            <a href="">修改</a>
+                            <span>{$v.clsId|clsID_to_clsName}</span>
+                            <a href='{$v.url}'>修改</a>
                         </div>
                     </div>
                 </div>
+                </foreach>
             </div>
             <div class="form-group">
                 <label class="col-xs-4 col-sm-2 control-label">预计用时</label>
                 <div class="col-xs-8 col-sm-3">
                     <div class="input-group input-group-sm">
-                      <input type="text" class="form-control" id="setTime" name="time">
+                      <input type="text" class="form-control" id="setTime" name="suggest_time">
                       <span class="input-group-addon">分钟</span>
                     </div>
                 </div>
@@ -67,8 +65,9 @@
                     <button type="button" class="btn btn-primary btn-sm" data-form-btn="set-time" data-target="#setTime" data-content="90">90分钟</button>
                 </div>
             </div>
+            <input type="hidden" name="subjectId" value={$subject_id}>
             <div class="form-group">
-                <textarea class="form-control" id="homework" name="homework" rows="8" placeholder="请输入作业内容，建议格式如下："></textarea>
+                <textarea class="form-control" id="homework" name="content" rows="8" placeholder="请输入作业内容，建议格式如下："></textarea>
                 <div class="pull-right">
                     <button type="button" class="btn btn-warning" data-submit="form" data-target="#addHomeworkForm" data-url="{:U('add')}" data-status="0" data-loading-text="提交中..." autocomplete="off">今天没作业</button>
                 </div>
