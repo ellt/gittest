@@ -13,20 +13,20 @@
             <div class="form-group">
                 <label class="col-xs-4 col-sm-2 control-label">科 目</label>
                 <div class="col-xs-8 col-sm-10">
-                    <p class="form-control-static">{$info.subject_id|}</p>
+                    <p class="form-control-static">{$info.subject_id|conver_subjectId_to_name}</p>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-xs-4 col-sm-2 control-label">班 级</label>
                 <div class="col-xs-8 col-sm-10">
-                    <p class="form-control-static">{$clsId|clsID_to_clsName}</p>
+                    <p class="form-control-static">{$info.cls_id|clsID_to_clsName}</p>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-xs-4 col-sm-2 control-label">预计用时</label>
                 <div class="col-xs-8 col-sm-3">
                     <div class="input-group input-group-sm">
-                      <input type="text" class="form-control" id="setTime" name="time">
+                      <input type="text" class="form-control" id="setTime" name="suggest_time" value="{$info.suggest_time}">
                       <span class="input-group-addon">分钟</span>
                     </div>
                 </div>
@@ -36,9 +36,10 @@
                     <button type="button" class="btn btn-primary btn-sm" data-form-btn="set-time" data-target="#setTime" data-content="60">60分钟</button>
                     <button type="button" class="btn btn-primary btn-sm" data-form-btn="set-time" data-target="#setTime" data-content="90">90分钟</button>
                 </div>
+            	<input type="hidden" name="id" value={$info.id}>
             </div>
             <div class="form-group">
-                <textarea class="form-control" id="homework" name="homework" rows="8" placeholder="请输入作业内容，建议格式如下："></textarea>
+                <textarea class="form-control" id="homework" name="content" rows="8" placeholder="请输入作业内容，建议格式如下：">{$info.content}</textarea>
                 <div class="pull-right">
                     <a class="btn btn-danger" href="" title="放弃修改">返回</a>
                     <button type="button" class="btn btn-warning" data-submit="form" data-target="#addHomeworkForm" data-url="{:U('edit')}" data-status="0" data-loading-text="提交中..." autocomplete="off">今天没作业</button>
