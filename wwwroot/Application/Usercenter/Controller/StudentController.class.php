@@ -29,13 +29,22 @@ class StudentController extends UserCenterController {
         $sidemenu['title'] = "基础信息设置";
         
         $class_id = I('class_id'); # 这里获取班级ID
+        $school = $this->school;
+        
+        if($school->status == 'prepare'){
+            $map['id'] = array('in', $school->settingStdRelClsInfo[$class_id]);
+            $student_lists = $this->relationLists($this->model, $map);
+        }else if($school->status == 'underway'){
+            
+            $map['id'] = array('in', $school->underwayStdRelClsInfo[$class_id]);
+            $student_lists = $this->relationLists($this->model, $map);
+        }
+        
         
         # 获取学生列表
-        $student_lists = $this->relationLists($this->model, array('class_id' => $class_id));
-        
 //         dump($student_lists);die();
         $this->assign('class_id', $class_id);
-        $this->assign('calss_name', D('Class','Logic')->getClassNameById($class_id));
+        $this->assign('class_name', clsID_to_clsName($class_id));
         $this->assign('student_lists',$student_lists);
         $this->assign('sidemenu', $sidemenu);
         $this->assign('sidebar_file', 'Public/sidemenu');
@@ -91,7 +100,7 @@ class StudentController extends UserCenterController {
         $this->assign('calss_name', D('Class','Logic')->getClassNameById($class_id));
         $this->assign('student_lists',$student_lists);
         $this->assign('sidemenu', $sidemenu);
-            $this->assign('sidebar_file', 'Public/sidemenu');
+        $this->assign('sidebar_file', 'Public/sidemenu');
         $this->display();
     }
 
