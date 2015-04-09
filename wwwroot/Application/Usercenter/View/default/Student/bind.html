@@ -52,25 +52,22 @@
                     <td><input type="checkbox" data-check="ids" name="ids[]" value="{$vo.id}"></td>
                     <td>{$vo.pin2}</td>
                     <td>{$vo.true_name}</td>
-                    
-                    <if condition="$vo['chat_rel_id'] gt 0">
                     <td>
-                        <span class="cursor-pointer" data-id="state" data-get-param="id={$vo.id}">
+                        <if condition="$vo['chat_rel_id'] eq true">
+                        <span class="cursor-pointer" data-id="popover" data-get-param="id={$vo.id}">
                             <span class="glyphicon glyphicon-ok text-success"></span> 已绑定
                         </span>
-                    </td>
-                    <td>
-                        <button type="button" class="btn btn-danger btn-xs operator ajax-get" data-confirm="确认要执行吗?" data-loading-text="执行中..." data-url="{:U('unbindStudent','id='.$vo[id])}" autocomplete="off">解除绑定</button>
-                    </td>
-                    <else />
-                    <td>                   
-						<span>
+                        <else />
+                        <span>
                             <span class="glyphicon glyphicon-remove text-danger"></span> 未绑定
                         </span>
-                    </td> 
-                    <td>
+                        </if>
                     </td>
-                    </if>
+                    <td>
+                        <if condition="$vo['chat_rel_id'] eq true">
+                        <button type="button" class="btn btn-danger btn-xs operator ajax-get" data-confirm="确认要执行吗?" data-loading-text="执行中..." data-url="{:U('unbindStudent','id='.$vo[id])}" autocomplete="off">解除绑定</button>
+                        </if>
+                    </td>
                 </tr>
             	</foreach>
             </tbody>
@@ -79,44 +76,5 @@
 </block>
 
 <block name="script">
-    <script>
-    $(function(){
-
-        var url = $('table').data("url");
-        $('table').on('mouseover', "[data-id='state']", {url: url}, function(event) {
-            var $span = $(this);
-
-            if($span.data("state") !== "loaded") {
-                
-                $span.popover({
-                    container: "body",
-                    placement: "top",
-                    trigger: "hover",
-                });
-
-                var param = $span.data("get-param");
-
-                $.get(event.data.url+"&"+param).success(function(data){
-                    if (data.status) {
-                        var list = data.data;
-                        var content = "成员：";
-
-                        for (var i = 0; i < list.length; i++) {
-                            content += list[i].family_role + " ";
-                        }
-
-                        $span.data("bs.popover").options.content = content;
-                        $span.popover("show");
-                    } else {
-                        $span.data("bs.popover").options.content = "绑定信息加载失败！";
-                        $span.popover("show");
-                    }
-                });
-
-                $span.data("state", "loaded");
-            }
-        });
-        
-    });
-    </script>
+    <script src="__STATIC__/common/js/widget.js"></script>
 </block>

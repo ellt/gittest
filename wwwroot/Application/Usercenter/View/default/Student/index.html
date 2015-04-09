@@ -12,8 +12,15 @@
 <block name="content">
     <!-- 标题 -->
     <div class="ell-main-title">
-        <h2>学生信息管理 [{$class_name}]
-        </h2>
+        <h2>学生信息管理 [ {$class_name}
+            <select name="class">
+                <volist name="classes" id="vo">
+                <option value="{:U('AuthManager/access',array('group_id'=>$vo['id'],'group_name'=>$vo['title']))}" <eq name="vo['id']" value="$this_group['id']">selected</eq>>
+                    {$vo.title}
+                </option>
+                </volist>
+            </select>
+        ]</h2>
     </div>
 
     <!-- 按钮工具栏 -->
@@ -35,7 +42,7 @@
             </div>
         </div>
         <div class="col-md-6">
-            <div class="col-md-6 input-group pull-right">
+            <div class="col-md-6 col-md-offset-6 input-group">
                 <input type="text" class="form-control" id="search" name="nickname" value="{:I('nickname')}" placeholder="请输入学生学号或姓名">
                 <span class="input-group-btn">
                     <button type="button" class="btn btn-primary" data-submit="search" data-target="#search" data-url="{:U('index')}">
@@ -48,7 +55,15 @@
     
     <!-- 数据表格 -->
     <div class="data-table">
-        <table class="table table-condensed table-hover">
+        <div class="data-table-head">
+            <span class="text-muted">
+                学生人数：<span class="text-danger">2 </span>人
+            </span>
+            <span class="text-muted">
+                未绑定微信：<span class="text-danger">2 </span>人
+            </span>
+        </div>
+        <table class="table table-condensed table-hover" data-url="{:U('weixin/test/parentBind')}">
             <thead>
                 <tr>
                     <th class="row-selected"><input type="checkbox" data-toggle="checkall" data-target="ids"/></th>
@@ -56,7 +71,8 @@
                     <th>姓名</th>
                     <th>性别</th>
                     <th>手机</th>
-                    <th class="operator-xs-2"></th>
+                    <th>微信绑定</th>
+                    <th class="operator-xs-4"></th>
                 </tr>
             </thead>
             <tbody>
@@ -68,6 +84,20 @@
                     <td><eq name="vo['sex']" value="male">男<else/>女</eq></td>
                     <td>{$vo.mobile}</td>
                     <td>
+                        <if condition="$vo['chat_rel_id'] eq true">
+                        <span class="cursor-pointer" data-id="popover" data-get-param="id={$vo.id}">
+                            <span class="glyphicon glyphicon-ok text-success"></span> 已绑定
+                        </span>
+                        <else />
+                        <span>
+                            <span class="glyphicon glyphicon-remove text-danger"></span> 未绑定
+                        </span>
+                        </if>
+                    </td>
+                    <td>
+                        <if condition="$vo['chat_rel_id'] eq true">
+                        <button type="button" class="btn btn-danger btn-xs operator ajax-get" data-confirm="确认要执行吗?" data-loading-text="执行中..." data-url="{:U('unbindStudent','id='.$vo[id])}" autocomplete="off">解除绑定</button>
+                        </if>
                         <button class="btn btn-success btn-xs operator" data-toggle="modal" data-target="#myModal" data-get-param="id={$vo.id}">编 辑</button>
                     </td>
                 </tr>
@@ -75,28 +105,15 @@
             </tbody>
         </table>
     </div>
-    <nav>
-        <ul class="pagination">
-            {$_page}
-            <li class="disabled">
-                <a href="#">
-                    <span aria-hidden="true">&laquo;</span>
-                    <span class="sr-only">上一页</span>
-                </a>
-            </li>
-            <li class="active">
-                <a href="#">1 <span class="sr-only">(当前页)</span></a>
-            </li>
-            <li><a href="#">2</a></li>
-            <li><a href="#">3</a></li>
-            <li><a href="#">4</a></li>
-            <li><a href="#">5</a></li>
-            <li>
-                <a href="#">
-                    <span aria-hidden="true">&raquo;</span>
-                    <span class="sr-only">下一页</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
+</block>
+
+<block name="script">
+    <script src="__STATIC__/common/js/widget.js"></script>
+    <script>    
+    $(function(){
+        $('select[name=group]').change(function(){
+            location.href = this.value;
+        });
+    });
+    </script>
 </block>

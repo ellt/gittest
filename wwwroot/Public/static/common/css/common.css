@@ -286,6 +286,15 @@ body {
   border: 1px solid #ddd;
   border-radius: 4px;
 }
+.data-table .data-table-head {
+  padding: 7px 22px;
+  margin-bottom: 8px;
+  clear: both;
+  font-size: 14px;
+}
+.data-table .data-table-head > span {
+  margin-right: 12px;
+}
 .data-table thead th {
   color: #fff;
   text-align: left;
