@@ -13,8 +13,9 @@
             <div class="form-group">
                 <label class="col-xs-4 col-sm-2 control-label">科 目</label>
                 <div class="col-xs-8 col-sm-10 btn-group">
-                    <a class="btn btn-primary btn-sm" href="">语 文</a>
-                    <a class="btn btn-default btn-sm" href="">数 学</a>
+                	<foreach name='subject_list' item='info'>
+                    <a class="btn btn-primary btn-sm" href="{$info.url}">{$info.id|conver_subjectId_to_name}</a>
+                    </foreach>
                 </div>
             </div>
             <div class="form-group">
@@ -75,34 +76,23 @@
         </form>
         <hr>
         <h3>作业布置情况</h3>
+        <foreach name='class_suggest_info' key='clsId' item='subjectInfo'>
+        
         <div class="row">
-            <div class="col-xs-6 col-sm-2">
-                <span class="h5"><strong>2009 级 1 班</strong></span>
-            </div>
-            <div class="col-xs-6 col-sm-2">
+          <div class="col-xs-6 col-sm-2">
+                <span class="h5"><strong>{$clsId|clsID_to_clsName} </strong></span>
+          </div>
+          <div class="col-xs-6 col-sm-2">
                 合计：<span class="label label-primary">120分钟</span>
-            </div>
-            <div class="col-xs-6 col-sm-2">
-                数学：<span class="label label-default">60分钟</span> 
-            </div>
-            <div class="col-xs-6 col-sm-2">
-                英语：<span class="label label-default">60分钟</span> 
-            </div>
+          </div>
+          
+          <foreach name='subjectInfo'  key='subject_id' item='suggest_time'>
+          <div class="col-xs-6 col-sm-2">
+                {$subject_id|conver_subjectId_to_name}：<span class="label label-default">{$suggest_time}分钟</span> 
+          </div>
+          </foreach>
         </div>
-        <div class="row">
-            <div class="col-xs-6 col-sm-2">
-                <span class="h5"><strong>2009 级 2 班</strong></span>
-            </div>
-            <div class="col-xs-6 col-sm-2">
-                合计：<span class="label label-primary">70分钟</span>
-            </div>
-            <div class="col-xs-6 col-sm-2">
-                数学：<span class="label label-default">70分钟</span> 
-            </div>
-            <div class="col-xs-6 col-sm-2">
-                英语：<span class="label label-default">0分钟</span> 
-            </div>
-        </div>
+        </foreach>
     </div>
     <div class="ell-homework-history">
         <include file="history"/>
