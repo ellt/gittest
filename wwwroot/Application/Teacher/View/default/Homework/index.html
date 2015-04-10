@@ -55,7 +55,7 @@
                 <label class="col-xs-4 col-sm-2 control-label">预计用时</label>
                 <div class="col-xs-8 col-sm-3">
                     <div class="input-group input-group-sm">
-                      <input type="text" class="form-control" id="setTime" name="suggest_time">
+                      <input type="text" class="form-control" id="setTime" name="suggest_time" value="30">
                       <span class="input-group-addon">分钟</span>
                     </div>
                 </div>
@@ -66,11 +66,11 @@
                     <button type="button" class="btn btn-primary btn-sm" data-form-btn="set-time" data-target="#setTime" data-content="90">90分钟</button>
                 </div>
             </div>
-            <input type="hidden" name="subjectId" value={$subject_id}>
+            <input type="hidden" name="subjectId" value="{$subject_id}">
             <div class="form-group">
                 <textarea class="form-control" id="homework" name="content" rows="8" placeholder="请输入作业内容，建议格式如下："></textarea>
                 <div class="pull-right">
-                    <button type="button" class="btn btn-warning" data-submit="form" data-target="#addHomeworkForm" data-url="{:U('add')}" data-status="0" data-loading-text="提交中..." autocomplete="off">今天没作业</button>
+                    <button type="button" class="btn btn-warning" data-submit="form" data-target="#addHomeworkForm" data-url="{:U('add')}" data-loading-text="提交中..." autocomplete="off">今天没作业</button>
                 </div>
             </div>
         </form>
@@ -79,18 +79,18 @@
         <foreach name='class_suggest_info' key='clsId' item='subjectInfo'>
         
         <div class="row">
-          <div class="col-xs-6 col-sm-2">
-                <span class="h5"><strong>{$clsId|clsID_to_clsName} </strong></span>
-          </div>
-          <div class="col-xs-6 col-sm-2">
-                合计：<span class="label label-primary">120分钟</span>
-          </div>
-          
-          <foreach name='subjectInfo'  key='subject_id' item='suggest_time'>
-          <div class="col-xs-6 col-sm-2">
-                {$subject_id|conver_subjectId_to_name}：<span class="label label-default">{$suggest_time}分钟</span> 
-          </div>
-          </foreach>
+            <div class="col-xs-6 col-sm-2">
+                  <span class="h5"><strong>{$clsId|clsID_to_clsName} </strong></span>
+            </div>
+            <div class="col-xs-6 col-sm-2">
+                  合计：<span class="label label-primary">120分钟</span>
+            </div>
+            
+            <foreach name='subjectInfo'  key='subject_id' item='suggest_time'>
+            <div class="col-xs-6 col-sm-2">
+                  {$subject_id|conver_subjectId_to_name}：<span class="label label-default">{$suggest_time}分钟</span> 
+            </div>
+            </foreach>
         </div>
         </foreach>
     </div>

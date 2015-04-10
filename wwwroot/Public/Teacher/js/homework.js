@@ -30,17 +30,14 @@ $(function() {
 
     $("#homework").bind('input propertychange', function() {
         var btn = $("[data-submit='form']");
-        var status = btn.attr("data-status");
         var text = $(this).val();
 
-        if (text === "" && status === "1") {
+        if (text === "") {
             // 没作业
-            btn.attr("data-status", "0");
             btn.html("今天没作业");
             btn.removeClass("btn-primary").addClass("btn-warning");
-        } else if (text !== "" && status === "0") {
+        } else {
             // 有作业
-            btn.attr("data-status", "1");
             btn.html("发布作业");
             btn.removeClass("btn-warning").addClass("btn-primary");
         }
@@ -51,30 +48,22 @@ $(function() {
         e.preventDefault();
 
         var url = $(this).attr('data-url');
-        var status = $(this).attr("data-status");
-        var content = "";
+        var text = $("#homework").val();
 
-        if (status === "1") {
-            var targetForm = $(this).attr('data-target');
-            var form = $(targetForm);
-            content = form.serialize();
-            content += "&status=true";
-        } else {
-            var checkbox = $("[data-check='class']");
-            content = checkbox.serialize();
-            content += "&status=false";
-        }
+        // 没作业
+        if (text === "") {
+            $("#setTime").val(0); // 将建议用时清零
+        } 
+
+        var targetForm = $(this).attr('data-target');
+        var content = $(targetForm).serialize();
 
         var btn = $(this);
         btn.button('loading');
         //发送到服务器
         $.post(url, content).success(function(data) {
             btn.button('reset');
-            if (data.status) {
-                
-            } else {
-                
-            }
+            handleAjax(data);
         });
     });
 });
