@@ -8,6 +8,7 @@
 }
 .ell-homework-main textarea {
   margin-bottom: 10px;
+  resize: none;
 }
 .ell-homework-main textarea::-webkit-input-placeholder:after {
   display: block;
@@ -17,6 +18,9 @@
 .ell-homework-main textarea::-moz-placeholder:after {
   content: "1、XXXX。\A 2、XXXX。";
   /*  \A 表示换行  */
+}
+.ell-homework-state {
+  margin: 12px 0;
 }
 .ell-homework-footer {
   text-align: center;
