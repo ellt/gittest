@@ -76,7 +76,7 @@
         </form>
         <hr>
         <h3>作业布置情况</h3>
-        <foreach name='class_suggest_info' key='clsId' item='subjectInfo'>
+        <foreach name='class_homework_info' key='clsId' item='subjectInfo'>
         
         <div class="row">
           <div class="col-xs-6 col-sm-2">
@@ -86,9 +86,9 @@
                 合计：<span class="label label-primary">120分钟</span>
           </div>
           
-          <foreach name='subjectInfo'  key='subject_id' item='suggest_time'>
+          <foreach name='subjectInfo'  key='subject_id' item='hwinfo'>
           <div class="col-xs-6 col-sm-2">
-                {$subject_id|conver_subjectId_to_name}：<span class="label label-default">{$suggest_time}分钟</span> 
+                {$subject_id|conver_subjectId_to_name}：<span class="label label-default">{$hwinfo.suggest_time}分钟</span> 
           </div>
           </foreach>
         </div>

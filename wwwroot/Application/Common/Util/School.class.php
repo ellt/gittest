@@ -271,6 +271,16 @@ class School {
         }
     }
     
+    public function addOneStudentToClass($clsId, $uid){
+        //         die($this->status);
+        if($this->status == 'prepare'){
+           
+        }
+        else if($this->status == 'underway'){
+            
+        }
+    }
+    
     private function rollbackfinishTermStep1(){
     
         

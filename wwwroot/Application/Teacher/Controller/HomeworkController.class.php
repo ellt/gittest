@@ -14,7 +14,7 @@ use Common\Api\GlobalApi;
 class HomeworkController extends TeacherController {
 
     public function index($subjectId = null){
-        dump($this->supportSubject); //die();
+//         dump($this->supportSubject); //die();
         
         
         if($subjectId == null){
@@ -69,7 +69,7 @@ class HomeworkController extends TeacherController {
         
 //         dump($subjectList);die();
 
-        $this->profileSuggestTimeInfo();
+        $this->homeworkInfoList();
         
         $this->assign('subject_list', $subjectList);
         $this->assign('subject_id', $subjectId);
@@ -83,7 +83,7 @@ class HomeworkController extends TeacherController {
      * 显示各个科目现在进行中的作业信息
      * @author jigc <mrji1990@gmail.com>
      */
-    public function profileSuggestTimeInfo(){
+    public function homeworkInfoList(){
         
         $m = D('Common/Homework');
         $clssList = $this->teachClassList;
@@ -93,32 +93,30 @@ class HomeworkController extends TeacherController {
         $map['cls_id'] = array('in', $clsIds);
         $map['t2'] = array('gt' ,NOW_TIME);
         
-        $hwList = $m->where($map)->select();
-        $classSuggestInfo = array();
+        $hwList = $m->where($map)->field('subject_id,cls_id,content,suggest_time')->select();
+        $classHomeworkInfo = array();
         foreach ( $clssList as $clsId => &$classInfo){
             
-            if(!isset($classSuggestInfo[$clsId])) $classSuggestInfo[$clsId] = array();
+            if(!isset($classHomeworkInfo[$clsId])) $classHomeworkInfo[$clsId] = array();
             
-            $suggestTime = -1;
             foreach ($classInfo as $subjectId=>$tid){
                 
                 if($subjectId == 0) continue; // 排除班主任
                 
+                $classHomeworkInfo[$clsId][$subjectId] = array();
+                
                 foreach ($hwList as $hw){
                     if($hw['cls_id'] == $clsId && $hw['subject_id'] == $subjectId){
-                        $suggestTime = $hw['suggest_time'];
+                        $classHomeworkInfo[$clsId][$subjectId]= $hw;
                         break;
                     }
                 }
                 
-                
-                $classSuggestInfo[$clsId][$subjectId] = $suggestTime;
-                $suggestTime = -1; // -1 代表未布置作业
             }
         }
         
-//         dump($classSuggestInfo);
-        $this->assign('class_suggest_info', $classSuggestInfo);
+//         dump($classHomeworkInfo);die();
+        $this->assign('class_homework_info', $classHomeworkInfo);
        
     }
     
@@ -140,7 +138,11 @@ class HomeworkController extends TeacherController {
                 $data['cls_id'] = $clsId;
                 $ret = $m->add($data);
             }
-            $this->success('作业布置成功',null,IS_AJAX);            
+            if($ret === false){
+                $this->error('保存出错', null, IS_AJAX);
+            }else{
+                $this->success('作业布置成功',null,IS_AJAX);
+            }
         }
         
     }
