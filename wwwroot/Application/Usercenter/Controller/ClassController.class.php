@@ -20,54 +20,6 @@ class ClassController extends UserCenterController {
         
     }
     
-    public function index(){
-
-        theme(); 
-        $gradeYear = I('grade_id');
-        $startGradeYear = get_start_grade_year_by_stamp(); // 获取当前最低年级年号
-        
-        
-        // 计算 $gradeYear年号当前时间所处的年级
-        $CurrentGrade = 6 - ($gradeYear - $startGradeYear);
-        
-        $StaticGradeInfo = get_static_grade_info_by_grade_number($CurrentGrade);
-        
-//         $this->assign('grade_name')
-        $classModel = D('Common/Class', 'Logic');
-        $teachInfoModel = D('Common/ClassTeachInfo');
-        
-        $classList = $classModel->getClassListByGradeYear($gradeYear);
-//         dump($classList);
-
-        $supportSubjectIds = explode(',', $StaticGradeInfo['support_subject']);
-        foreach ($classList as &$oneClass) {
-            
-            
-            $masterInfo  = $teachInfoModel->getTeachInfoByTermInfo(NOW_TIME, $oneClass['id']);
-            if($masterInfo != false){
-                $oneClass['master_teacher_id'] = $masterInfo['teacher_id'];
-            }
-            
-            $oneClass['support_subject'] = array();
-            foreach ($supportSubjectIds as $subjectId) {
-                $oneClassTeachInfo = $teachInfoModel->getTeachInfoByTermInfo(NOW_TIME, $oneClass['id'], $subjectId);
-                if ($oneClassTeachInfo == false) {
-                    $oneClassTeachInfo['subject_id'] = $subjectId;
-                    
-                }
-                array_push($oneClass['support_subject'], $oneClassTeachInfo);
-            }
-        }
-//         conver_userId_to_name(null);
-//         dump($classList);die();
-        $this->assign('subject_list',$subjectIndexById);
-        $this->assign('grade_id', $gradeYear);
-        $this->assign('class_list', $classList);
-        $this->assign('sidebar_file', 'Public/sidemenu');
-        $this->display();
-    }
-    
-    
     public function classmanager($gid){
         
        $school =  $this->school;

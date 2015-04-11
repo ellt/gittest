@@ -35,9 +35,20 @@
                 -->
             </div>
         </div>
-        <foreach name="stdudent['homework']" item='hw' >
+        <foreach name="stdudent['homework']" key='subject_id' item='hw' >
+        <empty name="hw">
         <div class="panel panel-info">
-            <div class="panel-heading">{$hw.subject_id|conver_subjectId_to_name}</div>
+            <div class="panel-heading">{$subject_id|conver_subjectId_to_name}</div>
+            <div class="panel-body">
+                <p>
+                  暂未布置作业
+                </p>
+            </div>
+            <div class="panel-footer">建议用时：0分钟</div>
+        </div>
+        <else />
+        <div class="panel panel-info">
+            <div class="panel-heading">{$subject_id|conver_subjectId_to_name}</div>
             <div class="panel-body">
                 <p>
                   {$hw.content}
@@ -45,6 +56,7 @@
             </div>
             <div class="panel-footer">建议用时：{$hw.suggest_time}分钟</div>
         </div>
+        </empty>
         </foreach>
         
       </foreach>
