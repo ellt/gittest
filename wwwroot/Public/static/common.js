@@ -313,7 +313,7 @@ function handleAjax(data) {
     //需要跳转的话就跳转
     if (data.url == "refresh") {
         setTimeout(function() {
-            location.href = location.href;
+            location.reload(true); 
         }, interval);
     } else if (data.url == "no-refresh") {
         // 暂时留空
@@ -447,6 +447,15 @@ function showPopTip(form, data) {
             if(tipIcon.size()) tipIcon.removeClass("glyphicon glyphicon-remove");
         }
     });
+}
+
+//标签页切换(无下一步)
+function showTab() {
+    $(".nav-tabs a").click(function(){
+        var self = $(this), target = self.data("tab"); 
+        self.addClass("active").siblings(".active").removeClass("active");
+        window.location.hash = "#" + target.substr(3);
+    }).filter("[data-tab=tab" + window.location.hash.substr(1) + "]").click();
 }
 
 // 工具函数

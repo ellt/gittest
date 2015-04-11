@@ -20,10 +20,10 @@
     <div class="ell-tab-wrap" role="tabpanel">
         <ul class="nav nav-tabs" role="tablist">
             <li class="active" role="presentation">
-                <a href="#gradeSubjectContent" aria-controls="gradeSubjectContent" role="tab" data-toggle="tab">年级科目</a>
+                <a href="#gradeSubjectContent" aria-controls="gradeSubjectContent" role="tab" data-toggle="tab" data-tab="tab1">年级科目</a>
             </li>
             <li role="presentation">
-                <a href="#schoolSubjectContent" aria-controls="schoolSubjectContent" role="tab" data-toggle="tab">科目录入</a>
+                <a href="#schoolSubjectContent" aria-controls="schoolSubjectContent" role="tab" data-toggle="tab" data-tab="tab2">科目录入</a>
             </li>
         </ul>
 
@@ -108,4 +108,12 @@
             </div>
         </div>
     </div>
+</block>
+
+<block name="script">
+    <script>    
+    $(function(){
+        showTab();
+    });
+    </script>
 </block>
