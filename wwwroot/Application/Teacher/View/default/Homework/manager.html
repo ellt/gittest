@@ -1,0 +1,47 @@
+<extend name="Public/base"/>
+
+<!-- 子导航 -->
+<block name="sidebar">
+    <include file="Usercenter@Public/sidemenu"/>
+</block>
+
+<block name="content">
+    <!-- 标题 -->
+    <div class="ell-main-title">
+        <h2>作业 / 管理作业 </h2>
+    </div>
+    
+    <!-- 数据表格 -->
+    <div class="data-table">
+        <table class="table table-condensed table-hover">
+            <thead>
+                <tr>
+                    <th>班级</th>
+                    <th>作业时间</th>
+                    <th>微信查阅</th>
+                    <th class="operator-xs-3"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>三年级1班</td>
+                    <td>2015年4月11日 ~ 2015年4月11日 23:00</td>
+                    <td>53 / 60</td>
+                    <td>
+                        <a class="btn btn-success btn-xs operator" href="#">查看详情</a>
+                        <a class="btn btn-success btn-xs operator" href="#">调整作业</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>四年级4班</td>
+                    <td>2015年4月11日 ~ 2015年4月11日 23:00</td>
+                    <td>53 / 60</td>
+                    <td>
+                        <a class="btn btn-success btn-xs operator" href="#">查看详情</a>
+                        <a class="btn btn-success btn-xs operator" href="#">调整作业</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</block>

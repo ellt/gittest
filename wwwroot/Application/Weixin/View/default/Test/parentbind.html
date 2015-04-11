@@ -58,7 +58,7 @@
                     <td>父亲</td>
                     <td>13564894653</td>
                     <td>
-                        <span class="cursor-pointer" data-id="state" data-get-param="id=111111">
+                        <span class="cursor-pointer" data-id="popover" data-get-param="id=111111">
                             <span class="glyphicon glyphicon-ok text-success"></span> 已绑定
                         </span>
                     </td>
@@ -74,7 +74,7 @@
                     <td>母亲</td>
                     <td>13564894666</td>
                     <td>
-                        <span class="cursor-pointer" data-id="state" data-get-param="id=222222">
+                        <span class="cursor-pointer" data-id="popover" data-get-param="id=222222">
                             <span class="glyphicon glyphicon-ok text-success"></span> 已绑定
                         </span>
                     </td>
@@ -103,44 +103,5 @@
 </block>
 
 <block name="script">
-    <script>
-    $(function(){
-
-        var url = $('table').data("url");
-        $('table').on('mouseover', "[data-id='state']", {url: url}, function(event) {
-            var $span = $(this);
-
-            if($span.data("state") !== "loaded") {
-                
-                $span.popover({
-                    container: "body",
-                    placement: "top",
-                    trigger: "hover",
-                });
-
-                var param = $span.data("get-param");
-
-                $.get(event.data.url+"&"+param).success(function(data){
-                    if (data.status) {
-                        var list = data.data;
-                        var content = "成员：";
-
-                        for (var i = 0; i < list.length; i++) {
-                            content += list[i].relation + " ";
-                        }
-
-                        $span.data("bs.popover").options.content = content;
-                        $span.popover("show");
-                    } else {
-                        $span.data("bs.popover").options.content = "绑定信息加载失败！";
-                        $span.popover("show");
-                    }
-                });
-
-                $span.data("state", "loaded");
-            }
-        });
-        
-    });
-    </script>
+    <script src="__STATIC__/common/js/widget.js"></script>
 </block>

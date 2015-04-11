@@ -1,5 +1,9 @@
 //dom加载完成后执行的js
 $(function() {
+    // 初始化弹出框
+    $('[data-toggle="popover"]').popover();
+
+    // 上一次作业
     $("[data-target='class']").change(function() {
         var history = $("[id^='history']");
         if(this.checked) {
@@ -21,28 +25,57 @@ $(function() {
         });
     });
 
-    $("[data-form-btn='set-time']").click(function() {
-        var targetInput = $(this).attr('data-target');
-        var input = $(targetInput);
-        var content = $(this).attr('data-content');
-        input.val(content);
+    // 作业内容
+    $("#homework").bind('input propertychange', function() {
+        var text = $(this).val();
+        var $btn = $("[data-submit='form']");
+        var $setTime = $("#setTime");
+        var $setTimeGroup = $setTime.parents(".form-group");
+
+        if (text === "") {
+            // 没作业
+            $btn.html("今天没作业").prop('disabled', false);
+            $btn.removeClass("btn-primary").addClass("btn-warning");
+            $btn.removeClass("btn-primary").addClass("btn-warning");
+            $setTimeGroup.addClass("hidden");
+            $setTime.val(0);
+            showPopTip($("#addHomeworkForm"));
+        } else {
+            // 有作业
+            $btn.html("发布作业");
+            $btn.removeClass("btn-warning").addClass("btn-primary");
+            $setTimeGroup.removeClass("hidden");
+            $setTime.val(30);
+        }
     });
 
-    $("#homework").bind('input propertychange', function() {
-        var btn = $("[data-submit='form']");
-        var status = btn.attr("data-status");
-        var text = $(this).val();
+    // 建议时间 设置快捷键
+    $("[data-form-btn='set-time']").click(function() {
+        var targetInput = $(this).attr('data-target');
+        var content = $(this).attr('data-content');
+        var $input = $(targetInput);
+        $input.val(content);
+        $input.trigger("input").trigger("propertychange");
+    });
 
-        if (text === "" && status === "1") {
-            // 没作业
-            btn.attr("data-status", "0");
-            btn.html("今天没作业");
-            btn.removeClass("btn-primary").addClass("btn-warning");
-        } else if (text !== "" && status === "0") {
-            // 有作业
-            btn.attr("data-status", "1");
-            btn.html("发布作业");
-            btn.removeClass("btn-warning").addClass("btn-primary");
+    // 建议时间 输入框
+    $("#setTime").bind('input propertychange', function() {
+        var val = $(this).val();
+        var $btn = $("[data-submit='form']");
+        var $form = $("#addHomeworkForm");
+
+        if (isInt(val) && 0 < val && val <= 1000) {
+            // 输入符合 1 ~ 1000 的条件
+            showPopTip($form); // 清除弹出框
+            $btn.prop('disabled', false);
+        } else {
+            var tip = {
+                suggest_time: {
+                    errorInfo : "请输入 1 ~ 1000 之间的分钟数"
+                }
+            };
+            showPopTip($form, tip);
+            $btn.prop('disabled', true);
         }
     });
 
@@ -51,30 +84,15 @@ $(function() {
         e.preventDefault();
 
         var url = $(this).attr('data-url');
-        var status = $(this).attr("data-status");
-        var content = "";
+        var targetForm = $(this).attr('data-target');
+        var content = $(targetForm).serialize();
 
-        if (status === "1") {
-            var targetForm = $(this).attr('data-target');
-            var form = $(targetForm);
-            content = form.serialize();
-            content += "&status=true";
-        } else {
-            var checkbox = $("[data-check='class']");
-            content = checkbox.serialize();
-            content += "&status=false";
-        }
-
-        var btn = $(this);
-        btn.button('loading');
+        var $btn = $(this);
+        $btn.button('loading');
         //发送到服务器
         $.post(url, content).success(function(data) {
-            btn.button('reset');
-            if (data.status) {
-                
-            } else {
-                
-            }
+            $btn.button('reset');
+            handleAjax(data);
         });
     });
 });

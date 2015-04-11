@@ -324,12 +324,6 @@ function handleAjax(data) {
     }
 }
 
-function isInt(obj) {
-    reg = /^-?\d+$/;
-    result = reg.test(obj) ? true : false;
-    return result;
-}
-
 // 初始化 Modal 事件
 function initModalEvent(modalSelector, initModalFun, initOtherEvent) {
     var $modal = $(modalSelector);
@@ -433,6 +427,28 @@ function showFormTip(form, data) {
     });
 }
 
+// 模块函数
+function showPopTip(form, data) {
+    $("input", form).each(function(index){
+        inputName = $(this).attr("name");
+        var row = $(this).parents(".form-group");
+        tipIcon = row.find('.form-control-feedback');
+
+        // 显示提示
+        if (data && data[inputName]) {
+            $(this).attr('data-content', data[inputName].errorInfo);
+            $(this).focus();
+            row.addClass("has-error");
+            if(tipIcon.size()) tipIcon.addClass("glyphicon glyphicon-remove");
+             
+        } else {
+            $(this).attr('data-content', "");
+            row.removeClass("has-error");
+            if(tipIcon.size()) tipIcon.removeClass("glyphicon glyphicon-remove");
+        }
+    });
+}
+
 // 工具函数
 
 // 替换所有的回车换行  
@@ -458,4 +474,10 @@ function displayObj(obj) {
 
 function elog(msg) {
     console.log(msg);
+}
+
+function isInt(obj) {
+    reg = /^-?\d+$/;
+    result = reg.test(obj) ? true : false;
+    return result;
 }
