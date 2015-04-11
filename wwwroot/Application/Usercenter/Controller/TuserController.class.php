@@ -460,6 +460,14 @@ class TuserController extends UserCenterController {
         }
     }
 
+    public function homeworkManager() {
+        $this->display('teacher@homework:manager');
+    }
+
+    public function homeworkManagerDetail() {
+        $this->display('teacher@homework:managerdetail');
+    }
+
     public function homeworkEdit(){
         if (IS_AJAX) {
             $data = I("post.");

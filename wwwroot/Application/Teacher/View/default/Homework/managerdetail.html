@@ -1,0 +1,55 @@
+<extend name="Public/base"/>
+
+<!-- 子导航 -->
+<block name="sidebar">
+    <include file="Usercenter@Public/sidemenu"/>
+</block>
+
+<block name="content">
+    <!-- 标题 -->
+    <div class="ell-main-title">
+        <h2>作业 / 管理作业 / 查看详情 [一年级3班]</h2>
+    </div>
+
+    <!-- 数据表格 -->
+    <div class="data-table">
+        <div class="data-table-head">
+            <span class="text-muted">
+                学生人数：<span class="text-primary">60 </span>人
+            </span>
+            <span class="text-muted">
+                已查阅作业：<span class="text-primary">53 </span>人
+            </span>
+
+        </div>
+        <table class="table table-condensed table-hover">
+            <thead>
+                <tr>
+                    <th>学号</th>
+                    <th>姓名</th>
+                    <th>微信查阅</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>15154642</td>
+                    <td>李嘉诚</td>
+                    <td>
+                        <span>
+                            <span class="glyphicon glyphicon-ok text-success"></span> 已查阅
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>15154642</td>
+                    <td>李嘉诚</td>
+                    <td>
+                        <span>
+                            <span class="glyphicon glyphicon-remove text-danger"></span> 未查阅
+                        </span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</block>
