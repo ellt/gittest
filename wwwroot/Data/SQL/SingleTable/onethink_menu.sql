@@ -78,7 +78,7 @@ INSERT INTO `onethink_menu` VALUES ('39', '分类授权', '27', '0', 'AuthManage
 INSERT INTO `onethink_menu` VALUES ('40', '保存分类授权', '27', '0', 'AuthManager/addToCategory', '0', '\"分类授权\"页面的\"保存\"按钮', '', '0');
 INSERT INTO `onethink_menu` VALUES ('41', '模型授权', '27', '0', 'AuthManager/modelauth', '0', '\"后台 \\ 用户 \\ 权限管理\"列表页的\"模型授权\"操作按钮', '', '0');
 INSERT INTO `onethink_menu` VALUES ('42', '保存模型授权', '27', '0', 'AuthManager/addToModel', '0', '\"分类授权\"页面的\"保存\"按钮', '', '0');
-INSERT INTO `onethink_menu` VALUES ('43', '扩展', '0', '17', 'Addons/index', '0', '', '', '0');
+INSERT INTO `onethink_menu` VALUES ('43', '扩展', '0', '17', 'Addons/index', '1', '', '', '0');
 INSERT INTO `onethink_menu` VALUES ('44', '插件管理', '43', '1', 'Addons/index', '0', '', '扩展', '0');
 INSERT INTO `onethink_menu` VALUES ('45', '创建', '44', '0', 'Addons/create', '0', '服务器上创建插件结构向导', '', '0');
 INSERT INTO `onethink_menu` VALUES ('46', '检测创建', '44', '0', 'Addons/checkForm', '0', '检测插件是否可以创建', '', '0');
@@ -103,7 +103,7 @@ INSERT INTO `onethink_menu` VALUES ('64', '新增', '63', '0', 'Attribute/add', 
 INSERT INTO `onethink_menu` VALUES ('65', '编辑', '63', '0', 'Attribute/edit', '0', '', '', '0');
 INSERT INTO `onethink_menu` VALUES ('66', '改变状态', '63', '0', 'Attribute/setStatus', '0', '', '', '0');
 INSERT INTO `onethink_menu` VALUES ('67', '保存数据', '63', '0', 'Attribute/update', '0', '', '', '0');
-INSERT INTO `onethink_menu` VALUES ('68', '系统', '0', '14', 'Config/group', '0', '', '', '0');
+INSERT INTO `onethink_menu` VALUES ('68', '系统', '0', '14', 'Config/group', '1', '', '', '0');
 INSERT INTO `onethink_menu` VALUES ('69', '网站设置', '68', '1', 'Config/group', '0', '', '系统设置', '0');
 INSERT INTO `onethink_menu` VALUES ('70', '配置管理', '68', '4', 'Config/index', '0', '', '系统设置', '0');
 INSERT INTO `onethink_menu` VALUES ('71', '编辑', '70', '0', 'Config/edit', '0', '新增编辑和保存配置', '', '0');

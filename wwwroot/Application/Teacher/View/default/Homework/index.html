@@ -6,13 +6,19 @@
 </block>
 
 <block name="content">
-    <div class="well well-lg">
-        <p class="text-center">您目前没有可布置作业的班级，点击 <a href="#">管理作业</a> 可以查看各班级的作业情况</p>
-    </div>
 
+	
+
+	
     <div class="well well-lg ell-homework-main">
         <h2 class="page-header">布置作业</h2>
 
+
+		<empty name='class_list'>
+	    <div class="well well-lg">
+	        <p class="text-center">您目前没有可布置作业的班级，点击 <a href="{:U('homework/manager')}">管理作业</a> 可以查看各班级的作业情况</p>
+	    </div>
+	    <else />
         <form class="form-horizontal" id="addHomeworkForm" role="form">
             <div class="form-group">
                 <label class="col-xs-4 col-sm-2 control-label">科 目</label>
@@ -71,6 +77,8 @@
             </div>
             <input type="hidden" name="subjectId" value="{$subject_id}">
         </form>
+        </empty>
+        
         <hr>
         <h3>作业布置情况</h3>
  		<foreach name='class_homework_info' key='clsId' item='subjectInfo'>
@@ -86,9 +94,9 @@
             <foreach name='subjectInfo'  key='subject_id' item='hw'>
             <div class="col-xs-6 col-sm-2">
             <if condition="$hw.suggest_time gt 0"> 
-                {$subject_id|conver_subjectId_to_name}：<span class="label label-default">{$hw.suggest_time}分钟</span> 
+                {$subject_id|conver_subjectId_to_name}：<span class="label label-info">{$hw.suggest_time}分钟</span> 
             <elseif condition="isset($hw['suggest_time'])"/>
-                {$subject_id|conver_subjectId_to_name}：<span class="label label-default">今天没作业</span> 
+                {$subject_id|conver_subjectId_to_name}：<span class="label label-warning">没作业</span> 
             <else />
                 {$subject_id|conver_subjectId_to_name}：<span class="label label-default">未布置</span> 
             </if>
