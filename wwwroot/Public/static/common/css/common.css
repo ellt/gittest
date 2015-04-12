@@ -98,13 +98,20 @@ body {
 .ell-sidebar .nav div > .sub-menu > li > .sub-menu > li > .sub-menu a {
   padding-left: 80px;
 }
-.ell-alert {
-  position: absolute;
-  right: 15px;
-  left: 15px;
+.ell-top-alert {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 10099;
+  min-width: 990px;
+  white-space: nowrap;
 }
-.ell-alert .alert {
+.ell-top-alert .alert {
   display: none;
+  margin: 0;
+  text-align: center;
+  border-radius: 0;
 }
 .ell-main-title {
   padding-bottom: 10px;
