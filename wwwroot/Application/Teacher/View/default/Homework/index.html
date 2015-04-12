@@ -24,7 +24,11 @@
                 <label class="col-xs-4 col-sm-2 control-label">科 目</label>
                 <div class="col-xs-8 col-sm-10 btn-group">
                 	<foreach name='subject_list' item='info'>
+                    <if condition="$subject_id eq $info['id']">
                     <a class="btn btn-primary btn-sm" href="{$info.url}">{$info.id|conver_subjectId_to_name}</a>
+                    <else />
+                    <a class="btn btn-default btn-sm" href="{$info.url}">{$info.id|conver_subjectId_to_name}</a>
+                    </if>
                     </foreach>
                 </div>
             </div>
