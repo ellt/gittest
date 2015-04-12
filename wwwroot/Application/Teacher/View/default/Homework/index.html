@@ -6,19 +6,19 @@
 </block>
 
 <block name="content">
+    <!-- 标题 -->
+    <div class="ell-main-title">
+        <h2>作业 / 布置作业 </h2>
+    </div>
 
-	
+    <empty name='class_list'>
+    <div class="well well-lg">
+        <p class="text-center">您目前没有可布置作业的班级，点击 <a href="{:U('homework/manager')}">管理作业</a> 可以查看各班级的作业情况</p>
+    </div>
 
-	
-    <div class="well well-lg ell-homework-main">
-        <h2 class="page-header">布置作业</h2>
+    <else />
 
-
-		<empty name='class_list'>
-	    <div class="well well-lg">
-	        <p class="text-center">您目前没有可布置作业的班级，点击 <a href="{:U('homework/manager')}">管理作业</a> 可以查看各班级的作业情况</p>
-	    </div>
-	    <else />
+    <div class="well well-lg">
         <form class="form-horizontal" id="addHomeworkForm" role="form">
             <div class="form-group">
                 <label class="col-xs-4 col-sm-2 control-label">科 目</label>
@@ -77,8 +77,6 @@
             </div>
             <input type="hidden" name="subjectId" value="{$subject_id}">
         </form>
-        </empty>
-        
         <hr>
         <h3>作业布置情况</h3>
  		<foreach name='class_homework_info' key='clsId' item='subjectInfo'>
@@ -109,6 +107,7 @@
     <div class="ell-homework-history">
         <!-- 屏蔽 <include file="history"/> -->
     </div>
+    </empty>
 </block>
 
 <block name="script">

@@ -139,7 +139,8 @@ body {
   border-radius: 4px;
 }
 .ell-foot-btn {
-  padding: 40px 0;
+  padding-top: 40px;
+  padding-bottom: 40px;
   clear: both;
 }
 .icon-arrow-join {
