@@ -13,6 +13,13 @@ use Common\Api\GlobalApi;
 
 class HomeworkController extends TeacherController {
 
+    public  $classHomeworkInfo = array();
+    
+    public function _initialize(){
+        parent::_initialize();
+        $this->homeworkInfoList();
+    }
+    
     public function index($subjectId = null){
 //         dump($this->supportSubject); //die();
         
@@ -22,7 +29,6 @@ class HomeworkController extends TeacherController {
             if($defaultSubjectId > 0){
                 $this->redirect('index', array('subjectId' => $defaultSubjectId));
             }
-            
         }
         
         
@@ -69,8 +75,6 @@ class HomeworkController extends TeacherController {
         
 //         dump($subjectList);die();
 
-        $this->homeworkInfoList();
-        
         $this->assign('subject_list', $subjectList);
         $this->assign('subject_id', $subjectId);
         $this->assign('underway_list',$underwayClsList);
@@ -115,6 +119,7 @@ class HomeworkController extends TeacherController {
             }
         }
         
+        $this->classHomeworkInfo = $classHomeworkInfo;
 //         dump($classHomeworkInfo);die();
         $this->assign('class_homework_info', $classHomeworkInfo);
        
@@ -178,8 +183,44 @@ class HomeworkController extends TeacherController {
             $this->assign('info', $info);
             $this->display();
         }
-        
-    
     }
     
+    public function manager(){
+        
+        $m = D('Common/Homework');
+        $clssList = $this->teachClassList;
+        
+        //查询已经进行的作业
+        
+        
+        $clsIds = array_keys($clssList);
+        $map['uid'] = UID;
+        $map['cls_id'] = array('in', $clsIds);
+        $map['t2'] = array('gt' ,NOW_TIME);
+        
+        $homeworkList = $m->where($map)->order('id desc')->select();
+        
+        $this->assign('homework_list', $homeworkList);
+        $this->display();
+    }
+    
+    
+    public function historyLists(){
+        
+        $m = D('Common/Homework');
+        $clssList = $this->teachClassList;
+        
+        //查询已经进行的作业
+        
+        
+        $clsIds = array_keys($clssList);
+        $map['uid'] = UID;
+        $map['cls_id'] = array('in', $clsIds);
+        $map['t2'] = array('lt' ,NOW_TIME);
+        
+        $homeworkList = $m->where($map)->order('id desc')->select();
+        
+        $this->assign('homework_list', $homeworkList);
+        $this->display();
+    }
 }

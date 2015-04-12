@@ -17,30 +17,26 @@
             <thead>
                 <tr>
                     <th>班级</th>
+                    <th>科目</th>
                     <th>作业时间</th>
                     <th>微信查阅</th>
                     <th class="operator-xs-3"></th>
                 </tr>
             </thead>
+            
             <tbody>
+            	<foreach name='homework_list' item='hw'>
                 <tr>
-                    <td>三年级1班</td>
-                    <td>2015年4月11日 ~ 2015年4月11日 23:00</td>
-                    <td>53 / 60</td>
+                    <td>{$hw.cls_id|clsID_to_clsName}</td>
+                    <td>{$hw.subject_id|conver_subjectId_to_name}</td>
+                    <td>{$hw.t1| date='Y年m月d日',###} ~ {$hw.t2| date='Y年m月d日 H:m',###}</td>
+                    <td>0 / 0 </td>
                     <td>
-                        <a class="btn btn-success btn-xs operator" href="#">查看详情</a>
-                        <a class="btn btn-success btn-xs operator" href="#">调整作业</a>
+                        <a class="btn btn-success btn-xs operator" href="{:U('homework/managerdetail')}">查看详情</a>
+                        <a class="btn btn-success btn-xs operator" href="{:U('edit?id=' . $hw['id'])}">调整作业</a>
                     </td>
                 </tr>
-                <tr>
-                    <td>四年级4班</td>
-                    <td>2015年4月11日 ~ 2015年4月11日 23:00</td>
-                    <td>53 / 60</td>
-                    <td>
-                        <a class="btn btn-success btn-xs operator" href="#">查看详情</a>
-                        <a class="btn btn-success btn-xs operator" href="#">调整作业</a>
-                    </td>
-                </tr>
+                </foreach>
             </tbody>
         </table>
     </div>

@@ -17,3 +17,12 @@ function check_verify($code, $id = 1){
     $verify = new \Think\Verify();
     return $verify->check($code, $id);
 }
+
+
+function homework_total_time($hwInfo){
+    $ret = 0;
+    foreach ($hwInfo as $v){
+        $ret += $v['suggest_time'];
+    }
+    return $ret;
+}

@@ -69,29 +69,37 @@
         </form>
         <hr>
         <h3>作业布置情况</h3>
-        <foreach name='class_homework_info' key='clsId' item='subjectInfo'>
+ 		<foreach name='class_homework_info' key='clsId' item='subjectInfo'>
         
         <div class="row ell-homework-state">
             <div class="col-xs-6 col-sm-2">
                 <span class="h5"><strong>{$clsId|clsID_to_clsName} </strong></span>
             </div>
             <div class="col-xs-6 col-sm-2">
-                合计：<span class="label label-primary">120分钟</span>
+                合计：<span class="label label-primary">{$subjectInfo|homework_total_time} 分钟</span>
             </div>
             
-            <foreach name='subjectInfo'  key='subject_id' item='suggest_time'>
+            <foreach name='subjectInfo'  key='subject_id' item='hw'>
             <div class="col-xs-6 col-sm-2">
-                {$subject_id|conver_subjectId_to_name}：<span class="label label-default">{$suggest_time}分钟</span> 
+            <if condition="$hw.suggest_time gt 0"> 
+                {$subject_id|conver_subjectId_to_name}：<span class="label label-default">{$hw.suggest_time}分钟</span> 
+            <elseif condition="isset($hw['suggest_time'])"/>
+                {$subject_id|conver_subjectId_to_name}：<span class="label label-default">今天没作业</span> 
+            <else />
+                {$subject_id|conver_subjectId_to_name}：<span class="label label-default">未布置</span> 
+            </if>
             </div>
+           
             </foreach>
         </div>
         </foreach>
     </div>
     <div class="ell-homework-history">
-        <include file="history"/>
+        <!-- 屏蔽 <include file="history"/> -->
     </div>
 </block>
 
 <block name="script">
     <script src="__JS__/homework.js"></script>
 </block>
+
