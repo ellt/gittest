@@ -62,20 +62,20 @@ class TeacherController extends CommonBaseController {
     protected function getMenus(){
         $menus['main'] = null;
         $menus['child'] = array();
-        $menus['child']['作业管理'] = array();
+        $menus['child']['作业'] = array();
         
         
-        $m1 = array("id"  => "1002", "pid"  => "1001", "title"  => "布置当天作业", 
+        $m1 = array("id"  => "1002", "pid"  => "1001", "title"  => "布置作业", 
                         "url" => "homework/index", "tip"  => "" );
-        array_push($menus['child']['作业管理'] , $m1);
+        array_push($menus['child']['作业'] , $m1);
         
-        $m2 = array("id"  => "1002", "pid"  => "1001", "title"  => "进行中的作业列表",
+        $m2 = array("id"  => "1002", "pid"  => "1001", "title"  => "管理作业",
                 "url" => "homework/manager", "tip"  => "" );
-        array_push($menus['child']['作业管理'] , $m2);
+        array_push($menus['child']['作业'] , $m2);
         
-        $m3 = array("id"  => "1002", "pid"  => "1001", "title"  => "历史作业",
+        $m3 = array("id"  => "1002", "pid"  => "1001", "title"  => "作业历史",
                 "url" => "homework/historyLists", "tip"  => "" );
-        array_push($menus['child']['作业管理'] , $m3);
+        array_push($menus['child']['作业'] , $m3);
         
         return $menus;
     }
