@@ -132,6 +132,7 @@ class HomeworkController extends TeacherController {
             $data['tid'] = UID;
             $data['subject_id'] = 1;
             $data['content'] = I('content');
+            $data['suggest_time'] = I('suggest_time');
             $data['t1'] = strtotime(date('Y-m-d', NOW_TIME)); // 当天起始时间
             $data['t2'] = $data['t1'] + 86399; // 当天结束时间
             
