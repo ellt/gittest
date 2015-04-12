@@ -8,7 +8,7 @@
 <block name="content">
     <!-- 标题 -->
     <div class="ell-main-title">
-        <h2>作业 / 管理作业 </h2>
+        <h2>作业 / 历史作业 </h2>
     </div>
     
     <!-- 数据表格 -->
@@ -23,8 +23,8 @@
                     <th class="operator-xs-3"></th>
                 </tr>
             </thead>
+            
             <tbody>
-                <notempty name="homework_list">
             	<foreach name='homework_list' item='hw'>
                 <tr>
                     <td>{$hw.cls_id|clsID_to_clsName}</td>
@@ -33,17 +33,9 @@
                     <td>0 / 0 </td>
                     <td>
                         <a class="btn btn-success btn-xs operator" href="{:U('homework/managerdetail')}">查看详情</a>
-                        <a class="btn btn-success btn-xs operator" href="{:U('edit?id=' . $hw['id'])}">调整作业</a>
                     </td>
                 </tr>
                 </foreach>
-                <else />
-                <tr>
-                    <td class="text-center" colspan="4"> 
-                    您今天还没有布置作业，前往 <a href="#">布置作业</a>
-                    </td>
-                </tr>
-                </notempty>
             </tbody>
         </table>
     </div>

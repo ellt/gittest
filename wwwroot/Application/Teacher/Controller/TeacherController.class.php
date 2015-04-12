@@ -55,6 +55,29 @@ class TeacherController extends CommonBaseController {
         //end of add
         
         $this->profileTeacher();
+        
+        $this->assign('__MENU__', $this->getMenus());
+    }
+    
+    protected function getMenus(){
+        $menus['main'] = null;
+        $menus['child'] = array();
+        $menus['child']['作业管理'] = array();
+        
+        
+        $m1 = array("id"  => "1002", "pid"  => "1001", "title"  => "布置当天作业", 
+                        "url" => "homework/index", "tip"  => "" );
+        array_push($menus['child']['作业管理'] , $m1);
+        
+        $m2 = array("id"  => "1002", "pid"  => "1001", "title"  => "进行中的作业列表",
+                "url" => "homework/manager", "tip"  => "" );
+        array_push($menus['child']['作业管理'] , $m2);
+        
+        $m3 = array("id"  => "1002", "pid"  => "1001", "title"  => "历史作业",
+                "url" => "homework/historyLists", "tip"  => "" );
+        array_push($menus['child']['作业管理'] , $m3);
+        
+        return $menus;
     }
     
     protected function profileTeacher(){

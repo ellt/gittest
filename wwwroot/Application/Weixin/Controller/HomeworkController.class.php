@@ -90,9 +90,6 @@ class HomeworkController extends Controller {
             
         }
         
-        
-        
-        
 //         dump($m->getLastSql());
         return  $info;
         

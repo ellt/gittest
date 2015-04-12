@@ -155,12 +155,12 @@ INSERT INTO `onethink_menu` VALUES ('1002', '科目设置', '1001', '0', 'subjec
 INSERT INTO `onethink_menu` VALUES ('1003', '学期设置', '1001', '0', 'term/index', '0', '', '基础信息设置', '0');
 
 
-INSERT INTO `onethink_menu` VALUES ('1014', '一年级', '1001', '0', '/usercenter/class/classmanager/gid/1', '0', '', '年级班级管理', '0');
-INSERT INTO `onethink_menu` VALUES ('1015', '二年级', '1001', '0', '/usercenter/class/classmanager/gid/2', '0', '', '年级班级管理', '0');
-INSERT INTO `onethink_menu` VALUES ('1016', '三年级', '1001', '0', '/usercenter/class/classmanager/gid/3', '0', '', '年级班级管理', '0');
-INSERT INTO `onethink_menu` VALUES ('1017', '四年级', '1001', '0', '/usercenter/class/classmanager/gid/4', '0', '', '年级班级管理', '0');
-INSERT INTO `onethink_menu` VALUES ('1018', '五年级', '1001', '0', '/usercenter/class/classmanager/gid/5', '0', '', '年级班级管理', '0');
-INSERT INTO `onethink_menu` VALUES ('1019', '六年级', '1001', '0', '/usercenter/class/classmanager/gid/6', '0', '', '年级班级管理', '0');
+INSERT INTO `onethink_menu` VALUES ('1014', '一年级', '1001', '0', 'class/classmanager?gid=1', '0', '', '年级班级管理', '0');
+INSERT INTO `onethink_menu` VALUES ('1015', '二年级', '1001', '0', 'class/classmanager?gid=2', '0', '', '年级班级管理', '0');
+INSERT INTO `onethink_menu` VALUES ('1016', '三年级', '1001', '0', 'class/classmanager?gid=3', '0', '', '年级班级管理', '0');
+INSERT INTO `onethink_menu` VALUES ('1017', '四年级', '1001', '0', 'class/classmanager?gid=4', '0', '', '年级班级管理', '0');
+INSERT INTO `onethink_menu` VALUES ('1018', '五年级', '1001', '0', 'class/classmanager?gid=5', '0', '', '年级班级管理', '0');
+INSERT INTO `onethink_menu` VALUES ('1019', '六年级', '1001', '0', 'class/classmanager?gid=6', '0', '', '年级班级管理', '0');
 
 INSERT INTO `onethink_menu` VALUES ('1020', '教师信息管理', '1001', '0', 'teacher/index', '0', '', '人员管理', '0');
 INSERT INTO `onethink_menu` VALUES ('1021', '学生信息管理', '1001', '0', 'student/index', '0', '', '人员管理', '0');
@@ -171,7 +171,5 @@ INSERT INTO `onethink_menu` VALUES ('1024', '教师绑定信息', '1001', '1', '
 
 INSERT INTO `onethink_menu` VALUES ('1101', '成绩', '0', '3', 'subject/index', '0', '', '', '0');
 
-INSERT INTO `onethink_menu` VALUES ('1201', '作业', '0', '4', 'subject/index', '0', '', '', '0');
+INSERT INTO `onethink_menu` VALUES ('1201', '作业', '0', '4', '/teacher/homework/index', '0', '', '', '0');
 
-
-INSERT INTO `onethink_menu` VALUES ('2000', '获取sidebar数据', '1002', '0', 'subject/menu', '0', '', '', '0');
