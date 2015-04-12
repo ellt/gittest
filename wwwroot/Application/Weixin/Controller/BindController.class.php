@@ -31,10 +31,7 @@ class BindController extends Controller {
                   'Description' => '', 
                   'PicUrl' => null, 
                    'Url' => U('bind/family','openid='.$openid)) ,
-            array('Title' => '教师绑定',
-                    'Description' => '',
-                    'PicUrl' => null,
-                    'Url' => U('bind/teacher','openid='.$openid) ),
+
             array('Title' => '当天作业',
                     'Description' => '',
                     'PicUrl' => null,
